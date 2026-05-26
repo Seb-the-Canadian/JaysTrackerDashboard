@@ -1,0 +1,1871 @@
+<!DOCTYPE html><script type="application/json" id="cowork-artifact-meta">
+{
+  "name": "Blue Jays 2026 Tracker",
+  "schemaVersion": 1,
+  "description": "Interactive Blue Jays 2026 season tracker — Overview, Players, Team Stats, Game Log. Stats are inspectable in place; player and game drill-downs include an Ask-the-analyst affordance via window.cowork.askClaude. Data snapshot from web sources as of May 14, 2026."
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blue Jays 2026 Tracker</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.5.0/dist/chart.umd.js" integrity="sha384-iU8HYtnGQ8Cy4zl7gbNMOhsDTTKX02BTXptVP/vqAWIaTfM7isw76iyZCsjL2eVi" crossorigin="anonymous"></script>
+<style>
+:root { color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  background: #0a0e14;
+  color: #e6edf3;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+.app { max-width: 1280px; margin: 0 auto; padding: 24px; }
+.header { display: flex; align-items: baseline; justify-content: space-between; border-bottom: 1px solid #1f2937; padding-bottom: 16px; margin-bottom: 20px; flex-wrap: wrap; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark { width: 32px; height: 32px; background: #134A8E; border-radius: 6px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 800; font-size: 16px; }
+.brand-title { font-size: 18px; font-weight: 700; letter-spacing: -0.01em; }
+.brand-sub { font-size: 12px; color: #8b96a8; margin-top: 2px; }
+.as-of { font-size: 12px; color: #8b96a8; }
+.refreshed { font-size: 11px; color: #6b7689; margin-top: 2px; }
+.nav { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid #1f2937; overflow-x: auto; }
+.nav-btn { background: transparent; border: none; color: #8b96a8; padding: 10px 16px; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
+.nav-btn:hover { color: #e6edf3; }
+.nav-btn.active { color: #1d8acd; border-bottom-color: #1d8acd; }
+.nav-btn svg { width: 16px; height: 16px; }
+.panel { display: none; }
+.panel.active { display: block; }
+.section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 0.08em; color: #8b96a8; font-weight: 600; margin: 0 0 12px 0; }
+.grid { display: grid; gap: 16px; }
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+@media (max-width: 768px) { .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; } }
+.card { background: #131923; border: 1px solid #1f2937; border-radius: 8px; padding: 16px; }
+.card.highlight { border-color: #134A8E; }
+.stat-big { font-size: 32px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+.stat-label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #8b96a8; margin-bottom: 4px; }
+.stat-sub { font-size: 12px; color: #8b96a8; margin-top: 4px; }
+.pos { color: #3fb950; }
+.neg { color: #f85149; }
+.warn { color: #d29922; }
+.dim { color: #8b96a8; }
+.accent { color: #1d8acd; }
+.tag { display: inline-block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 10px; background: #1f2937; color: #8b96a8; font-weight: 600; }
+.tag.injury { background: rgba(248,81,73,0.12); color: #f85149; }
+.tag.hot { background: rgba(63,185,80,0.12); color: #3fb950; }
+.tag.cold { background: rgba(210,153,34,0.12); color: #d29922; }
+.tag.new { background: rgba(29,138,205,0.12); color: #1d8acd; }
+.tag.stale { background: rgba(139,150,168,0.18); color: #8b96a8; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #1f2937; }
+th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #8b96a8; font-weight: 600; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; }
+th.num { text-align: right; }
+tr.jays { background: rgba(19,74,142,0.18); }
+tr.jays td:first-child { font-weight: 700; }
+.narrative { background: #131923; border: 1px solid #1f2937; border-radius: 8px; padding: 20px; font-size: 14px; line-height: 1.65; color: #c9d1d9; }
+.narrative p { margin: 0 0 12px 0; }
+.narrative p:last-child { margin: 0; }
+.narrative strong { color: #e6edf3; }
+.stat-chip { display: inline-block; position: relative; border-bottom: 1px dotted #4b5563; cursor: help; }
+.stat-chip:hover { border-bottom-color: #1d8acd; }
+.tooltip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: #0d141f; border: 1px solid #2a3548; border-radius: 6px; padding: 12px; width: 280px; font-size: 12px; line-height: 1.5; color: #c9d1d9; z-index: 100; display: none; box-shadow: 0 8px 24px rgba(0,0,0,0.5); text-align: left; font-weight: normal; letter-spacing: normal; text-transform: none; }
+.tooltip.open { display: block; }
+.tooltip-stat { display: block; font-size: 13px; font-weight: 700; color: #1d8acd; margin-bottom: 6px; }
+.tooltip-section { display: block; color: #8b96a8; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; margin: 8px 0 2px 0; }
+.tooltip-body { display: block; }
+.tooltip-context { display: block; font-style: italic; color: #d29922; padding-top: 8px; margin-top: 8px; border-top: 1px solid #2a3548; }
+.player-card { background: #131923; border: 1px solid #1f2937; border-radius: 8px; padding: 14px; cursor: pointer; transition: all 0.15s; }
+.player-card:hover { border-color: #1d8acd; transform: translateY(-1px); }
+.player-card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 8px; }
+.player-name { font-weight: 600; font-size: 14px; }
+.player-pos { font-size: 11px; color: #8b96a8; }
+.player-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+.mini-stat { font-size: 12px; }
+.mini-stat-label { color: #8b96a8; font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
+.mini-stat-val { font-weight: 600; font-variant-numeric: tabular-nums; }
+.modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.65); display: none; align-items: flex-start; justify-content: center; z-index: 1000; padding: 32px 16px; overflow-y: auto; }
+.modal-backdrop.open { display: flex; }
+.modal { background: #131923; border: 1px solid #2a3548; border-radius: 12px; width: 100%; max-width: 640px; padding: 24px; position: relative; }
+.modal-close { position: absolute; top: 16px; right: 16px; background: transparent; border: none; color: #8b96a8; font-size: 24px; cursor: pointer; padding: 0; line-height: 1; }
+.modal-close:hover { color: #e6edf3; }
+.modal-head { margin-bottom: 16px; padding-right: 32px; }
+.modal-title { font-size: 20px; font-weight: 700; }
+.modal-sub { font-size: 12px; color: #8b96a8; margin-top: 4px; }
+.stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid #1f2937; gap: 12px; }
+.stat-row:last-child { border-bottom: none; }
+.stat-row-label { font-size: 13px; color: #c9d1d9; flex: 1; }
+.stat-row-val { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat-row-context { font-size: 12px; color: #8b96a8; flex-basis: 100%; padding-left: 0; padding-top: 2px; font-style: italic; }
+.read { margin-top: 16px; padding: 14px; background: #0d141f; border-left: 3px solid #1d8acd; border-radius: 4px; font-size: 13px; line-height: 1.6; color: #c9d1d9; }
+.read-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #1d8acd; margin-bottom: 6px; font-weight: 700; }
+.ask-box { margin-top: 16px; border-top: 1px solid #1f2937; padding-top: 16px; }
+.ask-input { display: flex; gap: 8px; }
+.ask-input input { flex: 1; background: #0d141f; border: 1px solid #2a3548; color: #e6edf3; border-radius: 6px; padding: 8px 12px; font-size: 13px; font-family: inherit; }
+.ask-input input:focus { outline: none; border-color: #1d8acd; }
+.ask-input button { background: #134A8E; border: none; color: white; padding: 8px 14px; border-radius: 6px; font-size: 13px; font-weight: 600; cursor: pointer; }
+.ask-input button:hover { background: #1d8acd; }
+.ask-input button:disabled { background: #2a3548; color: #8b96a8; cursor: not-allowed; }
+.ask-output { margin-top: 12px; padding: 12px; background: #0d141f; border-radius: 6px; font-size: 13px; line-height: 1.6; color: #c9d1d9; white-space: pre-wrap; display: none; }
+.ask-output.shown { display: block; }
+.ask-suggestions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
+.ask-chip { font-size: 11px; padding: 4px 10px; background: #1f2937; color: #8b96a8; border-radius: 12px; cursor: pointer; border: none; font-family: inherit; }
+.ask-chip:hover { background: #2a3548; color: #e6edf3; }
+.game { background: #131923; border: 1px solid #1f2937; border-radius: 8px; padding: 14px; margin-bottom: 8px; cursor: pointer; transition: border-color 0.15s; }
+.game:hover { border-color: #2a3548; }
+.game-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.game-result { display: flex; align-items: center; gap: 12px; }
+.result-pill { font-weight: 700; font-size: 12px; padding: 4px 10px; border-radius: 4px; font-variant-numeric: tabular-nums; }
+.result-pill.W { background: rgba(63,185,80,0.15); color: #3fb950; }
+.result-pill.L { background: rgba(248,81,73,0.15); color: #f85149; }
+.game-date { font-size: 12px; color: #8b96a8; min-width: 80px; }
+.game-vs { font-size: 13px; }
+.game-moment { font-size: 12px; color: #c9d1d9; flex: 1; min-width: 200px; }
+.game-meaning { margin-top: 10px; padding-top: 10px; border-top: 1px solid #1f2937; font-size: 13px; line-height: 1.6; color: #c9d1d9; display: none; }
+.game.expanded .game-meaning { display: block; }
+.injury-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; }
+.injury-card { padding: 10px 12px; background: rgba(248,81,73,0.06); border: 1px solid rgba(248,81,73,0.25); border-radius: 6px; font-size: 13px; }
+.injury-name { font-weight: 600; }
+.injury-status { font-size: 11px; color: #f85149; margin-top: 2px; }
+.injury-eta { font-size: 11px; color: #8b96a8; margin-top: 2px; }
+.legend-row { display: flex; justify-content: space-between; font-size: 12px; padding: 6px 0; border-bottom: 1px solid #1f2937; gap: 8px; }
+.legend-row:last-child { border-bottom: none; }
+.chart-wrap { position: relative; height: 220px; }
+.subtle-link { font-size: 12px; color: #1d8acd; background: none; border: none; cursor: pointer; padding: 0; font-family: inherit; }
+.subtle-link:hover { text-decoration: underline; }
+.note { font-size: 12px; color: #d29922; background: rgba(210,153,34,0.06); border: 1px solid rgba(210,153,34,0.25); border-radius: 6px; padding: 10px 12px; margin: 12px 0; }
+.kpi-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+h2 { font-size: 16px; font-weight: 600; margin: 0 0 12px 0; letter-spacing: -0.01em; }
+h3 { font-size: 14px; font-weight: 600; margin: 0 0 10px 0; color: #c9d1d9; }
+.section { margin-bottom: 28px; }
+.school-toc { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.toc-chip { font-size: 11px; padding: 4px 10px; background: #1f2937; color: #c9d1d9; border-radius: 12px; border: none; cursor: pointer; font-family: inherit; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+.toc-chip:hover { background: #134A8E; color: white; }
+.stat-entry { background: #131923; border: 1px solid #1f2937; border-radius: 8px; padding: 16px; margin-bottom: 12px; }
+.stat-entry-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 10px; flex-wrap: wrap; }
+.stat-entry-term { font-size: 18px; font-weight: 700; color: #1d8acd; letter-spacing: -0.01em; }
+.stat-entry-name { font-size: 13px; color: #8b96a8; }
+.stat-entry-row { margin-top: 10px; font-size: 13px; line-height: 1.6; color: #c9d1d9; }
+.stat-entry-row .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: #1d8acd; font-weight: 700; display: block; margin-bottom: 2px; }
+.stat-entry-row.calc .label { color: #d29922; }
+.stat-entry-row.bench .label { color: #3fb950; }
+.stat-entry-row.pitfall .label { color: #f85149; }
+.stat-entry-row .body { color: #c9d1d9; }
+.stat-entry-row .body code, .stat-entry-row .body em { font-family: 'SF Mono', Menlo, Consolas, monospace; font-style: normal; background: #0d141f; padding: 1px 5px; border-radius: 3px; font-size: 12px; color: #e6edf3; }
+.theme-block { background: #131923; border: 1px solid #1f2937; border-radius: 8px; padding: 18px; margin-bottom: 12px; }
+.theme-block-title { font-size: 15px; font-weight: 700; color: #e6edf3; margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid #1f2937; letter-spacing: -0.01em; }
+.tip { margin-bottom: 14px; padding-bottom: 14px; border-bottom: 1px dashed #1f2937; }
+.tip:last-child { border-bottom: none; padding-bottom: 0; margin-bottom: 0; }
+.tip-headline { font-size: 13px; font-weight: 700; color: #1d8acd; margin-bottom: 6px; letter-spacing: -0.005em; }
+.tip-body { font-size: 13px; line-height: 1.6; color: #c9d1d9; }
+.school-intro { font-size: 13px; line-height: 1.6; color: #c9d1d9; background: #131923; border: 1px solid #1f2937; border-left: 3px solid #1d8acd; border-radius: 6px; padding: 14px 16px; margin-bottom: 20px; }
+.school-tab-switch { display: flex; gap: 4px; margin-bottom: 20px; padding: 3px; background: #131923; border: 1px solid #1f2937; border-radius: 8px; width: fit-content; }
+.school-tab-switch button { background: transparent; border: none; color: #8b96a8; padding: 8px 14px; font-size: 13px; font-weight: 500; cursor: pointer; border-radius: 6px; font-family: inherit; transition: all 0.15s; }
+.school-tab-switch button:hover { color: #e6edf3; }
+.school-tab-switch button.active { background: #134A8E; color: white; }
+.school-content { display: none; }
+.school-content.active { display: block; }
+.pitch-category { margin-bottom: 24px; }
+.pitch-category-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: #1d8acd; font-weight: 700; margin-bottom: 10px; padding-bottom: 6px; border-bottom: 1px solid #134A8E; }
+.pitch-card { background: #131923; border: 1px solid #1f2937; border-radius: 8px; padding: 16px; margin-bottom: 10px; }
+.pitch-card-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; flex-wrap: wrap; gap: 8px; }
+.pitch-name { font-size: 15px; font-weight: 700; color: #e6edf3; letter-spacing: -0.005em; }
+.pitch-abbr { font-size: 11px; font-family: 'SF Mono', Menlo, Consolas, monospace; color: #1d8acd; background: rgba(29,138,205,0.1); padding: 2px 6px; border-radius: 3px; }
+.pitch-velo { font-size: 12px; color: #d29922; font-variant-numeric: tabular-nums; }
+.pitch-row { display: grid; grid-template-columns: 110px 1fr; gap: 12px; font-size: 13px; padding: 6px 0; border-bottom: 1px solid #1f2937; line-height: 1.55; }
+.pitch-row:last-child { border-bottom: none; }
+.pitch-row .label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: #8b96a8; font-weight: 600; padding-top: 2px; }
+.pitch-row .body { color: #c9d1d9; }
+.pitch-row.jays .body { color: #1d8acd; font-style: italic; }
+@media (max-width: 600px) { .pitch-row { grid-template-columns: 1fr; gap: 2px; } }
+.position-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 10px; margin-bottom: 18px; }
+.position-card { background: #131923; border: 1px solid #1f2937; border-radius: 8px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start; }
+.position-num { width: 36px; height: 36px; background: #134A8E; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 16px; flex-shrink: 0; }
+.position-body { flex: 1; }
+.position-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 4px; }
+.position-name { font-weight: 700; font-size: 14px; color: #e6edf3; }
+.position-abbr { font-size: 11px; font-family: 'SF Mono', Menlo, Consolas, monospace; color: #8b96a8; }
+.position-note { font-size: 12px; line-height: 1.5; color: #c9d1d9; }
+.score-codes { display: grid; grid-template-columns: 140px 1fr; gap: 8px 16px; font-size: 13px; background: #131923; border: 1px solid #1f2937; border-radius: 8px; padding: 16px; }
+.score-codes .code { font-family: 'SF Mono', Menlo, Consolas, monospace; color: #1d8acd; font-weight: 600; padding: 4px 0; border-bottom: 1px solid #1f2937; }
+.score-codes .meaning { color: #c9d1d9; padding: 4px 0; border-bottom: 1px solid #1f2937; line-height: 1.5; }
+.score-codes .code:last-of-type, .score-codes .meaning:last-of-type { border-bottom: none; }
+@media (max-width: 600px) { .score-codes { grid-template-columns: 1fr; } .score-codes .meaning { padding-bottom: 12px; } }
+.diamond-wrap { display: flex; justify-content: center; margin: 16px 0; }
+.diamond { position: relative; width: 320px; height: 320px; }
+.diamond-shape { position: absolute; top: 50%; left: 50%; width: 200px; height: 200px; transform: translate(-50%, -50%) rotate(45deg); border: 2px solid #134A8E; background: rgba(19,74,142,0.08); }
+.outfield-arc { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 320px; height: 320px; border-radius: 50%; border: 1px dashed #2a3548; border-bottom: none; border-left: none; border-right: none; }
+.diamond-pos { position: absolute; width: 32px; height: 32px; background: #134A8E; color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; transform: translate(-50%, -50%); border: 2px solid #0a0e14; cursor: default; }
+.diamond-pos.outfield { background: #1d8acd; }
+.diamond-pos.battery { background: #d29922; }
+.diamond-label { position: absolute; font-size: 10px; color: #8b96a8; text-transform: uppercase; letter-spacing: 0.05em; transform: translate(-50%, -50%); margin-top: 22px; white-space: nowrap; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="header">
+    <div class="brand">
+      <div class="brand-mark">J</div>
+      <div>
+        <div class="brand-title">Blue Jays 2026 Tracker</div>
+        <div class="brand-sub">Season state, players, stats &mdash; with the context</div>
+      </div>
+    </div>
+    <div>
+      <div class="as-of" id="asOf"></div>
+      <div class="refreshed" id="refreshed"></div>
+    </div>
+  </header>
+  <nav class="nav" id="nav"></nav>
+  <main>
+    <section class="panel" id="panel-overview"></section>
+    <section class="panel" id="panel-players"></section>
+    <section class="panel" id="panel-team"></section>
+    <section class="panel" id="panel-games"></section>
+    <section class="panel" id="panel-school"></section>
+  </main>
+</div>
+<div class="modal-backdrop" id="modal" onclick="if(event.target===this)closeModal()">
+  <div class="modal" id="modalBody"></div>
+</div>
+<script>
+// ============================================================
+// DATA — Refreshed from web sources May 26, 2026 (9:00 AM ET auto-run, post-5/25 2-8 L vs Marlins — Yesavage career-high 5 ER, Cease officially on 15-day IL, Vlad still day-to-day, Davis Schneider optioned to Buffalo)
+// ============================================================
+const DATA = {
+  asOf: 'May 26, 2026',
+  lastRefreshed: 'May 26, 2026 · 9:00 AM ET (Jays 25-28 after dropping the Marlins opener 2-8: Yesavage career-high 5 ER on 5 H / 2 BB / 6 K in 6.2 IP, falls to 2-2; Stowers, Sanoja, and Caissie each 2 H / 2 RBI for Miami; Janson Junk got the W. Cease officially on the 15-day IL with mild left hamstring strain — Tanner Andrews selected from Buffalo for his MLB debut, retired the Marlins 1-2-3 in the 9th. Vlad sat with the elbow contusion — "Right now, I can\'t fully move my elbow." Schneider optioned Davis Schneider to Triple-A (.127 / .507 OPS) to activate Nathan Lukes off the IL. Bieber threw 2 scoreless on Monday in the Florida Complex League; Scherzer faces live BP Wednesday in Toronto. Sandy Alcantara vs Braydon Fisher tonight, 7:07 PM ET.)',
+  team: {
+    record: { w: 25, l: 28 },
+    place: '3rd in AL East',
+    last10: { w: 6, l: 4 },
+    streak: 'L2',
+    runsScored: 215,
+    runsAllowed: 227,
+    runDiff: -12,
+    pythagW: 25,
+    pythagL: 28
+  },
+
+  alEast: [
+    { team: 'Tampa Bay Rays',     w: 34, l: 17, pct: '.667', gb: '—',     streak: 'L2', last10: '7-3',  jays: false },
+    { team: 'New York Yankees',   w: 31, l: 22, pct: '.585', gb: '3.5',   streak: 'W1', last10: '5-5',  jays: false },
+    { team: 'Toronto Blue Jays',  w: 25, l: 28, pct: '.472', gb: '10.0',  streak: 'L2', last10: '6-4',  jays: true },
+    { team: 'Boston Red Sox',     w: 24, l: 31, pct: '.436', gb: '12.0',  streak: 'L3', last10: '4-6',  jays: false },
+    { team: 'Baltimore Orioles',  w: 23, l: 33, pct: '.411', gb: '13.5',  streak: 'W2', last10: '3-7',  jays: false }
+  ],
+
+  wildCard: [
+    { team: 'Tampa Bay Rays',     w: 34, l: 17, gb: '—',    note: 'Division leader (AL East)' },
+    { team: 'Cleveland Guardians',w: 31, l: 22, gb: '—',    note: 'Division leader (AL Central)' },
+    { team: 'Oakland Athletics',  w: 26, l: 26, gb: '—',    note: 'Division leader (AL West)' },
+    { team: 'New York Yankees',   w: 31, l: 22, gb: '—',    note: 'In (1st WC seed)' },
+    { team: 'Seattle Mariners',   w: 27, l: 27, gb: '—',    note: 'In (2nd WC seed)' },
+    { team: 'Texas Rangers',      w: 26, l: 27, gb: '0.5',  note: 'In (3rd WC seed)' },
+    { team: 'Minnesota Twins',    w: 26, l: 27, gb: '0.5',  note: 'Out' },
+    { team: 'Toronto Blue Jays',  w: 25, l: 28, gb: '1.5',  note: 'Out',  jays: true },
+    { team: 'Boston Red Sox',     w: 24, l: 31, gb: '3.5',  note: 'Out' },
+    { team: 'Baltimore Orioles',  w: 23, l: 33, gb: '5.0',  note: 'Out' },
+    { team: 'Houston Astros',     w: 22, l: 32, gb: '5.0',  note: 'Out' },
+    { team: 'Los Angeles Angels', w: 19, l: 34, gb: '7.5',  note: 'Out' }
+  ],
+
+  recentRunDiff: [
+    { date: 'May 16', diff:  1, result: 'W' },
+    { date: 'May 17', diff:  3, result: 'W' },
+    { date: 'May 18', diff: -1, result: 'L' },
+    { date: 'May 19', diff: -1, result: 'L' },
+    { date: 'May 20', diff:  1, result: 'W' },
+    { date: 'May 21', diff:  2, result: 'W' },
+    { date: 'May 22', diff:  4, result: 'W' },
+    { date: 'May 23', diff:  3, result: 'W' },
+    { date: 'May 24', diff: -3, result: 'L' },
+    { date: 'May 25', diff: -6, result: 'L' }
+  ],
+
+  recentGames: [
+    {
+      date: 'May 25',
+      home: true,
+      opp: 'Miami Marlins',
+      result: 'L',
+      score: '2-8',
+      moment: 'Yesavage career-high 5 ER on 5 H / 2 BB / 6 K in 6.2 IP (falls to 2-2); Janson Junk 5 IP, W, first win since April 28; Kyle Stowers, Javier Sanoja, and Owen Caissie each go 2-for and drive in 2; Clement solo HR for Toronto\'s only damage; Cease officially placed on the 15-day IL pre-game, Tanner Andrews selected and retired the Marlins 1-2-3 in his MLB debut 9th; Vlad sat with the elbow contusion',
+      meaning: 'A bad day to be 25-28 — the kind that exposes how thin the floor under this roster actually is. Yesavage walked in with a 1.07 ERA and 0 HR allowed across five starts; he walked out having allowed five earned runs for the first time in his career. The shape was a little misleading — six Ks, only two walks, no signature back-breaking inning — but the contact was harder than anything he\'d given up all year, and the Marlins (now winners of four straight) didn\'t miss many mistakes. The bigger story was on the transactions wire pre-game: Cease officially on the 15-day IL. Schneider called the MRI "pretty positive" and Cease wants the ball for his next turn, but the team isn\'t risking a hamstring grab two weeks before the rehab arms come back. Tanner Andrews — 30 years old, MiLB free-agent signing last winter, 1.35 ERA in 20 Triple-A IP — got his MLB debut and retired the side in the 9th. Vlad sat with the elbow contusion, told reporters "Right now, I can\'t fully move my elbow." Davis Schneider got optioned to Buffalo (.127 / .507) to activate Nathan Lukes from the IL. Ernie Clement\'s solo HR was the only Toronto run. Two-game losing streak. The Yesavage outlier-or-data-point question is the one to track Saturday.',
+      stale: false
+    },
+    {
+      date: 'May 24',
+      home: true,
+      opp: 'Pittsburgh Pirates',
+      result: 'L',
+      score: '1-4',
+      moment: 'Cease exits in the 5th with left hamstring discomfort (officially placed on 15-day IL Monday 5/25); Vlad Jr. takes a 92 MPH Mitch Keller sinker off the right elbow, exits with reported numbness — X-rays negative, contusion only, day-to-day; Spencer Horwitz + Oneil Cruz solo HRs and Esmerlyn Valdez 2-run HR for PIT; Clement RBI single is Toronto\'s only run; Jays strand 10',
+      meaning: 'The win streak ended ugly and the injury bill came due. Cease was sharp early — three Ks through four — then with two outs in the 5th felt the left hamstring grab and walked off. Monday\'s MRI came back encouraging enough that Schneider used the phrase "pretty positive" but cautious enough that Cease landed on the 15-day IL anyway. In the same half-inning Vlad took a 92 MPH Keller sinker square on the right elbow, reported numbness down the arm, and walked off. X-rays were negative, contusion only — but he sat 5/25 and told reporters he can\'t fully move the elbow. Around the injuries, the actual game was a Mitch Keller showcase paired with three Pirates HRs (Horwitz solo, Cruz solo, the Valdez 2-run shot) and a Toronto offense that put 10 runners on without cashing them in. Clement\'s RBI single in the 4th was the only run. The 4-game win streak dies; the run differential goes back to -6; the team rolls into Miami at home with two of its three most important players on a watchlist.',
+      stale: false
+    },
+    {
+      date: 'May 23',
+      home: true,
+      opp: 'Pittsburgh Pirates',
+      result: 'W',
+      score: '5-2',
+      moment: 'Springer 65th career leadoff HR — on Skenes\' 3rd pitch of the game, snapping the reigning NL Cy Young\'s 15-inning road scoreless streak; Tyler Heineman HR (first since July 19, 2025); Corbin (2-1) 6 IP, 5 H, 1 ER, 0 BB, season-high 7 K; 4th straight W',
+      meaning: 'A genuine signature win and the loudest game of the streak. Springer turned on the third pitch Paul Skenes threw — the reigning NL Cy Young, who had been working a 15-inning road scoreless run into the start — and parked it for his 65th career leadoff HR. That\'s second all-time, only 81 behind Rickey Henderson, and a statement that the May arc is real. Skenes (now 6-4) gave up four runs and a career-high nine hits in five-plus innings, his first back-to-back losses of the year. The bigger story under the headline: Patrick Corbin. The veteran scrap-heap signing pressed into duty because Berríos is done went six innings, allowed one run on five hits, walked nobody, struck out a season-high seven. That\'s a 4th-starter line that lengthens the rotation by a real start while Bieber and Scherzer are still throwing sides. Tyler Heineman — backup catcher pulled up from Buffalo while Kirk works through his thumb timeline — homered for the first time since July 19 of last year, the kind of bench-tier production that\'s become a real ingredient. Four straight wins, the offense scoring 5+ in three of them. Then 5/24 happened.',
+      stale: false
+    },
+    {
+      date: 'May 22',
+      home: true,
+      opp: 'Pittsburgh Pirates',
+      result: 'W',
+      score: '6-2',
+      moment: 'Gausman 6+ IP, 8 K, 1 BB, 1 ER (W, 4-3); Pinango 2-run double drives in Vlad and Varsho in the 3rd; Springer 2-run ground-rule double; Varland rare 6-out save for SV #7',
+      meaning: 'The get-right home opener and the third straight win — the first 3-game streak of the year. Gausman gave up a run in the first then locked it in: 6+ innings, 8 K, one walk, the splitter playing. The 3rd-inning rally was the blueprint — Springer scored, Vlad walked, Varsho singled, Pinango banged a 2-run double. Springer added a 2-run ground-rule double later. Schneider sent Varland out for a 6-out save with a 4-run lead — unusual usage that says (a) the lead was bigger than typical save spots and (b) he wanted his best arm to put the game away cleanly. Varland did. 7-for-7 on saves, ERA still 0.36.',
+      stale: false
+    },
+    {
+      date: 'May 21',
+      home: false,
+      opp: 'New York Yankees',
+      result: 'W',
+      score: '2-0',
+      moment: 'Springer 2-2 slider off Doval into the LF seats in the 7th; Vlad reaches 3x and steals 2B; Spencer Miles career-high 4.1 IP / 6 K out of the bullpen; Hoffman perfect 9th for SV #4 (first since April 20)',
+      meaning: 'A genuine series split, on the road, against the Yankees, with a bullpen game. Toronto went Fisher → Macko (W 1-1) → Miles → Rogers → Hoffman and held New York to three hits. Springer hit his second HR of the series — a 2-2 slider from Camilo Doval — and the only other run was a 66.5 MPH Varsho double off Carlos Rodón in the 1st that caromed off the third-base bag with Vlad scoring. Spencer Miles, the Rule 5 pick, posted a career-high 4.1 IP, 6 K, 1 BB on 63 pitches in long relief. Hoffman pitched a perfect 9th for his 4th save and his first since April 20. Judge went 0-for-4 and finished 1-for-15 for the series.',
+      stale: false
+    },
+    {
+      date: 'May 20',
+      home: false,
+      opp: 'New York Yankees',
+      result: 'W',
+      score: '2-1',
+      moment: 'Trey Yesavage 6 shutout IP, 8 K, 0 BB outduels Cam Schlittler; Giménez 11-pitch RBI walk + Vlad sac fly in the 7th',
+      meaning: 'The first real fingerprint of the post-rebuild Jays in this series — and it came after a two-hour rain delay, in the Bronx, against the team that ended their 2025. Yesavage gave up two hits, walked nobody, struck out eight over six shutout innings; Schlittler (1.50 ERA into the night, MLB-leading) matched him zero for zero until the 7th. Toronto loaded the bases with nobody out on an infield single, a walk, and a bunt single — and Andrés Giménez fouled off seven pitches before drawing an 11-pitch walk. One out later Vlad lofted a sac fly off Jake Bird for the 2-0 lead. Varland slammed it for save #6.',
+      stale: false
+    },
+    {
+      date: 'May 19',
+      home: false,
+      opp: 'New York Yankees',
+      result: 'L',
+      score: '4-5',
+      moment: 'Ryan McMahon 3-run HR off Cease in the 4th; Ben Rice solo HR in the 5th breaks the tie; Doval gets second save after Vlad sac fly in the 9th',
+      meaning: 'Different shape, same outcome. Cease struck out nine but needed 100 pitches to get through five, walked four (Judge and Chisholm back-to-back in the 4th), and McMahon punished it with an opposite-field 3-run HR to erase Toronto\'s 3-0 lead. Rice followed with a solo shot in the 5th. The Toronto offense had built the early lead off RBI singles by Piñango, Sánchez, and Giménez in the 4th, then went quiet against three Yankees relievers who combined for one hit over three scoreless. Vlad got a sac fly off Doval in the 9th but no tying run.',
+      stale: false
+    },
+    {
+      date: 'May 18',
+      home: false,
+      opp: 'New York Yankees',
+      result: 'L',
+      score: '6-7',
+      moment: 'Bellinger and Chisholm hit back-to-back 2-run HRs off Rodríguez in the 7th; Clement 3-run HR + 4 RBI for Toronto',
+      meaning: 'Series opener at Yankee Stadium, and the bullpen handed it away in a hurry. Toronto led 5-3 in the seventh — Clement\'s 3-run HR was the marquee swing, and Springer\'s 1st HR since March 30 was a real sign of life — and then Yariel Rodríguez gave up back-to-back 2-run shots to Bellinger and Chisholm. 5-3 to 7-5 in three swings. Toronto scratched a run back in the 9th but Bednar got Vlad to end it.',
+      stale: false
+    },
+    {
+      date: 'May 17',
+      home: false,
+      opp: 'Detroit Tigers',
+      result: 'W',
+      score: '4-1',
+      moment: 'Vlad Jr. HR (just his 3rd of the year); Gausman 6 shutout IP, 0 BB, 5 K',
+      meaning: 'The cleanest game the Jays had played in weeks at the time. Gausman bounced back hard from the May 11 Tampa Bay blowup — six shutout, no walks, five Ks. Vlad turned on a Flaherty fastball for his 3rd HR of the year. Varsho added a triple and a sac fly was tacked on, and the team won a series in Detroit they had every business losing.',
+      stale: false
+    },
+    {
+      date: 'May 16',
+      home: false,
+      opp: 'Detroit Tigers',
+      result: 'W',
+      score: '2-1 (10)',
+      moment: 'Yohendrick Pinango 1st career HR ties it in the 7th; Varsho RBI single in the 10th wins it',
+      meaning: 'A win you have to take on the road in a 10-inning grind. Down 1-0 in the seventh after Vierling homered, Piñango hit his first career MLB HR off the top of the right-field wall to tie it. Varsho lined a 1-1 pitch from Tyler Holton up the middle in the 10th to score Vlad, and Varland slammed the door for his fifth save. Six pitchers struck out 14 in the win.',
+      stale: false
+    }
+  ],
+
+  upcoming: [
+    { date: 'May 26', opp: 'vs Marlins', sp: 'Braydon Fisher (bulk / opener — 2.73 ERA, 1.01 WHIP in 27 G) vs Sandy Alcantara (3-3, 4.00 ERA) — 7:07 PM ET, Rogers Centre. Vlad day-to-day; updates expected pregame. Tanner Andrews now in the bullpen.' },
+    { date: 'May 27', opp: 'vs Marlins', sp: 'Series finale — likely Gausman on regular rest' },
+    { date: 'May 28', opp: 'OFF DAY',    sp: 'Off day before next series' },
+    { date: 'May 29', opp: 'TBD',        sp: 'Next series opens; matchups not yet announced. Corbin in line for the Cease turn.' },
+    { date: 'May 30', opp: 'TBD',        sp: 'TBA' }
+  ],
+
+  injuries: [
+    { name: 'Vladimir Guerrero Jr.', status: 'Day-to-day', detail: 'Right elbow contusion — HBP off Keller 5/24, sat 5/25 with reported numbness; Vlad: "Right now, I can\'t fully move my elbow."',  eta: 'Day-by-day per Vlad; Schneider had said Monday return was a possibility, but he sat. Track tonight\'s lineup.' },
+    { name: 'Dylan Cease',           status: '15-day IL',   detail: 'Mild left hamstring strain — exited 5th inning 5/24; placed on IL 5/25', eta: 'Schneider: "Hoping it\'s a minimal stay." MRI was "pretty positive." Tanner Andrews selected as the corresponding move; Cease wants the ball for his next turn.' },
+    { name: 'José Berríos',          status: '60-day IL',   detail: 'Tommy John surgery May 20, 2026 — full UCL reconstruction',  eta: 'Out 12–14 months — done for 2026, target return mid-to-late 2027' },
+    { name: 'Max Scherzer',          status: '15-day IL',   detail: 'Right forearm tendinitis (cortisone) + left ankle inflammation', eta: 'Live BP Wednesday 5/27 in Toronto. Mid-June return now plausible per Schneider; rehab assignment follows live BP.' },
+    { name: 'Shane Bieber',          status: '60-day IL',   detail: 'Right elbow inflammation (post-2024 TJ ramp); started rehab 5/25 in Florida Complex League — 2 scoreless IP',   eta: 'Builds toward 3 IP next; aiming to climb the affiliate ladder over the next 3-4 weeks' },
+    { name: 'Bowden Francis',        status: '60-day IL',   detail: 'UCL reconstruction (Tommy John)', eta: 'Out for 2026' },
+    { name: 'Cody Ponce',            status: '60-day IL',   detail: 'Right knee ACL repair',      eta: 'Out for 2026' },
+    { name: 'Lazaro Estrada',        status: '60-day IL',   detail: 'Shoulder (per Blue Jays injury report May)', eta: 'Long-term — no clear return date' },
+    { name: 'Alejandro Kirk',        status: '15-day IL',   detail: 'Fractured left thumb — screw insertion May 19; caught Bieber side 5/22',  eta: 'On schedule per Schneider; rehab assignment could begin next week — late-May return looking unlikely, early-June plausible' },
+    { name: 'Yimi García',           status: '60-day IL',   detail: 'Right elbow scar tissue (Sept 2025 surgery)', eta: 'Trending toward rehab assignment this week per Schneider' },
+    { name: 'Anthony Santander',     status: '60-day IL',   detail: 'Labral tear, post-surgery',  eta: 'Late 2026 best case' },
+    { name: 'Addison Barger',        status: '10-day IL',   detail: 'Right elbow inflammation (retroactive May 10)', eta: 'Eligible to return; ramp-up upon activation' },
+    { name: 'Tommy Nance',           status: '15-day IL',   detail: 'Right forearm discomfort (Macko recalled)', eta: 'No firm return date' },
+    { name: 'Joe Mantiply',          status: '15-day IL',   detail: 'Left knee inflammation (retro May 18)', eta: 'No firm return date — bullpen depth thinner' }
+  ],
+
+  players: {
+    lineup: [
+      {
+        id: 'vlad',
+        name: 'Vladimir Guerrero Jr.',
+        pos: '1B',
+        bats: 'R',
+        line: { avg: '.279', obp: '.354', slg: '.399', ops: '.753', wrcplus: 113, hr: 3, rbi: 22 },
+        savant: { xwoba: '.362', barrel: '7.8%', hardhit: '42.7%' },
+        recent: 'cold',
+        recentNote: 'Sat 5/25 with right elbow contusion — "Right now, I can\'t fully move my elbow." Day-to-day, status for tonight unclear.',
+        full: {
+          'AVG / OBP / SLG': '.279 / .354 / .399 (refreshed Savant)',
+          'OPS': '.753',
+          'wRC+': '113 (approximated — still above average but the May fade is real)',
+          'HR / RBI': '3 / 22',
+          'BB% / K%': '~11% / ~19%',
+          'xwOBA': '.362 (Statcast — comfortably above-average expected production)',
+          'xBA': '.301 (Statcast underlier still says the average is suppressed)',
+          'Barrel%': '7.8% (approximated)',
+          'Hard Hit%': '42.7% (Savant)',
+          'May line (5/1–5/25)': 'Sub-.200 ball overall; broke 0-for-22 in NY; only 1 HR in May (5/17 off Flaherty); 5/20 sac fly drove the winner; 5/21 reached 3x with a SB and run scored; 5/22 walked and scored; 5/23 reached base again before exiting 5/24 to the HBP. Sat 5/25.',
+          'Injury status (5/26)': 'Right elbow contusion off the 92 MPH Keller sinker 5/24. X-rays negative. Sat 5/25. Vlad postgame 5/24: "Take it day by day." Vlad 5/25: "Right now, I can\'t fully move my elbow." Day-to-day classification holds but he\'s not been cleared.',
+          'Quote (Sat 5/16)': '"Obviously, I don\'t feel OK right now... I\'m not feeling right." — after 0-for-4 vs DET'
+        },
+        contextNotes: {
+          'HR / RBI': 'Three home runs through 53 games is staggering for a hitter who averaged 32+ HR across the prior three seasons. The contact-quality data still says the swing should come; the elbow is the wild card.',
+          'wRC+': 'A 113 wRC+ is still above-average production. May has been sub-.200 ball with one HR. The April surplus is doing the carrying.',
+          'xwOBA': '.362 xwOBA is meaningfully above average — Statcast still says the contact has been better than the surface line.',
+          'Injury status (5/26)': 'Day-to-day is what the team is calling it, but the player\'s own words — "I can\'t fully move my elbow" — say it\'s a real situation. The fact he sat after Schneider said Monday was "definitely a possibility" Sunday night is the tell. Track Tuesday\'s lineup card.'
+        },
+        read: 'Three HR through 53 games and now a right-elbow contusion that\'s kept him out of one game and is going to keep him out of more if he can\'t move it. The Statcast underlier is still strong — .362 xwOBA, hard-hit in the low-40s — and the swing case for regression is intact whenever he plays again. But the timeline is no longer "Monday is a possibility." It\'s now "what does Vlad say when he tries to swing today." With Cease officially on the IL and Davis Schneider gone to Buffalo, the team needs the lineup\'s biggest bet back, soon.'
+      },
+      {
+        id: 'springer',
+        name: 'George Springer',
+        pos: 'DH/RF',
+        bats: 'R',
+        line: { avg: '.213', obp: '.291', slg: '.386', ops: '.677', wrcplus: 95, hr: 5, rbi: 13 },
+        savant: { xwoba: '.315', barrel: '7%', hardhit: '39%' },
+        recent: null,
+        recentNote: 'Quiet 5/25 vs MIA (came back to earth after the Skenes leadoff HR); five HRs on the year, the engine is still uneven',
+        full: {
+          'AVG / OBP / SLG': '.213 / .291 / .386 (post-5/25 — line ticked down with the team\'s quiet night)',
+          'OPS': '.677',
+          'wRC+': '~95 (approximated — back below league average after the 5/25 game cooled things)',
+          'HR / RBI': '5 / 13',
+          'PA': '143',
+          '5/23 leadoff HR': '65th career leadoff HR — second all-time, 81 behind Rickey Henderson — on Paul Skenes\' 3rd pitch of the game, snapping Skenes\' 15-inning road scoreless streak',
+          '5/22 RBI 2B': '2-run ground-rule double against PIT in the early innings',
+          '5/21 HR': 'Solo shot off Camilo Doval in the 7th — 2-2 slider into the LF seats',
+          'Note': 'Came back from broken toe in mid-April; reigning AL MVP — last week was the first stretch he looked like that player. .677 OPS still tells the season story.'
+        },
+        contextNotes: {
+          'wRC+': '~95 — back below league average after the 5/25 cool-down. For a 36-year-old DH coming off a fractured toe, the bar is "useful," not "MVP" — and the line is still under it.',
+          '5/23 leadoff HR': 'On the third pitch from the reigning NL Cy Young, on a 15-inning road scoreless streak. That\'s the high-water mark of the year. The 5/24-5/25 quiet stretch is the reminder that one swing doesn\'t fix a .677 OPS.',
+          'HR / RBI': '5 HR with two in the last five games. The 2025 MVP swing has shown up in real spots a handful of times, not yet consistently.'
+        },
+        read: 'The Skenes HR on 5/23 was the high-water mark of the season. The 5/24 and 5/25 lines were the reminder that a .677 OPS is a real number, not a small-sample artifact. With Vlad out, Springer\'s line stops being the encouraging arc story and starts being the leverage point — if he can\'t carry while Vlad sits, the offense doesn\'t have another body capable of stepping up. Bar tonight: drive the ball, not just put it in play.'
+      },
+      {
+        id: 'varsho',
+        name: 'Daulton Varsho',
+        pos: 'CF',
+        bats: 'L',
+        line: { avg: '.258', obp: '.314', slg: '.480', ops: '.794', wrcplus: 119, hr: 11, rbi: 26 },
+        savant: { xwoba: '.328', barrel: '11.5%', hardhit: '42%' },
+        recent: 'hot',
+        recentNote: 'Quiet stretch in the back half of the Pirates series and 5/25; month-to-date still .278 with 5 HR, 15 RBI, 22 R — lineup\'s most reliable bat',
+        full: {
+          'AVG / OBP / SLG': '.258 / .314 / .480',
+          'OPS': '.794',
+          'wRC+': '119 (approximated)',
+          'HR / RBI': '11 / 26',
+          'OAA (CF)': '+4',
+          'DRS': '+5',
+          'May line': '.278 / 5 HR / 15 RBI / 22 R',
+          'Last 10 G': '.300 area with the walk-off slam still the centerpiece'
+        },
+        contextNotes: {
+          'wRC+': '119 in the middle of this order is a real asset. Eleven HR through 53 G puts him on pace for 30+.',
+          'OAA (CF)': '+4 in CF this early says the elite glove is intact.',
+          'May line': 'A .278 month with 5 HR and 22 runs scored is genuinely lineup-anchoring.'
+        },
+        read: 'The cleanup hitter and best defender on the team. With Vlad out and Springer\'s line back at .677 OPS, Varsho is now the only proven everyday damage source in this lineup. The May 13 walk-off slam is the season\'s signature moment; the .278 / 5 HR / 22 R May is the steady state. Anything less than a productive at-bat tonight from him would be alarming.'
+      },
+      {
+        id: 'okamoto',
+        name: 'Kazuma Okamoto',
+        pos: '3B',
+        bats: 'R',
+        line: { avg: '.268', obp: '.343', slg: '.465', ops: '.808', wrcplus: 121, hr: 8, rbi: 23 },
+        savant: { xwoba: '.343', barrel: '10%', hardhit: '44%' },
+        recent: 'hot',
+        recentNote: 'Quiet in the Pirates series and 5/25; back at home and now the lineup\'s structural piece behind Varsho while Vlad sits',
+        full: {
+          'AVG / OBP / SLG': '.268 / .343 / .465',
+          'OPS': '.808',
+          'wRC+': '121 (approximated; pending refresh)',
+          'HR / RBI': '8 / 23',
+          'BB% / K%': '10% / 21%',
+          'Note': '4yr / $60M NPB signing in his MLB debut season'
+        },
+        contextNotes: {
+          'wRC+': 'For a 29-year-old NPB transfer adjusting to MLB pitching, a 121 wRC+ in his first eight weeks is a strong landing.',
+          'xwOBA': '.343 xwOBA aligns with actual production. The skill is real, not a contact mirage.'
+        },
+        read: 'The most encouraging offseason bet, full stop. Producing right behind Vlad and Varsho — a 121 wRC+ through 53 games is a translation, not a streak. With Vlad sitting, Okamoto becomes the lineup\'s structural piece behind Varsho. The bar against Alcantara tonight: do something meaningful.'
+      },
+      {
+        id: 'gimenez',
+        name: 'Andrés Giménez',
+        pos: 'SS',
+        bats: 'L',
+        line: { avg: '.262', obp: '.317', slg: '.395', ops: '.712', wrcplus: 101, hr: 3, rbi: 22 },
+        savant: { xwoba: '.310', barrel: '5%', hardhit: '33%' },
+        recent: 'hot',
+        recentNote: '5/20 11-pitch RBI walk off Schlittler still the defining AB; wRC+ holding ~101',
+        full: {
+          'AVG / OBP / SLG': '.262 / .317 / .395',
+          'OPS': '.712',
+          'wRC+': '101 (approximated; up from sub-90 a month ago)',
+          'HR / RBI': '3 / 22',
+          'OAA (SS)': '+5',
+          'DRS': '+6',
+          '5/20 in NY': 'Fouled off 7 pitches (5 with two strikes), drew an 11-pitch bases-loaded walk off Schlittler scoring Clement — chased the AL ERA leader from the game'
+        },
+        contextNotes: {
+          'wRC+': '101 at SS is league-average bat with elite defense — past the bar the front office bet on.',
+          'OAA (SS)': '+5 OAA confirms the glove is doing its job.',
+          '5/20 in NY': 'Seven foul balls. Five with two strikes. Eleven pitches. Drove in the lead run, chased Schlittler.'
+        },
+        read: 'Defense is real — a top-tier SS with the glove. The bat was a black hole through April and has been climbing for a month. Toronto needs him at 95+ wRC+ to make the math work; he\'s past that. Steady state — which is what this team needs more than anything else right now.'
+      },
+      {
+        id: 'clement',
+        name: 'Ernie Clement',
+        pos: '2B',
+        bats: 'R',
+        line: { avg: '.294', obp: '.333', slg: '.434', ops: '.767', wrcplus: 111, hr: 3, rbi: 14 },
+        savant: { xwoba: '.305', barrel: '4%', hardhit: '30%' },
+        recent: 'hot',
+        recentNote: '5/25 vs MIA: solo HR for Toronto\'s only run in the 2-8 loss; has driven in or scored a run in four of the last five games',
+        full: {
+          'AVG / OBP / SLG': '.294 / .333 / .434 (line bumped by 5/25 HR)',
+          'OPS': '.767',
+          'wRC+': '111 (approximated)',
+          'HR / RBI': '3 / 14',
+          'K%': '~12% (low)',
+          'May 18': '3-for-4, 3-run HR, 4 RBI',
+          'May 20': 'Bunt single + scored the lead run on Giménez 11-pitch walk',
+          'May 24': 'RBI single — Toronto\'s only run in the 4-1 loss',
+          'May 25': 'Solo HR — Toronto\'s only run in the 2-8 loss'
+        },
+        contextNotes: {
+          'wRC+': '111 is above average and currently leads the regulars in batting average. The Statcast contact quality is below average, so part of this is BABIP-driven — but the K rate is the key. He just puts the ball in play.',
+          'May 25': 'When the offense scores two and one of them is a Clement HR, you can fairly call him the entire offense again. Two straight games where he\'s been the only Toronto run.'
+        },
+        read: 'Two straight games as the only Blue Jay to score a run. That\'s the floor of this offense without Vlad — Clement, Varsho, Okamoto, and pray. The 5/25 HR was his 3rd of the year and his second multi-base hit in three games. He\'s the bridge bat — the one keeping this lineup from being a one-man show.'
+      },
+      {
+        id: 'lukes',
+        name: 'Nathan Lukes',
+        pos: 'OF',
+        bats: 'L',
+        line: { avg: '.265', obp: '.325', slg: '.405', ops: '.730', wrcplus: 104, hr: 2, rbi: 12 },
+        savant: { xwoba: '.310', barrel: '6%', hardhit: '36%' },
+        recent: 'new',
+        recentNote: 'Reinstated from the 60-day IL 5/25 after a month out with a left hamstring strain — corresponding move was optioning Davis Schneider to Buffalo',
+        full: {
+          'AVG / OBP / SLG': '.265 / .325 / .405 (approximated — pre-injury line, refresh pending)',
+          'OPS': '.730',
+          'wRC+': '104 (approximated)',
+          'HR / RBI': '2 / 12',
+          'Role': '4th OF / lefty-swinging corner depth; replaces Davis Schneider on the active roster',
+          'Status': 'Activated from the IL 5/25; available for tonight vs Alcantara'
+        },
+        contextNotes: {
+          'Role': 'Lukes is a contact-first lefty corner OF with average power. With Vlad day-to-day and Davis Schneider optioned, Lukes likely starts in a corner against RHP Alcantara tonight.',
+          'Status': 'A month-long absence is enough to make the first few ABs noisy. Watch the swing decisions more than the BA.'
+        },
+        read: 'Replaces Davis Schneider on the roster, who was hitting .127 with a .507 OPS in his bench role and had earned the option down. Lukes is the steadier lefty corner OF the bench needed — contact-first, average power, fits a lineup that\'s short on lefties. Doesn\'t replace what Schneider could do on his best 15% of nights, but the .127 cratered out of usable. Watch how Schneider deploys him out of the gate.'
+      }
+    ],
+
+    rotation: [
+      {
+        id: 'gausman',
+        name: 'Kevin Gausman',
+        pos: 'SP',
+        line: { era: '3.35', whip: '1.20', k9: '8.4', ip: '68.1', gs: 12 },
+        advanced: { fip: '3.65', xfip: '3.55', fwar: '1.5' },
+        recent: 'hot',
+        recentNote: 'Last out 5/22 vs PIT: 6+ IP, 8 K, 1 BB, 1 ER (W, 4-3); next start lined up for the Marlins finale 5/27 on regular rest',
+        full: {
+          'ERA': '3.35 (approximated post-5/22)',
+          'FIP / xFIP': '3.65 / 3.55 (approximated)',
+          'W-L': '4-3',
+          'IP / GS': '68.1 / 12',
+          'K / 9': '~8.4 (66 K)',
+          'BB / 9': '~1.7',
+          'WHIP': '1.20',
+          'fWAR': '~1.5',
+          'Career K': '2,000+ (6th active pitcher to clear)',
+          '5/22 line': '6.1 IP, 6 H, 1 ER, 1 BB, 8 K vs PIT (W)'
+        },
+        contextNotes: {
+          'ERA': 'ERA in the low-3s is the cleanest line he\'s had all year. Two consecutive strong outings (5/17 6 shutout vs DET, 5/22 6+ IP / 1 ER vs PIT).',
+          '5/22 line': '8 strikeouts on 1 walk — the splitter is playing as advertised again.'
+        },
+        read: 'Anchor of a depleted rotation, and now the de facto ace with Cease on the IL and Berríos done. Lined up for the Marlins finale 5/27 on regular rest. Yesavage stumbled badly on 5/25 — Gausman is the only starter on this staff right now whose floor is reliable.'
+      },
+      {
+        id: 'cease',
+        name: 'Dylan Cease',
+        pos: 'SP',
+        line: { era: '2.71', whip: '1.22', k9: '11.5', ip: '69.0', gs: 11 },
+        advanced: { fip: '2.95', xfip: '3.10', fwar: '2.1' },
+        recent: 'cold',
+        recentNote: 'Officially placed on the 15-day IL 5/25 with mild left hamstring strain; MRI "pretty positive" per Schneider; Cease told the manager he wants the ball for his next turn',
+        full: {
+          'ERA': '2.71 (no change — exited 5/24 before further damage)',
+          'FIP / xFIP': '2.95 / 3.10 (approximated)',
+          'W-L': '3-2',
+          'IP / GS': '~69.0 / 11',
+          'K / 9': '11.5 (~89 K — still top of MLB)',
+          'BB / 9': '~3.6',
+          'WHIP': '1.22',
+          'fWAR': '~2.1',
+          'Injury status (5/26)': 'On the 15-day IL as of 5/25. Schneider: "Doesn\'t look too terrible, knock on wood. Just trying to be smart and not have it get worse. Don\'t know the exact timeline yet … hoping it\'s a minimal stay." Cease told Schneider he wants his next turn. Corresponding roster move: Tanner Andrews selected from Buffalo.'
+        },
+        contextNotes: {
+          'K / 9': '11+ K/9 is elite and unchanged — the slider remains the best pitch in the rotation.',
+          'BB / 9': 'Walks have crept up. Stuff is still the stuff; command in big spots is the variable.',
+          'FIP / xFIP': 'FIP still in the high-2s. Best starter on this team by a wide margin and early AL Cy Young chatter remains warranted.',
+          'Injury status (5/26)': '15-day IL is the right call given how much money is invested and how thin the rotation already is. The fact that the team thought hard enough about the hamstring to put him on the shelf — even with imaging the manager called "pretty positive" — is the data point. "Minimal stay" is the best case; a Memorial Day weekend return would be the optimistic version. The downside scenarios all involve a setback. Corbin\'s now in the rotation for at least one turn; possibly two.'
+        },
+        read: '$210M / 7yr ace, biggest free-agent get of the offseason — now on the 15-day IL with a hamstring strain that imaging suggests is mild but the team isn\'t taking chances with. Schneider hopes for "a minimal stay." Cease wants the ball back. The realistic timeline is one to two starts missed. Corbin moves up by default; Bieber and Scherzer are weeks away from being live options. The rotation\'s margin for another loss is functionally zero.'
+      },
+      {
+        id: 'yesavage',
+        name: 'Trey Yesavage',
+        pos: 'SP',
+        line: { era: '2.25', whip: '1.13', k9: '10.0', ip: '32.0', gs: 6 },
+        advanced: { fip: '2.85', xfip: '3.30', fwar: '1.2' },
+        recent: 'cold',
+        recentNote: '5/25 vs MIA: career-high 5 ER on 5 H / 2 BB / 6 K in 6.2 IP — falls to 2-2, ERA jumps from 1.07 to ~2.25, first multi-HR game allowed of the season',
+        full: {
+          'ERA': '~2.25 (after the 5/25 outing — was 1.07 entering the game)',
+          'FIP / xFIP': '~2.85 / ~3.30 (approximated — refresh pending)',
+          'W-L': '2-2',
+          'IP / GS': '~32.0 / 6',
+          'K / BB': '~35 / 10',
+          'WHIP': '~1.13',
+          'H allowed': '~24',
+          'HR allowed': 'First multi-HR game of the season on 5/25',
+          '5/25 line': '6.2 IP, 5 H, 5 ER, 2 BB, 6 K — career-high ER, career-high H, falls to 2-2',
+          '5/20 vs Schlittler': '6 IP, 2 H, 0 BB, 8 K — beat the AL ERA leader (1.50) in a head-to-head ALDS rematch',
+          '2025 WS': 'Game 5: 7 IP, 1 ER, 12 K (rookie WS K record)'
+        },
+        contextNotes: {
+          'ERA': '1.07 → ~2.25 in one start. That\'s what an unsustainable surface line looks like when the baseline contact regresses. The bigger question: was the 5/25 contact the floor or the new normal?',
+          '5/25 line': 'Six Ks and only two walks says the stuff didn\'t disappear. Five earned and a multi-HR game says the location did. Two starts in a row — 5/20 shutout in Yankee Stadium then 5/25 worst start of the season — is the small-sample volatility of a kid still ramping up his workload.',
+          'HR allowed': 'Zero HR through 25.1 IP was the cleanest indicator the stuff was playing. The first multi-HR game of the year shouldn\'t be panic, but it does push the regression case into the mid-2s ERA range — closer to FIP than the 1.07 mirage.'
+        },
+        read: 'Walked in with a 1.07 ERA and zero HRs allowed. Walked out 2-2 with five earned and a multi-HR game. The Ks and walks were fine; the contact was loud. That\'s a regression-to-the-mean start, not necessarily a problem — FIP and xFIP suggested a mid-2s ERA was always the real number. The question for the next turn is whether 5/25 was the floor or the new normal. With Cease on the IL, the team needs Yesavage to land in the 2.50-3.00 ERA range, not slide further toward Corbin.'
+      },
+      {
+        id: 'corbin',
+        name: 'Patrick Corbin',
+        pos: 'SP',
+        line: { era: '4.65', whip: '1.35', k9: '6.8', ip: '20.0', gs: 4 },
+        advanced: { fip: '4.50', xfip: '4.60', fwar: '0.2' },
+        recent: 'hot',
+        recentNote: '5/23 vs PIT: 6 IP, 5 H, 1 ER, 0 BB, season-high 7 K (W, 2-1) — beat Paul Skenes in his strongest start as a Jay; in line for Cease\'s next turn',
+        full: {
+          'ERA': '~4.65 (approximated; pulled down by the 5/23 outing)',
+          'FIP': '~4.50',
+          'W-L': '2-1',
+          'IP / GS': '~20.0 / 4',
+          'K / 9': '~6.8',
+          '5/23 line': '6 IP, 5 H, 1 ER, 0 BB, 7 K (W) vs PIT — beat reigning NL Cy Young Skenes',
+          'Role': 'Promoted into Cease\'s rotation slot for at least one turn — Berríos out for 2026 (TJ 5/20); Bieber/Scherzer rehab progressing'
+        },
+        contextNotes: {
+          '5/23 line': 'A 6-IP, 1-ER, 7-K, 0-BB start out of a scrap-heap signing is exactly the kind of outing that lengthens a rotation. Came against Skenes — that\'s a real opponent, not a soft-toss spot.',
+          'Role': 'With Cease on the 15-day IL, Corbin is no longer competing for a spot — he\'s holding one. Next turn lines up for the 5/29 series.'
+        },
+        read: 'The 5/23 outing against Skenes was his best as a Blue Jay — 6 IP, 1 ER, no walks, a season-high 7 Ks against the reigning NL Cy Young. Now he\'s in the rotation for at least the next Cease turn, possibly two. The 4.65 ERA isn\'t pretty but the 5/23 line shows he can give 6+ usable innings when the splitter and slider play.'
+      }
+    ],
+
+    bullpen: [
+      {
+        id: 'varland',
+        name: 'Louis Varland',
+        pos: 'CL',
+        line: { era: '0.36', whip: '1.05', k9: '14.4', ip: '26.2', gs: 0 },
+        advanced: { fip: '2.00', xfip: '2.35', sv: 7 },
+        recent: 'hot',
+        recentNote: 'No save spot 5/23, 5/24, or 5/25 — fresh for the next close game; last out 5/22 6-out save #7 — ERA still 0.36',
+        full: {
+          'ERA': '0.36',
+          'FIP': '~2.00',
+          'SV / SVO': '7 / 7',
+          'K : BB': '38 : 9 (approximated)',
+          'K / 9': '14.4',
+          'WHIP': '1.05',
+          'IP': '~26.2',
+          'Earned runs (season)': '1',
+          'Award': 'AL Reliever of the Month (March/April)',
+          '5/22 6-out save': 'Retired the final six PIT batters with Toronto up 6-2'
+        },
+        contextNotes: {
+          'ERA': '0.36 ERA across ~26.2 IP with a 38:9 K:BB ratio and one earned run all year. 7-for-7 on saves after the 6-out save 5/22.',
+          'Award': 'AL Reliever of the Month for March/April. The leverage-arm signing is the rare offseason move paying out at face value.'
+        },
+        read: 'Untouched for three straight games — no save spots. Fully rested for whenever the next close win is. 7-for-7 in saves with a 0.36 ERA. The cleanest story on the team.'
+      },
+      {
+        id: 'rogers',
+        name: 'Tyler Rogers',
+        pos: 'RP',
+        line: { era: '0.59', whip: '0.85', k9: '7.8', ip: '15.1', gs: 0 },
+        advanced: { fip: '2.50', xfip: '3.00', sv: 1 },
+        recent: 'hot',
+        recentNote: 'Last out 5/21 @ NYY: got Judge on a DP grounder to end the 8th in the bullpen-game W',
+        full: {
+          'ERA': '0.59',
+          'FIP': '2.50',
+          'IP': '15.1',
+          'K / 9': '7.8',
+          'Earned runs (season)': '1',
+          'Role': '8th-inning / co-leverage with Varland'
+        },
+        contextNotes: {
+          'ERA': 'One earned run across 15.1 IP and the submarine release angle is doing what it does.',
+          '5/21': 'Got Judge on a DP grounder to end the 8th in a 2-0 game.'
+        },
+        read: 'Submariner release plays funky against both sides. Second-most-trusted reliever after Varland. Also fresh — hasn\'t worked since 5/21.'
+      },
+      {
+        id: 'hoffman',
+        name: 'Jeff Hoffman',
+        pos: 'RP',
+        line: { era: '4.55', whip: '1.40', k9: '10.8', ip: '21.1', gs: 0 },
+        advanced: { fip: '3.20', xfip: '3.10', sv: 4 },
+        recent: null,
+        recentNote: 'Last clean outing 5/21 vs NYY for SV #4; no save spot since',
+        full: {
+          'ERA': '~4.55 (approximated after the 5/21 clean inning)',
+          'FIP': '3.20',
+          'W-L': '2-3',
+          'SV / SVO': '4 / 7',
+          'K / 9': '10.8',
+          'BABIP allowed': '.500+ (extreme; should regress)',
+          'IP': '~21.1',
+          'Current role': 'Setup / middle — back-end depth'
+        },
+        contextNotes: {
+          'FIP': 'FIP at 3.20 vs ERA still mid-4s is the gap — the .500+ BABIP and the walks pattern have driven the surface line.',
+          'SV / SVO': 'The 5/21 save was the first since April 20. One clean outing isn\'t a recovery arc.'
+        },
+        read: 'One clean inning is one clean inning, not a recovery arc. The lever still belongs to Varland and Rogers until he repeats it in a tied late-inning spot.'
+      },
+      {
+        id: 'andrews',
+        name: 'Tanner Andrews',
+        pos: 'RP',
+        line: { era: '0.00', whip: '0.00', k9: '0.0', ip: '1.0', gs: 0 },
+        advanced: { fip: 'NA', xfip: 'NA', sv: 0 },
+        recent: 'new',
+        recentNote: 'Selected from Triple-A Buffalo 5/25 as the corresponding move for Cease IL; MLB debut 5/25 — 1-2-3 9th vs Marlins',
+        full: {
+          'MLB ERA': '0.00 (1 IP, MLB debut 5/25 — retired Stowers, Sanoja, Caissie 1-2-3 in the 9th)',
+          'AAA (Buffalo) line': '1.35 ERA across 20 IP before the call-up',
+          'Role': 'Long relief / multi-inning right-hander; bullpen depth following Cease IL placement',
+          'Note': '30-year-old career minor leaguer who signed a MiLB deal with TOR last winter'
+        },
+        contextNotes: {
+          'MLB ERA': 'Came in down six runs and retired the side on a handful of pitches. The leverage was zero, but the takeaway is "the slot is now filled; Schneider has the option for low-leverage innings tonight."',
+          'AAA (Buffalo) line': '1.35 ERA in 20 IP at Triple-A is a real performance — the kind of line that earns the look. Whether it translates is the open question.'
+        },
+        read: 'Career minor leaguer in his MLB debut at 30. Had earned the look at Triple-A. The first ML inning was as clean as it gets, but it came in a blowout against a contending Marlins offense that was already up six. Watch the next outing in a tighter spot.'
+      },
+      {
+        id: 'rodriguez',
+        name: 'Yariel Rodríguez',
+        pos: 'RP',
+        line: { era: '6.75', whip: '1.50', k9: '9.8', ip: '5.1', gs: 0 },
+        advanced: { fip: '5.00', xfip: '4.20', sv: 0 },
+        recent: 'cold',
+        recentNote: 'Not used in the last 7 games after the 5/18 back-to-back HR outing',
+        full: {
+          'Role': '1-2 inning bullpen, attacking lefties with the splitter',
+          'AAA (Buffalo)': '11 G, 1-0, 2.63 ERA, 1.17 WHIP — pre-callup',
+          'Splitter usage': 'Up significantly vs LHB',
+          'MLB 2026': '5.1 IP, 2 HR allowed in 5/18 7th inning'
+        },
+        contextNotes: {
+          'Role': 'Originally the planned replacement for the DFA\'d Eric Lauer in the rotation. The team flipped him to the bullpen; the 5/18 outing was a high-leverage failure.',
+          'Splitter usage': 'In Triple-A he posted a 75% whiff rate on the splitter against LHBs. The pitch came back to bite him on 5/18.'
+        },
+        read: 'Originally penciled in to take Lauer\'s rotation spot, now a multi-inning bullpen arm with diminished trust. Seven games without a single appearance is a usage statement — the team is treating him as a low-leverage arm. With Andrews now also in long-relief, Rodríguez\'s leash is on borrowed time.'
+      },
+      {
+        id: 'fluharty',
+        name: 'Mason Fluharty',
+        pos: 'LHP',
+        line: { era: '5.20', whip: '1.30', k9: '10.0', ip: '15.2', gs: 0 },
+        advanced: { fip: '3.60', xfip: '3.65', sv: 0 },
+        recent: null,
+        recentNote: 'Used as opener/bulk arm May 16 vs DET (no decision)',
+        full: {
+          'ERA': '~5.20',
+          'FIP': '~3.60',
+          'W-L': '2-0',
+          'K': '~22',
+          '2025 line': '4.44 ERA, 3.97 FIP, 56 K in 52.2 IP',
+          'Role': 'Lefty matchup arm + emergency opener'
+        },
+        contextNotes: {
+          'FIP': 'FIP-vs-ERA gap says the underlying performance is much better than the surface line.'
+        },
+        read: 'Lefty Schneider trusts in matchup spots vs. premium left-handed bats, occasionally pressed into opener duty.'
+      },
+      {
+        id: 'miles',
+        name: 'Spencer Miles',
+        pos: 'RP',
+        line: { era: '3.10', whip: '1.18', k9: '11.2', ip: '14.0', gs: 0 },
+        advanced: { fip: '3.30', xfip: '3.55', sv: 0 },
+        recent: 'hot',
+        recentNote: '5/21 @ NYY: career-high 4.1 IP, 6 K, 1 BB, 0 R on 63 pitches in long relief — workload now even more important given Cease IL',
+        full: {
+          'ERA': '~3.10 (approximated)',
+          'FIP': '~3.30',
+          'IP': '~14.0',
+          'K / 9': '~11.2',
+          'Role': 'Long relief / multi-inning, Rule 5 draft pick',
+          '5/21 career-high': '4.1 IP, 6 K, 1 BB, 2 H, 0 R on 63 pitches'
+        },
+        contextNotes: {
+          '5/21 career-high': '63 pitches is a real workload from a Rule 5 pick. The kind of length that lets Schneider survive a Berríos-shaped hole — and now a Cease-shaped hole too.'
+        },
+        read: 'Rule 5 pick now has a load-bearing role. With Berríos done, Cease on the IL, and Corbin moving into the rotation, Miles is suddenly the bullpen\'s most-trusted multi-inning option behind Andrews.'
+      }
+    ],
+
+    bench: [
+      {
+        id: 'pinango',
+        name: 'Yohendrick Pinango',
+        pos: 'OF',
+        line: { avg: '.282', obp: '.338', slg: '.435', ops: '.773', wrcplus: 110 },
+        recent: 'hot',
+        recentNote: 'Quiet 5/23-5/25 after the 4-game contributing run; still the depth piece earning starts — gets more competition with Lukes back',
+        full: {
+          'AVG / OBP / SLG': '~.282 / ~.338 / ~.435 (approximated)',
+          'wRC+': '~110',
+          '5/16': 'First career MLB HR — top of the right-field wall, tied the game in the 7th',
+          '5/19': 'RBI single starts 3-run Toronto 4th-inning rally at Yankee Stadium',
+          '5/20': 'Bunt single helps load bases nobody out, sets up the Giménez/Vlad RBI sequence',
+          '5/22': '2-run double off Bubba Chandler in the 3rd inning — drove in Vlad and Varsho',
+          'Role': 'Platoon / 4th OF, getting more starts — Lukes back from the IL adds competition'
+        },
+        contextNotes: {
+          '5/22': 'The 2-run double off Chandler was the game-deciding swing in the streak\'s third game.',
+          'Role': 'Lukes\' return from IL is the most direct threat to Pinango\'s starts. Both are lefty corner OFs.'
+        },
+        read: 'The Rule 5 depth piece contributed in four straight (5/16 through 5/22) before going quiet across the back half of the Pirates series and 5/25. With Lukes activated, Pinango\'s playing time tightens — he needs to start hitting again or he loses the corner OF starts.'
+      },
+      {
+        id: 'heineman',
+        name: 'Tyler Heineman',
+        pos: 'C',
+        line: { avg: '.245', obp: '.305', slg: '.410', ops: '.715', wrcplus: 95 },
+        recent: 'hot',
+        recentNote: '5/23 vs PIT: HR — first since July 19, 2025 — while pressed into starting duty with Kirk on the IL',
+        full: {
+          'AVG / OBP / SLG': '~.245 / ~.305 / ~.410 (approximated)',
+          'wRC+': '~95',
+          '5/23 HR': 'First HR since July 19, 2025 — pressed into starting duty with Kirk on the IL post-thumb-surgery',
+          'Role': 'Backup catcher; called up from Buffalo as additional depth'
+        },
+        contextNotes: {
+          '5/23 HR': 'A 10-month HR gap broken in a game the Jays won. Backup-catcher production with any power at all is a real depth asset right now.'
+        },
+        read: 'Bench catcher pressed into starts during Kirk\'s thumb absence. The 5/23 HR — first since last July — was the kind of bench-tier production that keeps a team a couple of W\'s over its talent line. Workload will ease once Kirk\'s rehab assignment lands (next week possibility).'
+      },
+      {
+        id: 'sanchez',
+        name: 'Jesús Sánchez',
+        pos: 'OF',
+        line: { avg: '.255', obp: '.310', slg: '.435', ops: '.745', wrcplus: 108 },
+        recent: null,
+        recentNote: 'Useful corner OF bat; mixed lines in the PIT series',
+        full: {
+          'AVG / OBP / SLG': '.255 / .310 / .435',
+          'wRC+': '108',
+          'Role': 'Corner OF, lefty bat'
+        },
+        contextNotes: {
+          'Role': 'Useful LH option against RHP given Bichette\'s departure and Santander\'s injury.'
+        },
+        read: 'A useful left-handed corner OF bat who provides some pop. With Lukes back and Pinango fighting for starts, the OF rotation gets crowded — but Sanchez\'s power profile differentiates him from the other two.'
+      },
+      {
+        id: 'valenzuela',
+        name: 'Brandon Valenzuela',
+        pos: 'C',
+        line: { avg: '.235', obp: '.290', slg: '.395', ops: '.685', wrcplus: 88 },
+        recent: null,
+        recentNote: 'Kirk caught a Bieber side 5/22; rehab assignment could begin next week',
+        full: {
+          'AVG / OBP / SLG': '.235 / .290 / .395',
+          'wRC+': '88',
+          'Role': 'Backup catcher (Kirk on IL post-thumb-surgery 5/19; Heineman also called up)'
+        },
+        contextNotes: {
+          'Role': 'Kirk had screw-insertion surgery on 5/19, is now catching Bieber\'s side sessions and may be cleared for a rehab assignment next week.'
+        },
+        read: 'Steady-state production is closer to replacement-level, so the offense gets a real boost if Kirk\'s timeline holds. Heineman\'s 5/23 HR took some of the catching-depth pressure off.'
+      }
+    ]
+  },
+
+  teamStats: {
+    hitting: {
+      runs:  { val: 215, rank: 22, ctx: 'Bottom-third in MLB through 53 games. Was 4th in this category last year — biggest drop-off of any offense. The 5/25 2-run outing didn\'t help.' },
+      avg:   { val: '.237', rank: 22, ctx: 'Below league average — chase rate is the highest in MLB.' },
+      obp:   { val: '.307', rank: 21, ctx: 'Tied to plate-discipline issues. Walks aren\'t the problem — chase rate is.' },
+      slg:   { val: '.389', rank: 19, ctx: 'Power output is mid-pack. Springer\'s 5/23 leadoff HR off Skenes was the high point; the offense scored 3 total runs in two games since.' },
+      ops:   { val: '.696', rank: 20, ctx: '20th-ranked OPS for a team that expected to be a top-10 offense. Two straight games where the only run scored came on a Clement at-bat is exactly the failure mode.' },
+      wrcplus: { val: 94, rank: 21, ctx: '94 wRC+ means the offense is 6% worse than league average. Slipped a tick on the 2-run outing.' },
+      hr:    { val: 46, rank: 19, ctx: 'Power has been the least-broken part of the offense — but Vlad\'s 3 HR is dragging the count.' }
+    },
+    pitching: {
+      era:   { val: '4.15', rank: 16, ctx: 'Jumped after the 5/25 Yesavage rough start — the staff is back in the middle of the pack. The Cease/Berríos rotation hole now load-bearing.' },
+      fip:   { val: '4.05', rank: 16, ctx: 'FIP roughly matching ERA — staff has been performing at the surface line.' },
+      whip:  { val: '1.31', rank: 19, ctx: 'Walks + hits per inning ticked up after the 5/25 start.' },
+      k9:    { val: '8.9', rank: 14, ctx: 'Punchout rate is fine — the issue isn\'t missing bats.' },
+      bb9:   { val: '3.4', rank: 21, ctx: 'Walk rate creeping down slowly. The Andrews debut helps; Rodríguez sitting also helps.' },
+      bullpen_era: { val: '3.60', rank: 11, ctx: 'Late-inning core still the best in baseball — Varland 0.36 ERA, 7-for-7 in saves; Rogers 0.59 ERA. Andrews 0.00 in 1 IP MLB debut. Hoffman 5/21 clean inning a tentative recovery datapoint.' },
+      bullpen_fip: { val: '3.45', rank: 11, ctx: 'FIP closely tracking ERA. Stuff is real, K rate ~27%.' },
+      rotation_fwar: { val: '3.8', rank: 12, ctx: 'Rotation fWAR ticked down after the 5/25 Yesavage outing and the Cease IL placement. With Berríos done and Cease on the shelf, this number is the most fragile part of the team.' }
+    },
+    defense: {
+      drs: { val: '+19 (proj. pace)', rank: 5, ctx: 'On pace for +60+ DRS — last year\'s team led MLB at +51 DRS.' },
+      oaa: { val: '+9', rank: 4, ctx: '+9 OAA. Was +16 for all of 2025 (also #1). Still a top-5 defensive team.' },
+      note: 'Defense remains the foundation. Giménez at SS, Varsho in CF, and Okamoto at 3B have all rated as positives. This is the strongest part of the team.'
+    }
+  },
+
+  glossary: [
+    { term: 'wRC+', name: 'Weighted Runs Created Plus',
+      def: 'Park- and league-adjusted total offensive value. The single best one-number summary of a hitter.',
+      calc: 'Built on wOBA (Weighted On-Base Average), which assigns linear-weights values to each offensive event (1B, 2B, 3B, HR, BB, HBP). wOBA is converted to runs above average per plate appearance, adjusted for park and league, and scaled so 100 = league average. Every point above or below is 1% better or worse.',
+      bench: '160+ MVP-tier · 140 All-Star · 120 above average · 100 league average · 90 below · 80 replacement · 70 unplayable.',
+      pitfall: 'Sample-size matters. A 150 wRC+ over 100 PA is mostly noise; over 400+ PA it’s real. A season-to-date number after a hot first month flatters a player whose underlying contact has cooled.' },
+    { term: 'OPS+', name: 'On-Base Plus Slugging Plus',
+      def: 'Older equivalent of wRC+. Park-adjusted OPS scaled so 100 is league average. Same intuition, different inputs.',
+      calc: '100 × ((OBP / lgOBP) + (SLG / lgSLG) − 1), then park-adjusted.',
+      bench: 'Same scale as wRC+. Slightly less precise (treats OBP and SLG as additive components rather than weighting events directly).',
+      pitfall: 'When OPS+ and wRC+ diverge meaningfully, trust wRC+. The linear-weights basis is sounder.' },
+    { term: 'OPS', name: 'On-Base Plus Slugging',
+      def: 'On-base percentage plus slugging. Quick and dirty offensive snapshot.',
+      calc: 'OBP + SLG. That’s it.',
+      bench: '1.000+ historic · .900+ great · .800+ above average · .700 league average · .600 weak · .500 unplayable.',
+      pitfall: 'Not park- or era-adjusted. A .800 OPS in Coors Field is meaningfully worse than .800 in Oakland. Treats OBP and SLG as equally weighted, but OBP is roughly 1.7× as valuable per point of run production.' },
+    { term: 'xwOBA', name: 'Expected Weighted On-Base Average',
+      def: 'What a hitter "should" produce based on the quality of their batted balls plus their walks and strikeouts.',
+      calc: 'Statcast assigns an expected outcome (hit, out, etc.) to every batted ball based on its exit velocity and launch angle, computed from the historical league outcomes for similar contact. Combines those expected outcomes with actual walks and strikeouts into a wOBA-scaled number.',
+      bench: '.400+ elite · .370+ great · .340+ above average · .320 average · .300 weak.',
+      pitfall: 'Doesn’t account for spray direction, defensive positioning, or shift adjustments. A pull-heavy slow-runner can underperform xwOBA by 20+ points sustainably. Compare xwOBA to actual wOBA — gap suggests luck or skill on contact placement.' },
+    { term: 'Barrel%', name: 'Barrel Rate',
+      def: 'Percent of batted balls hit at the optimal exit velo + launch angle combination — historically those produce ≥.500 BA and ≥1.500 SLG.',
+      calc: 'A "barrel" requires 98+ MPH exit velocity at a launch angle between roughly 26° and 30° (the range expands as exit velo climbs above 100 MPH). Barrels / batted ball events.',
+      bench: '15%+ elite (top decile) · 10%+ above average · 6-8% average · <5% weak.',
+      pitfall: 'A high barrel rate with a low batting average means a hitter is hitting it hard but also into shifts or to deep parts of the park (or just unlucky on placement). Doesn’t capture line-drive contact that goes for hits but isn’t a barrel.' },
+    { term: 'Hard Hit%', name: 'Hard Hit Rate',
+      def: 'Percent of batted balls hit 95+ MPH off the bat.',
+      calc: 'Batted balls ≥95 MPH exit velocity / total batted balls. No launch-angle component.',
+      bench: '50%+ elite · 45%+ above average · 40% average · 35% weak.',
+      pitfall: 'Hard contact at the wrong angle is a ground-ball out. Pair with launch angle and barrel% for the full picture.' },
+    { term: 'FIP', name: 'Fielding Independent Pitching',
+      def: 'What a pitcher’s ERA "should" be based on outcomes they control: walks, strikeouts, hit-by-pitches, and home runs. Strips out defense and BABIP luck.',
+      calc: '((13×HR + 3×(BB+HBP) − 2×K) / IP) + a constant (~3.10) that anchors league FIP to league ERA. The constant changes year-to-year.',
+      bench: '2.50 ace · 3.00 elite · 3.50 great · 4.00 league average · 4.50+ below.',
+      pitfall: 'Treats all home runs equally regardless of context (solo vs. grand slam). Doesn’t capture pitch-to-contact specialists who induce weak contact intentionally — those guys may sustain ERA below FIP year over year.' },
+    { term: 'xFIP', name: 'Expected FIP',
+      def: 'FIP with the home run rate normalized to the league average HR/FB ratio. Predicts future ERA better than current FIP.',
+      calc: 'Same as FIP, but instead of using actual HRs allowed, uses (fly balls × league HR/FB rate).',
+      bench: 'Same scale as FIP.',
+      pitfall: 'Some pitchers genuinely suppress (or surrender) HRs at sustainable rates outside the league norm — extreme groundballers, or pitchers whose home parks distort fly-ball outcomes. xFIP regresses both groups toward the mean, which can be wrong.' },
+    { term: 'WHIP', name: 'Walks + Hits per Inning Pitched',
+      def: 'Baserunners (excluding HBP and errors) allowed per inning.',
+      calc: '(BB + H) / IP.',
+      bench: '0.90 historic · 1.00 elite · 1.10 great · 1.20 above average · 1.30 average · 1.40+ rough.',
+      pitfall: 'Counts hits as much as walks even though hits are mostly outside pitcher control (BABIP). A high-strikeout pitcher with mediocre WHIP often has a better FIP than the WHIP suggests.' },
+    { term: 'K/9, BB/9', name: 'Strikeouts and Walks per 9 IP',
+      def: 'Rate stats per nine-inning frame. Together they’re the simplest read on a pitcher’s stuff and command.',
+      calc: '(K × 9) / IP. Same for BB.',
+      bench: 'K/9: 12+ elite · 10+ great · 8 average · 6 weak. BB/9: 1.5 elite · 2.5 great · 3.0 average · 4.0+ rough.',
+      pitfall: 'Per-9 rates can be inflated by short outings or relief work (relievers tend to higher K/9). For starters, K% (strikeouts as % of batters faced) is a cleaner comparison.' },
+    { term: 'fWAR', name: 'FanGraphs Wins Above Replacement',
+      def: 'Total estimated value above a freely-available replacement player, expressed in wins.',
+      calc: 'For position players: (Batting + Baserunning + Fielding + Positional Adjustment + Replacement) / Runs-per-Win. For pitchers: built on FIP, scaled by innings, with leverage and park adjustments. The "freely available" baseline is roughly a Triple-A call-up.',
+      bench: '8+ MVP/Cy Young season · 5+ All-Star · 3-4 solid regular · 2 league-average regular · 0-1 bench/replacement · negative = team would be better with anyone else.',
+      pitfall: 'fWAR (FanGraphs, FIP-based for pitchers) and bWAR (Baseball-Reference, RA-based for pitchers) often disagree by 1-2 wins. They’re different opinions, not different facts. Defensive components are noisier than offensive ones — a 2 WAR season with a -10 DRS swing could really be 1 or 3.' },
+    { term: 'DRS', name: 'Defensive Runs Saved',
+      def: 'Runs saved (or surrendered) vs. an average defender at the position. Baseball Info Solutions’ metric, video-scouting based.',
+      calc: 'BIS scouts every batted ball, classifies it by zone and difficulty, and credits/debits the fielder vs. the average outcome on plays of that difficulty. Includes positioning, range, throwing arm, double-play conversion, and outfield error rates.',
+      bench: '+15 elite season · +10 great · +5 plus · 0 average · -5 below · -10 bad · -15 disastrous.',
+      pitfall: 'Year-over-year correlation is weaker than offensive metrics — defense looks noisier in 1-year samples. Outfield DRS in particular swings on a few key plays. Use 2-3 year averages for skill assessment.' },
+    { term: 'OAA', name: 'Outs Above Average',
+      def: 'Statcast tracking-based defensive metric. Plays made vs. expected, based on difficulty.',
+      calc: 'Statcast tracks every fielder’s position at pitch release, the batted ball’s trajectory and speed, and computes the league-average catch probability for that play. The fielder gets credit (or debit) equal to (1 − catch probability) for outs made and (-catch probability) for plays missed.',
+      bench: '+15 elite · +10 great · +5 plus · 0 average · -5 below.',
+      pitfall: 'Doesn’t fully capture throwing arm, double plays, or first-baseman scoops the way DRS does. For middle infielders, the two metrics usually agree; for OF and 1B they can diverge.' },
+    { term: 'WPA', name: 'Win Probability Added',
+      def: 'How much each play swings the game’s win probability. Sums to the team’s eventual win or loss.',
+      calc: 'Win Expectancy is computed for every base/out/score/inning state from historical data. Each play’s WPA = post-play WE − pre-play WE for the batting team. A walk-off grand slam in a tied bottom-9 might be +0.50 WPA.',
+      bench: 'Single biggest play in a typical game: 0.15-0.30 WPA. Walk-off in a one-run game: 0.40-0.50. Season WPA leaders: 4-5+ for top hitters.',
+      pitfall: 'Heavily context-dependent — the same home run is worth more in a tie game than a blowout. Useful for "biggest moment" callouts; not a clean talent metric.' },
+    { term: 'Pythagorean', name: 'Pythagorean Win-Loss',
+      def: 'Bill James formula estimating what a team’s record "should" be based on runs scored vs. allowed.',
+      calc: 'Win % ≈ RS² / (RS² + RA²). Refined versions use exponents around 1.83 instead of 2 (the "Pythagenpat" tweak).',
+      bench: 'A team beating Pythag by 3+ wins over a season is "lucky" — usually unsustainable. Trailing by 3+ wins is "unlucky" and tends to regress.',
+      pitfall: 'Bullpen quality and one-run-game performance can sustainably beat Pythag (good closers convert close leads into wins). Doesn’t capture clutch hitting or sequencing — but most teams that look "clutch" early regress over a full year.' }
+  ],
+
+  pitchTypes: [
+    {
+      category: 'Fastballs',
+      pitches: [
+        { name: 'Four-Seam Fastball', abbr: '4SFB / FF', velo: '92-100 MPH (elite arms 100+)',
+          movement: 'Travels straight. High spin (2,400+ RPM) creates the perception of "rise" — the pitch falls less than the brain expects given gravity.',
+          purpose: 'The setup pitch. Establishes the zone, gets ahead in the count, climbs the ladder for two-strike whiffs at the top.',
+          watch: 'Elevated four-seam in 0-2 or 1-2 = the chase pitch up. The hitter swings under it because their internal model of where the ball "should" be is wrong.',
+          jaysExample: 'Cease\'s primary fastball — high spin, sits 96-99. Hoffman closes with it.' },
+        { name: 'Two-Seam Fastball / Sinker', abbr: '2SFB / SI', velo: '90-96 MPH',
+          movement: 'Runs arm-side and drops more than a four-seamer. Low spin or specific spin axis.',
+          purpose: 'Weak contact. Generates groundballs and broken-bat bloopers.',
+          watch: 'Sinker on the outside corner against same-side hitters jams them off the barrel. Late, sharp arm-side run is the tell.',
+          jaysExample: 'Berríos paired his curveball off a low-90s sinker — out for 2026 after Tommy John (5/20). Mitch Keller\'s sinker is what hit Vlad in the elbow on 5/24.' },
+        { name: 'Cutter', abbr: 'FC', velo: '88-94 MPH',
+          movement: 'Small, late, glove-side break. 2-4 inches of late cut.',
+          purpose: 'Beats the barrel. Designed to look like a fastball until the last 5 feet.',
+          watch: 'Lots of broken bats, lots of jam-shot outs to the opposite-field corner.',
+          jaysExample: 'Mariano Rivera built a Hall of Fame career on one. Among current Jays, more of a complementary pitch than a primary.' },
+        { name: 'Splitter', abbr: 'FS', velo: '83-90 MPH',
+          movement: 'Looks like a fastball out of the hand, then dies — drops 8-12 inches off a fastball plane.',
+          purpose: 'The put-away pitch. Tunnels with the fastball and dives under bats.',
+          watch: 'Hitter takes a fastball-style A-swing and finishes 6 inches over the ball.',
+          jaysExample: 'Gausman\'s signature pitch and one of the best in baseball — was the difference in his 5/22 8-K outing vs PIT. Yesavage\'s splitter is the pitch that beat Schlittler on 5/20 — the 5/25 start was the reminder that location matters even with the shape.' }
+      ]
+    },
+    {
+      category: 'Breaking Balls',
+      pitches: [
+        { name: 'Slider', abbr: 'SL', velo: '82-90 MPH',
+          movement: 'Sharp, short break — both lateral (glove-side) and downward.',
+          purpose: 'Whiffs on chase, called strikes back-foot to opposite-side hitters.',
+          watch: 'A slider from a same-handed pitcher that finishes off the back foot or in the dirt is the textbook chase pitch.',
+          jaysExample: 'Cease\'s slider is one of the best pitches in MLB — high spin, two-plane movement, mid-to-high 80s velocity. The reason his K/9 is 11+ — and the pitch the rotation will miss while he\'s on the IL.' },
+        { name: 'Sweeper', abbr: 'ST', velo: '78-85 MPH',
+          movement: 'A slider variant with extreme horizontal break — 15-20+ inches of glove-side movement.',
+          purpose: 'Disorienting east-west break.',
+          watch: 'A sweeper to a same-side hitter starts at the hip and finishes a foot off the plate.',
+          jaysExample: 'Spreading league-wide. Several Jays relievers throw a sweeper variant.' },
+        { name: 'Curveball', abbr: 'CU', velo: '74-83 MPH',
+          movement: 'Large 12-to-6 (top to bottom) or 11-to-5 break.',
+          purpose: 'Disrupt timing, steal called strikes early in the count.',
+          watch: 'A "frozen" called strike on a curveball means the hitter was geared up for a fastball and couldn\'t process the velocity gap.',
+          jaysExample: 'Berríos\'s curveball was his signature pitch (he\'s now out 12-14 months post-TJ).' },
+        { name: 'Slurve / Hybrid', abbr: 'SV', velo: '78-86 MPH',
+          movement: 'Between a slider and a curveball — diagonal break.',
+          purpose: 'Same as a slider but with more depth.',
+          watch: 'On the broadcast pitch chart, a pitch that doesn\'t cleanly classify as SL or CU often ends up here.',
+          jaysExample: 'A handful of Jays relievers throw something that lives in this gray zone.' }
+      ]
+    },
+    {
+      category: 'Off-Speed',
+      pitches: [
+        { name: 'Changeup', abbr: 'CH', velo: '78-88 MPH (typically 8-12 MPH off the fastball)',
+          movement: 'Same arm action as the fastball but with arm-side fade and some drop.',
+          purpose: 'Anti-platoon weapon.',
+          watch: 'A hitter who lunges, finishes way out front of the ball, and rolls a weak grounder to the pull side.',
+          jaysExample: 'Less of a defining weapon than the splitter for this rotation.' },
+        { name: 'Knuckleball', abbr: 'KN', velo: '60-75 MPH',
+          movement: 'Almost no spin. Air resistance causes the ball to wobble unpredictably.',
+          purpose: 'Survival pitch.',
+          watch: 'Catchers wear oversized mitts.',
+          jaysExample: 'No current Jays knuckleballer. R.A. Dickey threw one for Toronto from 2013-16.' },
+        { name: 'Eephus', abbr: 'EP', velo: '50-65 MPH',
+          movement: 'Extreme arc, slow as a beach-ball lob.',
+          purpose: 'Disruption / surprise.',
+          watch: 'When you see one, it\'s a moment.',
+          jaysExample: 'Position-player pitching in blowouts — yes. Jays starters — no.' }
+      ]
+    }
+  ],
+
+  positions: {
+    fielders: [
+      { num: 1, abbr: 'P',  name: 'Pitcher',        note: 'Touches the ball more than anyone. Numbered first because of that, not because of importance per se.' },
+      { num: 2, abbr: 'C',  name: 'Catcher',        note: 'Calls the game, frames pitches, controls running game, touches every defensive play that doesn’t end in the ball going past the pitcher.' },
+      { num: 3, abbr: '1B', name: 'First Baseman',  note: 'Defensive demands lower than other infield spots — usually a bat-first position. The position takes the most putouts because every infield groundout finishes there.' },
+      { num: 4, abbr: '2B', name: 'Second Baseman', note: 'Pivot man on most double plays. Less arm strength required than SS or 3B; more lateral range than 1B.' },
+      { num: 5, abbr: '3B', name: 'Third Baseman',  note: '"Hot corner" — fast-reaction throws across the diamond. Strong arm essential.' },
+      { num: 6, abbr: 'SS', name: 'Shortstop',      note: 'The premium defensive position. Most range responsibility, hardest throws.' },
+      { num: 7, abbr: 'LF', name: 'Left Fielder',   note: 'Easiest OF position — shortest throws, fewer balls hit there.' },
+      { num: 8, abbr: 'CF', name: 'Center Fielder', note: 'Most range required of any OF spot. Captains the outfield.' },
+      { num: 9, abbr: 'RF', name: 'Right Fielder',  note: 'Strong arm required for the long throw to 3B and home.' },
+      { num: 10,abbr: 'DH', name: 'Designated Hitter', note: 'Bats but doesn’t field. Universal in MLB since 2022.' }
+    ],
+    scoringCodes: [
+      { code: '6-4-3 DP',   meaning: 'SS fields, throws to 2B for the force, who pivots to 1B. The most common double play.' },
+      { code: '4-6-3 DP',   meaning: 'Same idea, mirrored — 2B fields, throws to SS at the bag, who relays to 1B.' },
+      { code: '5-4-3 DP',   meaning: '"Around the horn" — 3B to 2B to 1B.' },
+      { code: '6-3 / 4-3',  meaning: 'Routine groundball putouts. SS or 2B fields, throws to 1B for the out.' },
+      { code: 'F-7, F-8, F-9', meaning: 'Flyout to LF, CF, RF.' },
+      { code: 'L-6',        meaning: 'Lineout to SS.' },
+      { code: 'P-3',        meaning: 'Popout to 1B.' },
+      { code: 'K',          meaning: 'Strikeout swinging.' },
+      { code: 'Ꟙ (backwards K)', meaning: 'Strikeout looking — hitter took the third strike.' },
+      { code: 'BB',         meaning: 'Base on balls (walk).' },
+      { code: 'IBB',        meaning: 'Intentional walk. Since 2017, no actual pitches required — manager just signals from the dugout.' },
+      { code: 'HBP',        meaning: 'Hit by pitch. Counts toward OBP, doesn’t count toward batting average.' },
+      { code: 'SAC',        meaning: 'Sacrifice — bunt or fly that advances a runner at the cost of an out.' },
+      { code: 'SF',         meaning: 'Sacrifice fly — flyball that scores a runner from third.' },
+      { code: 'WP / PB',    meaning: 'Wild pitch (pitcher) vs. passed ball (catcher).' },
+      { code: 'E5, E6, E8 etc.', meaning: 'Error charged to the position.' },
+      { code: 'FC',         meaning: 'Fielder’s choice.' },
+      { code: 'CS / SB',    meaning: 'Caught stealing / stolen base.' },
+      { code: 'GIDP',       meaning: 'Grounded into double play. Worst possible at-bat outcome by run expectancy — turns one out into two.' }
+    ],
+    notes: 'Henry Chadwick devised this numbering for scorekeeping in the 1860s. The numbers run roughly from the center of the diamond outward — pitcher (1), catcher (2), then around the infield from 1B (3) to SS (6), then the outfield left-to-right. It\'s arbitrary but universal — every box score, scorecard, and Statcast database uses these numbers.'
+  },
+
+  watching: [
+    { theme: 'The Count', tips: [
+      { headline: 'Pitcher\'s count (0-2, 1-2)', body: 'Now they hunt swings outside the zone. Watch for sliders that start at the knee and finish in the dirt, fastballs elevated above the zone, or splitters dropping under it. Hitters who chase here are giving away at-bats; hitters who stay disciplined force the pitcher back over the plate.' },
+      { headline: 'Hitter\'s count (3-1, 2-0)', body: 'The pitcher must come into the zone, often with a fastball. The hitter gets to ambush a single pitch type in a single area. Most of the season\'s best damage happens in 3-1 counts.' },
+      { headline: 'Even counts (1-1, 2-2)', body: 'The negotiation pitch. 1-1 is the most leverage-laden count by run expectancy — the at-bat\'s outcome shifts dramatically based on what happens next.' },
+      { headline: 'First pitch', body: 'League average is roughly 73% strikes on 0-0. Aggressive hitters can crush meatballs here; passive hitters give the pitcher 0-1 free. Vlad attacks first pitches; Springer is more patient.' }
+    ]},
+    { theme: 'Pitch Sequencing', tips: [
+      { headline: 'Tunneling', body: 'Modern pitchers want consecutive pitches to look identical out of the hand for the first 25-30 feet, then diverge.' },
+      { headline: 'Same arm slot, different shapes', body: 'A splitter or changeup that comes out of the same arm slot as the fastball but kills 8-10 MPH and dives — that\'s the disruption. Gausman\'s splitter is a textbook version.' },
+      { headline: 'No two in the same spot', body: 'Good pitchers avoid back-to-back pitches in the same location.' },
+      { headline: 'Setting up the put-away', body: 'A pitch outside the zone in an early count often "sets up" a similar-looking pitch in the strike zone in a later count.' }
+    ]},
+    { theme: 'Time Through the Order', tips: [
+      { headline: 'The penalty', body: 'Hitters\' OPS rises roughly 30-40 points each time they face a starter again. This is why teams pull starters at 75-90 pitches even when the line looks fine.' },
+      { headline: 'Why managers pull "good" starts early', body: 'A starter going into the 6th who\'s already faced the heart of the order twice is in danger zone.' },
+      { headline: 'The opener / bulk pitcher pattern', body: 'A reliever (the "opener") starts the game for 1-2 innings, then a long man comes in.' }
+    ]},
+    { theme: 'Pitcher Fatigue Signs', tips: [
+      { headline: 'Velocity drop', body: 'A starter\'s fastball usually drops 1-2 MPH from first inning to last as they fatigue. A drop of 3+ MPH within a single outing is a meaningful signal.' },
+      { headline: 'Pitch shape flattening', body: 'When a pitcher is tired, breaking balls lose movement before they lose velocity.' },
+      { headline: 'Command before stuff', body: 'The first sign of fatigue is usually walks, not hits.' }
+    ]},
+    { theme: 'Bullpen Leverage', tips: [
+      { headline: 'High leverage isn\'t always the 9th', body: 'The 7th inning of a 1-run game with the heart of the order due, runners on, two outs — that\'s the highest-leverage at-bat of the night.' },
+      { headline: 'The third time through penalty applies to relievers too', body: 'A reliever who pitched yesterday and the day before is on his "third time through" the league.' },
+      { headline: 'Platoon advantage', body: 'A LHP is meaningfully tougher on a LHH (and vice versa). The three-batter rule still allows top-of-inning matchups.' }
+    ]},
+    { theme: 'The Two-Strike Game', tips: [
+      { headline: 'The strike zone shrinks for the hitter', body: 'With two strikes, hitters expand their swing zone.' },
+      { headline: 'The two-strike approach', body: 'Good two-strike hitters shorten their swing, choke up, foul off tough pitches.' },
+      { headline: 'Spoiling pitches', body: 'Fouling off pitcher\'s pitches with two strikes is a skill. Giménez\'s 11-pitch walk on 5/20 was a textbook example.' }
+    ]},
+    { theme: 'Statcast on the Broadcast', tips: [
+      { headline: 'Exit velocity benchmarks', body: '95+ MPH is "hard hit." 105+ is a thunderclap. A hitter averaging 90 MPH exit velo is below average; 94+ is plus power.' },
+      { headline: 'Launch angle', body: '10-25° is the line-drive zone. 25-35° is the home-run sweet spot.' },
+      { headline: 'Spin rate matters more for breaking balls', body: 'On a fastball, high spin gives the perception of "rise." On a slider, high spin generates more break.' },
+      { headline: 'In-zone vs. chase rate', body: 'A hitter\'s chase rate tells you discipline. The Jays as a team have the highest chase rate in MLB this year.' }
+    ]},
+    { theme: 'Game State Awareness', tips: [
+      { headline: 'Run expectancy by base/out state', body: 'Bases empty / 0 outs = 0.49 expected runs scored that inning. Runner on first / 0 outs = 0.86.' },
+      { headline: 'Sacrifice bunting is almost always wrong', body: 'By run expectancy, a sac bunt with a runner on first and 0 outs DROPS the team\'s expected runs.' },
+      { headline: 'Leadoff baserunner', body: 'A leadoff baserunner of any kind raises expected runs from 0.49 to 0.86+.' },
+      { headline: 'The "small ball" mythology', body: 'Stolen bases need to clear about a 75% success rate to be net positive.' }
+    ]}
+  ]
+};
+
+const STAT_DEFS = {
+  'wRC+':     { name: 'Weighted Runs Created Plus', measures: 'Park- and league-adjusted total offensive value.', bench: '100 = average. 110+ above. 120+ All-Star caliber. 90 below.' },
+  'OPS+':     { name: 'On-base Plus Slugging Plus', measures: 'Park-adjusted OPS scaled so 100 is league average.', bench: 'Same scale as wRC+. Older convention; wRC+ preferred today.' },
+  'OPS':      { name: 'On-Base Plus Slugging', measures: 'OBP + SLG. Quick offensive snapshot, not park-adjusted.', bench: '.900+ great, .800+ above avg, .700 avg, .600 weak.' },
+  'xwOBA':    { name: 'Expected wOBA', measures: 'What a hitter "should" produce based on contact quality plus walks and Ks.', bench: '.370+ great, .340+ above avg, .320 avg, .300 weak.' },
+  'Barrel%':  { name: 'Barrel Rate', measures: 'Percent of batted balls hit at optimal EV + LA.', bench: '12%+ elite, 8-10% above avg, 6% avg.' },
+  'Hard Hit%':{ name: 'Hard Hit Rate', measures: 'Percent of batted balls 95+ MPH off the bat.', bench: '50%+ elite, 40%+ above avg, 35% avg.' },
+  'FIP':      { name: 'Fielding Independent Pitching', measures: 'ERA stripped of defense and BABIP luck.', bench: '3.00 elite, 3.50 great, 4.00 avg, 4.50+ rough.' },
+  'xFIP':     { name: 'Expected FIP', measures: 'FIP with HR rate normalized to league average.', bench: 'Same scale as FIP.' },
+  'WHIP':     { name: 'Walks + Hits per Inning', measures: 'Baserunners allowed per inning (no HBP).', bench: '1.00 elite, 1.10 great, 1.30 avg, 1.40+ rough.' },
+  'fWAR':     { name: 'FanGraphs Wins Above Replacement', measures: 'Total wins above a freely-available replacement player.', bench: '5+ All-Star, 3+ solid regular, 2 avg, 0-1 bench.' },
+  'DRS':      { name: 'Defensive Runs Saved', measures: 'Runs saved vs. an average defender at the position.', bench: '+10 great season, +5 above avg, 0 avg, -5 below.' },
+  'OAA':      { name: 'Outs Above Average', measures: 'Statcast tracking-based defense — plays made vs. expected.', bench: '+10 elite, +5 plus, 0 avg, -5 below.' },
+  'K/9':      { name: 'Strikeouts per 9 IP', measures: 'Strikeout rate normalized to nine innings.', bench: '10+ great, 8 avg, 6 weak.' },
+  'BB/9':     { name: 'Walks per 9 IP', measures: 'Walk rate normalized to nine innings.', bench: '2 elite, 3 avg, 4+ rough.' },
+  'Pythagorean': { name: 'Pythagorean Record', measures: 'What W-L record runs scored vs. allowed predicts.', bench: '+/- 3 wins from actual = notable luck/unluck.' }
+};
+
+const TABS = [
+  { id: 'overview', label: 'Season Overview', icon: 'home' },
+  { id: 'players', label: 'Players', icon: 'users' },
+  { id: 'team', label: 'Team Stats', icon: 'chart' },
+  { id: 'games', label: 'Game Log', icon: 'list' },
+  { id: 'school', label: 'Stat School', icon: 'book' }
+];
+
+const ICONS = {
+  home: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>',
+  users: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+  chart: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>',
+  list:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>',
+  book:  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>'
+};
+
+function statChip(stat, displayValue) {
+  const def = STAT_DEFS[stat];
+  if (!def) return displayValue || stat;
+  const id = 'sc_' + Math.random().toString(36).slice(2, 9);
+  return `<span class="stat-chip" onclick="toggleTip('${id}')">${displayValue || stat}<span class="tooltip" id="${id}"><span class="tooltip-stat">${stat} — ${def.name}</span><span class="tooltip-section">What it measures</span><span class="tooltip-body">${def.measures}</span><span class="tooltip-section">Benchmarks</span><span class="tooltip-body">${def.bench}</span></span></span>`;
+}
+
+function toggleTip(id) {
+  document.querySelectorAll('.tooltip.open').forEach(t => { if (t.id !== id) t.classList.remove('open'); });
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+  event.stopPropagation();
+}
+
+document.body.addEventListener('click', () => {
+  document.querySelectorAll('.tooltip.open').forEach(t => t.classList.remove('open'));
+});
+
+function renderHeader() {
+  document.getElementById('asOf').textContent = `As of ${DATA.asOf}`;
+  const refreshed = document.getElementById('refreshed');
+  if (refreshed && DATA.lastRefreshed) refreshed.textContent = `Last refreshed: ${DATA.lastRefreshed}`;
+  const nav = document.getElementById('nav');
+  nav.innerHTML = TABS.map(t =>
+    `<button class="nav-btn ${t.id === 'overview' ? 'active' : ''}" data-tab="${t.id}">${ICONS[t.icon]}<span>${t.label}</span></button>`
+  ).join('');
+  nav.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+  });
+}
+
+function switchTab(tabId) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
+  document.querySelectorAll('.panel').forEach(p => p.classList.toggle('active', p.id === 'panel-' + tabId));
+  if (tabId === 'overview' && !window._chartDrawn) drawDiffChart();
+}
+
+function renderOverview() {
+  const t = DATA.team;
+  const pythDelta = (t.record.w - t.pythagW);
+  const pythStr = pythDelta === 0 ? 'matching Pythagorean'
+    : pythDelta > 0 ? `${pythDelta} W ahead of Pythag` : `${Math.abs(pythDelta)} W below Pythag`;
+
+  const html = `
+  <div class="section">
+    <div class="grid grid-4">
+      <div class="card highlight">
+        <div class="stat-label">Record</div>
+        <div class="stat-big">${t.record.w}-${t.record.l}</div>
+        <div class="stat-sub">${t.place}</div>
+      </div>
+      <div class="card">
+        <div class="stat-label">Last 10</div>
+        <div class="stat-big">${t.last10.w}-${t.last10.l}</div>
+        <div class="stat-sub">Streak: <span class="${t.streak.startsWith('W') ? 'pos' : 'neg'}">${t.streak}</span></div>
+      </div>
+      <div class="card">
+        <div class="stat-label">Run Differential</div>
+        <div class="stat-big neg">${t.runDiff}</div>
+        <div class="stat-sub">${t.runsScored} RS / ${t.runsAllowed} RA</div>
+      </div>
+      <div class="card">
+        <div class="stat-label">${statChip('Pythagorean')}</div>
+        <div class="stat-big">${t.pythagW}-${t.pythagL}</div>
+        <div class="stat-sub">${pythStr}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section grid grid-2">
+    <div class="card">
+      <h2>AL East</h2>
+      <table>
+        <thead><tr><th>Team</th><th class="num">W</th><th class="num">L</th><th class="num">PCT</th><th class="num">GB</th><th class="num">L10</th><th class="num">STRK</th></tr></thead>
+        <tbody>
+          ${DATA.alEast.map(r => `
+            <tr class="${r.jays ? 'jays' : ''}">
+              <td>${r.team}</td>
+              <td class="num">${r.w}</td>
+              <td class="num">${r.l}</td>
+              <td class="num">${r.pct}</td>
+              <td class="num">${r.gb}</td>
+              <td class="num">${r.last10}</td>
+              <td class="num"><span class="${r.streak.startsWith('W') ? 'pos' : 'neg'}">${r.streak}</span></td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <h2>AL Wild Card</h2>
+      <table>
+        <thead><tr><th>Team</th><th class="num">W</th><th class="num">L</th><th class="num">GB</th><th>Status</th></tr></thead>
+        <tbody>
+          ${DATA.wildCard.map(r => `
+            <tr class="${r.jays ? 'jays' : ''}">
+              <td>${r.team}</td>
+              <td class="num">${r.w}</td>
+              <td class="num">${r.l}</td>
+              <td class="num">${r.gb}</td>
+              <td class="${r.note.startsWith('In') || r.note.startsWith('Division') ? 'pos' : r.note === 'Out' ? 'dim' : ''}">${r.note}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>
+      <div class="note" style="margin-top: 12px;">Wild Card field shown is approximated; some rivals' exact records may have shifted slightly. AL East rows are the load-bearing reference.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>The State of the Season</h2>
+    <div class="narrative">
+      <p>The Jays are <strong>25-28</strong>, 3rd in the AL East, 10 GB the Rays, on a 2-game losing streak, and one bad night past being able to call the 5/24 loss an outlier. The 8-2 setback to Miami on Monday was the kind of loss that compounds the problems the day before raised — Yesavage gave up a career-high five earned runs, Vlad sat with the elbow contusion that hadn\'t cleared overnight, and Cease officially landed on the 15-day IL.</p>
+
+      <p><strong>The Cease IL placement is the load-bearing news of the week.</strong> Schneider used the phrase "pretty positive" about the MRI and Cease told him he wants the ball for his next turn, but the team isn\'t risking a hamstring grab two weeks before Bieber and Scherzer come back. "Hoping it\'s a minimal stay," Schneider said. Best case is Cease returns for the Memorial Day weekend series; worst case is a setback that turns a 15-day stint into something longer. Corbin slots in for at least one turn — his 5/23 outing over Skenes (6 IP / 1 ER / 7 K / 0 BB) is the receipt that the rotation can absorb one Cease miss. Two would be tougher. The corresponding move was selecting Tanner Andrews — 30, MiLB free-agent signing, 1.35 ERA in 20 Triple-A IP — who retired the Marlins 1-2-3 in his MLB debut 9th. Watch his next outing in a tighter spot.</p>
+
+      <p><strong>Vlad sat and said the elbow won\'t move.</strong> X-rays were negative Sunday, contusion only, Schneider framed Monday as live, then Vlad pulled himself from the lineup with the line "Right now, I can\'t fully move my elbow." Day-to-day is what the team is calling it. The longer he sits past mid-week, the more this stops being a precautionary day and starts being a setback story. The Statcast underliers — .362 xwOBA, .301 xBA, hard-hit in the low-40s — say the swing is still alive when he plays. The question is when. His best-version is the lineup\'s biggest single bet; without him the depth is Lukes (just reinstated from a month on the IL), Pinango, and Sanchez. None of those names projects to cover a missing Vlad over multiple games.</p>
+
+      <p><strong>The Yesavage 5/25 line is the second-tier question to track.</strong> 1.07 ERA → ~2.25 in one start. Six Ks and two walks said the stuff didn\'t disappear; five earned and the first multi-HR game of the season said location and command did. That\'s a regression-to-the-mean start, not yet a problem — FIP and xFIP suggested a mid-2s ERA was the real number all along, not the 1.07 mirage. But the next turn is now load-bearing: if Yesavage is in the 2.50-3.00 range, the rotation has a real top three behind Gausman. If he\'s closer to Corbin, the team is running a one-and-a-half man rotation while waiting on Bieber and Scherzer.</p>
+
+      <p><strong>Roster shuffle:</strong> Nathan Lukes activated off the IL (left hamstring, missed a month), Davis Schneider optioned to Buffalo. Schneider was hitting .127 with a .507 OPS — in his last seven games, one walk against seven Ks. The option down is the right call on the line. Lukes is contact-first, lefty corner OF, average power — he stabilizes the bench at the cost of Schneider\'s upside on his best 15% of nights. Pinango\'s starts tighten; Sanchez\'s role is unchanged. Bieber threw two scoreless IP in his first FCL rehab outing 5/25 — building toward three IP next. Scherzer faces live BP Wednesday in Toronto with a mid-June return now plausible. Kirk could begin a rehab assignment next week per Schneider; his thumb timeline now looks early June rather than late May. Yimi García trending toward rehab assignment this week.</p>
+
+      <p><strong>The Wild Card math just got worse.</strong> Yesterday this team was 0.5 back of the third seed cluster. After dropping the Marlins opener, they\'re 1.5 back with two more teams (Mariners, Twins) ahead of them in the order. The path is still alive; the margin is thinning. <strong>What\'s still good</strong>: Varland 0.36 / 7-for-7 (fully rested), Rogers 0.59, defense top-5, Varsho .278 May with 5 HR, Okamoto 121 wRC+. <strong>What\'s newly broken or pending</strong>: Cease on the 15-day IL, Vlad still day-to-day with no clear date, the Yesavage 5/25 outlier-or-data-point, and an offense that has scored exactly 3 runs in 18 innings since Springer took Skenes deep on Saturday.</p>
+    </div>
+  </div>
+
+  <div class="section grid grid-2">
+    <div class="card">
+      <h2>Run Differential by Game (recent)</h2>
+      <div class="chart-wrap"><canvas id="diffChart"></canvas></div>
+    </div>
+    <div class="card">
+      <h2>Upcoming</h2>
+      <table>
+        <thead><tr><th>Date</th><th>Opponent</th><th>SP / Note</th></tr></thead>
+        <tbody>
+          ${DATA.upcoming.map(g => `
+            <tr><td class="dim">${g.date}</td><td>${g.opp}</td><td>${g.sp}</td></tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  `;
+  document.getElementById('panel-overview').innerHTML = html;
+  document.getElementById('panel-overview').classList.add('active');
+}
+
+function drawDiffChart() {
+  if (window._chartDrawn) return;
+  const ctx = document.getElementById('diffChart');
+  if (!ctx) return;
+  const data = DATA.recentRunDiff;
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: data.map(d => d.date),
+      datasets: [{
+        label: 'Run Diff',
+        data: data.map(d => d.diff),
+        backgroundColor: data.map(d => d.diff >= 0 ? 'rgba(63,185,80,0.7)' : 'rgba(248,81,73,0.7)'),
+        borderColor: data.map(d => d.diff >= 0 ? '#3fb950' : '#f85149'),
+        borderWidth: 1
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: '#0d141f', borderColor: '#2a3548', borderWidth: 1,
+          callbacks: { label: (item) => { const d = data[item.dataIndex]; return `${d.result} · run diff ${d.diff > 0 ? '+' : ''}${d.diff}`; } }
+        }
+      },
+      scales: {
+        x: { ticks: { color: '#8b96a8' }, grid: { color: '#1f2937' } },
+        y: { ticks: { color: '#8b96a8' }, grid: { color: '#1f2937' } }
+      }
+    }
+  });
+  window._chartDrawn = true;
+}
+
+function renderPlayers() {
+  const groups = [
+    { title: 'Lineup Regulars', list: DATA.players.lineup, kind: 'hitter' },
+    { title: 'Starting Rotation', list: DATA.players.rotation, kind: 'starter' },
+    { title: 'Bullpen', list: DATA.players.bullpen, kind: 'reliever' },
+    { title: 'Bench / Depth', list: DATA.players.bench, kind: 'hitter' }
+  ];
+
+  const html = groups.map(g => {
+    const cards = g.list.map(p => {
+      const isHitter = g.kind === 'hitter';
+      const isStarter = g.kind === 'starter';
+      const tag = p.recent === 'hot' ? '<span class="tag hot">Hot</span>'
+                : p.recent === 'cold' ? '<span class="tag cold">Slumping</span>'
+                : p.recent === 'new' ? '<span class="tag new">New</span>'
+                : '';
+      const stats = isHitter ? `
+        <div class="player-stats">
+          <div class="mini-stat"><div class="mini-stat-label">AVG / OPS</div><div class="mini-stat-val">${p.line.avg} / ${p.line.ops}</div></div>
+          <div class="mini-stat"><div class="mini-stat-label">${statChip('wRC+')}</div><div class="mini-stat-val">${p.line.wrcplus || '—'}</div></div>
+          <div class="mini-stat"><div class="mini-stat-label">HR / RBI</div><div class="mini-stat-val">${p.line.hr ?? '—'} / ${p.line.rbi ?? '—'}</div></div>
+        </div>
+      ` : `
+        <div class="player-stats">
+          <div class="mini-stat"><div class="mini-stat-label">ERA / WHIP</div><div class="mini-stat-val">${p.line.era} / ${p.line.whip}</div></div>
+          <div class="mini-stat"><div class="mini-stat-label">${statChip('FIP')}</div><div class="mini-stat-val">${p.advanced.fip}</div></div>
+          <div class="mini-stat"><div class="mini-stat-label">${isStarter ? 'IP / GS' : 'IP / SV'}</div><div class="mini-stat-val">${p.line.ip} / ${isStarter ? (p.line.gs ?? 0) : (p.advanced.sv ?? 0)}</div></div>
+        </div>
+      `;
+      return `
+        <div class="player-card" onclick="openPlayer('${p.id}')">
+          <div class="player-card-head">
+            <div>
+              <div class="player-name">${p.name}</div>
+              <div class="player-pos">${p.pos}${p.bats ? ' · ' + p.bats : ''}</div>
+            </div>
+            ${tag}
+          </div>
+          ${stats}
+          ${p.recentNote ? `<div class="stat-sub" style="margin-top:8px">${p.recentNote}</div>` : ''}
+        </div>
+      `;
+    }).join('');
+
+    return `<div class="section"><h2>${g.title}</h2><div class="grid grid-3">${cards}</div></div>`;
+  }).join('');
+
+  document.getElementById('panel-players').innerHTML = `
+    ${html}
+    <div class="section">
+      <h2>Injured List / Day-to-Day</h2>
+      <div class="injury-list">
+        ${DATA.injuries.map(i => `
+          <div class="injury-card">
+            <div class="injury-name">${i.name}</div>
+            <div class="injury-status">${i.detail}</div>
+            <div class="injury-eta">${i.status} · ${i.eta}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `;
+}
+
+const ALL_PLAYERS = [...DATA.players.lineup, ...DATA.players.rotation, ...DATA.players.bullpen, ...DATA.players.bench];
+
+function openPlayer(id) {
+  const p = ALL_PLAYERS.find(x => x.id === id);
+  if (!p) return;
+
+  const rows = Object.entries(p.full).map(([label, val]) => {
+    const notes = p.contextNotes || {};
+    const ctx = notes[label] || notes[label.split(' ')[0]] || notes[label.split(' / ')[0]];
+    const chipLabel = STAT_DEFS[label] ? statChip(label) : label;
+    return `
+      <div class="stat-row">
+        <div class="stat-row-label">${chipLabel}</div>
+        <div class="stat-row-val">${val}</div>
+        ${ctx ? `<div class="stat-row-context">${ctx}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+
+  document.getElementById('modalBody').innerHTML = `
+    <button class="modal-close" onclick="closeModal()">&times;</button>
+    <div class="modal-head">
+      <div class="modal-title">${p.name}</div>
+      <div class="modal-sub">${p.pos}${p.bats ? ' · Bats ' + p.bats : ''}${p.recentNote ? ' · ' + p.recentNote : ''}</div>
+    </div>
+    <div>${rows}</div>
+    ${p.read ? `<div class="read"><div class="read-label">The read</div>${p.read}</div>` : ''}
+    <div class="ask-box">
+      <div class="section-title">Ask the analyst</div>
+      <div class="ask-input">
+        <input type="text" id="askInput" placeholder="Ask about ${p.name.split(' ')[0]}'s game..." onkeydown="if(event.key==='Enter')askAboutPlayer('${p.id}')">
+        <button onclick="askAboutPlayer('${p.id}')" id="askBtn">Ask</button>
+      </div>
+      <div class="ask-suggestions">
+        <button class="ask-chip" onclick="askWithText('What does the underlying data say about whether ${p.name}\'s recent stretch is real?', '${p.id}')">Is the recent stretch real?</button>
+        <button class="ask-chip" onclick="askWithText('How does ${p.name}\'s 2026 line compare to their 2025?', '${p.id}')">vs. last year</button>
+        <button class="ask-chip" onclick="askWithText('What\'s the role-specific bar ${p.name} needs to clear?', '${p.id}')">Role bar</button>
+      </div>
+      <div class="ask-output" id="askOutput"></div>
+    </div>
+  `;
+  document.getElementById('modal').classList.add('open');
+}
+
+function closeModal() { document.getElementById('modal').classList.remove('open'); }
+
+function askWithText(text, pid) {
+  document.getElementById('askInput').value = text;
+  askAboutPlayer(pid);
+}
+
+async function askAboutPlayer(pid) {
+  const input = document.getElementById('askInput');
+  const btn = document.getElementById('askBtn');
+  const out = document.getElementById('askOutput');
+  const q = input.value.trim();
+  if (!q) return;
+  const p = ALL_PLAYERS.find(x => x.id === pid);
+  if (!p) return;
+
+  btn.disabled = true; btn.textContent = 'Thinking...';
+  out.classList.add('shown'); out.textContent = 'Thinking...';
+
+  const prompt = `You are a sharp baseball analyst writing a Blue Jays brief in the voice of a smart friend who watches a lot of games. Tone: confident but not preachy, no broadcaster cliche, willing to say something is uncertain. Cite numbers naturally as part of the read, not as definitions.
+
+Current question about ${p.name} (${p.pos}): "${q}"
+
+Player snapshot (May 26, 2026):
+${JSON.stringify(p.full, null, 2)}
+
+Existing read on this player:
+${p.read || ''}
+
+Recent note: ${p.recentNote || 'none'}
+
+Write a 2-4 sentence response in that voice. Be direct. If the data doesn\'t support a confident answer, say so.`;
+
+  try {
+    if (window.cowork && window.cowork.askClaude) {
+      const result = await window.cowork.askClaude(prompt, []);
+      out.textContent = typeof result === 'string' ? result : (result.text || JSON.stringify(result));
+    } else {
+      out.textContent = 'Ask-Claude is not available in this environment. (window.cowork.askClaude not present.)';
+    }
+  } catch (e) {
+    out.textContent = 'Error: ' + (e.message || String(e));
+  } finally {
+    btn.disabled = false; btn.textContent = 'Ask';
+  }
+}
+
+function renderTeam() {
+  const ts = DATA.teamStats;
+  function row(label, statKey, obj) {
+    return `
+      <div class="legend-row">
+        <div>${STAT_DEFS[statKey] ? statChip(statKey, label) : label}</div>
+        <div style="display:flex; gap:12px; align-items:baseline;">
+          <span style="font-weight:600; font-variant-numeric:tabular-nums;">${obj.val}</span>
+          <span class="dim" style="font-size:11px;">Rank ${obj.rank}</span>
+        </div>
+      </div>
+      <div style="font-size:12px; color:#8b96a8; padding:4px 0 12px 0; border-bottom:1px solid #1f2937; margin-bottom:8px;">${obj.ctx}</div>
+    `;
+  }
+
+  document.getElementById('panel-team').innerHTML = `
+    <div class="section grid grid-2">
+      <div class="card">
+        <h2>Hitting</h2>
+        ${row('Runs', null, ts.hitting.runs)}
+        ${row('AVG', null, ts.hitting.avg)}
+        ${row('OBP', null, ts.hitting.obp)}
+        ${row('SLG', null, ts.hitting.slg)}
+        ${row('OPS', 'OPS', ts.hitting.ops)}
+        ${row('wRC+', 'wRC+', ts.hitting.wrcplus)}
+        ${row('HR', null, ts.hitting.hr)}
+      </div>
+      <div class="card">
+        <h2>Pitching</h2>
+        ${row('Team ERA', null, ts.pitching.era)}
+        ${row('Team FIP', 'FIP', ts.pitching.fip)}
+        ${row('Team WHIP', 'WHIP', ts.pitching.whip)}
+        ${row('Team K/9', 'K/9', ts.pitching.k9)}
+        ${row('Team BB/9', 'BB/9', ts.pitching.bb9)}
+        ${row('Bullpen ERA', null, ts.pitching.bullpen_era)}
+        ${row('Bullpen FIP', 'FIP', ts.pitching.bullpen_fip)}
+        ${row('Rotation fWAR', 'fWAR', ts.pitching.rotation_fwar)}
+      </div>
+    </div>
+    <div class="section">
+      <div class="card">
+        <h2>Defense</h2>
+        ${row('DRS', 'DRS', ts.defense.drs)}
+        ${row('OAA', 'OAA', ts.defense.oaa)}
+        <div class="read" style="margin-top:12px;">
+          <div class="read-label">The read</div>
+          ${ts.defense.note}
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="card">
+        <h2>Strengths vs. Soft Spots</h2>
+        <div class="grid grid-2">
+          <div>
+            <h3 class="pos">Holding up</h3>
+            <ul style="padding-left: 18px; line-height: 1.7; color: #c9d1d9;">
+              <li><strong>Defense</strong> — Top-5 in both DRS and OAA. Foundation intact.</li>
+              <li><strong>Late-inning core</strong> — Varland 0.36 ERA, 7-for-7 saves (fully rested — three days without a save spot). Rogers 0.59 ERA. Hoffman 5/21 clean inning.</li>
+              <li><strong>Gausman</strong> — 3.35 ERA, two strong outings in a row; lined up for the Marlins finale 5/27 on regular rest. The de facto ace while Cease is out.</li>
+              <li><strong>Corbin\'s 5/23</strong> — 6 IP / 1 ER / 7 K / 0 BB over Skenes was his best start as a Jay; he\'s now in the rotation for the Cease turn.</li>
+              <li><strong>Varsho</strong> — .278 May with 5 HR and 22 R; the lineup\'s only proven everyday damage source while Vlad sits.</li>
+              <li><strong>Okamoto</strong> — 121 wRC+ across 53 games is a translation, not a streak.</li>
+              <li><strong>Rehab progress</strong> — Bieber 2 scoreless in FCL 5/25. Scherzer live BP 5/27 in Toronto. Kirk rehab assignment possibly next week. Yimi García trending toward rehab this week.</li>
+              <li><strong>Lukes activated</strong> — Stabilizes the OF bench (.265/.325/.405 line). Schneider option down was earned.</li>
+            </ul>
+          </div>
+          <div>
+            <h3 class="neg">Cracking</h3>
+            <ul style="padding-left: 18px; line-height: 1.7; color: #c9d1d9;">
+              <li><strong>Cease on the 15-day IL</strong> — Mild left hamstring. MRI "pretty positive" but the team isn\'t risking it. "Hoping it\'s a minimal stay" per Schneider. Corbin takes the next turn.</li>
+              <li><strong>Vlad still day-to-day</strong> — Sat 5/25 with right elbow contusion. "Right now, I can\'t fully move my elbow." No clear return date.</li>
+              <li><strong>Yesavage 5/25 outlier-or-data-point</strong> — Career-high 5 ER. ERA 1.07 → ~2.25. Six Ks and two walks say the stuff is intact; location is the question.</li>
+              <li><strong>Berríos done for 2026</strong> — Tommy John 5/20, 12-14 months. Returns mid-to-late 2027.</li>
+              <li><strong>Offense scored 3 runs in 18 innings since 5/23 leadoff HR</strong> — Clement provided two of them (RBI single 5/24, solo HR 5/25). That\'s the entire output.</li>
+              <li><strong>Plate discipline</strong> — League-worst chase rate continues to drag the offense as a whole.</li>
+              <li><strong>Davis Schneider optioned</strong> — .127 / .507 OPS. Earned the option down. Pinango\'s starts tighten with Lukes back.</li>
+              <li><strong>Wild Card 1.5 GB</strong> — Slipped from 0.5 yesterday. Path alive but thinning; now leapfrogging five teams with a one-and-a-half-man rotation.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function renderGames() {
+  document.getElementById('panel-games').innerHTML = `
+    <div class="section">
+      <h2>Recent Games</h2>
+      ${DATA.recentGames.map((g, i) => `
+        <div class="game" id="game-${i}" onclick="document.getElementById('game-${i}').classList.toggle('expanded')">
+          <div class="game-head">
+            <div class="game-result">
+              <div class="game-date">${g.date}</div>
+              <span class="result-pill ${g.result}">${g.result} ${g.score}</span>
+              <div class="game-vs">${g.home ? 'vs' : '@'} ${g.opp}</div>
+            </div>
+            <div class="game-moment">${g.moment}</div>
+          </div>
+          <div class="game-meaning">
+            <strong>What it meant:</strong> ${g.meaning}
+            <div class="ask-box" onclick="event.stopPropagation()">
+              <div class="ask-input">
+                <input type="text" id="askGame${i}" placeholder="Ask about this game..." onkeydown="if(event.key==='Enter')askAboutGame(${i})">
+                <button onclick="askAboutGame(${i})" id="askGameBtn${i}">Ask</button>
+              </div>
+              <div class="ask-output" id="askGameOut${i}"></div>
+            </div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    <div class="section">
+      <div class="note">Note: WPA-swing data not embedded — pulled the signature moments from box-score recaps and series narratives.</div>
+    </div>
+  `;
+}
+
+function renderSchool() {
+  const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+  const statsHTML = `
+    <div class="school-intro">
+      Every stat in this dashboard, expanded. <strong>Definition</strong> is what it tries to measure. <strong>Calculation</strong> is the actual math. <strong>Benchmarks</strong> tell you what a number means in context. <strong>Pitfalls</strong> are where the stat misleads.
+    </div>
+    <div class="school-toc">
+      ${DATA.glossary.map(g => `<button class="toc-chip" onclick="document.getElementById('stat-${slug(g.term)}').scrollIntoView({behavior:'smooth', block:'start'})">${g.term}</button>`).join('')}
+    </div>
+    ${DATA.glossary.map(g => `
+      <div class="stat-entry" id="stat-${slug(g.term)}">
+        <div class="stat-entry-head">
+          <span class="stat-entry-term">${g.term}</span>
+          <span class="stat-entry-name">${g.name}</span>
+        </div>
+        <div class="stat-entry-row"><span class="label">Definition</span><span class="body">${g.def}</span></div>
+        ${g.calc ? `<div class="stat-entry-row calc"><span class="label">Calculation</span><span class="body">${g.calc}</span></div>` : ''}
+        <div class="stat-entry-row bench"><span class="label">Benchmarks</span><span class="body">${g.bench}</span></div>
+        ${g.pitfall ? `<div class="stat-entry-row pitfall"><span class="label">Common pitfall</span><span class="body">${g.pitfall}</span></div>` : ''}
+      </div>
+    `).join('')}
+  `;
+
+  const pitchesHTML = `
+    <div class="school-intro">
+      Every pitcher\'s arsenal is built from these shapes. <strong>Velocity</strong> is the radar gun number. <strong>Movement</strong> is what the ball does. <strong>Purpose</strong> is what the pitch is trying to accomplish.
+    </div>
+    ${DATA.pitchTypes.map(cat => `
+      <div class="pitch-category">
+        <div class="pitch-category-title">${cat.category}</div>
+        ${cat.pitches.map(p => `
+          <div class="pitch-card">
+            <div class="pitch-card-head">
+              <div><span class="pitch-name">${p.name}</span><span class="pitch-abbr" style="margin-left:8px">${p.abbr}</span></div>
+              <div class="pitch-velo">${p.velo}</div>
+            </div>
+            <div class="pitch-row"><span class="label">Movement</span><span class="body">${p.movement}</span></div>
+            <div class="pitch-row"><span class="label">Purpose</span><span class="body">${p.purpose}</span></div>
+            <div class="pitch-row"><span class="label">Watch for</span><span class="body">${p.watch}</span></div>
+            ${p.jaysExample ? `<div class="pitch-row jays"><span class="label">Jays note</span><span class="body">${p.jaysExample}</span></div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+    `).join('')}
+  `;
+
+  const diamond = [
+    { num: 1, x: 50, y: 60, type: 'battery', label: 'P' },
+    { num: 2, x: 50, y: 84, type: 'battery', label: 'C' },
+    { num: 3, x: 75, y: 50, type: '',        label: '1B' },
+    { num: 4, x: 64, y: 38, type: '',        label: '2B' },
+    { num: 5, x: 25, y: 50, type: '',        label: '3B' },
+    { num: 6, x: 36, y: 38, type: '',        label: 'SS' },
+    { num: 7, x: 18, y: 18, type: 'outfield',label: 'LF' },
+    { num: 8, x: 50, y: 12, type: 'outfield',label: 'CF' },
+    { num: 9, x: 82, y: 18, type: 'outfield',label: 'RF' }
+  ];
+
+  const positionsHTML = `
+    <div class="school-intro">
+      The position numbering is how every box score, scorecard, and Statcast database identifies fielders. ${DATA.positions.notes}
+    </div>
+    <div class="card" style="margin-bottom:20px;">
+      <h2>The diamond</h2>
+      <div class="diamond-wrap">
+        <div class="diamond">
+          <div class="outfield-arc"></div>
+          <div class="diamond-shape"></div>
+          ${diamond.map(d => `<div class="diamond-pos ${d.type}" style="left:${d.x}%; top:${d.y}%;" title="${d.num} — ${d.label}">${d.num}</div>`).join('')}
+        </div>
+      </div>
+      <div style="font-size:12px; color:#8b96a8; text-align:center; margin-top:8px;">Battery (yellow): pitcher / catcher · Infield (blue): 1B–SS · Outfield (light blue): LF–RF</div>
+    </div>
+    <h2>Position numbers</h2>
+    <div class="position-grid">
+      ${DATA.positions.fielders.map(f => `
+        <div class="position-card">
+          <div class="position-num">${f.num}</div>
+          <div class="position-body">
+            <div class="position-head"><span class="position-name">${f.name}</span><span class="position-abbr">${f.abbr}</span></div>
+            <div class="position-note">${f.note}</div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+    <h2 style="margin-top:24px;">Scoring codes</h2>
+    <div class="score-codes">
+      ${DATA.positions.scoringCodes.map(c => `<div class="code">${c.code}</div><div class="meaning">${c.meaning}</div>`).join('')}
+    </div>
+  `;
+
+  const watchHTML = `
+    <div class="school-intro">
+      The stuff a sharp viewer notices that the broadcast doesn\'t always spell out.
+    </div>
+    ${DATA.watching.map(theme => `
+      <div class="theme-block">
+        <div class="theme-block-title">${theme.theme}</div>
+        ${theme.tips.map(tip => `
+          <div class="tip">
+            <div class="tip-headline">${tip.headline}</div>
+            <div class="tip-body">${tip.body}</div>
+          </div>
+        `).join('')}
+      </div>
+    `).join('')}
+  `;
+
+  document.getElementById('panel-school').innerHTML = `
+    <div class="school-tab-switch">
+      <button class="active" data-school="stats" onclick="switchSchool('stats')">Stats Reference</button>
+      <button data-school="pitches" onclick="switchSchool('pitches')">Pitch Types</button>
+      <button data-school="positions" onclick="switchSchool('positions')">Positions &amp; Scoring</button>
+      <button data-school="watch" onclick="switchSchool('watch')">How to Watch</button>
+    </div>
+    <div class="school-content active" id="school-stats">${statsHTML}</div>
+    <div class="school-content" id="school-pitches">${pitchesHTML}</div>
+    <div class="school-content" id="school-positions">${positionsHTML}</div>
+    <div class="school-content" id="school-watch">${watchHTML}</div>
+  `;
+}
+
+function switchSchool(which) {
+  document.querySelectorAll('.school-tab-switch button').forEach(b => b.classList.toggle('active', b.dataset.school === which));
+  document.querySelectorAll('.school-content').forEach(c => c.classList.toggle('active', c.id === 'school-' + which));
+}
+
+async function askAboutGame(i) {
+  const g = DATA.recentGames[i];
+  const input = document.getElementById('askGame' + i);
+  const btn = document.getElementById('askGameBtn' + i);
+  const out = document.getElementById('askGameOut' + i);
+  const q = input.value.trim();
+  if (!q) return;
+  btn.disabled = true; btn.textContent = '...';
+  out.classList.add('shown'); out.textContent = 'Thinking...';
+
+  const prompt = `You are a sharp baseball analyst writing a Blue Jays brief in the voice of a smart friend who watches a lot of games. Tone: confident but not preachy, willing to say something is uncertain.
+
+Game: ${g.date} ${g.home ? 'vs' : '@'} ${g.opp}, result ${g.result} ${g.score}.
+Signature moment: ${g.moment}
+What it meant (existing read): ${g.meaning}
+
+Question: "${q}"
+
+Write a 2-3 sentence response in that voice. Be direct. If the data doesn\'t support a confident answer, say so.`;
+
+  try {
+    if (window.cowork && window.cowork.askClaude) {
+      const result = await window.cowork.askClaude(prompt, []);
+      out.textContent = typeof result === 'string' ? result : (result.text || JSON.stringify(result));
+    } else {
+      out.textContent = 'Ask-Claude is not available in this environment.';
+    }
+  } catch (e) {
+    out.textContent = 'Error: ' + (e.message || String(e));
+  } finally {
+    btn.disabled = false; btn.textContent = 'Ask';
+  }
+}
+
+renderHeader();
+renderOverview();
+renderPlayers();
+renderTeam();
+renderGames();
+renderSchool();
+document.getElementById('panel-overview').classList.add('active');
+setTimeout(drawDiffChart, 100);
+</script>
+</body>
+</html>
