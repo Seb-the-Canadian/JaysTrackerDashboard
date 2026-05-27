@@ -98,7 +98,7 @@ MLB-StatsAPI>=1.9.0
    - Pulls: division standings, wild card standings, schedule (past 30 + future 7), per-game boxscore for last 10 games, active roster + injury report, season stats for each active player, last 7 days of transactions.
    - Transforms each response into the shape `data.json` requires (defined below).
    - **Quality invariants** — before writing, assert:
-     - Division standings has exactly 5 teams (for AL East / NL East / AL West / NL West) or exactly 4 (Central). Generalize: matches the expected division size for the configured `division_id`.
+     - Division standings has exactly 5 teams (every MLB division has been 5 teams since the 2013 realignment).
      - Wild card standings has ≥10 entries.
      - `recent_games` has ≥1 entry (unless season hasn't started — guarded by date check).
      - `team.record.w` + `team.record.l` equals games played as derived from the schedule.
@@ -249,6 +249,12 @@ python fetch_data.py
 If any of these fail: investigate per the error, but the fallback is `MLB-StatsAPI` is small enough to vendor into the repo as a fallback. Worst case, fall through to Phase 6's launchd approach earlier than planned.
 
 **Handoff to Code:** Phase 5.5 once routine has run successfully twice in a row.
+
+#### Phase 5.1 — Scheduler swap to GitHub Actions (historical note)
+
+Originally implemented as Claude Code Routine; in practice the Routine environment's outbound network policy blocked `statsapi.mlb.com` (PR #8 diagnostic confirmed the body was "Host not in allowlist" — the host wasn't being reached). Switched to GitHub Actions cron in PR #9. See `.github/workflows/daily-refresh.yml` for the current implementation.
+
+The Routine instructions above are preserved because the Routine remains a viable option for forkers (Option C in the README's Runner setup) who want AI-driven scheduling and either have a more permissive Routine allowlist or don't mind diagnosing it themselves.
 
 ### Phase 5.5 — End-to-end validation pass
 

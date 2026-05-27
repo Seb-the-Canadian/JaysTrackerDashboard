@@ -10,7 +10,7 @@ The data layer pulls from the MLB Stats API every morning; the analyst voice (pe
 
 ## Use it as-is
 
-Just visit the link above. Daily refresh runs at 12:00 UTC (08:00 ET, after prior night's boxscores have settled). On reopens within the same day, the dashboard renders instantly from `localStorage` and refetches in the background.
+Just visit the link above. Daily refresh runs at 09:00 UTC (05:00 ET, after prior night's boxscores have settled) via GitHub Actions — see [`.github/workflows/daily-refresh.yml`](.github/workflows/daily-refresh.yml). On reopens within the same day, the dashboard renders instantly from `localStorage` and refetches in the background.
 
 ---
 
@@ -31,10 +31,11 @@ That's it. No code changes; the fetcher reads everything team-specific from `con
 ```
                   ┌─────────────────────────┐
                   │   Scheduler             │
-                  │   (daily, 12:00 UTC)    │
+                  │   (daily, cron)         │
                   │                         │
-                  │  - Claude Code Routine  │
+                  │  - GitHub Actions       │
                   │  - or macOS launchd     │
+                  │  - or Claude Routine    │
                   │  - or manual run        │
                   └────────────┬────────────┘
                                │
@@ -78,9 +79,19 @@ Three runtime pieces, four files of state. Nothing else.
 
 Pick one. They're mutually exclusive — never enable two at once or you'll get duplicate daily commits.
 
-### Option A — Claude Code Routine (recommended)
+### Option A — GitHub Actions (recommended)
 
-Requires a paid Claude Code subscription. The simplest path; auth is implicit through the connected-repo integration.
+Free for public repos, no token cost, cron-driven. **This is the scheduler currently running in this repo.** See [`.github/workflows/daily-refresh.yml`](.github/workflows/daily-refresh.yml) for the workflow definition. It runs `scripts/update_and_push.sh` on a daily cron and also supports manual `workflow_dispatch` triggers from the Actions tab.
+
+To enable on your fork: nothing to configure beyond forking. GitHub Actions is on by default for public-repo forks, and the workflow uses the built-in `GITHUB_TOKEN` for commits — no deploy key or PAT needed.
+
+### Option B — macOS launchd
+
+Free. Requires your Mac to be on (or able to wake) at the scheduled time. See [`docs/launchd-migration.md`](docs/launchd-migration.md) for the end-to-end walkthrough including the auth setup (deploy key recommended) and plist installation.
+
+### Option C — Claude Code Routine
+
+Requires a paid Claude Code subscription. Useful if you want AI-driven scheduling with natural-language prompts in the loop. Be aware: the Routine environment's outbound network policy blocked `statsapi.mlb.com` for us, which is why this repo swapped to Actions (see issue #32 history). Your mileage may vary depending on the allowlist state of the Routine sandbox when you try it.
 
 1. Connect this repo to Claude Code.
 2. Create a routine:
@@ -88,11 +99,7 @@ Requires a paid Claude Code subscription. The simplest path; auth is implicit th
    - Prompt: `Run bash scripts/update_and_push.sh. If it exits non-zero, report the error in one sentence. Otherwise output the script's stdout verbatim.`
 3. Trigger manually once to validate. Confirm a commit by `jays-tracker-bot` appears on `main`.
 
-### Option B — macOS launchd
-
-Free. Requires your Mac to be on (or able to wake) at the scheduled time. See [`docs/launchd-migration.md`](docs/launchd-migration.md) for the end-to-end walkthrough including the auth setup (deploy key recommended) and plist installation.
-
-### Option C — manual
+### Option D — manual
 
 Whenever you feel like it:
 

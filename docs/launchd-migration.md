@@ -1,10 +1,11 @@
-# launchd migration — running the daily refresh from your Mac instead of the Claude Code Routine
+# launchd migration — running the daily refresh from your Mac
 
-This is a fallback. The primary runner is the Claude Code Routine (Phase 5). Use this guide when one of the following applies:
+This is a fallback. The primary runner in this repo is the GitHub Actions cron defined in `.github/workflows/daily-refresh.yml`. Use this guide when one of the following applies:
 
-- You're hitting token-quota pressure on your Claude Code subscription and want the refresh out of that budget.
-- You're moving off Claude Code entirely.
 - You want the refresh to live entirely on your machine, with no external scheduler.
+- Your fork is a private repo on a plan without Actions minutes, and you don't want to use the Claude Code Routine either.
+- You're hitting quota / token pressure on Claude Code and don't want to use Actions for some other reason.
+- You're moving off Claude Code entirely and prefer local control over a GitHub-hosted workflow.
 
 The cost: your laptop has to be on (or able to wake) at the scheduled time. macOS `launchd` will run missed jobs on next wake, so a sleeping laptop catches up — but a laptop that's off all day misses that day's refresh.
 
@@ -16,11 +17,20 @@ A launchd `LaunchAgent` that fires `scripts/update_and_push.sh` once a day from 
 
 ---
 
-## Before you start — disable the routine
+## Before you start — disable the other schedulers
 
-> If you leave the Claude Code Routine enabled while launchd is also firing, **both will commit and push every day**. You'll get duplicate `Daily data refresh: YYYY-MM-DD` commits and a confused history.
+> Disable both the Claude Code Routine AND the GitHub Actions workflow before enabling launchd, or all three will commit daily. You'll get duplicate `Daily data refresh: YYYY-MM-DD` commits from up to three different identities and a confused history.
 
-In the Claude Code UI: disable or delete the routine for this repo before completing step 5 below.
+Specifically:
+- The Routine path uses Claude's auth via the connected-repo integration.
+- The GitHub Actions cron uses the built-in `GITHUB_TOKEN` and fires on its own schedule independent of your laptop.
+- launchd uses your local Mac.
+
+All three would race to commit `data.json` daily.
+
+Before completing step 5 below:
+- In the Claude Code UI: disable or delete the routine for this repo (if you ever set one up).
+- In GitHub: disable the `Daily data refresh` workflow (Actions tab → workflow → "Disable workflow"), or comment out the `schedule` block in `.github/workflows/daily-refresh.yml` and commit.
 
 ---
 
@@ -138,7 +148,7 @@ Edit the copy in `~/Library/LaunchAgents/com.jays-tracker.refresh.plist`:
 
 - Replace **both** `REPLACE_WITH_REPO_PATH` placeholders with the absolute path to your clone (no trailing slash). E.g., `/Users/sebastianlathangue/code/jaystrackerdashboard`.
 - If you chose Option B in step 2 (venv PATH in the plist), update `PATH` there now.
-- The `<Hour>8</Hour>` is 8:00 **system local time**. The Claude Code Routine fires at 12:00 UTC (8:00 ET). If you're in another timezone and want to match ET, adjust: PT → 5, MT → 6, CT → 7.
+- The `<Hour>8</Hour>` is 8:00 **system local time**. The GitHub Actions workflow fires at 09:00 UTC (05:00 ET); the original Routine fired at 12:00 UTC (08:00 ET). Pick a local time that gives you boxscores from the previous day's late games. If you're in another timezone and want to match ET morning, adjust: PT → 5, MT → 6, CT → 7.
 
 Load the job:
 
@@ -171,7 +181,7 @@ Then verify in GitHub: there should be a new commit on `main` by `jays-tracker-b
 
 Once you've confirmed it works:
 
-- Disable the Claude Code Routine if you haven't already.
+- Disable both the Claude Code Routine AND the GitHub Actions workflow if you haven't already, or all three will commit daily. See the "Before you start" section above for the specific steps for each.
 - The next scheduled fire will be at the time set in `StartCalendarInterval`.
 
 ---
@@ -190,6 +200,6 @@ Once you've confirmed it works:
 
 ---
 
-## Going back to the Routine
+## Going back to GitHub Actions (or the Routine)
 
-Reverse: `launchctl bootout`, remove the plist, re-enable the Claude Code Routine. Don't run both.
+Reverse: `launchctl bootout`, remove the plist, then re-enable the GitHub Actions workflow (Actions tab → "Enable workflow", or restore the `schedule:` block if you commented it out) or re-enable the Claude Code Routine. Don't run more than one at a time.
