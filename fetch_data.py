@@ -479,6 +479,160 @@ def transform_roster(roster_entries, cfg):
     return {"hitters": hitters, "pitchers": pitchers}
 
 
+# --- Team stats + league rankings -------------------------------------------
+
+# Stat keys we expose in data.team_stats. The first element of each tuple is
+# the dashboard-facing key; the second is the MLB API response field name on
+# the season split. Pairing them here keeps the fetcher and the renderer in
+# lock-step: index.html reads {key: {val, rank}}; the fetcher reads api_field
+# off the response.
+HITTING_STATS = [
+    ("runs", "runs"),
+    ("avg", "avg"),
+    ("obp", "obp"),
+    ("slg", "slg"),
+    ("ops", "ops"),
+    ("hr", "homeRuns"),
+]
+PITCHING_STATS = [
+    ("era", "era"),
+    ("whip", "whip"),
+    ("k9", "strikeoutsPer9Inn"),
+    ("bb9", "walksPer9Inn"),
+]
+# Pitching: lower is better on ERA/WHIP/BB9, higher is better on K/9.
+# Every hitting stat we surface is higher-is-better.
+PITCHING_HIGHER_IS_BETTER = {"k9"}
+
+
+def _our_team_split(group, cfg):
+    """Fetch our team's season totals for one stat group via /teams/{id}/stats.
+
+    Returns the `stat` dict from the season split (e.g. {"runs": 213, "avg":
+    ".237", ...}) or {} if unavailable. One API call per group.
+    """
+    response = api("team_stats", {
+        "teamId": cfg["team_id"],
+        "season": cfg["season"],
+        "stats": "season",
+        "group": group,
+    })
+    for entry in response.get("stats", []):
+        if (entry.get("group") or {}).get("displayName") != group:
+            continue
+        if (entry.get("type") or {}).get("displayName") != "season":
+            continue
+        splits = entry.get("splits") or []
+        if splits:
+            return splits[0].get("stat") or {}
+    return {}
+
+
+def fetch_team_stats(cfg):
+    """Return our team's season values for hitting + pitching.
+
+    Shape (without ranks; ranks are merged in by fetch_league_team_rankings):
+        {
+          "hitting": {"runs": 213, "avg": ".237", ...},
+          "pitching": {"era": "4.05", "whip": "1.30", ...},
+        }
+
+    Values are returned as MLB surfaces them: strings for rate stats
+    (avg/obp/slg/ops/era/whip/k9/bb9), ints for counting stats (runs/hr).
+    Two API calls (one per group).
+    """
+    hitting = _our_team_split("hitting", cfg)
+    pitching = _our_team_split("pitching", cfg)
+    out = {"hitting": {}, "pitching": {}}
+    for key, api_field in HITTING_STATS:
+        out["hitting"][key] = hitting.get(api_field)
+    for key, api_field in PITCHING_STATS:
+        out["pitching"][key] = pitching.get(api_field)
+    return out
+
+
+def _league_splits_for_group(cfg, group):
+    """Fetch every team's season split for `group` (one /teams/stats call).
+
+    The /teams/stats endpoint is the team-aggregated cousin of /stats — it
+    returns one split per MLB team, each carrying the full stat dict for
+    the group. Sort key passed to MLB is arbitrary; we re-sort in memory
+    per stat to compute ranks for every column.
+    """
+    sort_stat = "runs" if group == "hitting" else "era"
+    response = api("teams_stats", {
+        "stats": "season",
+        "group": group,
+        "sportIds": MLB_SPORT_ID,
+        "season": cfg["season"],
+        "sortStat": sort_stat,
+        "order": "desc",
+    })
+    splits = []
+    for entry in response.get("stats", []):
+        if (entry.get("group") or {}).get("displayName") != group:
+            continue
+        for split in entry.get("splits") or []:
+            if (split.get("team") or {}).get("id") is not None:
+                splits.append(split)
+    return splits
+
+
+def _rank_for_stat(splits, cfg, api_field, higher_is_better=True):
+    """Sort splits by `api_field` and return our team's 1-based rank.
+
+    Teams with missing/unparseable values sort to the bottom. Ties resolve
+    by the API's original ordering — good enough for the dashboard; MLB's
+    own tiebreakers use ancillary stats we don't compute.
+    """
+    def key(s):
+        v = (s.get("stat") or {}).get(api_field)
+        f = parse_float(v, default=None)
+        if f is None:
+            return (1, 0.0)
+        return (0, -f if higher_is_better else f)
+
+    ordered = sorted(splits, key=key)
+    for idx, s in enumerate(ordered):
+        if (s.get("team") or {}).get("id") == cfg["team_id"]:
+            return idx + 1
+    return None
+
+
+def fetch_league_team_rankings(cfg):
+    """Compute our team's MLB rank for every stat we surface.
+
+    Returns {"hitting": {key: rank, ...}, "pitching": {key: rank, ...}}, with
+    ranks as 1-based ints in [1, 30] (or None if the API split is missing for
+    our team or the field is empty league-wide). Two API calls (one per group).
+    """
+    hitting_splits = _league_splits_for_group(cfg, "hitting")
+    pitching_splits = _league_splits_for_group(cfg, "pitching")
+    ranks = {"hitting": {}, "pitching": {}}
+    for key, api_field in HITTING_STATS:
+        ranks["hitting"][key] = _rank_for_stat(hitting_splits, cfg, api_field, higher_is_better=True)
+    for key, api_field in PITCHING_STATS:
+        higher_better = key in PITCHING_HIGHER_IS_BETTER
+        ranks["pitching"][key] = _rank_for_stat(pitching_splits, cfg, api_field, higher_is_better=higher_better)
+    return ranks
+
+
+def combine_team_stats(values, ranks):
+    """Merge {group: {key: val}} + {group: {key: rank}} into the issue-#24 shape.
+
+    Output: {group: {key: {"val": <val>, "rank": <rank>}}}. Lives next to the
+    fetchers so the team_stats output stays in one file.
+    """
+    out = {}
+    for group in ("hitting", "pitching"):
+        out[group] = {}
+        vmap = values.get(group, {}) or {}
+        rmap = ranks.get(group, {}) or {}
+        for key in vmap.keys() | rmap.keys():
+            out[group][key] = {"val": vmap.get(key), "rank": rmap.get(key)}
+    return out
+
+
 # --- Transactions -----------------------------------------------------------
 
 def fetch_transactions(cfg, days_back=TRANSACTION_DAYS_BACK):
@@ -542,6 +696,24 @@ def assert_invariants(output, cfg):
     for k in ("injuries", "other_unavailable"):
         if not isinstance(output.get(k), list):
             die(f"{k} must be a list, got {type(output.get(k)).__name__}")
+    ts = output.get("team_stats") or {}
+    if not isinstance(ts, dict) or not ts:
+        die("team_stats is missing or empty")
+    for group in ("hitting", "pitching"):
+        gmap = ts.get(group)
+        if not isinstance(gmap, dict) or not gmap:
+            die(f"team_stats.{group} is missing or empty")
+        for key, entry in gmap.items():
+            if not isinstance(entry, dict):
+                die(f"team_stats.{group}.{key} is not a dict")
+            # The val is allowed to be None pre-Opening-Day (no splits yet),
+            # but if val is populated, rank MUST be a valid 1..30 int — a
+            # bare value with no rank is the bug we're guarding against.
+            if entry.get("val") in (None, ""):
+                continue
+            rank = entry.get("rank")
+            if not isinstance(rank, int) or rank < 1 or rank > 30:
+                die(f"team_stats.{group}.{key}.rank={rank!r} is not an int in [1, 30]")
 
 
 # --- Write ------------------------------------------------------------------
@@ -574,6 +746,9 @@ def main():
 
     roster_entries = fetch_active_roster(cfg)
     roster = transform_roster(roster_entries, cfg)
+    team_stat_values = fetch_team_stats(cfg)
+    team_stat_ranks = fetch_league_team_rankings(cfg)
+    team_stats = combine_team_stats(team_stat_values, team_stat_ranks)
     injury_report = fetch_injury_report(cfg)
     injuries = injury_report["injuries"]
     other_unavailable = injury_report["other_unavailable"]
@@ -619,6 +794,7 @@ def main():
         "recent_games": recent_games,
         "upcoming_games": upcoming_games,
         "roster": roster,
+        "team_stats": team_stats,
         "injuries": injuries,
         "other_unavailable": other_unavailable,
         "transactions": transactions,
