@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-05-27T13:52:42.623930+00:00",
+  "as_of": "2026-05-27T17:08:28.056787+00:00",
   "config": {
     "team_id": 141,
     "team_name": "Toronto Blue Jays",
@@ -334,7 +334,7 @@
       "date": "2026-05-28",
       "home": false,
       "opp": "Baltimore Orioles",
-      "probable_pitcher_us": "",
+      "probable_pitcher_us": "Patrick Corbin",
       "probable_pitcher_them": "",
       "status": "Scheduled"
     },
@@ -352,7 +352,7 @@
       "date": "2026-05-30",
       "home": false,
       "opp": "Baltimore Orioles",
-      "probable_pitcher_us": "",
+      "probable_pitcher_us": "Trey Yesavage",
       "probable_pitcher_them": "",
       "status": "Scheduled"
     },
@@ -571,6 +571,19 @@
         "sv": 0
       },
       {
+        "id": 608723,
+        "name": "Austin Voth",
+        "role": "P",
+        "ip": "2.2",
+        "era": "3.38",
+        "whip": "1.50",
+        "k": 1,
+        "bb": 1,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      },
+      {
         "id": 680755,
         "name": "Braydon Fisher",
         "role": "P",
@@ -675,19 +688,6 @@
         "sv": 0
       },
       {
-        "id": 681084,
-        "name": "Tanner Andrews",
-        "role": "P",
-        "ip": "3.0",
-        "era": "0.00",
-        "whip": "1.00",
-        "k": 1,
-        "bb": 2,
-        "w": 0,
-        "l": 0,
-        "sv": 0
-      },
-      {
         "id": 702056,
         "name": "Trey Yesavage",
         "role": "P",
@@ -736,7 +736,7 @@
     },
     {
       "name": "Alejandro Kirk",
-      "status": "Injured 10-Day",
+      "status": "Injured 60-Day",
       "eta_note": ""
     },
     {
@@ -810,6 +810,11 @@
       "eta_note": ""
     },
     {
+      "name": "Tanner Andrews",
+      "status": "Reassigned to Minors",
+      "eta_note": ""
+    },
+    {
       "name": "Tommy Nance",
       "status": "Injured 15-Day",
       "eta_note": ""
@@ -835,8 +840,8 @@
     {
       "date": "2026-05-25",
       "type": "Status Change",
-      "description": "Toronto Blue Jays placed RHP Dylan Cease on the 15-day injured list. Left hamstring strain.",
-      "person_name": "Dylan Cease"
+      "description": "Toronto Blue Jays activated RF Nathan Lukes from the 10-day injured list.",
+      "person_name": "Nathan Lukes"
     },
     {
       "date": "2026-05-25",
@@ -847,8 +852,14 @@
     {
       "date": "2026-05-25",
       "type": "Status Change",
-      "description": "Toronto Blue Jays activated RF Nathan Lukes from the 10-day injured list.",
-      "person_name": "Nathan Lukes"
+      "description": "Toronto Blue Jays placed RHP Dylan Cease on the 15-day injured list. Left hamstring strain.",
+      "person_name": "Dylan Cease"
+    },
+    {
+      "date": "2026-05-25",
+      "type": "Selected",
+      "description": "Toronto Blue Jays selected the contract of RHP Tanner Andrews from Buffalo Bisons.",
+      "person_name": "Tanner Andrews"
     },
     {
       "date": "2026-05-25",
@@ -857,9 +868,27 @@
       "person_name": "Davis Schneider"
     },
     {
-      "date": "2026-05-25",
+      "date": "2026-05-27",
+      "type": "Status Change",
+      "description": "Toronto Blue Jays transferred C Alejandro Kirk from the 10-day injured list to the 60-day injured list. Left thumb fracture.",
+      "person_name": "Alejandro Kirk"
+    },
+    {
+      "date": "2026-05-27",
+      "type": "Signed as Free Agent",
+      "description": "Toronto Blue Jays signed free agent RHP Matt Bowman to a minor league contract.",
+      "person_name": "Matt Bowman"
+    },
+    {
+      "date": "2026-05-27",
       "type": "Selected",
-      "description": "Toronto Blue Jays selected the contract of RHP Tanner Andrews from Buffalo Bisons.",
+      "description": "Toronto Blue Jays selected the contract of RHP Austin Voth from Buffalo Bisons.",
+      "person_name": "Austin Voth"
+    },
+    {
+      "date": "2026-05-27",
+      "type": "Optioned",
+      "description": "Toronto Blue Jays optioned RHP Tanner Andrews to Buffalo Bisons.",
       "person_name": "Tanner Andrews"
     }
   ],
