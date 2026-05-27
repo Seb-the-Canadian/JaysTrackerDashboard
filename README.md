@@ -1,3 +1,174 @@
 # Blue Jays 2026 Tracker
 
-Placeholder. Full README in Phase 7.
+A live MLB season dashboard. Auto-refreshes daily. Hosted on GitHub Pages. Forkable for any team in MLB by editing one config file.
+
+**Live:** https://seb-the-canadian.github.io/JaysTrackerDashboard/
+
+The data layer pulls from the MLB Stats API every morning; the analyst voice (per-game narrative) lives in `notes.json` and is hand-written. The maintainer pays no token cost for the data refresh — only when adding a note.
+
+---
+
+## Use it as-is
+
+Just visit the link above. Daily refresh runs at 12:00 UTC (08:00 ET, after prior night's boxscores have settled). On reopens within the same day, the dashboard renders instantly from `localStorage` and refetches in the background.
+
+---
+
+## Fork it for your team
+
+Three steps, ~15 minutes:
+
+1. **Fork this repo** on GitHub.
+2. **Edit `config.json`** with your team's identifiers. The full list of every MLB team's IDs is in [`docs/team-ids.md`](docs/team-ids.md) — find your team, copy the JSON snippet over your fork's `config.json`. Also pick a `primary_color`, `accent_color`, `dashboard_title`, and `brand_mark` (a single character).
+3. **Enable Pages** on your fork: Settings → Pages → Source: `main` branch / root. Pick a runner (next section). Done.
+
+That's it. No code changes; the fetcher reads everything team-specific from `config.json`.
+
+---
+
+## Architecture
+
+```
+                  ┌─────────────────────────┐
+                  │   Scheduler             │
+                  │   (daily, 12:00 UTC)    │
+                  │                         │
+                  │  - Claude Code Routine  │
+                  │  - or macOS launchd     │
+                  │  - or manual run        │
+                  └────────────┬────────────┘
+                               │
+                               ▼
+                  ┌─────────────────────────┐
+                  │   fetch_data.py         │
+                  │   (Python, MLB-StatsAPI)│
+                  │                         │
+                  │  reads  config.json     │
+                  │  fetches MLB Stats API  │
+                  │  writes data.json       │
+                  └────────────┬────────────┘
+                               │
+                       commit + push to main
+                               │
+                               ▼
+                  ┌─────────────────────────┐
+                  │   GitHub Pages          │
+                  │   serves index.html     │
+                  │   + data.json           │
+                  │   + notes.json          │
+                  │   + config.json         │
+                  └────────────┬────────────┘
+                               │
+                               ▼
+                  ┌─────────────────────────┐
+                  │   index.html            │
+                  │   (browser)             │
+                  │                         │
+                  │  loads all three files  │
+                  │  merges + renders       │
+                  │  caches to localStorage │
+                  └─────────────────────────┘
+```
+
+Three runtime pieces, four files of state. Nothing else.
+
+---
+
+## Runner setup
+
+Pick one. They're mutually exclusive — never enable two at once or you'll get duplicate daily commits.
+
+### Option A — Claude Code Routine (recommended)
+
+Requires a paid Claude Code subscription. The simplest path; auth is implicit through the connected-repo integration.
+
+1. Connect this repo to Claude Code.
+2. Create a routine:
+   - Trigger: **scheduled, daily, 12:00 UTC**
+   - Prompt: `Run bash scripts/update_and_push.sh. If it exits non-zero, report the error in one sentence. Otherwise output the script's stdout verbatim.`
+3. Trigger manually once to validate. Confirm a commit by `jays-tracker-bot` appears on `main`.
+
+### Option B — macOS launchd
+
+Free. Requires your Mac to be on (or able to wake) at the scheduled time. See [`docs/launchd-migration.md`](docs/launchd-migration.md) for the end-to-end walkthrough including the auth setup (deploy key recommended) and plist installation.
+
+### Option C — manual
+
+Whenever you feel like it:
+
+```
+bash scripts/fetch_only.sh
+git add data.json && git commit -m "manual refresh" && git push
+```
+
+Or just `bash scripts/update_and_push.sh` if you have push credentials configured.
+
+---
+
+## Writing analyst notes
+
+The dashboard renders game results as facts by default — date, opponent, score, winning/losing pitcher. The "meaning" of a game is a writing job, and it lives in `notes.json`.
+
+`notes.json` is a JSON object keyed by `gamePk` (MLB's unique game identifier). Each entry has two fields:
+
+```json
+{
+  "778294": {
+    "moment": "Springer 65th career leadoff HR on Skenes' 3rd pitch.",
+    "meaning": "A genuine signature win and the loudest game of the streak. Springer turned on the third pitch Paul Skenes threw — the reigning NL Cy Young..."
+  }
+}
+```
+
+- `moment` — one-line callout that replaces the auto-generated summary line on the game card.
+- `meaning` — paragraph(s) that appear when the game card is expanded.
+
+Both fields are optional. A game with no entry in `notes.json` renders facts-only, no broken layout.
+
+**Finding a `gamePk`:** they're in `data.json` under `recent_games[].game_pk`. After a fetcher run, open `data.json`, find the game, copy the integer. Or use `python3 -c "import json; [print(g['date'], g['game_pk'], g['opp']) for g in json.load(open('data.json'))['recent_games']]"`.
+
+Add a note, commit `notes.json`, push. The dashboard picks it up on next load.
+
+---
+
+## What this dashboard is not
+
+- It's not Statcast — no xwOBA, no barrel rate, no exit velocity, no sprint speed. Those live at Baseball Savant; future work could pull them.
+- It's not FanGraphs — no fWAR. There's no public WAR API.
+- It's not real-time. The data is refreshed once a day; a game in progress won't appear here until tomorrow morning.
+- It's not a CMS for analyst notes. `notes.json` is hand-edited in a text editor. Future work could add a small admin tool.
+- It's not low-maintenance to zero. The schema invariants will catch most fetcher failures, but a major MLB Stats API change would break the fetcher until someone updates `fetch_data.py`. Budget a couple hours a year for that.
+
+The dashboard is a chassis. The voice is yours; the data is canonical; the maintenance is light but nonzero.
+
+---
+
+## Repo layout
+
+```
+.
+├── index.html                          Dashboard (static, fetches the JSON files)
+├── config.json                         Team identity — the only file a forker edits
+├── data.json                           Generated facts (machine-written daily)
+├── notes.json                          Analyst voice (hand-written, keyed by gamePk)
+├── fetch_data.py                       The fetcher
+├── requirements.txt                    Python deps (MLB-StatsAPI)
+├── .nojekyll                           Disables Jekyll on Pages
+├── scripts/
+│   ├── update_and_push.sh              Daily entrypoint (routine + launchd)
+│   ├── fetch_only.sh                   Local-run, no git side effects
+│   └── com.jays-tracker.refresh.plist  launchd template
+└── docs/
+    ├── project-plan.md                 The refactor plan (architecture)
+    ├── mlb-statsapi-reference.md       Endpoint shapes + field paths
+    ├── launchd-migration.md            Setting up the macOS fallback
+    └── team-ids.md                     All 30 MLB teams' IDs for forkers
+```
+
+---
+
+## License
+
+MIT. See [`LICENSE`](LICENSE).
+
+The dashboard talks to the MLB Stats API. Use of MLB data is subject to the notice at https://gdx.mlb.com/components/copyright.txt — read it before deploying a public-facing fork.
