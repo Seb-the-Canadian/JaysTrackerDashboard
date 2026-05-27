@@ -250,6 +250,12 @@ If any of these fail: investigate per the error, but the fallback is `MLB-StatsA
 
 **Handoff to Code:** Phase 5.5 once routine has run successfully twice in a row.
 
+#### Phase 5.1 — Scheduler swap to GitHub Actions (historical note)
+
+Originally implemented as Claude Code Routine; in practice the Routine environment's outbound network policy blocked `statsapi.mlb.com` (PR #8 diagnostic confirmed the body was "Host not in allowlist" — the host wasn't being reached). Switched to GitHub Actions cron in PR #9. See `.github/workflows/daily-refresh.yml` for the current implementation.
+
+The Routine instructions above are preserved because the Routine remains a viable option for forkers (Option C in the README's Runner setup) who want AI-driven scheduling and either have a more permissive Routine allowlist or don't mind diagnosing it themselves.
+
 ### Phase 5.5 — End-to-end validation pass
 
 **Goal:** Confirm the schema-validation, quality-invariants, and staleness-indicator additions actually fire when they should. Small phase; mostly negative testing.
