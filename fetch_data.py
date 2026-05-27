@@ -296,20 +296,37 @@ def fetch_active_roster(cfg):
 
 
 def fetch_injury_report(cfg):
+    """Players on the 40-man with status other than 'Active' — i.e., on the IL,
+    restricted, suspended, etc.
+
+    rosterType=injuryReport empirically returns the active 26-man with every
+    player marked 'Active' (no IL'd players included, because they're not on
+    the active roster). The 40-man is the superset that includes IL'd players
+    with their actual status; filter to non-active to get the injury list.
+    """
     response = api("team_roster", {
         "teamId": cfg["team_id"],
-        "rosterType": "injuryReport",
+        "rosterType": "40Man",
         "season": cfg["season"],
     })
     rows = []
     for entry in response.get("roster", []):
         person = entry.get("person", {})
         status = entry.get("status", {})
-        rows.append({
-            "name": person.get("fullName", ""),
-            "status": status.get("description", ""),
-            "eta_note": "",
-        })
+        code = (status.get("code") or "").strip().upper()
+        desc = (status.get("description") or "").strip()
+        # An "available" player has status code A (Active) and description
+        # "Active". Anything else — IL stints (D7/D10/D15/D60), restricted
+        # (RM), suspended (SU), paternity (PL), bereavement (BRV), etc. —
+        # is somebody unavailable. Belt-and-suspenders: both signals must
+        # say "active" for us to skip the entry.
+        is_active = code == "A" and desc.lower() == "active"
+        if not is_active and (code or desc):
+            rows.append({
+                "name": person.get("fullName", ""),
+                "status": desc or code,
+                "eta_note": "",
+            })
     return rows
 
 
