@@ -265,15 +265,16 @@ def enrich_with_boxscore(recent_game):
     if not game_pk:
         return
     box = api("game_boxscore", {"gamePk": game_pk})
-    for side in ("home", "away"):
-        team_block = box.get("teams", {}).get(side, {})
-        for player in team_block.get("players", {}).values():
-            pitching = player.get("stats", {}).get("pitching", {}) or {}
-            decision = pitching.get("decision") or pitching.get("note") or ""
-            if decision == "W":
-                recent_game["winning_pitcher"] = player.get("person", {}).get("fullName", "")
-            elif decision == "L":
-                recent_game["losing_pitcher"] = player.get("person", {}).get("fullName", "")
+    # MLB Stats API exposes pitching decisions for Final games at the boxscore
+    # top level under `decisions`: {winner, loser, save} each carrying a
+    # {id, fullName, link} person stub. That's where the WP/LP live;
+    # walking players[].stats.pitching is the wrong path and was returning
+    # nothing for every game.
+    decisions = box.get("decisions") or {}
+    recent_game["winning_pitcher"] = (decisions.get("winner") or {}).get("fullName", "")
+    recent_game["losing_pitcher"] = (decisions.get("loser") or {}).get("fullName", "")
+    save_pitcher = (decisions.get("save") or {}).get("fullName", "")
+
     parts = []
     if recent_game["score"]:
         parts.append(f"Final {recent_game['score']} ({recent_game['result']})")
@@ -281,6 +282,8 @@ def enrich_with_boxscore(recent_game):
         parts.append(f"WP {recent_game['winning_pitcher']}")
     if recent_game["losing_pitcher"]:
         parts.append(f"LP {recent_game['losing_pitcher']}")
+    if save_pitcher:
+        parts.append(f"SV {save_pitcher}")
     recent_game["summary_facts"] = ". ".join(parts)
 
 
