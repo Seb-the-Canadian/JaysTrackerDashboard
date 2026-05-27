@@ -29,7 +29,7 @@ That's it. No code changes; the fetcher reads everything team-specific from `con
 ## Architecture
 
 ```
-                  ┌───────────────────────┐
+                  ┌─────────────────────────┐
                   │   Scheduler             │
                   │   (daily, cron)         │
                   │                         │
@@ -40,7 +40,7 @@ That's it. No code changes; the fetcher reads everything team-specific from `con
                   └────────────┬────────────┘
                                │
                                ▼
-                  ┌───────────────────────┐
+                  ┌─────────────────────────┐
                   │   fetch_data.py         │
                   │   (Python, MLB-StatsAPI)│
                   │                         │
@@ -52,7 +52,7 @@ That's it. No code changes; the fetcher reads everything team-specific from `con
                        commit + push to main
                                │
                                ▼
-                  ┌───────────────────────┐
+                  ┌─────────────────────────┐
                   │   GitHub Pages          │
                   │   serves index.html     │
                   │   + data.json           │
@@ -61,14 +61,14 @@ That's it. No code changes; the fetcher reads everything team-specific from `con
                   └────────────┬────────────┘
                                │
                                ▼
-                  ┌───────────────────────┐
+                  ┌─────────────────────────┐
                   │   index.html            │
                   │   (browser)             │
                   │                         │
                   │  loads all three files  │
                   │  merges + renders       │
                   │  caches to localStorage │
-                  └───────────────────────┘
+                  └─────────────────────────┘
 ```
 
 Three runtime pieces, four files of state. Nothing else.
