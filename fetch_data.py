@@ -234,12 +234,17 @@ def fetch_schedule(cfg, start_offset_days, end_offset_days):
     today = datetime.now(timezone.utc).date()
     start = today + timedelta(days=start_offset_days)
     end = today + timedelta(days=end_offset_days)
+    # `decisions` hydrate puts the winning/losing/save pitcher inline on each
+    # game, removing the need for a per-game boxscore call (saves ~10 API
+    # requests per run). Neither boxscore.decisions nor walking players[]
+    # surfaced the decisions for us in practice; schedule.hydrate=decisions
+    # is the canonical path.
     return api("schedule", {
         "sportId": MLB_SPORT_ID,
         "teamId": cfg["team_id"],
         "startDate": start.isoformat(),
         "endDate": end.isoformat(),
-        "hydrate": "linescore,probablePitcher,team",
+        "hydrate": "linescore,probablePitcher,team,decisions",
     })
 
 
@@ -266,6 +271,24 @@ def transform_recent_game(game, cfg):
     else:
         result = ""
         score = ""
+
+    # Decisions land inline thanks to schedule's hydrate=decisions.
+    decisions = game.get("decisions") or {}
+    wp = (decisions.get("winner") or {}).get("fullName", "")
+    lp = (decisions.get("loser") or {}).get("fullName", "")
+    sv = (decisions.get("save") or {}).get("fullName", "")
+
+    parts = []
+    if score:
+        parts.append(f"Final {score} ({result})")
+    if wp:
+        parts.append(f"WP {wp}")
+    if lp:
+        parts.append(f"LP {lp}")
+    if sv:
+        parts.append(f"SV {sv}")
+    summary = ". ".join(parts)
+
     return {
         "game_pk": game.get("gamePk"),
         "date": (game.get("gameDate") or "")[:10],
@@ -274,9 +297,9 @@ def transform_recent_game(game, cfg):
         "result": result,
         "score": score,
         "status": detailed,
-        "winning_pitcher": "",
-        "losing_pitcher": "",
-        "summary_facts": "",
+        "winning_pitcher": wp,
+        "losing_pitcher": lp,
+        "summary_facts": summary,
         "us_score": our_score,
         "them_score": their_score,
     }
@@ -296,52 +319,6 @@ def transform_upcoming_game(game, cfg):
         "probable_pitcher_them": (them.get("probablePitcher") or {}).get("fullName", ""),
         "status": game.get("status", {}).get("detailedState", ""),
     }
-
-
-def enrich_with_boxscore(recent_game):
-    game_pk = recent_game["game_pk"]
-    if not game_pk:
-        return
-    box = api("game_boxscore", {"gamePk": game_pk})
-
-    # MLB Stats API exposes pitching decisions for Final games at the boxscore
-    # top level under `decisions: {winner, loser, save}` — each a person stub.
-    # If that block is absent (some endpoint variants omit it), fall back to
-    # walking players[].stats.pitching for a `note` of "W"/"L"/"S".
-    decisions = box.get("decisions") or {}
-    wp = (decisions.get("winner") or {}).get("fullName", "")
-    lp = (decisions.get("loser") or {}).get("fullName", "")
-    sv = (decisions.get("save") or {}).get("fullName", "")
-
-    if not wp or not lp:
-        for side in ("home", "away"):
-            team_block = box.get("teams", {}).get(side, {}) or {}
-            for player in (team_block.get("players") or {}).values():
-                pitching = (player.get("stats") or {}).get("pitching") or {}
-                note = (pitching.get("note") or pitching.get("decision") or "").strip().upper()
-                name = (player.get("person") or {}).get("fullName", "")
-                if not name:
-                    continue
-                if note == "W" and not wp:
-                    wp = name
-                elif note == "L" and not lp:
-                    lp = name
-                elif note == "S" and not sv:
-                    sv = name
-
-    recent_game["winning_pitcher"] = wp
-    recent_game["losing_pitcher"] = lp
-
-    parts = []
-    if recent_game["score"]:
-        parts.append(f"Final {recent_game['score']} ({recent_game['result']})")
-    if wp:
-        parts.append(f"WP {wp}")
-    if lp:
-        parts.append(f"LP {lp}")
-    if sv:
-        parts.append(f"SV {sv}")
-    recent_game["summary_facts"] = ". ".join(parts)
 
 
 # --- Roster + player stats --------------------------------------------------
@@ -562,8 +539,6 @@ def main():
     past_games = [transform_recent_game(g, cfg) for g in flatten_games(past_schedule)]
     completed = [g for g in past_games if g.get("result")]
     recent_games = completed[-RECENT_GAME_COUNT:]
-    for g in recent_games:
-        enrich_with_boxscore(g)
     upcoming_games = [transform_upcoming_game(g, cfg) for g in flatten_games(future_schedule)]
 
     roster_entries = fetch_active_roster(cfg)
