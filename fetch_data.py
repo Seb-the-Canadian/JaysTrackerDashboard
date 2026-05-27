@@ -391,26 +391,30 @@ def fetch_injury_report(cfg):
 
 
 def fetch_player_season_stats(person_id, group, season):
-    """group is 'hitting' or 'pitching'. Returns the season stat dict or {}.
+    """Returns the season stat dict for one player + group, or {}.
 
-    Uses the `stats` endpoint with personId as a query param, which is the
-    documented alternative to `person_stats` (the path-param form). Empirically
-    the path-form route through MLB-StatsAPI was returning empty splits for
-    every roster player; this query-form variant is the canonical path used by
-    most public projects against this API.
+    Uses MLB-StatsAPI's high-level player_stat_data helper, which routes
+    to the per-player URL internally and correctly scopes by personId.
+    The raw /stats endpoint (both `person_stats` path-form and `stats`
+    query-form variants) didn't work reliably for us:
 
-    A missing/empty response is not fatal — a position player legitimately has
-    no pitching splits. Real fetch failures get logged with the response body
-    so we can tell empty-but-valid from "API said no".
+      - person_stats returned empty splits for every player
+      - stats with personId returned league aggregates and IGNORED
+        personId — every player on our roster came back with the same
+        line (.330/.831/4 for hitters, 1.50/72.0 for pitchers)
+
+    The helper's `stats` field nests the per-group, per-type season dict
+    with the actual numeric values we want. Empty group/type combo
+    (e.g., a position player has no pitching) returns {} naturally.
     """
     try:
-        response = statsapi.get("stats", {
-            "personId": person_id,
-            "stats": "season",
-            "group": group,
-            "season": season,
-            "sportId": MLB_SPORT_ID,
-        })
+        data = statsapi.player_stat_data(
+            person_id,
+            group=group,
+            type="season",
+            sportId=MLB_SPORT_ID,
+            season=season,
+        )
     except Exception as e:
         body = ""
         resp = getattr(e, "response", None)
@@ -421,10 +425,9 @@ def fetch_player_season_stats(person_id, group, season):
                 pass
         log(f"warning: stats fetch for {person_id} ({group}) failed: {e}" + (f"; body: {body}" if body else ""))
         return {}
-    for s in response.get("stats", []):
-        splits = s.get("splits", [])
-        if splits:
-            return splits[0].get("stat", {}) or {}
+    for entry in data.get("stats", []):
+        if entry.get("group") == group and entry.get("type") == "season":
+            return entry.get("stats", {}) or {}
     return {}
 
 
