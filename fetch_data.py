@@ -265,22 +265,44 @@ def enrich_with_boxscore(recent_game):
     if not game_pk:
         return
     box = api("game_boxscore", {"gamePk": game_pk})
-    for side in ("home", "away"):
-        team_block = box.get("teams", {}).get(side, {})
-        for player in team_block.get("players", {}).values():
-            pitching = player.get("stats", {}).get("pitching", {}) or {}
-            decision = pitching.get("decision") or pitching.get("note") or ""
-            if decision == "W":
-                recent_game["winning_pitcher"] = player.get("person", {}).get("fullName", "")
-            elif decision == "L":
-                recent_game["losing_pitcher"] = player.get("person", {}).get("fullName", "")
+
+    # MLB Stats API exposes pitching decisions for Final games at the boxscore
+    # top level under `decisions: {winner, loser, save}` — each a person stub.
+    # If that block is absent (some endpoint variants omit it), fall back to
+    # walking players[].stats.pitching for a `note` of "W"/"L"/"S".
+    decisions = box.get("decisions") or {}
+    wp = (decisions.get("winner") or {}).get("fullName", "")
+    lp = (decisions.get("loser") or {}).get("fullName", "")
+    sv = (decisions.get("save") or {}).get("fullName", "")
+
+    if not wp or not lp:
+        for side in ("home", "away"):
+            team_block = box.get("teams", {}).get(side, {}) or {}
+            for player in (team_block.get("players") or {}).values():
+                pitching = (player.get("stats") or {}).get("pitching") or {}
+                note = (pitching.get("note") or pitching.get("decision") or "").strip().upper()
+                name = (player.get("person") or {}).get("fullName", "")
+                if not name:
+                    continue
+                if note == "W" and not wp:
+                    wp = name
+                elif note == "L" and not lp:
+                    lp = name
+                elif note == "S" and not sv:
+                    sv = name
+
+    recent_game["winning_pitcher"] = wp
+    recent_game["losing_pitcher"] = lp
+
     parts = []
     if recent_game["score"]:
         parts.append(f"Final {recent_game['score']} ({recent_game['result']})")
-    if recent_game["winning_pitcher"]:
-        parts.append(f"WP {recent_game['winning_pitcher']}")
-    if recent_game["losing_pitcher"]:
-        parts.append(f"LP {recent_game['losing_pitcher']}")
+    if wp:
+        parts.append(f"WP {wp}")
+    if lp:
+        parts.append(f"LP {lp}")
+    if sv:
+        parts.append(f"SV {sv}")
     recent_game["summary_facts"] = ". ".join(parts)
 
 
