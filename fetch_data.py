@@ -345,23 +345,19 @@ def fetch_active_roster(cfg):
 
 
 def fetch_injury_report(cfg):
-    """Players on the 40-man with status other than 'Active', split into two
-    buckets: true IL stints vs. other forms of unavailability.
+    """Split 40-man non-Active entries into actual injuries vs. other unavailable.
 
     rosterType=injuryReport empirically returns the active 26-man with every
     player marked 'Active' (no IL'd players included, because they're not on
     the active roster). The 40-man is the superset that includes IL'd players
-    with their actual status; filter to non-active to get the unavailability
-    list.
+    with their actual status; filter to non-active to get the unavailable set.
 
-    The MLB status description carries the human-readable label the dashboard
-    surfaces. Descriptions starting with "Injured" (e.g. "Injured 10-Day",
-    "Injured 60-Day") are real IL placements. Everything else non-Active —
-    "Reassigned to Minors", "Restricted List", "Suspended", "Released",
-    "Bereavement", etc. — is unavailability but not an injury, so it shouldn't
-    sit under the "Injured List" heading.
-
-    Returns {"injuries": [...], "other_unavailable": [...]}.
+    Status descriptions starting with "Injured" (e.g. "Injured List - 10-Day",
+    "Injured List - 60-Day") are real injuries. Other non-Active descriptions
+    ("Reassigned to Minors", "Released", "Restricted List", "Suspended", etc.)
+    are unavailable but not injured — they get their own bucket so the UI's
+    Injured List panel doesn't lie. Players with an Active or empty status
+    are excluded from both lists.
     """
     response = api("team_roster", {
         "teamId": cfg["team_id"],
@@ -388,7 +384,7 @@ def fetch_injury_report(cfg):
             "status": desc or code,
             "eta_note": "",
         }
-        if desc.startswith("Injured"):
+        if desc.lower().startswith("injured"):
             injuries.append(row)
         else:
             other_unavailable.append(row)
@@ -545,7 +541,7 @@ def assert_invariants(output, cfg):
             die(f"team.record.{k} is None")
     for k in ("injuries", "other_unavailable"):
         if not isinstance(output.get(k), list):
-            die(f"{k} is not a list")
+            die(f"{k} must be a list, got {type(output.get(k)).__name__}")
 
 
 # --- Write ------------------------------------------------------------------

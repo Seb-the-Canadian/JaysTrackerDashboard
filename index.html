@@ -796,25 +796,39 @@ function renderPlayers() {
     '<div class="injury-card"><div class="injury-name">' + escapeText(i.name) + '</div>' +
     '<div class="injury-status">' + escapeText(i.status || '') + '</div>' +
     (i.eta_note ? '<div class="injury-eta">' + escapeText(i.eta_note) + '</div>' : '') + '</div>';
+
   const injuryList = DATA.injuries || [];
   const otherList = DATA.other_unavailable || [];
-  const injurySection = injuryList.length
-    ? '<div class="section"><h2>Injured List</h2><div class="injury-list">' +
-        injuryList.map(renderInjuryCard).join('') + '</div></div>'
-    : '';
-  const otherSection = otherList.length
-    ? '<div class="section"><h2>Other Unavailable</h2><div class="injury-list">' +
-        otherList.map(renderInjuryCard).join('') + '</div></div>'
-    : '';
-  const unavailableSection = (injurySection || otherSection)
-    || '<div class="section"><h2>Injured List</h2><div class="dim">No injuries reported.</div></div>';
+
+  let injurySectionHTML;
+  if (injuryList.length === 0 && otherList.length === 0) {
+    // Both empty: keep the original single-section "no injuries" fallback.
+    injurySectionHTML =
+      '<div class="section"><h2>Injured List</h2>' +
+      '<div class="injury-list"><div class="dim">No injuries reported.</div></div></div>';
+  } else {
+    const injuredHeading = injuryList.length
+      ? '<h2>Injured List</h2>'
+      : '';
+    const otherHeading = otherList.length
+      ? '<h2>Other Unavailable</h2>'
+      : '';
+    const injuredCards = injuryList.map(renderInjuryCard).join('');
+    const otherCards = otherList.map(renderInjuryCard).join('');
+    injurySectionHTML = '<div class="section">' +
+      injuredHeading +
+      (injuryList.length ? '<div class="injury-list">' + injuredCards + '</div>' : '') +
+      otherHeading +
+      (otherList.length ? '<div class="injury-list">' + otherCards + '</div>' : '') +
+      '</div>';
+  }
 
   document.getElementById('panel-players').innerHTML =
     playerSection('Lineup Regulars', lineupRegulars, 'hitter') +
     playerSection('Starting Rotation', rotation, 'pitcher') +
     playerSection('Bullpen', bullpen, 'pitcher') +
     playerSection('Bench / Depth', benchDepth, 'hitter') +
-    unavailableSection;
+    injurySectionHTML;
 
   document.querySelectorAll('.player-card[data-pid]').forEach(card => {
     card.addEventListener('click', () => openPlayer(card.dataset.pid, card.dataset.kind));
