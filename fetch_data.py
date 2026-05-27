@@ -296,20 +296,30 @@ def fetch_active_roster(cfg):
 
 
 def fetch_injury_report(cfg):
+    """Players on the 40-man with status other than 'Active' — i.e., on the IL,
+    restricted, suspended, etc.
+
+    rosterType=injuryReport empirically returns the active 26-man with every
+    player marked 'Active' (no IL'd players included, because they're not on
+    the active roster). The 40-man is the superset that includes IL'd players
+    with their actual status; filter to non-active to get the injury list.
+    """
     response = api("team_roster", {
         "teamId": cfg["team_id"],
-        "rosterType": "injuryReport",
+        "rosterType": "40Man",
         "season": cfg["season"],
     })
     rows = []
     for entry in response.get("roster", []):
         person = entry.get("person", {})
         status = entry.get("status", {})
-        rows.append({
-            "name": person.get("fullName", ""),
-            "status": status.get("description", ""),
-            "eta_note": "",
-        })
+        desc = status.get("description") or ""
+        if desc and desc.strip().lower() != "active":
+            rows.append({
+                "name": person.get("fullName", ""),
+                "status": desc,
+                "eta_note": "",
+            })
     return rows
 
 
