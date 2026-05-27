@@ -56,6 +56,8 @@ body {
 .accent { color: var(--accent-color); }
 .tag { display: inline-block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 10px; background: #1f2937; color: #8b96a8; font-weight: 600; }
 .tag.injury { background: rgba(248,81,73,0.12); color: #f85149; }
+.rank-pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: rgba(29,138,205,0.12); color: var(--accent-color); margin-left: 8px; font-variant-numeric: tabular-nums; }
+.rank-pill.dim { background: #1f2937; color: #8b96a8; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
 th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #1f2937; }
 th { font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em; color: #8b96a8; font-weight: 600; }
@@ -919,18 +921,81 @@ function openPlayer(id, kind) {
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 
 // ─── Team panel ────────────────────────────────────────────────────────────
+// Label order is fixed so the grid keeps its expected reading order — the
+// schema-banner check elsewhere catches a missing key, so we don't try to
+// be clever about what's present.
+const TEAM_STAT_LABELS = {
+  hitting: [
+    ['runs', 'Runs'],
+    ['avg',  'AVG'],
+    ['obp',  'OBP'],
+    ['slg',  'SLG'],
+    ['ops',  'OPS'],
+    ['hr',   'HR'],
+  ],
+  pitching: [
+    ['era',  'ERA'],
+    ['whip', 'WHIP'],
+    ['k9',   'K/9'],
+    ['bb9',  'BB/9'],
+  ],
+};
+
+function rankPill(rank) {
+  if (rank === null || rank === undefined || rank === '') {
+    return '<span class="rank-pill dim">Rank —</span>';
+  }
+  return '<span class="rank-pill">Rank ' + escapeText(String(rank)) + '</span>';
+}
+
+function teamStatRow(label, entry) {
+  const val = entry && entry.val !== undefined && entry.val !== null && entry.val !== '' ? entry.val : '—';
+  const rank = entry ? entry.rank : null;
+  return '<div class="stat-row">' +
+    '<div class="stat-row-label">' + escapeText(label) + '</div>' +
+    '<div class="stat-row-val">' + escapeText(String(val)) + rankPill(rank) + '</div>' +
+  '</div>';
+}
+
+function teamStatSection(title, group, groupKey) {
+  const labels = TEAM_STAT_LABELS[groupKey] || [];
+  const rows = labels.map(([key, label]) => teamStatRow(label, (group || {})[key])).join('');
+  return '<div class="card">' +
+    '<h3>' + escapeText(title) + '</h3>' +
+    rows +
+  '</div>';
+}
+
 function renderTeam() {
   const t = DATA.team || {};
   const rec = t.record || {};
-  document.getElementById('panel-team').innerHTML =
-    '<div class="section"><div class="card">' +
+  const ts = DATA.team_stats;
+  const hasStats = ts && typeof ts === 'object' &&
+    (Object.keys(ts.hitting || {}).length > 0 || Object.keys(ts.pitching || {}).length > 0);
+
+  const summaryCard =
+    '<div class="card">' +
       '<h2>Team summary</h2>' +
       legendRow('Record', (rec.w ?? '—') + '-' + (rec.l ?? '—'), t.place || '') +
       legendRow('Run differential', String(t.run_diff ?? 0), (t.runs_scored ?? 0) + ' RS / ' + (t.runs_allowed ?? 0) + ' RA') +
       legendRow(statChip('Pythagorean'), (t.pythag_w ?? 0) + '-' + (t.pythag_l ?? 0), '') +
       legendRow('Last 10', t.last10 || '—', t.streak || '') +
-      '<div class="note">Per-category team rankings and detailed splits are not yet pulled by <code>fetch_data.py</code>. The Phase 2 schema covers the team-level summary; deeper team stats are a future-phase extension.</div>' +
-    '</div></div>';
+    '</div>';
+
+  let body = summaryCard;
+  if (hasStats) {
+    body +=
+      '<div class="section-title" style="margin-top:20px;">Team stats &amp; MLB ranks</div>' +
+      '<div class="grid grid-2">' +
+        teamStatSection('Hitting', ts.hitting || {}, 'hitting') +
+        teamStatSection('Pitching', ts.pitching || {}, 'pitching') +
+      '</div>';
+  } else {
+    body +=
+      '<div class="note">Per-category team rankings and detailed splits are not yet pulled by <code>fetch_data.py</code>. The Phase 2 schema covers the team-level summary; deeper team stats are a future-phase extension.</div>';
+  }
+
+  document.getElementById('panel-team').innerHTML = '<div class="section">' + body + '</div>';
 }
 
 function legendRow(label, value, sub) {
