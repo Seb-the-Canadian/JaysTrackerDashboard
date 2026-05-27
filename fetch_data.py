@@ -99,6 +99,22 @@ def parse_float(s, default=0.0):
 
 # --- Standings --------------------------------------------------------------
 
+def fetch_team_names(cfg):
+    """Build {team_id: full_name} lookup from the teams endpoint.
+
+    The standings endpoint returns each team's `name` as the short form
+    ("Rays", "Yankees"). The teams endpoint returns the full club name
+    ("Tampa Bay Rays", "New York Yankees"). One call, ~30 entries, reused
+    in both the division and wild-card transformers.
+    """
+    response = api("teams", {
+        "sportId": MLB_SPORT_ID,
+        "activeStatus": "Y",
+        "season": cfg["season"],
+    })
+    return {t["id"]: t.get("name") or t.get("teamName") or "" for t in response.get("teams", [])}
+
+
 def fetch_division_record(cfg):
     response = api("standings", {
         "leagueId": cfg["league_id"],
@@ -123,19 +139,21 @@ def last10_from_records(records):
     return "0-0"
 
 
-def transform_division(div_record, cfg):
+def transform_division(div_record, cfg, team_names=None):
+    team_names = team_names or {}
     rows = []
     for tr in div_record.get("teamRecords", []):
+        tid = tr["team"]["id"]
         rows.append({
-            "team": tr["team"]["name"],
-            "team_id": tr["team"]["id"],
+            "team": team_names.get(tid) or tr["team"].get("name", ""),
+            "team_id": tid,
             "w": tr.get("wins", 0),
             "l": tr.get("losses", 0),
             "pct": tr.get("winningPercentage", ""),
             "gb": tr.get("gamesBack", "-"),
             "streak": tr.get("streak", {}).get("streakCode", ""),
             "last10": last10_from_records(tr.get("records", {})),
-            "is_us": tr["team"]["id"] == cfg["team_id"],
+            "is_us": tid == cfg["team_id"],
         })
     return rows
 
@@ -147,7 +165,8 @@ def find_us_team_record(div_record, cfg):
     die(f"team {cfg['team_id']} not found in division {cfg['division_id']}")
 
 
-def fetch_wild_card(cfg):
+def fetch_wild_card(cfg, team_names=None):
+    team_names = team_names or {}
     response = api("standings", {
         "leagueId": cfg["league_id"],
         "season": cfg["season"],
@@ -156,14 +175,15 @@ def fetch_wild_card(cfg):
     rows = []
     for rec in response.get("records", []):
         for tr in rec.get("teamRecords", []):
+            tid = tr["team"]["id"]
             rows.append({
-                "team": tr["team"]["name"],
-                "team_id": tr["team"]["id"],
+                "team": team_names.get(tid) or tr["team"].get("name", ""),
+                "team_id": tid,
                 "w": tr.get("wins", 0),
                 "l": tr.get("losses", 0),
                 "gb": tr.get("wildCardGamesBack", tr.get("gamesBack", "-")),
                 "note": "",
-                "is_us": tr["team"]["id"] == cfg["team_id"],
+                "is_us": tid == cfg["team_id"],
             })
     return annotate_wild_card(rows)
 
@@ -460,10 +480,11 @@ def main():
     cfg = load_config()
     log(f"fetch_data.py: team_id={cfg['team_id']} season={cfg['season']}")
 
+    team_names = fetch_team_names(cfg)
     div_record = fetch_division_record(cfg)
     us_record = find_us_team_record(div_record, cfg)
-    division = transform_division(div_record, cfg)
-    wild_card = fetch_wild_card(cfg)
+    division = transform_division(div_record, cfg, team_names)
+    wild_card = fetch_wild_card(cfg, team_names)
 
     past_schedule = fetch_schedule(cfg, -SCHEDULE_PAST_DAYS, 0)
     future_schedule = fetch_schedule(cfg, 1, SCHEDULE_FUTURE_DAYS)
