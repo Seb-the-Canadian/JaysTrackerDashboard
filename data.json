@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-05-27T20:04:57.469058+00:00",
+  "as_of": "2026-05-27T20:13:40.389775+00:00",
   "config": {
     "team_id": 141,
     "team_name": "Toronto Blue Jays",
@@ -7,16 +7,16 @@
   },
   "team": {
     "record": {
-      "w": 26,
+      "w": 27,
       "l": 29
     },
     "place": "3rd in AL East",
     "last10": "6-4",
-    "streak": "W1",
-    "runs_scored": 224,
-    "runs_allowed": 229,
-    "run_diff": -5,
-    "pythag_w": 27,
+    "streak": "W2",
+    "runs_scored": 226,
+    "runs_allowed": 230,
+    "run_diff": -4,
+    "pythag_w": 28,
     "pythag_l": 28
   },
   "division": [
@@ -45,11 +45,11 @@
     {
       "team": "Toronto Blue Jays",
       "team_id": 141,
-      "w": 26,
+      "w": 27,
       "l": 29,
-      "pct": ".473",
-      "gb": "9.5",
-      "streak": "W1",
+      "pct": ".482",
+      "gb": "9.0",
+      "streak": "W2",
       "last10": "6-4",
       "is_us": true
     },
@@ -320,7 +320,7 @@
       "opp": "Miami Marlins",
       "result": "W",
       "score": "2-1",
-      "status": "Game Over",
+      "status": "Final",
       "winning_pitcher": "Jeff Hoffman",
       "losing_pitcher": "Andrew Nardi",
       "summary_facts": "Final 2-1 (W). WP Jeff Hoffman. LP Andrew Nardi. SV Tyler Rogers",
@@ -728,6 +728,52 @@
       }
     ]
   },
+  "team_stats": {
+    "hitting": {
+      "avg": {
+        "val": ".243",
+        "rank": 13
+      },
+      "ops": {
+        "val": ".684",
+        "rank": 27
+      },
+      "slg": {
+        "val": ".375",
+        "rank": 23
+      },
+      "runs": {
+        "val": 226,
+        "rank": 22
+      },
+      "obp": {
+        "val": ".309",
+        "rank": 26
+      },
+      "hr": {
+        "val": 52,
+        "rank": 19
+      }
+    },
+    "pitching": {
+      "k9": {
+        "val": "9.30",
+        "rank": 5
+      },
+      "whip": {
+        "val": "1.26",
+        "rank": 13
+      },
+      "bb9": {
+        "val": "3.13",
+        "rank": 7
+      },
+      "era": {
+        "val": "3.78",
+        "rank": 10
+      }
+    }
+  },
   "injuries": [
     {
       "name": "Addison Barger",
@@ -882,27 +928,15 @@
     },
     {
       "date": "2026-05-27",
-      "type": "Status Change",
-      "description": "Toronto Blue Jays placed RHP Jos\u00e9 Berr\u00edos on the 60-day injured list. Right elbow stress fracture.",
-      "person_name": "Jos\u00e9 Berr\u00edos"
-    },
-    {
-      "date": "2026-05-27",
       "type": "Signed as Free Agent",
       "description": "Toronto Blue Jays signed free agent RHP Matt Bowman to a minor league contract.",
       "person_name": "Matt Bowman"
     },
     {
       "date": "2026-05-27",
-      "type": "Trade",
-      "description": "Detroit Tigers traded RHP Connor Seabold to Toronto Blue Jays for LHP Juanmi Vasquez.",
-      "person_name": "Juanmi Vasquez"
-    },
-    {
-      "date": "2026-05-27",
-      "type": "Optioned",
-      "description": "Toronto Blue Jays optioned RHP Tanner Andrews to Buffalo Bisons.",
-      "person_name": "Tanner Andrews"
+      "type": "Status Change",
+      "description": "Toronto Blue Jays placed RHP Jos\u00e9 Berr\u00edos on the 60-day injured list. Right elbow stress fracture.",
+      "person_name": "Jos\u00e9 Berr\u00edos"
     },
     {
       "date": "2026-05-27",
@@ -912,9 +946,21 @@
     },
     {
       "date": "2026-05-27",
+      "type": "Trade",
+      "description": "Detroit Tigers traded RHP Connor Seabold to Toronto Blue Jays for LHP Juanmi Vasquez.",
+      "person_name": "Juanmi Vasquez"
+    },
+    {
+      "date": "2026-05-27",
       "type": "Selected",
       "description": "Toronto Blue Jays selected the contract of RHP Austin Voth from Buffalo Bisons.",
       "person_name": "Austin Voth"
+    },
+    {
+      "date": "2026-05-27",
+      "type": "Optioned",
+      "description": "Toronto Blue Jays optioned RHP Tanner Andrews to Buffalo Bisons.",
+      "person_name": "Tanner Andrews"
     }
   ],
   "run_diff_last_10": [
