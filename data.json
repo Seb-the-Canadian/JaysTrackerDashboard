@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-05-27T19:08:53.214664+00:00",
+  "as_of": "2026-05-27T20:04:57.469058+00:00",
   "config": {
     "team_id": 141,
     "team_name": "Toronto Blue Jays",
@@ -116,9 +116,9 @@
     {
       "team": "Toronto Blue Jays",
       "team_id": 141,
-      "w": 26,
+      "w": 27,
       "l": 29,
-      "gb": "1.0",
+      "gb": "0.5",
       "note": "Out",
       "is_us": true
     },
@@ -187,20 +187,6 @@
     }
   ],
   "recent_games": [
-    {
-      "game_pk": 824279,
-      "date": "2026-05-17",
-      "home": false,
-      "opp": "Detroit Tigers",
-      "result": "W",
-      "score": "4-1",
-      "status": "Final",
-      "winning_pitcher": "Kevin Gausman",
-      "losing_pitcher": "Jack Flaherty",
-      "summary_facts": "Final 4-1 (W). WP Kevin Gausman. LP Jack Flaherty. SV Tyler Rogers",
-      "us_score": 4,
-      "them_score": 1
-    },
     {
       "game_pk": 823549,
       "date": "2026-05-18",
@@ -326,6 +312,20 @@
       "summary_facts": "Final 8-1 (W). WP Spencer Miles. LP Sandy Alcantara",
       "us_score": 8,
       "them_score": 1
+    },
+    {
+      "game_pk": 822809,
+      "date": "2026-05-27",
+      "home": true,
+      "opp": "Miami Marlins",
+      "result": "W",
+      "score": "2-1",
+      "status": "Game Over",
+      "winning_pitcher": "Jeff Hoffman",
+      "losing_pitcher": "Andrew Nardi",
+      "summary_facts": "Final 2-1 (W). WP Jeff Hoffman. LP Andrew Nardi. SV Tyler Rogers",
+      "us_score": 2,
+      "them_score": 1
     }
   ],
   "upcoming_games": [
@@ -335,7 +335,7 @@
       "home": false,
       "opp": "Baltimore Orioles",
       "probable_pitcher_us": "Patrick Corbin",
-      "probable_pitcher_them": "",
+      "probable_pitcher_them": "Chris Bassitt",
       "status": "Scheduled"
     },
     {
@@ -344,7 +344,7 @@
       "home": false,
       "opp": "Baltimore Orioles",
       "probable_pitcher_us": "",
-      "probable_pitcher_them": "",
+      "probable_pitcher_them": "Trevor Rogers",
       "status": "Scheduled"
     },
     {
@@ -353,7 +353,7 @@
       "home": false,
       "opp": "Baltimore Orioles",
       "probable_pitcher_us": "Trey Yesavage",
-      "probable_pitcher_them": "",
+      "probable_pitcher_them": "Brandon Young",
       "status": "Scheduled"
     },
     {
@@ -362,7 +362,7 @@
       "home": false,
       "opp": "Baltimore Orioles",
       "probable_pitcher_us": "",
-      "probable_pitcher_them": "",
+      "probable_pitcher_them": "Kyle Bradish",
       "status": "Scheduled"
     },
     {
@@ -390,11 +390,11 @@
         "id": 665926,
         "name": "Andr\u00e9s Gim\u00e9nez",
         "pos": "SS",
-        "ab": 179,
-        "avg": ".223",
-        "obp": ".262",
-        "slg": ".358",
-        "ops": ".620",
+        "ab": 180,
+        "avg": ".222",
+        "obp": ".260",
+        "slg": ".356",
+        "ops": ".616",
         "hr": 5,
         "rbi": 27,
         "sb": 6
@@ -416,11 +416,11 @@
         "id": 662139,
         "name": "Daulton Varsho",
         "pos": "CF",
-        "ab": 188,
-        "avg": ".266",
-        "obp": ".340",
-        "slg": ".415",
-        "ops": ".755",
+        "ab": 189,
+        "avg": ".265",
+        "obp": ".338",
+        "slg": ".413",
+        "ops": ".751",
         "hr": 5,
         "rbi": 16,
         "sb": 4
@@ -429,11 +429,11 @@
         "id": 676391,
         "name": "Ernie Clement",
         "pos": "2B",
-        "ab": 210,
-        "avg": ".295",
-        "obp": ".320",
-        "slg": ".448",
-        "ops": ".768",
+        "ab": 211,
+        "avg": ".294",
+        "obp": ".318",
+        "slg": ".445",
+        "ops": ".763",
         "hr": 5,
         "rbi": 20,
         "sb": 2
@@ -442,11 +442,11 @@
         "id": 543807,
         "name": "George Springer",
         "pos": "DH",
-        "ab": 140,
-        "avg": ".214",
-        "obp": ".295",
-        "slg": ".371",
-        "ops": ".666",
+        "ab": 142,
+        "avg": ".211",
+        "obp": ".291",
+        "slg": ".366",
+        "ops": ".657",
         "hr": 5,
         "rbi": 14,
         "sb": 3
@@ -468,13 +468,13 @@
         "id": 672960,
         "name": "Kazuma Okamoto",
         "pos": "3B",
-        "ab": 196,
-        "avg": ".214",
-        "obp": ".299",
-        "slg": ".398",
-        "ops": ".697",
-        "hr": 10,
-        "rbi": 28,
+        "ab": 197,
+        "avg": ".218",
+        "obp": ".302",
+        "slg": ".416",
+        "ops": ".718",
+        "hr": 11,
+        "rbi": 29,
         "sb": 0
       },
       {
@@ -507,11 +507,11 @@
         "id": 664770,
         "name": "Nathan Lukes",
         "pos": "RF",
-        "ab": 59,
-        "avg": ".288",
-        "obp": ".328",
-        "slg": ".373",
-        "ops": ".701",
+        "ab": 60,
+        "avg": ".283",
+        "obp": ".323",
+        "slg": ".367",
+        "ops": ".690",
         "hr": 0,
         "rbi": 9,
         "sb": 0
@@ -520,11 +520,11 @@
         "id": 623168,
         "name": "Tyler Heineman",
         "pos": "C",
-        "ab": 67,
-        "avg": ".149",
-        "obp": ".197",
-        "slg": ".194",
-        "ops": ".391",
+        "ab": 68,
+        "avg": ".147",
+        "obp": ".194",
+        "slg": ".191",
+        "ops": ".385",
         "hr": 1,
         "rbi": 4,
         "sb": 0
@@ -533,11 +533,11 @@
         "id": 665489,
         "name": "Vladimir Guerrero Jr.",
         "pos": "1B",
-        "ab": 190,
-        "avg": ".295",
-        "obp": ".394",
-        "slg": ".379",
-        "ops": ".773",
+        "ab": 191,
+        "avg": ".293",
+        "obp": ".392",
+        "slg": ".377",
+        "ops": ".769",
         "hr": 3,
         "rbi": 22,
         "sb": 5
@@ -546,11 +546,11 @@
         "id": 682818,
         "name": "Yohendrick Pi\u00f1ango",
         "pos": "LF",
-        "ab": 78,
-        "avg": ".295",
-        "obp": ".329",
-        "slg": ".423",
-        "ops": ".752",
+        "ab": 79,
+        "avg": ".291",
+        "obp": ".325",
+        "slg": ".418",
+        "ops": ".743",
         "hr": 2,
         "rbi": 12,
         "sb": 0
@@ -613,12 +613,12 @@
         "id": 656546,
         "name": "Jeff Hoffman",
         "role": "P",
-        "ip": "23.0",
-        "era": "5.09",
-        "whip": "1.61",
-        "k": 40,
+        "ip": "24.1",
+        "era": "4.81",
+        "whip": "1.60",
+        "k": 42,
         "bb": 8,
-        "w": 2,
+        "w": 3,
         "l": 3,
         "sv": 5
       },
@@ -639,10 +639,10 @@
         "id": 686973,
         "name": "Louis Varland",
         "role": "P",
-        "ip": "27.2",
-        "era": "0.33",
-        "whip": "1.05",
-        "k": 40,
+        "ip": "28.2",
+        "era": "0.31",
+        "whip": "1.08",
+        "k": 41,
         "bb": 9,
         "w": 2,
         "l": 1,
@@ -652,8 +652,8 @@
         "id": 689254,
         "name": "Mason Fluharty",
         "role": "P",
-        "ip": "19.0",
-        "era": "4.74",
+        "ip": "19.2",
+        "era": "4.58",
         "whip": "1.53",
         "k": 26,
         "bb": 9,
@@ -704,14 +704,14 @@
         "id": 643511,
         "name": "Tyler Rogers",
         "role": "P",
-        "ip": "24.0",
-        "era": "2.63",
-        "whip": "1.17",
+        "ip": "25.0",
+        "era": "2.52",
+        "whip": "1.12",
         "k": 15,
         "bb": 9,
         "w": 1,
         "l": 2,
-        "sv": 1
+        "sv": 2
       },
       {
         "id": 684320,
@@ -919,11 +919,6 @@
   ],
   "run_diff_last_10": [
     {
-      "date": "2026-05-17",
-      "diff": 3,
-      "result": "W"
-    },
-    {
       "date": "2026-05-18",
       "diff": -1,
       "result": "L"
@@ -966,6 +961,11 @@
     {
       "date": "2026-05-26",
       "diff": 7,
+      "result": "W"
+    },
+    {
+      "date": "2026-05-27",
+      "diff": 1,
       "result": "W"
     }
   ]
