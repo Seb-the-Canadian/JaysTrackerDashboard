@@ -228,7 +228,7 @@ let NOTES = {};
 let CONFIG = null;
 let _chartDrawn = false;
 
-const EXPECTED_KEYS = ['as_of','team','division','wild_card','recent_games','upcoming_games','roster','injuries','transactions','run_diff_last_10'];
+const EXPECTED_KEYS = ['as_of','team','division','wild_card','recent_games','upcoming_games','roster','injuries','other_unavailable','transactions','run_diff_last_10'];
 
 // ─── Static reference (doesn't change with team data) ───────────────────────
 const STAT_DEFS = {
@@ -770,16 +770,27 @@ function renderPlayers() {
   const roster = (DATA.roster) || { hitters: [], pitchers: [] };
   const hitterCards = roster.hitters.map(p => playerCardHTML(p, 'hitter')).join('') || '<div class="dim">No hitters in roster.</div>';
   const pitcherCards = roster.pitchers.map(p => playerCardHTML(p, 'pitcher')).join('') || '<div class="dim">No pitchers in roster.</div>';
-  const injuries = (DATA.injuries || []).map(i =>
+  const renderInjuryCard = i =>
     '<div class="injury-card"><div class="injury-name">' + escapeText(i.name) + '</div>' +
     '<div class="injury-status">' + escapeText(i.status || '') + '</div>' +
-    (i.eta_note ? '<div class="injury-eta">' + escapeText(i.eta_note) + '</div>' : '') + '</div>'
-  ).join('') || '<div class="dim">No injuries reported.</div>';
+    (i.eta_note ? '<div class="injury-eta">' + escapeText(i.eta_note) + '</div>' : '') + '</div>';
+  const injuryList = DATA.injuries || [];
+  const otherList = DATA.other_unavailable || [];
+  const injurySection = injuryList.length
+    ? '<div class="section"><h2>Injured List</h2><div class="injury-list">' +
+        injuryList.map(renderInjuryCard).join('') + '</div></div>'
+    : '';
+  const otherSection = otherList.length
+    ? '<div class="section"><h2>Other Unavailable</h2><div class="injury-list">' +
+        otherList.map(renderInjuryCard).join('') + '</div></div>'
+    : '';
+  const unavailableSection = (injurySection || otherSection)
+    || '<div class="section"><h2>Injured List</h2><div class="dim">No injuries reported.</div></div>';
 
   document.getElementById('panel-players').innerHTML =
     '<div class="section"><h2>Hitters</h2><div class="grid grid-3">' + hitterCards + '</div></div>' +
     '<div class="section"><h2>Pitchers</h2><div class="grid grid-3">' + pitcherCards + '</div></div>' +
-    '<div class="section"><h2>Injured List</h2><div class="injury-list">' + injuries + '</div></div>';
+    unavailableSection;
 
   document.querySelectorAll('.player-card[data-pid]').forEach(card => {
     card.addEventListener('click', () => openPlayer(card.dataset.pid, card.dataset.kind));
