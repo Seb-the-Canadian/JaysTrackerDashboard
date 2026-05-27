@@ -316,19 +316,33 @@ def fetch_injury_report(cfg):
 def fetch_player_season_stats(person_id, group, season):
     """group is 'hitting' or 'pitching'. Returns the season stat dict or {}.
 
-    A missing/empty response is not fatal — a player on the active roster may
-    legitimately have zero appearances in a given group (e.g., a position player
-    has no pitching stats). We log and continue.
+    Uses the `stats` endpoint with personId as a query param, which is the
+    documented alternative to `person_stats` (the path-param form). Empirically
+    the path-form route through MLB-StatsAPI was returning empty splits for
+    every roster player; this query-form variant is the canonical path used by
+    most public projects against this API.
+
+    A missing/empty response is not fatal — a position player legitimately has
+    no pitching splits. Real fetch failures get logged with the response body
+    so we can tell empty-but-valid from "API said no".
     """
     try:
-        response = statsapi.get("person_stats", {
+        response = statsapi.get("stats", {
             "personId": person_id,
             "stats": "season",
             "group": group,
             "season": season,
+            "sportId": MLB_SPORT_ID,
         })
     except Exception as e:
-        log(f"warning: stats fetch for {person_id} ({group}) failed: {e}")
+        body = ""
+        resp = getattr(e, "response", None)
+        if resp is not None:
+            try:
+                body = (resp.text or "")[:200]
+            except Exception:
+                pass
+        log(f"warning: stats fetch for {person_id} ({group}) failed: {e}" + (f"; body: {body}" if body else ""))
         return {}
     for s in response.get("stats", []):
         splits = s.get("splits", [])
