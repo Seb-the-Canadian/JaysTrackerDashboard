@@ -345,20 +345,31 @@ def fetch_active_roster(cfg):
 
 
 def fetch_injury_report(cfg):
-    """Players on the 40-man with status other than 'Active' — i.e., on the IL,
-    restricted, suspended, etc.
+    """Players on the 40-man with status other than 'Active', split into two
+    buckets: true IL stints vs. other forms of unavailability.
 
     rosterType=injuryReport empirically returns the active 26-man with every
     player marked 'Active' (no IL'd players included, because they're not on
     the active roster). The 40-man is the superset that includes IL'd players
-    with their actual status; filter to non-active to get the injury list.
+    with their actual status; filter to non-active to get the unavailability
+    list.
+
+    The MLB status description carries the human-readable label the dashboard
+    surfaces. Descriptions starting with "Injured" (e.g. "Injured 10-Day",
+    "Injured 60-Day") are real IL placements. Everything else non-Active —
+    "Reassigned to Minors", "Restricted List", "Suspended", "Released",
+    "Bereavement", etc. — is unavailability but not an injury, so it shouldn't
+    sit under the "Injured List" heading.
+
+    Returns {"injuries": [...], "other_unavailable": [...]}.
     """
     response = api("team_roster", {
         "teamId": cfg["team_id"],
         "rosterType": "40Man",
         "season": cfg["season"],
     })
-    rows = []
+    injuries = []
+    other_unavailable = []
     for entry in response.get("roster", []):
         person = entry.get("person", {})
         status = entry.get("status", {})
@@ -370,13 +381,18 @@ def fetch_injury_report(cfg):
         # is somebody unavailable. Belt-and-suspenders: both signals must
         # say "active" for us to skip the entry.
         is_active = code == "A" and desc.lower() == "active"
-        if not is_active and (code or desc):
-            rows.append({
-                "name": person.get("fullName", ""),
-                "status": desc or code,
-                "eta_note": "",
-            })
-    return rows
+        if is_active or not (code or desc):
+            continue
+        row = {
+            "name": person.get("fullName", ""),
+            "status": desc or code,
+            "eta_note": "",
+        }
+        if desc.startswith("Injured"):
+            injuries.append(row)
+        else:
+            other_unavailable.append(row)
+    return {"injuries": injuries, "other_unavailable": other_unavailable}
 
 
 def fetch_player_season_stats(person_id, group, season):
@@ -527,6 +543,9 @@ def assert_invariants(output, cfg):
     for k in ("w", "l"):
         if team["record"].get(k) is None:
             die(f"team.record.{k} is None")
+    for k in ("injuries", "other_unavailable"):
+        if not isinstance(output.get(k), list):
+            die(f"{k} is not a list")
 
 
 # --- Write ------------------------------------------------------------------
@@ -559,7 +578,9 @@ def main():
 
     roster_entries = fetch_active_roster(cfg)
     roster = transform_roster(roster_entries, cfg)
-    injuries = fetch_injury_report(cfg)
+    injury_report = fetch_injury_report(cfg)
+    injuries = injury_report["injuries"]
+    other_unavailable = injury_report["other_unavailable"]
     transactions = fetch_transactions(cfg)
 
     rs = us_record.get("runsScored") or 0
@@ -603,6 +624,7 @@ def main():
         "upcoming_games": upcoming_games,
         "roster": roster,
         "injuries": injuries,
+        "other_unavailable": other_unavailable,
         "transactions": transactions,
         "run_diff_last_10": run_diff_last_10(recent_games),
     }
