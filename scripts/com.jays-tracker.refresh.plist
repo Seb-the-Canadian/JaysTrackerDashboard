@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  com.jays-tracker.refresh.plist — launchd template for the daily refresh.
+
+  This file lives in the repo as a template. To use it:
+
+    1. Copy to ~/Library/LaunchAgents/
+    2. Replace the two REPLACE_WITH_REPO_PATH placeholders below with the
+       absolute path to your local clone of jaystrackerdashboard.
+    3. launchctl bootstrap gui/$UID ~/Library/LaunchAgents/com.jays-tracker.refresh.plist
+
+  Full migration walkthrough: docs/launchd-migration.md
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.jays-tracker.refresh</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/bin/bash</string>
+        <string>REPLACE_WITH_REPO_PATH/scripts/update_and_push.sh</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>REPLACE_WITH_REPO_PATH</string>
+
+    <!--
+      Fires daily at 08:00 system local time. If you live in Eastern Time
+      this matches the Claude Code Routine's 12:00 UTC; in other zones
+      adjust Hour to your local 8 AM ET equivalent (PT = 5, MT = 6, CT = 7).
+    -->
+    <key>StartCalendarInterval</key>
+    <dict>
+        <key>Hour</key>
+        <integer>8</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <!--
+      launchd's default PATH is /usr/bin:/bin:/usr/sbin:/sbin, which won't
+      find Python or git installed via Homebrew. This covers both Apple
+      Silicon (/opt/homebrew) and Intel (/usr/local) Homebrew prefixes.
+      If you use a venv, prepend its bin/ directory here.
+    -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <string>/tmp/jays-tracker-refresh.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/jays-tracker-refresh.err</string>
+
+    <!--
+      RunAtLoad is intentionally NOT set. If the laptop is asleep at the
+      scheduled time, launchd will run the job on next wake. RunAtLoad
+      would also fire the script every time you log in, which is noise.
+    -->
+</dict>
+</plist>
