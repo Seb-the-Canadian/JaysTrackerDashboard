@@ -87,10 +87,14 @@ tr.jays td:first-child { font-weight: 700; }
 .modal-head { margin-bottom: 16px; padding-right: 32px; }
 .modal-title { font-size: 20px; font-weight: 700; }
 .modal-sub { font-size: 12px; color: #8b96a8; margin-top: 4px; }
-.stat-row { display: flex; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid #1f2937; gap: 12px; }
+.stat-row { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; padding: 8px 0; border-bottom: 1px solid #1f2937; gap: 4px 12px; }
 .stat-row:last-child { border-bottom: none; }
 .stat-row-label { font-size: 13px; color: #c9d1d9; flex: 1; }
 .stat-row-val { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.stat-row-context { flex-basis: 100%; font-size: 12px; line-height: 1.5; color: #8b96a8; padding-left: 0; margin-top: 2px; }
+.recent-note { font-size: 12px; line-height: 1.5; color: #c9d1d9; margin-top: 10px; padding-top: 8px; border-top: 1px solid #1f2937; }
+.read { background: #0d141f; border: 1px solid #1f2937; border-left: 3px solid var(--accent-color); border-radius: 6px; padding: 12px 14px; margin: 14px 0; font-size: 13px; line-height: 1.6; color: #c9d1d9; }
+.read-label { display: block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-color); font-weight: 700; margin-bottom: 6px; }
 .ask-box { margin-top: 16px; border-top: 1px solid #1f2937; padding-top: 16px; }
 .ask-suggestions { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 8px; }
 .ask-chip { font-size: 11px; padding: 4px 10px; background: #1f2937; color: #8b96a8; border-radius: 12px; cursor: pointer; border: none; font-family: inherit; }
@@ -229,6 +233,9 @@ let CONFIG = null;
 let _chartDrawn = false;
 
 const EXPECTED_KEYS = ['as_of','team','division','wild_card','recent_games','upcoming_games','roster','injuries','other_unavailable','transactions','run_diff_last_10'];
+
+// Top-N hitters by AB go in "Lineup Regulars"; the rest fall to "Bench / Depth".
+const LINEUP_REGULAR_COUNT = 8;
 
 // ─── Static reference (doesn't change with team data) ───────────────────────
 const STAT_DEFS = {
@@ -768,8 +775,23 @@ function drawDiffChart() {
 // ─── Players ───────────────────────────────────────────────────────────────
 function renderPlayers() {
   const roster = (DATA.roster) || { hitters: [], pitchers: [] };
-  const hitterCards = roster.hitters.map(p => playerCardHTML(p, 'hitter')).join('') || '<div class="dim">No hitters in roster.</div>';
-  const pitcherCards = roster.pitchers.map(p => playerCardHTML(p, 'pitcher')).join('') || '<div class="dim">No pitchers in roster.</div>';
+
+  // Hitters: sort by AB desc, top N are regulars, the rest are bench/depth.
+  const hittersByAb = (roster.hitters || []).slice().sort((a, b) => (b.ab ?? 0) - (a.ab ?? 0));
+  const lineupRegulars = hittersByAb.slice(0, LINEUP_REGULAR_COUNT);
+  const benchDepth = hittersByAb.slice(LINEUP_REGULAR_COUNT);
+
+  // Pitchers: gs >= 3 are the rotation, the rest are bullpen.
+  // Missing gs counts as 0, which keeps spot starters / openers in the bullpen.
+  const rotation = (roster.pitchers || []).filter(p => (p.gs ?? 0) >= 3);
+  const bullpen = (roster.pitchers || []).filter(p => (p.gs ?? 0) < 3);
+
+  const playerSection = (heading, players, kind) => {
+    if (!players.length) return '';
+    const cards = players.map(p => playerCardHTML(p, kind)).join('');
+    return '<div class="section"><h2>' + heading + '</h2><div class="grid grid-3">' + cards + '</div></div>';
+  };
+
   const renderInjuryCard = i =>
     '<div class="injury-card"><div class="injury-name">' + escapeText(i.name) + '</div>' +
     '<div class="injury-status">' + escapeText(i.status || '') + '</div>' +
@@ -788,8 +810,10 @@ function renderPlayers() {
     || '<div class="section"><h2>Injured List</h2><div class="dim">No injuries reported.</div></div>';
 
   document.getElementById('panel-players').innerHTML =
-    '<div class="section"><h2>Hitters</h2><div class="grid grid-3">' + hitterCards + '</div></div>' +
-    '<div class="section"><h2>Pitchers</h2><div class="grid grid-3">' + pitcherCards + '</div></div>' +
+    playerSection('Lineup Regulars', lineupRegulars, 'hitter') +
+    playerSection('Starting Rotation', rotation, 'pitcher') +
+    playerSection('Bullpen', bullpen, 'pitcher') +
+    playerSection('Bench / Depth', benchDepth, 'hitter') +
     unavailableSection;
 
   document.querySelectorAll('.player-card[data-pid]').forEach(card => {
@@ -798,6 +822,10 @@ function renderPlayers() {
 }
 
 function playerCardHTML(p, kind) {
+  const playerNote = (NOTES.players && NOTES.players[String(p.id)]) || null;
+  const recentNote = playerNote && playerNote.recentNote
+    ? '<div class="recent-note">' + playerNote.recentNote + '</div>'
+    : '';
   if (kind === 'hitter') {
     return '<div class="player-card" data-pid="' + p.id + '" data-kind="hitter">' +
       '<div class="player-card-head"><div>' +
@@ -809,6 +837,7 @@ function playerCardHTML(p, kind) {
         '<div class="mini-stat"><div class="mini-stat-label">HR / RBI</div><div class="mini-stat-val">' + (p.hr ?? 0) + ' / ' + (p.rbi ?? 0) + '</div></div>' +
         '<div class="mini-stat"><div class="mini-stat-label">SB</div><div class="mini-stat-val">' + (p.sb ?? 0) + '</div></div>' +
       '</div>' +
+      recentNote +
     '</div>';
   }
   return '<div class="player-card" data-pid="' + p.id + '" data-kind="pitcher">' +
@@ -821,6 +850,7 @@ function playerCardHTML(p, kind) {
       '<div class="mini-stat"><div class="mini-stat-label">IP</div><div class="mini-stat-val">' + (p.ip || '0.0') + '</div></div>' +
       '<div class="mini-stat"><div class="mini-stat-label">W-L-SV</div><div class="mini-stat-val">' + (p.w ?? 0) + '-' + (p.l ?? 0) + '-' + (p.sv ?? 0) + '</div></div>' +
     '</div>' +
+    recentNote +
   '</div>';
 }
 
@@ -830,11 +860,23 @@ function openPlayer(id, kind) {
   const p = list.find(x => String(x.id) === String(id));
   if (!p) return;
 
+  const playerNote = (NOTES.players && NOTES.players[String(p.id)]) || null;
+  const contextNotes = (playerNote && playerNote.contextNotes) || {};
+
   const fields = Object.entries(p).filter(([k]) => k !== 'id' && k !== 'name');
-  const rows = fields.map(([label, val]) =>
-    '<div class="stat-row"><div class="stat-row-label">' + escapeText(label) + '</div>' +
-    '<div class="stat-row-val">' + escapeText(String(val)) + '</div></div>'
-  ).join('');
+  const rows = fields.map(([label, val]) => {
+    const ctx = Object.prototype.hasOwnProperty.call(contextNotes, label)
+      ? '<div class="stat-row-context">' + contextNotes[label] + '</div>'
+      : '';
+    return '<div class="stat-row"><div class="stat-row-label">' + escapeText(label) + '</div>' +
+      '<div class="stat-row-val">' + escapeText(String(val)) + '</div>' +
+      ctx +
+      '</div>';
+  }).join('');
+
+  const readBlock = playerNote && playerNote.read
+    ? '<div class="read"><span class="read-label">The read</span>' + playerNote.read + '</div>'
+    : '';
 
   const askPrompt = 'You are a sharp baseball analyst writing a brief on ' + p.name + ' (' + (kind === 'pitcher' ? p.role : p.pos) + ').\n\n' +
     '2026 season line:\n' + JSON.stringify(p, null, 2) + '\n\n' +
@@ -846,6 +888,7 @@ function openPlayer(id, kind) {
       '<div class="modal-title">' + escapeText(p.name) + '</div>' +
       '<div class="modal-sub">' + escapeText(kind === 'pitcher' ? (p.role || '') : (p.pos || '')) + '</div>' +
     '</div>' +
+    readBlock +
     '<div>' + rows + '</div>' +
     '<div class="ask-box">' +
       '<div class="section-title">Ask the analyst</div>' +
@@ -895,7 +938,7 @@ function renderGames() {
   }
   const html = '<div class="section"><h2>Recent Games</h2>' +
     games.map((g, i) => {
-      const note = NOTES[String(g.game_pk)] || null;
+      const note = (NOTES.games && NOTES.games[String(g.game_pk)]) || null;
       const moment = (note && note.moment) || g.summary_facts || '';
       const meaning = note && note.meaning ? '<strong>What it meant:</strong> ' + escapeText(note.meaning) : '<div class="dim">No analyst note for this game yet. Add one to <code>notes.json</code> keyed by <code>' + g.game_pk + '</code> with <code>moment</code> and <code>meaning</code>.</div>';
       return '<div class="game" id="game-' + i + '">' +
