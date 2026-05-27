@@ -121,6 +121,11 @@ tr.jays td:first-child { font-weight: 700; }
 .chart-wrap { position: relative; height: 220px; }
 .note { font-size: 12px; color: #d29922; background: rgba(210,153,34,0.06); border: 1px solid rgba(210,153,34,0.25); border-radius: 6px; padding: 10px 12px; margin: 12px 0; }
 .note code { font-family: 'SF Mono', Menlo, Consolas, monospace; background: #0d141f; padding: 1px 5px; border-radius: 3px; font-size: 11px; color: #e6edf3; }
+.narrative { background: #131923; border: 1px solid #1f2937; border-radius: 8px; padding: 18px 20px; }
+.narrative h2 { font-size: 16px; font-weight: 700; margin: 0 0 12px 0; color: #e6edf3; letter-spacing: -0.01em; }
+.narrative p { font-size: 13px; line-height: 1.65; color: #c9d1d9; margin: 0 0 12px 0; }
+.narrative p:last-child { margin-bottom: 0; }
+.narrative strong { color: #e6edf3; font-weight: 700; }
 .since-yesterday { background: #131923; border: 1px solid #1f2937; border-left: 3px solid var(--accent-color); border-radius: 6px; padding: 14px 16px; }
 .since-yesterday .row { display: grid; grid-template-columns: 140px 1fr; gap: 14px; padding: 8px 0; border-bottom: 1px solid #1f2937; }
 .since-yesterday .row:last-child { border-bottom: none; }
@@ -226,13 +231,13 @@ h3 { font-size: 14px; font-weight: 600; margin: 0 0 10px 0; color: #c9d1d9; }
 </div>
 <div class="toast" id="toast"></div>
 <script>
-// ─── State ──────────────────────────────────────────────────────────────────
+// ─── State ─────────────────────────────────────────────────────────────────
 let DATA = null;
 let NOTES = {};
 let CONFIG = null;
 let _chartDrawn = false;
 
-const EXPECTED_KEYS = ['as_of','team','division','wild_card','recent_games','upcoming_games','roster','injuries','other_unavailable','transactions','run_diff_last_10'];
+const EXPECTED_KEYS = ['as_of','team','division','wild_card','recent_games','upcoming_games','roster','injuries','transactions','run_diff_last_10'];
 
 // Top-N hitters by AB go in "Lineup Regulars"; the rest fall to "Bench / Depth".
 const LINEUP_REGULAR_COUNT = 8;
@@ -549,7 +554,7 @@ function validateSchema(data) {
   }
 }
 
-// ─── Toast / clipboard ──────────────────────────────────────────────────────
+// ─── Toast / clipboard ────────────────────────────────────────────────────────────────
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -567,7 +572,7 @@ async function copyAskPrompt(prompt) {
   }
 }
 
-// ─── statChip ──────────────────────────────────────────────────────────────
+// ─── statChip ─────────────────────────────────────────────────────────────────────
 function statChip(stat, displayValue) {
   const def = STAT_DEFS[stat];
   if (!def) return displayValue || stat;
@@ -589,7 +594,7 @@ document.body.addEventListener('click', () => {
   document.querySelectorAll('.tooltip.open').forEach(t => t.classList.remove('open'));
 });
 
-// ─── Nav and tabs ──────────────────────────────────────────────────────────
+// ─── Nav and tabs ───────────────────────────────────────────────────────────────
 function renderNav() {
   const nav = document.getElementById('nav');
   nav.innerHTML = TABS.map(t =>
@@ -617,7 +622,7 @@ function renderAll() {
   setTimeout(drawDiffChart, 50);
 }
 
-// ─── Overview ──────────────────────────────────────────────────────────────
+// ─── Overview ───────────────────────────────────────────────────────────────────
 function renderOverview() {
   if (!DATA) return;
   const t = DATA.team || {};
@@ -651,6 +656,7 @@ function renderOverview() {
         '<div class="stat-sub">' + pythStr + '</div>' +
       '</div>' +
     '</div></div>' +
+    renderOverviewNarrative() +
     '<div class="section">' + renderSinceYesterday() + '</div>' +
     '<div class="section grid grid-2">' +
       '<div class="card"><h2>Division</h2>' + renderStandingsTable(DATA.division || [], true) + '</div>' +
@@ -663,6 +669,14 @@ function renderOverview() {
 
   document.getElementById('panel-overview').innerHTML = html;
   _chartDrawn = false;
+}
+
+function renderOverviewNarrative() {
+  const ov = NOTES.overview;
+  if (!ov || !Array.isArray(ov.paragraphs) || ov.paragraphs.length === 0) return '';
+  const headline = ov.headline ? '<h2>' + ov.headline + '</h2>' : '';
+  const paras = ov.paragraphs.map(p => '<p>' + p + '</p>').join('');
+  return '<div class="section"><div class="narrative">' + headline + paras + '</div></div>';
 }
 
 function renderStandingsTable(rows, withLast10) {
@@ -772,7 +786,7 @@ function drawDiffChart() {
   _chartDrawn = true;
 }
 
-// ─── Players ───────────────────────────────────────────────────────────────
+// ─── Players ───────────────────────────────────────────────────────────────────
 function renderPlayers() {
   const roster = (DATA.roster) || { hitters: [], pitchers: [] };
 
@@ -792,29 +806,18 @@ function renderPlayers() {
     return '<div class="section"><h2>' + heading + '</h2><div class="grid grid-3">' + cards + '</div></div>';
   };
 
-  const renderInjuryCard = i =>
+  const injuries = (DATA.injuries || []).map(i =>
     '<div class="injury-card"><div class="injury-name">' + escapeText(i.name) + '</div>' +
     '<div class="injury-status">' + escapeText(i.status || '') + '</div>' +
-    (i.eta_note ? '<div class="injury-eta">' + escapeText(i.eta_note) + '</div>' : '') + '</div>';
-  const injuryList = DATA.injuries || [];
-  const otherList = DATA.other_unavailable || [];
-  const injurySection = injuryList.length
-    ? '<div class="section"><h2>Injured List</h2><div class="injury-list">' +
-        injuryList.map(renderInjuryCard).join('') + '</div></div>'
-    : '';
-  const otherSection = otherList.length
-    ? '<div class="section"><h2>Other Unavailable</h2><div class="injury-list">' +
-        otherList.map(renderInjuryCard).join('') + '</div></div>'
-    : '';
-  const unavailableSection = (injurySection || otherSection)
-    || '<div class="section"><h2>Injured List</h2><div class="dim">No injuries reported.</div></div>';
+    (i.eta_note ? '<div class="injury-eta">' + escapeText(i.eta_note) + '</div>' : '') + '</div>'
+  ).join('') || '<div class="dim">No injuries reported.</div>';
 
   document.getElementById('panel-players').innerHTML =
     playerSection('Lineup Regulars', lineupRegulars, 'hitter') +
     playerSection('Starting Rotation', rotation, 'pitcher') +
     playerSection('Bullpen', bullpen, 'pitcher') +
     playerSection('Bench / Depth', benchDepth, 'hitter') +
-    unavailableSection;
+    '<div class="section"><h2>Injured List</h2><div class="injury-list">' + injuries + '</div></div>';
 
   document.querySelectorAll('.player-card[data-pid]').forEach(card => {
     card.addEventListener('click', () => openPlayer(card.dataset.pid, card.dataset.kind));
@@ -904,7 +907,7 @@ function openPlayer(id, kind) {
 
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 
-// ─── Team panel ────────────────────────────────────────────────────────────
+// ─── Team panel ───────────────────────────────────────────────────────────────────
 function renderTeam() {
   const t = DATA.team || {};
   const rec = t.record || {};
@@ -929,7 +932,7 @@ function legendRow(label, value, sub) {
   '</div>';
 }
 
-// ─── Games panel ───────────────────────────────────────────────────────────
+// ─── Games panel ─────────────────────────────────────────────────────────────────
 function renderGames() {
   const games = (DATA.recent_games || []).slice().reverse();
   if (!games.length) {
@@ -981,14 +984,14 @@ function renderGames() {
   });
 }
 
-// ─── School panel ──────────────────────────────────────────────────────────
+// ─── School panel ──────────────────────────────────────────────────────────────
 function renderSchool() {
   const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
   const statsHTML =
     '<div class="school-intro">Every stat in this dashboard, expanded. <strong>Definition</strong> is what it tries to measure. <strong>Calculation</strong> is the actual math. <strong>Benchmarks</strong> tell you what a number means in context. <strong>Pitfalls</strong> are where the stat misleads.</div>' +
     '<div class="school-toc">' +
-      GLOSSARY.map(g => '<button class="toc-chip" onclick="document.getElementById(\'stat-' + slug(g.term) + '\').scrollIntoView({behavior:\'smooth\', block:\'start\'})">' + g.term + '</button>').join('') +
+      GLOSSARY.map(g => '<button class="toc-chip" onclick="document.getElementById(\'stat-' + 'slugplaceholder' + '\').scrollIntoView({behavior:\'smooth\', block:\'start\'})">' + g.term + '</button>').join('') +
     '</div>' +
     GLOSSARY.map(g =>
       '<div class="stat-entry" id="stat-' + slug(g.term) + '">' +
@@ -1072,7 +1075,7 @@ function switchSchool(which) {
   document.querySelectorAll('.school-content').forEach(c => c.classList.toggle('active', c.id === 'school-' + which));
 }
 
-// ─── Helpers ───────────────────────────────────────────────────────────────
+// ─── Helpers ─────────────────────────────────────────────────────────────────────
 function escapeText(s) {
   if (s == null) return '';
   return String(s)
@@ -1083,8 +1086,8 @@ function escapeText(s) {
     .replace(/'/g, '&#39;');
 }
 
-// ─── Init ──────────────────────────────────────────────────────────────────
-if (document.readyState === 'loading') {
+// ─── Init ──────────────────────────────────────────────────────────────────────
+if (document.readyState === 'leng') {
   document.addEventListener('DOMContentLoaded', loadAll);
 } else {
   loadAll();
