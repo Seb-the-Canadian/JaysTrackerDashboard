@@ -56,7 +56,18 @@ def api(endpoint, params):
     try:
         return statsapi.get(endpoint, params)
     except Exception as e:
-        die(f"API call to {endpoint} failed (params={params}): {e}")
+        # If the underlying requests exception carries a response, include
+        # the first 500 chars of the body. This distinguishes our proxy's
+        # "Host not in allowlist" from a real upstream 403/4xx/5xx.
+        body = ""
+        resp = getattr(e, "response", None)
+        if resp is not None:
+            try:
+                body = (resp.text or "")[:500]
+            except Exception:
+                pass
+        suffix = f"\nResponse body: {body}" if body else ""
+        die(f"API call to {endpoint} failed (params={params}): {e}{suffix}")
 
 
 # --- Conversions ------------------------------------------------------------
