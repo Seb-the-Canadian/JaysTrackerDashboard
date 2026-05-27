@@ -98,7 +98,7 @@ MLB-StatsAPI>=1.9.0
    - Pulls: division standings, wild card standings, schedule (past 30 + future 7), per-game boxscore for last 10 games, active roster + injury report, season stats for each active player, last 7 days of transactions.
    - Transforms each response into the shape `data.json` requires (defined below).
    - **Quality invariants** — before writing, assert:
-     - Division standings has exactly 5 teams (for AL East / NL East / AL West / NL West) or exactly 4 (Central). Generalize: matches the expected division size for the configured `division_id`.
+     - Division standings has exactly 5 teams (every MLB division has been 5 teams since the 2013 realignment).
      - Wild card standings has ≥10 entries.
      - `recent_games` has ≥1 entry (unless season hasn't started — guarded by date check).
      - `team.record.w` + `team.record.l` equals games played as derived from the schedule.
