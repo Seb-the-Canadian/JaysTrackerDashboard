@@ -133,6 +133,18 @@ def fetch_team_names(cfg):
     return {t["id"]: t.get("name") or t.get("teamName") or "" for t in response.get("teams", [])}
 
 
+def fetch_division_names(cfg):
+    """Build {division_id: short_name} lookup from the divisions endpoint.
+
+    The standings response's `division` object is just {id, link} — no name.
+    To render team.place as "3rd in AL East" instead of "3rd in division"
+    we need a separate call. nameShort ("AL East") is the dashboard-friendly
+    form; name ("American League East") is the verbose fallback.
+    """
+    response = api("divisions", {"sportId": MLB_SPORT_ID})
+    return {d["id"]: d.get("nameShort") or d.get("name") or "" for d in response.get("divisions", [])}
+
+
 def fetch_division_record(cfg):
     response = api("standings", {
         "leagueId": cfg["league_id"],
@@ -552,6 +564,7 @@ def main():
     log(f"fetch_data.py: team_id={cfg['team_id']} season={cfg['season']}")
 
     team_names = fetch_team_names(cfg)
+    division_names = fetch_division_names(cfg)
     div_record = fetch_division_record(cfg)
     us_record = find_us_team_record(div_record, cfg)
     division = transform_division(div_record, cfg, team_names)
@@ -577,7 +590,13 @@ def main():
     l = us_record.get("losses", 0)
     games_played = w + l
     pw, pl = pythag(rs, ra, games_played)
-    div_name = (div_record.get("division") or {}).get("name") or "division"
+    # divisions endpoint lookup first; fall back to whatever the standings
+    # record provided (typically nothing, but cheap to chain).
+    div_name = (
+        division_names.get(cfg["division_id"])
+        or (div_record.get("division") or {}).get("name")
+        or "division"
+    )
     rank_str = ordinal(us_record.get("divisionRank"))
     place = f"{rank_str} in {div_name}" if rank_str else f"in {div_name}"
     team_summary = {
