@@ -1102,6 +1102,7 @@ function renderSchool() {
         '<div class="pitch-row"><span class="label">Movement</span><span class="body">' + p.movement + '</span></div>' +
         '<div class="pitch-row"><span class="label">Purpose</span><span class="body">' + p.purpose + '</span></div>' +
         '<div class="pitch-row"><span class="label">Watch for</span><span class="body">' + p.watch + '</span></div>' +
+        ((NOTES.pitches && NOTES.pitches[p.name]) ? '<div class="pitch-row jays"><span class="label">Team note</span><span class="body">' + NOTES.pitches[p.name] + '</span></div>' : '') +
         '</div>'
       ).join('') +
       '</div>'
