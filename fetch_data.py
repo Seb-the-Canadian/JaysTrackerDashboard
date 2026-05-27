@@ -97,6 +97,24 @@ def parse_float(s, default=0.0):
         return default
 
 
+def ordinal(n):
+    """1 -> '1st', 2 -> '2nd', 3 -> '3rd', 4 -> '4th', 11 -> '11th', etc.
+
+    MLB's divisionRank comes back as a string like "3"; coerce to int first.
+    Return empty string for None / unparseable input.
+    """
+    if n in (None, ""):
+        return ""
+    try:
+        n_int = int(n)
+    except (TypeError, ValueError):
+        return str(n)
+    if n_int % 100 in (11, 12, 13):
+        return f"{n_int}th"
+    suffix = {1: "st", 2: "nd", 3: "rd"}.get(n_int % 10, "th")
+    return f"{n_int}{suffix}"
+
+
 # --- Standings --------------------------------------------------------------
 
 def fetch_division_record(cfg):
@@ -485,9 +503,12 @@ def main():
     l = us_record.get("losses", 0)
     games_played = w + l
     pw, pl = pythag(rs, ra, games_played)
+    div_name = (div_record.get("division") or {}).get("name") or "division"
+    rank_str = ordinal(us_record.get("divisionRank"))
+    place = f"{rank_str} in {div_name}" if rank_str else f"in {div_name}"
     team_summary = {
         "record": {"w": w, "l": l},
-        "place": f"{us_record.get('divisionRank', '?')} in division",
+        "place": place,
         "last10": last10_from_records(us_record.get("records", {})),
         "streak": us_record.get("streak", {}).get("streakCode", ""),
         "runs_scored": rs,
