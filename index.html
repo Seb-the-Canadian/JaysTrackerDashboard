@@ -991,7 +991,7 @@ function renderSchool() {
   const statsHTML =
     '<div class="school-intro">Every stat in this dashboard, expanded. <strong>Definition</strong> is what it tries to measure. <strong>Calculation</strong> is the actual math. <strong>Benchmarks</strong> tell you what a number means in context. <strong>Pitfalls</strong> are where the stat misleads.</div>' +
     '<div class="school-toc">' +
-      GLOSSARY.map(g => '<button class="toc-chip" onclick="document.getElementById(\'stat-' + 'slugplaceholder' + '\').scrollIntoView({behavior:\'smooth\', block:\'start\'})">' + g.term + '</button>').join('') +
+      GLOSSARY.map(g => '<button class="toc-chip" onclick="document.getElementById(\'stat-' + slug(g.term) + '\').scrollIntoView({behavior:\'smooth\', block:\'start\'})">' + g.term + '</button>').join('') +
     '</div>' +
     GLOSSARY.map(g =>
       '<div class="stat-entry" id="stat-' + slug(g.term) + '">' +
@@ -1087,7 +1087,7 @@ function escapeText(s) {
 }
 
 // ─── Init ──────────────────────────────────────────────────────────────────────
-if (document.readyState === 'leng') {
+if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', loadAll);
 } else {
   loadAll();
