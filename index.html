@@ -226,13 +226,13 @@ h3 { font-size: 14px; font-weight: 600; margin: 0 0 10px 0; color: #c9d1d9; }
 </div>
 <div class="toast" id="toast"></div>
 <script>
-// ─── State ──────────────────────────────────────────────────────────────────
+// ─── State ─────────────────────────────────────────────────────────────────────────
 let DATA = null;
 let NOTES = {};
 let CONFIG = null;
 let _chartDrawn = false;
 
-const EXPECTED_KEYS = ['as_of','team','division','wild_card','recent_games','upcoming_games','roster','injuries','other_unavailable','transactions','run_diff_last_10'];
+const EXPECTED_KEYS = ['as_of','team','division','wild_card','recent_games','upcoming_games','roster','injuries','transactions','run_diff_last_10'];
 
 // Top-N hitters by AB go in "Lineup Regulars"; the rest fall to "Bench / Depth".
 const LINEUP_REGULAR_COUNT = 8;
@@ -454,7 +454,7 @@ const WATCHING = [
   ]}
 ];
 
-// ─── Loading ────────────────────────────────────────────────────────────────
+// ─── Loading ───────────────────────────────────────────────────────────────────────
 async function loadAll() {
   let config;
   try {
@@ -549,7 +549,7 @@ function validateSchema(data) {
   }
 }
 
-// ─── Toast / clipboard ──────────────────────────────────────────────────────
+// ─── Toast / clipboard ───────────────────────────────────────────────────────────
 function showToast(msg) {
   const t = document.getElementById('toast');
   t.textContent = msg;
@@ -567,7 +567,7 @@ async function copyAskPrompt(prompt) {
   }
 }
 
-// ─── statChip ──────────────────────────────────────────────────────────────
+// ─── statChip ─────────────────────────────────────────────────────────────────────
 function statChip(stat, displayValue) {
   const def = STAT_DEFS[stat];
   if (!def) return displayValue || stat;
@@ -589,7 +589,7 @@ document.body.addEventListener('click', () => {
   document.querySelectorAll('.tooltip.open').forEach(t => t.classList.remove('open'));
 });
 
-// ─── Nav and tabs ──────────────────────────────────────────────────────────
+// ─── Nav and tabs ───────────────────────────────────────────────────────────────────
 function renderNav() {
   const nav = document.getElementById('nav');
   nav.innerHTML = TABS.map(t =>
@@ -617,7 +617,7 @@ function renderAll() {
   setTimeout(drawDiffChart, 50);
 }
 
-// ─── Overview ──────────────────────────────────────────────────────────────
+// ─── Overview ──────────────────────────────────────────────────────────────────────
 function renderOverview() {
   if (!DATA) return;
   const t = DATA.team || {};
@@ -772,7 +772,7 @@ function drawDiffChart() {
   _chartDrawn = true;
 }
 
-// ─── Players ───────────────────────────────────────────────────────────────
+// ─── Players ───────────────────────────────────────────────────────────────────────
 function renderPlayers() {
   const roster = (DATA.roster) || { hitters: [], pitchers: [] };
 
@@ -792,29 +792,18 @@ function renderPlayers() {
     return '<div class="section"><h2>' + heading + '</h2><div class="grid grid-3">' + cards + '</div></div>';
   };
 
-  const renderInjuryCard = i =>
+  const injuries = (DATA.injuries || []).map(i =>
     '<div class="injury-card"><div class="injury-name">' + escapeText(i.name) + '</div>' +
     '<div class="injury-status">' + escapeText(i.status || '') + '</div>' +
-    (i.eta_note ? '<div class="injury-eta">' + escapeText(i.eta_note) + '</div>' : '') + '</div>';
-  const injuryList = DATA.injuries || [];
-  const otherList = DATA.other_unavailable || [];
-  const injurySection = injuryList.length
-    ? '<div class="section"><h2>Injured List</h2><div class="injury-list">' +
-        injuryList.map(renderInjuryCard).join('') + '</div></div>'
-    : '';
-  const otherSection = otherList.length
-    ? '<div class="section"><h2>Other Unavailable</h2><div class="injury-list">' +
-        otherList.map(renderInjuryCard).join('') + '</div></div>'
-    : '';
-  const unavailableSection = (injurySection || otherSection)
-    || '<div class="section"><h2>Injured List</h2><div class="dim">No injuries reported.</div></div>';
+    (i.eta_note ? '<div class="injury-eta">' + escapeText(i.eta_note) + '</div>' : '') + '</div>'
+  ).join('') || '<div class="dim">No injuries reported.</div>';
 
   document.getElementById('panel-players').innerHTML =
     playerSection('Lineup Regulars', lineupRegulars, 'hitter') +
     playerSection('Starting Rotation', rotation, 'pitcher') +
     playerSection('Bullpen', bullpen, 'pitcher') +
     playerSection('Bench / Depth', benchDepth, 'hitter') +
-    unavailableSection;
+    '<div class="section"><h2>Injured List</h2><div class="injury-list">' + injuries + '</div></div>';
 
   document.querySelectorAll('.player-card[data-pid]').forEach(card => {
     card.addEventListener('click', () => openPlayer(card.dataset.pid, card.dataset.kind));
@@ -904,7 +893,7 @@ function openPlayer(id, kind) {
 
 function closeModal() { document.getElementById('modal').classList.remove('open'); }
 
-// ─── Team panel ────────────────────────────────────────────────────────────
+// ─── Team panel ─────────────────────────────────────────────────────────────────────
 function renderTeam() {
   const t = DATA.team || {};
   const rec = t.record || {};
@@ -929,7 +918,7 @@ function legendRow(label, value, sub) {
   '</div>';
 }
 
-// ─── Games panel ───────────────────────────────────────────────────────────
+// ─── Games panel ──────────────────────────────────────────────────────────────────
 function renderGames() {
   const games = (DATA.recent_games || []).slice().reverse();
   if (!games.length) {
@@ -981,7 +970,7 @@ function renderGames() {
   });
 }
 
-// ─── School panel ──────────────────────────────────────────────────────────
+// ─── School panel ──────────────────────────────────────────────────────────────────
 function renderSchool() {
   const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 
@@ -1004,13 +993,15 @@ function renderSchool() {
     '<div class="school-intro">Every pitcher’s arsenal is built from these shapes. <strong>Velocity</strong> is the radar gun number. <strong>Movement</strong> is what the ball does. <strong>Purpose</strong> is what the pitch is trying to accomplish.</div>' +
     PITCH_TYPES.map(cat =>
       '<div class="pitch-category"><div class="pitch-category-title">' + cat.category + '</div>' +
-      cat.pitches.map(p =>
-        '<div class="pitch-card"><div class="pitch-card-head"><div><span class="pitch-name">' + p.name + '</span><span class="pitch-abbr" style="margin-left:8px">' + p.abbr + '</span></div><div class="pitch-velo">' + p.velo + '</div></div>' +
-        '<div class="pitch-row"><span class="label">Movement</span><span class="body">' + p.movement + '</span></div>' +
-        '<div class="pitch-row"><span class="label">Purpose</span><span class="body">' + p.purpose + '</span></div>' +
-        '<div class="pitch-row"><span class="label">Watch for</span><span class="body">' + p.watch + '</span></div>' +
-        '</div>'
-      ).join('') +
+      cat.pitches.map(p => {
+        const teamNote = (NOTES.pitches && NOTES.pitches[p.name]) || null;
+        return '<div class="pitch-card"><div class="pitch-card-head"><div><span class="pitch-name">' + p.name + '</span><span class="pitch-abbr" style="margin-left:8px">' + p.abbr + '</span></div><div class="pitch-velo">' + p.velo + '</div></div>' +
+          '<div class="pitch-row"><span class="label">Movement</span><span class="body">' + p.movement + '</span></div>' +
+          '<div class="pitch-row"><span class="label">Purpose</span><span class="body">' + p.purpose + '</span></div>' +
+          '<div class="pitch-row"><span class="label">Watch for</span><span class="body">' + p.watch + '</span></div>' +
+          (teamNote ? '<div class="pitch-row jays"><span class="label">Team note</span><span class="body">' + teamNote + '</span></div>' : '') +
+          '</div>';
+      }).join('') +
       '</div>'
     ).join('');
 
@@ -1072,7 +1063,7 @@ function switchSchool(which) {
   document.querySelectorAll('.school-content').forEach(c => c.classList.toggle('active', c.id === 'school-' + which));
 }
 
-// ─── Helpers ───────────────────────────────────────────────────────────────
+// ─── Helpers ───────────────────────────────────────────────────────────────────────
 function escapeText(s) {
   if (s == null) return '';
   return String(s)
@@ -1083,7 +1074,7 @@ function escapeText(s) {
     .replace(/'/g, '&#39;');
 }
 
-// ─── Init ──────────────────────────────────────────────────────────────────
+// ─── Init ─────────────────────────────────────────────────────────────────────────
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', loadAll);
 } else {
