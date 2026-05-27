@@ -313,11 +313,18 @@ def fetch_injury_report(cfg):
     for entry in response.get("roster", []):
         person = entry.get("person", {})
         status = entry.get("status", {})
-        desc = status.get("description") or ""
-        if desc and desc.strip().lower() != "active":
+        code = (status.get("code") or "").strip().upper()
+        desc = (status.get("description") or "").strip()
+        # An "available" player has status code A (Active) and description
+        # "Active". Anything else — IL stints (D7/D10/D15/D60), restricted
+        # (RM), suspended (SU), paternity (PL), bereavement (BRV), etc. —
+        # is somebody unavailable. Belt-and-suspenders: both signals must
+        # say "active" for us to skip the entry.
+        is_active = code == "A" and desc.lower() == "active"
+        if not is_active and (code or desc):
             rows.append({
                 "name": person.get("fullName", ""),
-                "status": desc,
+                "status": desc or code,
                 "eta_note": "",
             })
     return rows
