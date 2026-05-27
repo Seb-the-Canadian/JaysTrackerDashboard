@@ -59,5 +59,19 @@ jobs:
           git config user.email "bot@example.invalid"
           git add data.json
           git commit -m "Daily data refresh: $(date -u +%Y-%m-%d)"
-          git push
-          echo "pushed daily refresh"
+
+          # If main moved between checkout and push (concurrent PR merge,
+          # manual commit, an overlapping workflow run), the first push
+          # gets rejected as non-fast-forward. Rebase onto the new tip
+          # and try again — the daily refresh commit only touches
+          # data.json, so a rebase against anything else won't conflict.
+          for attempt in 1 2 3; do
+            if git push; then
+              echo "pushed daily refresh (attempt $attempt)"
+              exit 0
+            fi
+            echo "push rejected on attempt $attempt, rebasing onto origin/main..."
+            git pull --rebase origin main
+          done
+          echo "ERROR: push still failing after 3 rebase-and-retry attempts"
+          exit 1
