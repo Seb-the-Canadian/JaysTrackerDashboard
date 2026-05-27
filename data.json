@@ -1,0 +1,953 @@
+{
+  "as_of": "2026-05-27T02:26:18.915812+00:00",
+  "config": {
+    "team_id": 141,
+    "team_name": "Toronto Blue Jays",
+    "season": 2026
+  },
+  "team": {
+    "record": {
+      "w": 26,
+      "l": 29
+    },
+    "place": "3 in division",
+    "last10": "6-4",
+    "streak": "W1",
+    "runs_scored": 224,
+    "runs_allowed": 229,
+    "run_diff": -5,
+    "pythag_w": 27,
+    "pythag_l": 28
+  },
+  "division": [
+    {
+      "team": "Rays",
+      "team_id": 139,
+      "w": 34,
+      "l": 18,
+      "pct": ".654",
+      "gb": "-",
+      "streak": "L3",
+      "last10": "6-4",
+      "is_us": false
+    },
+    {
+      "team": "Yankees",
+      "team_id": 147,
+      "w": 32,
+      "l": 22,
+      "pct": ".593",
+      "gb": "3.0",
+      "streak": "W2",
+      "last10": "5-5",
+      "is_us": false
+    },
+    {
+      "team": "Blue Jays",
+      "team_id": 141,
+      "w": 26,
+      "l": 29,
+      "pct": ".473",
+      "gb": "9.5",
+      "streak": "W1",
+      "last10": "6-4",
+      "is_us": true
+    },
+    {
+      "team": "Orioles",
+      "team_id": 110,
+      "w": 25,
+      "l": 30,
+      "pct": ".455",
+      "gb": "10.5",
+      "streak": "W2",
+      "last10": "5-5",
+      "is_us": false
+    },
+    {
+      "team": "Red Sox",
+      "team_id": 111,
+      "w": 22,
+      "l": 31,
+      "pct": ".415",
+      "gb": "12.5",
+      "streak": "L4",
+      "last10": "4-6",
+      "is_us": false
+    }
+  ],
+  "wild_card": [
+    {
+      "team": "Yankees",
+      "team_id": 147,
+      "w": 32,
+      "l": 22,
+      "gb": "+6.0",
+      "note": "In (1st WC seed)",
+      "is_us": false
+    },
+    {
+      "team": "White Sox",
+      "team_id": 145,
+      "w": 27,
+      "l": 26,
+      "gb": "+1.5",
+      "note": "In (2nd WC seed)",
+      "is_us": false
+    },
+    {
+      "team": "Twins",
+      "team_id": 142,
+      "w": 26,
+      "l": 28,
+      "gb": "-",
+      "note": "Division leader",
+      "is_us": false
+    },
+    {
+      "team": "Mariners",
+      "team_id": 136,
+      "w": 26,
+      "l": 29,
+      "gb": "0.5",
+      "note": "In (3rd WC seed)",
+      "is_us": false
+    },
+    {
+      "team": "Blue Jays",
+      "team_id": 141,
+      "w": 26,
+      "l": 29,
+      "gb": "0.5",
+      "note": "Out",
+      "is_us": true
+    },
+    {
+      "team": "Orioles",
+      "team_id": 110,
+      "w": 25,
+      "l": 30,
+      "gb": "1.5",
+      "note": "Out",
+      "is_us": false
+    },
+    {
+      "team": "Rangers",
+      "team_id": 140,
+      "w": 24,
+      "l": 29,
+      "gb": "1.5",
+      "note": "Out",
+      "is_us": false
+    },
+    {
+      "team": "Astros",
+      "team_id": 117,
+      "w": 24,
+      "l": 31,
+      "gb": "2.5",
+      "note": "Out",
+      "is_us": false
+    },
+    {
+      "team": "Red Sox",
+      "team_id": 111,
+      "w": 22,
+      "l": 31,
+      "gb": "3.5",
+      "note": "Out",
+      "is_us": false
+    },
+    {
+      "team": "Royals",
+      "team_id": 118,
+      "w": 22,
+      "l": 32,
+      "gb": "4.0",
+      "note": "Out",
+      "is_us": false
+    },
+    {
+      "team": "Angels",
+      "team_id": 108,
+      "w": 21,
+      "l": 34,
+      "gb": "5.5",
+      "note": "Out",
+      "is_us": false
+    },
+    {
+      "team": "Tigers",
+      "team_id": 116,
+      "w": 21,
+      "l": 34,
+      "gb": "5.5",
+      "note": "Out",
+      "is_us": false
+    }
+  ],
+  "recent_games": [
+    {
+      "game_pk": 824279,
+      "date": "2026-05-17",
+      "home": false,
+      "opp": "Detroit Tigers",
+      "result": "W",
+      "score": "4-1",
+      "status": "Final",
+      "winning_pitcher": "",
+      "losing_pitcher": "",
+      "summary_facts": "Final 4-1 (W)",
+      "us_score": 4,
+      "them_score": 1
+    },
+    {
+      "game_pk": 823549,
+      "date": "2026-05-18",
+      "home": false,
+      "opp": "New York Yankees",
+      "result": "L",
+      "score": "6-7",
+      "status": "Final",
+      "winning_pitcher": "",
+      "losing_pitcher": "",
+      "summary_facts": "Final 6-7 (L)",
+      "us_score": 6,
+      "them_score": 7
+    },
+    {
+      "game_pk": 823548,
+      "date": "2026-05-19",
+      "home": false,
+      "opp": "New York Yankees",
+      "result": "L",
+      "score": "4-5",
+      "status": "Final",
+      "winning_pitcher": "",
+      "losing_pitcher": "",
+      "summary_facts": "Final 4-5 (L)",
+      "us_score": 4,
+      "them_score": 5
+    },
+    {
+      "game_pk": 823547,
+      "date": "2026-05-20",
+      "home": false,
+      "opp": "New York Yankees",
+      "result": "W",
+      "score": "2-1",
+      "status": "Final",
+      "winning_pitcher": "",
+      "losing_pitcher": "",
+      "summary_facts": "Final 2-1 (W)",
+      "us_score": 2,
+      "them_score": 1
+    },
+    {
+      "game_pk": 823545,
+      "date": "2026-05-21",
+      "home": false,
+      "opp": "New York Yankees",
+      "result": "W",
+      "score": "2-0",
+      "status": "Final",
+      "winning_pitcher": "",
+      "losing_pitcher": "",
+      "summary_facts": "Final 2-0 (W)",
+      "us_score": 2,
+      "them_score": 0
+    },
+    {
+      "game_pk": 822816,
+      "date": "2026-05-22",
+      "home": true,
+      "opp": "Pittsburgh Pirates",
+      "result": "W",
+      "score": "6-2",
+      "status": "Final",
+      "winning_pitcher": "",
+      "losing_pitcher": "",
+      "summary_facts": "Final 6-2 (W)",
+      "us_score": 6,
+      "them_score": 2
+    },
+    {
+      "game_pk": 822814,
+      "date": "2026-05-23",
+      "home": true,
+      "opp": "Pittsburgh Pirates",
+      "result": "W",
+      "score": "5-2",
+      "status": "Final",
+      "winning_pitcher": "",
+      "losing_pitcher": "",
+      "summary_facts": "Final 5-2 (W)",
+      "us_score": 5,
+      "them_score": 2
+    },
+    {
+      "game_pk": 822813,
+      "date": "2026-05-24",
+      "home": true,
+      "opp": "Pittsburgh Pirates",
+      "result": "L",
+      "score": "1-4",
+      "status": "Final",
+      "winning_pitcher": "",
+      "losing_pitcher": "",
+      "summary_facts": "Final 1-4 (L)",
+      "us_score": 1,
+      "them_score": 4
+    },
+    {
+      "game_pk": 822812,
+      "date": "2026-05-25",
+      "home": true,
+      "opp": "Miami Marlins",
+      "result": "L",
+      "score": "2-8",
+      "status": "Final",
+      "winning_pitcher": "",
+      "losing_pitcher": "",
+      "summary_facts": "Final 2-8 (L)",
+      "us_score": 2,
+      "them_score": 8
+    },
+    {
+      "game_pk": 822811,
+      "date": "2026-05-26",
+      "home": true,
+      "opp": "Miami Marlins",
+      "result": "W",
+      "score": "8-1",
+      "status": "Final",
+      "winning_pitcher": "",
+      "losing_pitcher": "",
+      "summary_facts": "Final 8-1 (W)",
+      "us_score": 8,
+      "them_score": 1
+    }
+  ],
+  "upcoming_games": [
+    {
+      "game_pk": 824834,
+      "date": "2026-05-28",
+      "home": false,
+      "opp": "Baltimore Orioles",
+      "probable_pitcher_us": "",
+      "probable_pitcher_them": "",
+      "status": "Scheduled"
+    },
+    {
+      "game_pk": 824835,
+      "date": "2026-05-29",
+      "home": false,
+      "opp": "Baltimore Orioles",
+      "probable_pitcher_us": "",
+      "probable_pitcher_them": "",
+      "status": "Scheduled"
+    },
+    {
+      "game_pk": 824833,
+      "date": "2026-05-30",
+      "home": false,
+      "opp": "Baltimore Orioles",
+      "probable_pitcher_us": "",
+      "probable_pitcher_them": "",
+      "status": "Scheduled"
+    },
+    {
+      "game_pk": 824832,
+      "date": "2026-05-31",
+      "home": false,
+      "opp": "Baltimore Orioles",
+      "probable_pitcher_us": "",
+      "probable_pitcher_them": "",
+      "status": "Scheduled"
+    },
+    {
+      "game_pk": 824918,
+      "date": "2026-06-02",
+      "home": false,
+      "opp": "Atlanta Braves",
+      "probable_pitcher_us": "",
+      "probable_pitcher_them": "",
+      "status": "Scheduled"
+    },
+    {
+      "game_pk": 824917,
+      "date": "2026-06-03",
+      "home": false,
+      "opp": "Atlanta Braves",
+      "probable_pitcher_us": "",
+      "probable_pitcher_them": "",
+      "status": "Scheduled"
+    }
+  ],
+  "roster": {
+    "hitters": [
+      {
+        "id": 665926,
+        "name": "Andr\u00e9s Gim\u00e9nez",
+        "pos": "SS",
+        "ab": 0,
+        "avg": ".---",
+        "obp": ".---",
+        "slg": ".---",
+        "ops": ".---",
+        "hr": 0,
+        "rbi": 0,
+        "sb": 0
+      },
+      {
+        "id": 678218,
+        "name": "Brandon Valenzuela",
+        "pos": "C",
+        "ab": 0,
+        "avg": ".---",
+        "obp": ".---",
+        "slg": ".---",
+        "ops": ".---",
+        "hr": 0,
+        "rbi": 0,
+        "sb": 0
+      },
+      {
+        "id": 662139,
+        "name": "Daulton Varsho",
+        "pos": "CF",
+        "ab": 0,
+        "avg": ".---",
+        "obp": ".---",
+        "slg": ".---",
+        "ops": ".---",
+        "hr": 0,
+        "rbi": 0,
+        "sb": 0
+      },
+      {
+        "id": 676391,
+        "name": "Ernie Clement",
+        "pos": "2B",
+        "ab": 0,
+        "avg": ".---",
+        "obp": ".---",
+        "slg": ".---",
+        "ops": ".---",
+        "hr": 0,
+        "rbi": 0,
+        "sb": 0
+      },
+      {
+        "id": 543807,
+        "name": "George Springer",
+        "pos": "DH",
+        "ab": 0,
+        "avg": ".---",
+        "obp": ".---",
+        "slg": ".---",
+        "ops": ".---",
+        "hr": 0,
+        "rbi": 0,
+        "sb": 0
+      },
+      {
+        "id": 660821,
+        "name": "Jes\u00fas S\u00e1nchez",
+        "pos": "RF",
+        "ab": 0,
+        "avg": ".---",
+        "obp": ".---",
+        "slg": ".---",
+        "ops": ".---",
+        "hr": 0,
+        "rbi": 0,
+        "sb": 0
+      },
+      {
+        "id": 672960,
+        "name": "Kazuma Okamoto",
+        "pos": "3B",
+        "ab": 0,
+        "avg": ".---",
+        "obp": ".---",
+        "slg": ".---",
+        "ops": ".---",
+        "hr": 0,
+        "rbi": 0,
+        "sb": 0
+      },
+      {
+        "id": 672820,
+        "name": "Lenyn Sosa",
+        "pos": "2B",
+        "ab": 0,
+        "avg": ".---",
+        "obp": ".---",
+        "slg": ".---",
+        "ops": ".---",
+        "hr": 0,
+        "rbi": 0,
+        "sb": 0
+      },
+      {
+        "id": 664702,
+        "name": "Myles Straw",
+        "pos": "RF",
+        "ab": 0,
+        "avg": ".---",
+        "obp": ".---",
+        "slg": ".---",
+        "ops": ".---",
+        "hr": 0,
+        "rbi": 0,
+        "sb": 0
+      },
+      {
+        "id": 664770,
+        "name": "Nathan Lukes",
+        "pos": "RF",
+        "ab": 0,
+        "avg": ".---",
+        "obp": ".---",
+        "slg": ".---",
+        "ops": ".---",
+        "hr": 0,
+        "rbi": 0,
+        "sb": 0
+      },
+      {
+        "id": 623168,
+        "name": "Tyler Heineman",
+        "pos": "C",
+        "ab": 0,
+        "avg": ".---",
+        "obp": ".---",
+        "slg": ".---",
+        "ops": ".---",
+        "hr": 0,
+        "rbi": 0,
+        "sb": 0
+      },
+      {
+        "id": 665489,
+        "name": "Vladimir Guerrero Jr.",
+        "pos": "1B",
+        "ab": 0,
+        "avg": ".---",
+        "obp": ".---",
+        "slg": ".---",
+        "ops": ".---",
+        "hr": 0,
+        "rbi": 0,
+        "sb": 0
+      },
+      {
+        "id": 682818,
+        "name": "Yohendrick Pi\u00f1ango",
+        "pos": "LF",
+        "ab": 0,
+        "avg": ".---",
+        "obp": ".---",
+        "slg": ".---",
+        "ops": ".---",
+        "hr": 0,
+        "rbi": 0,
+        "sb": 0
+      }
+    ],
+    "pitchers": [
+      {
+        "id": 671936,
+        "name": "Adam Macko",
+        "role": "P",
+        "ip": "0.0",
+        "era": "-.--",
+        "whip": "-.--",
+        "k": 0,
+        "bb": 0,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      },
+      {
+        "id": 680755,
+        "name": "Braydon Fisher",
+        "role": "P",
+        "ip": "0.0",
+        "era": "-.--",
+        "whip": "-.--",
+        "k": 0,
+        "bb": 0,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      },
+      {
+        "id": 695445,
+        "name": "Chase Lee",
+        "role": "P",
+        "ip": "0.0",
+        "era": "-.--",
+        "whip": "-.--",
+        "k": 0,
+        "bb": 0,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      },
+      {
+        "id": 656546,
+        "name": "Jeff Hoffman",
+        "role": "P",
+        "ip": "0.0",
+        "era": "-.--",
+        "whip": "-.--",
+        "k": 0,
+        "bb": 0,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      },
+      {
+        "id": 592332,
+        "name": "Kevin Gausman",
+        "role": "P",
+        "ip": "0.0",
+        "era": "-.--",
+        "whip": "-.--",
+        "k": 0,
+        "bb": 0,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      },
+      {
+        "id": 686973,
+        "name": "Louis Varland",
+        "role": "P",
+        "ip": "0.0",
+        "era": "-.--",
+        "whip": "-.--",
+        "k": 0,
+        "bb": 0,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      },
+      {
+        "id": 689254,
+        "name": "Mason Fluharty",
+        "role": "P",
+        "ip": "0.0",
+        "era": "-.--",
+        "whip": "-.--",
+        "k": 0,
+        "bb": 0,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      },
+      {
+        "id": 571578,
+        "name": "Patrick Corbin",
+        "role": "P",
+        "ip": "0.0",
+        "era": "-.--",
+        "whip": "-.--",
+        "k": 0,
+        "bb": 0,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      },
+      {
+        "id": 693686,
+        "name": "Spencer Miles",
+        "role": "P",
+        "ip": "0.0",
+        "era": "-.--",
+        "whip": "-.--",
+        "k": 0,
+        "bb": 0,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      },
+      {
+        "id": 681084,
+        "name": "Tanner Andrews",
+        "role": "P",
+        "ip": "0.0",
+        "era": "-.--",
+        "whip": "-.--",
+        "k": 0,
+        "bb": 0,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      },
+      {
+        "id": 702056,
+        "name": "Trey Yesavage",
+        "role": "P",
+        "ip": "0.0",
+        "era": "-.--",
+        "whip": "-.--",
+        "k": 0,
+        "bb": 0,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      },
+      {
+        "id": 643511,
+        "name": "Tyler Rogers",
+        "role": "P",
+        "ip": "0.0",
+        "era": "-.--",
+        "whip": "-.--",
+        "k": 0,
+        "bb": 0,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      },
+      {
+        "id": 684320,
+        "name": "Yariel Rodr\u00edguez",
+        "role": "P",
+        "ip": "0.0",
+        "era": "-.--",
+        "whip": "-.--",
+        "k": 0,
+        "bb": 0,
+        "w": 0,
+        "l": 0,
+        "sv": 0
+      }
+    ]
+  },
+  "injuries": [
+    {
+      "name": "Adam Macko",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Andr\u00e9s Gim\u00e9nez",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Brandon Valenzuela",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Braydon Fisher",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Chase Lee",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Daulton Varsho",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Ernie Clement",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "George Springer",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Jeff Hoffman",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Jes\u00fas S\u00e1nchez",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Kazuma Okamoto",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Kevin Gausman",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Lenyn Sosa",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Louis Varland",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Mason Fluharty",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Myles Straw",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Nathan Lukes",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Patrick Corbin",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Spencer Miles",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Tanner Andrews",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Trey Yesavage",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Tyler Heineman",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Tyler Rogers",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Vladimir Guerrero Jr.",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Yariel Rodr\u00edguez",
+      "status": "Active",
+      "eta_note": ""
+    },
+    {
+      "name": "Yohendrick Pi\u00f1ango",
+      "status": "Active",
+      "eta_note": ""
+    }
+  ],
+  "transactions": [
+    {
+      "date": "2026-05-22",
+      "type": "Signed",
+      "description": "Toronto Blue Jays signed RHP Sam Gardner.",
+      "person_name": "Sam Gardner"
+    },
+    {
+      "date": "2026-05-25",
+      "type": "Status Change",
+      "description": "Toronto Blue Jays placed RHP Dylan Cease on the 15-day injured list. Left hamstring strain.",
+      "person_name": "Dylan Cease"
+    },
+    {
+      "date": "2026-05-25",
+      "type": "Assigned",
+      "description": "Toronto Blue Jays sent RHP Shane Bieber on a rehab assignment to FCL Blue Jays.",
+      "person_name": "Shane Bieber"
+    },
+    {
+      "date": "2026-05-25",
+      "type": "Status Change",
+      "description": "Toronto Blue Jays activated RF Nathan Lukes from the 10-day injured list.",
+      "person_name": "Nathan Lukes"
+    },
+    {
+      "date": "2026-05-25",
+      "type": "Optioned",
+      "description": "Toronto Blue Jays optioned LF Davis Schneider to Buffalo Bisons.",
+      "person_name": "Davis Schneider"
+    },
+    {
+      "date": "2026-05-25",
+      "type": "Selected",
+      "description": "Toronto Blue Jays selected the contract of RHP Tanner Andrews from Buffalo Bisons.",
+      "person_name": "Tanner Andrews"
+    }
+  ],
+  "run_diff_last_10": [
+    {
+      "date": "2026-05-17",
+      "diff": 3,
+      "result": "W"
+    },
+    {
+      "date": "2026-05-18",
+      "diff": -1,
+      "result": "L"
+    },
+    {
+      "date": "2026-05-19",
+      "diff": -1,
+      "result": "L"
+    },
+    {
+      "date": "2026-05-20",
+      "diff": 1,
+      "result": "W"
+    },
+    {
+      "date": "2026-05-21",
+      "diff": 2,
+      "result": "W"
+    },
+    {
+      "date": "2026-05-22",
+      "diff": 4,
+      "result": "W"
+    },
+    {
+      "date": "2026-05-23",
+      "diff": 3,
+      "result": "W"
+    },
+    {
+      "date": "2026-05-24",
+      "diff": -3,
+      "result": "L"
+    },
+    {
+      "date": "2026-05-25",
+      "diff": -6,
+      "result": "L"
+    },
+    {
+      "date": "2026-05-26",
+      "diff": 7,
+      "result": "W"
+    }
+  ]
+}
