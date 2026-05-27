@@ -230,6 +230,9 @@ let _chartDrawn = false;
 
 const EXPECTED_KEYS = ['as_of','team','division','wild_card','recent_games','upcoming_games','roster','injuries','transactions','run_diff_last_10'];
 
+// Top-N hitters by AB go in "Lineup Regulars"; the rest fall to "Bench / Depth".
+const LINEUP_REGULAR_COUNT = 8;
+
 // ─── Static reference (doesn't change with team data) ───────────────────────
 const STAT_DEFS = {
   'wRC+':     { name: 'Weighted Runs Created Plus', measures: 'Park- and league-adjusted total offensive value.', bench: '100 = average. 110+ above. 120+ All-Star caliber. 90 below.' },
@@ -768,8 +771,23 @@ function drawDiffChart() {
 // ─── Players ───────────────────────────────────────────────────────────────
 function renderPlayers() {
   const roster = (DATA.roster) || { hitters: [], pitchers: [] };
-  const hitterCards = roster.hitters.map(p => playerCardHTML(p, 'hitter')).join('') || '<div class="dim">No hitters in roster.</div>';
-  const pitcherCards = roster.pitchers.map(p => playerCardHTML(p, 'pitcher')).join('') || '<div class="dim">No pitchers in roster.</div>';
+
+  // Hitters: sort by AB desc, top N are regulars, the rest are bench/depth.
+  const hittersByAb = (roster.hitters || []).slice().sort((a, b) => (b.ab ?? 0) - (a.ab ?? 0));
+  const lineupRegulars = hittersByAb.slice(0, LINEUP_REGULAR_COUNT);
+  const benchDepth = hittersByAb.slice(LINEUP_REGULAR_COUNT);
+
+  // Pitchers: gs >= 3 are the rotation, the rest are bullpen.
+  // Missing gs counts as 0, which keeps spot starters / openers in the bullpen.
+  const rotation = (roster.pitchers || []).filter(p => (p.gs ?? 0) >= 3);
+  const bullpen = (roster.pitchers || []).filter(p => (p.gs ?? 0) < 3);
+
+  const playerSection = (heading, players, kind) => {
+    if (!players.length) return '';
+    const cards = players.map(p => playerCardHTML(p, kind)).join('');
+    return '<div class="section"><h2>' + heading + '</h2><div class="grid grid-3">' + cards + '</div></div>';
+  };
+
   const injuries = (DATA.injuries || []).map(i =>
     '<div class="injury-card"><div class="injury-name">' + escapeText(i.name) + '</div>' +
     '<div class="injury-status">' + escapeText(i.status || '') + '</div>' +
@@ -777,8 +795,10 @@ function renderPlayers() {
   ).join('') || '<div class="dim">No injuries reported.</div>';
 
   document.getElementById('panel-players').innerHTML =
-    '<div class="section"><h2>Hitters</h2><div class="grid grid-3">' + hitterCards + '</div></div>' +
-    '<div class="section"><h2>Pitchers</h2><div class="grid grid-3">' + pitcherCards + '</div></div>' +
+    playerSection('Lineup Regulars', lineupRegulars, 'hitter') +
+    playerSection('Starting Rotation', rotation, 'pitcher') +
+    playerSection('Bullpen', bullpen, 'pitcher') +
+    playerSection('Bench / Depth', benchDepth, 'hitter') +
     '<div class="section"><h2>Injured List</h2><div class="injury-list">' + injuries + '</div></div>';
 
   document.querySelectorAll('.player-card[data-pid]').forEach(card => {
