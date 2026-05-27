@@ -1,0 +1,63 @@
+name: Daily data refresh
+
+# Runs fetch_data.py once a day and commits the resulting data.json to main
+# if it changed. Replaces the Claude Code Routine for the daily refresh
+# (Actions runners have unrestricted internet, so no statsapi.mlb.com
+# allowlist friction).
+#
+# Disable the Claude Code Routine before merging this, or both will commit
+# every day and you'll get duplicate "Daily data refresh" entries.
+
+on:
+  schedule:
+    # 09:00 UTC daily. That's 05:00 EDT / 04:00 EST in Toronto.
+    # Cron is always UTC; if you want a fixed *local* hour year-round,
+    # you'll need to manually adjust this twice a year for DST. Picking
+    # a UTC time and accepting the 1-hour shift in winter is the simpler
+    # default.
+    #
+    # GitHub Actions cron is best-effort: under load, scheduled jobs can
+    # be delayed by 5-30 minutes. That's fine for once-a-day data.
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-refresh
+  cancel-in-progress: true
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: pip
+
+      - name: Install dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Fetch data
+        run: python fetch_data.py
+
+      - name: Commit and push if changed
+        run: |
+          if [[ -z "$(git status --porcelain data.json)" ]]; then
+            echo "no changes"
+            exit 0
+          fi
+          git config user.name "jays-tracker-bot"
+          git config user.email "bot@example.invalid"
+          git add data.json
+          git commit -m "Daily data refresh: $(date -u +%Y-%m-%d)"
+          git push
+          echo "pushed daily refresh"
