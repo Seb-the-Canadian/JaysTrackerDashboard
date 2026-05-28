@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-05-28T14:46:20.104218+00:00",
+  "as_of": "2026-05-28T16:52:21.268489+00:00",
   "config": {
     "team_id": 141,
     "team_name": "Toronto Blue Jays",
@@ -805,47 +805,47 @@
   },
   "team_stats": {
     "hitting": {
-      "ops": {
-        "val": ".684",
-        "rank": 24
-      },
-      "obp": {
-        "val": ".309",
-        "rank": 24
+      "avg": {
+        "val": ".243",
+        "rank": 13
       },
       "slg": {
         "val": ".375",
         "rank": 22
       },
-      "hr": {
-        "val": 52,
-        "rank": 20
+      "obp": {
+        "val": ".309",
+        "rank": 24
+      },
+      "ops": {
+        "val": ".684",
+        "rank": 24
       },
       "runs": {
         "val": 226,
         "rank": 22
       },
-      "avg": {
-        "val": ".243",
-        "rank": 13
+      "hr": {
+        "val": 52,
+        "rank": 20
       }
     },
     "pitching": {
+      "era": {
+        "val": "3.78",
+        "rank": 10
+      },
       "k9": {
         "val": "9.30",
         "rank": 5
-      },
-      "bb9": {
-        "val": "3.13",
-        "rank": 8
       },
       "whip": {
         "val": "1.26",
         "rank": 13
       },
-      "era": {
-        "val": "3.78",
-        "rank": 10
+      "bb9": {
+        "val": "3.13",
+        "rank": 8
       }
     }
   },
@@ -1061,20 +1061,60 @@
   ],
   "news": [
     {
+      "title": "Injuries: Teoscar, Tigers, Greene, Blue Jays, Red Sox",
+      "summary": "",
+      "source": "MLB.com",
+      "author": "",
+      "url": "https://www.mlb.com/news/baseball-injury-updates",
+      "published": "2026-05-28T16:25:00+00:00"
+    },
+    {
+      "title": "Blue Jays Calling Up Charles McAdoo - Bluebird Banter",
+      "summary": "Blue Jays Calling Up Charles McAdoo&nbsp;&nbsp;Bluebird Banter",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQdXd5dEJKeHpsNnNPSG83LVBwQlc0Sk1JaGFVUVZ1UkI1S1lWMDEyalBuek1wSkVzaEpQcnpkVTZTcUR5aDNBRWJJb3NtbFRPaDJKSHdlZXJNcGZXaV9JdmgtTjFDaU80LXVwRkk3QktpaHpMVm5KaEVDUnVWNlVNTzNCNA?oc=5",
+      "published": "2026-05-28T16:23:22+00:00"
+    },
+    {
+      "title": "Blue Jays Calling Up Charles McAdoo",
+      "summary": "I missed this yesterday (being fair, I haven\u2019t turned on the computer for two days, but I did ride my bike 100 very hill kilometers over the last couple of days). Charles McAdoo will be getting the call-up today. He is hitting .250/.356/.436 with 6 home runs, 28 walks, 40 strikeouts and 6 stolen bases [&#8230;]",
+      "source": "Bluebird Banter",
+      "author": "tom dakers",
+      "url": "https://www.bluebirdbanter.com/news/62149/blue-jays-calling-up-charles-mcadoo",
+      "published": "2026-05-28T16:23:22+00:00"
+    },
+    {
+      "title": "Happy Birthday Duane Ward",
+      "summary": "Today marks Duane Ward&#8217;s 62nd birthday. Duane ranks second on the Blue Jays\u2019 all-time saves list with 121. Jordan Romano is third with 105 saves. The way pitching is changing, I don\u2019t see anyone getting into that top three for a long time, unless the tide changes again and we go back to one reliever [&#8230;]",
+      "source": "Bluebird Banter",
+      "author": "tom dakers",
+      "url": "https://www.bluebirdbanter.com/blue-jay-history/62145/happy-birthday-duane-ward",
+      "published": "2026-05-28T15:35:53+00:00"
+    },
+    {
+      "title": "Varland\u2019s rise from Division II to stardom has helped stabilize Blue Jays\u2019 bullpen - TSN",
+      "summary": "Varland\u2019s rise from Division II to stardom has helped stabilize Blue Jays\u2019 bullpen&nbsp;&nbsp;TSN",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxPWlpoenJSU1RlYy1tV2FRbFhYaU5UWVVLNGNqWG9NSkZlSFpUZFR4MjFUU0tkSEpuejlRLXRJT0tKTjVfQk5ZN0lMQkxUTDVpTVNySnRrZTBQNEdIaHZwajUyUS1vVVdOSm9oejdJSXRBVS1FYkxMOHFzYWdjY1JSa241M1FIS1J2S3V5QWFYOWtWdTl6cHdwelVOeWJzMmVuQzkxV2xxY1Vqdw?oc=5",
+      "published": "2026-05-28T15:34:13+00:00"
+    },
+    {
       "title": "Familiar face Chris Bassitt set to take mound against Blue Jays - Sportsnet",
       "summary": "Familiar face Chris Bassitt set to take mound against Blue Jays&nbsp;&nbsp;Sportsnet",
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOVkdTOUJEdDZzTE5nYXNBbUJsUGZtV3JOd2pwblM5eUFlOC1iTm5MbVdrTXEtVVlNdk9GZTNMZE5vR3Bmel9Oc1Jub3FrbnpSMFV5X1F6MFdNd1ZOS3NneU4wbm1tU01PZlgyWFZ4TDQyd2lXYUNON1FLTlNnOEk2THVSTVVNSkpBRHVGTVpxc0d4ZEtHemdDOXkxcnNGVDV0bFVUaUtJMk0?oc=5",
-      "published": "2026-05-28T13:03:00+00:00"
+      "published": "2026-05-28T15:06:00+00:00"
     },
     {
-      "title": "Blue Jays to select Charles McAdoo - MSN",
-      "summary": "Blue Jays to select Charles McAdoo&nbsp;&nbsp;MSN",
+      "title": "Toronto Blue Jays vs. Baltimore Orioles: Odds, Prediction - news.sportsinteraction.com",
+      "summary": "Toronto Blue Jays vs. Baltimore Orioles: Odds, Prediction&nbsp;&nbsp;news.sportsinteraction.com",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOeTRHSTRHM1JMQXZnaHZ1UFVUeUs5NTZrb1E3SEtZei1JUlZac2xvRkpfWDI2YVZSaDVuTjNJM0NQV21WeF9yVG9XT3kxaHBLWnd4ajRXaTE1NzVTdS14cnFwUUV2Y3IxNjk5UlBkaksxSzdCWmdBMWI4Wk9ONTNKcm9jQnVQOHl4TEhv?oc=5",
-      "published": "2026-05-28T12:32:25+00:00"
+      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNMzZOQ05pczNsakVGYXU2RUJPSEFoMHAtR25XUW1IUFNNdm1jalFaLS1nUkRPM2VibEMxQzhrSWRrVngtYTlwUzRHcllac0s5TzhSNF9zQXVPZmZGTy1HNFA2UjJEYXdUNXVteVhwQTJPTWl3cWFVN21GM2N3RTVxZkdtbFFTcHBfTzkxS1lYU0hsMU1EbF9UNUVuSVhEUQ?oc=5",
+      "published": "2026-05-28T15:02:05+00:00"
     },
     {
       "title": "MLB Insider Throws Wrench Into Possibility of Toronto Blue Jays Acquiring Cy Young Winner - roundtable.io",
@@ -1083,38 +1123,6 @@
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPc2dhdUdpRVM3ZDhjOWgzZFd5dTZPVXBMSU4zc2kyMXZlWGtmV0lsMV9LOW1POGFsWDQwNE03WFBWLTk5azdmY1FtWmQyUzBtNFVQSDVVWlBJMWxpN1ZXWVdGYU9JVlFBa1VxTF9HMXdzQmxiVmNGMFFLQ3JuWVZ4T0hlUFJiR21odnJfVm5sZWVLUGx3WEEyeFE5c1dUYXJUdFNPQWhTa05XRUp5c01peUF0Tlk3dW80WlEycFpLemVOdzVOeXotOGJ1ZEh2R1QxakE?oc=5",
       "published": "2026-05-28T12:14:50+00:00"
-    },
-    {
-      "title": "Blue Jays rise three spots to No. 15 in latest MLB Power Rankings - TSN",
-      "summary": "Blue Jays rise three spots to No. 15 in latest MLB Power Rankings&nbsp;&nbsp;TSN",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPYlV4aktGZFFGa2JURlJVYlRqVGdfVW0tdjhnM01VUGdWNmgyZ3h1VEdOTmFKcC0zOHFnQm9ya2pKb2YxNl9rVXBZVDZpeGVESjluaThQSHllNmtob1lNbmdBOXpWVFZuM2VGSHpGQXpOVGJ6UUtfLWE2cTl0VlEwNWZFOU5FeHpfdjQyNVNXU1ZxOUJJZF8xY1pXN3YxTzZPLW5PcENid3AtZGRM?oc=5",
-      "published": "2026-05-28T11:58:19+00:00"
-    },
-    {
-      "title": "From Division II to (nearly) every day, Varland thriving with Blue Jays' trust - MLB.com",
-      "summary": "From Division II to (nearly) every day, Varland thriving with Blue Jays' trust&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9BN0Q2ZGZMSWFqaG1xVUlYSlJ6ZEJhYUdiS09iLW5PaDduNGk0VktMWGdUNFBPemxiQXotTDM3UWNMN0ZpQUphY21sMDBPbEZ0ZDFlbHl0cGVFT1ZFUFJnU2E4VHlWcFNzYmxOSmJB?oc=5",
-      "published": "2026-05-28T11:56:57+00:00"
-    },
-    {
-      "title": "From Division II to (nearly) every day, Varland thriving with Blue Jays' trust",
-      "summary": "",
-      "source": "MLB.com",
-      "author": "",
-      "url": "https://www.mlb.com/news/louis-varland-thriving-for-blue-jays",
-      "published": "2026-05-28T11:54:21+00:00"
-    },
-    {
-      "title": "3 questions lie ahead for Blue Jays as they get healthier",
-      "summary": "",
-      "source": "MLB.com",
-      "author": "Keegan Matheson",
-      "url": "https://www.mlb.com/news/blue-jays-questions-as-players-return-from-injuries",
-      "published": "2026-05-28T11:49:53+00:00"
     },
     {
       "title": "Blue Jays sign former Orioles pitcher as fifth starter question lingers - Jays Journal",
@@ -1131,14 +1139,6 @@
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNcU1FSE1xU2ZtU1FIVWgtUEU0c19NaEpSTTJEOTJpcXI4SkpBa1BaMUkySGV3U0NFVllNNWZaMkxFTTlnRFBubFE3V1VMWjlTOFktYnFScUhrUFdBYWkwa3hNYl8xbTZOdmFsS19fQlRvS2F2QVJfampZdVc4SmRSSGMxNkhsV08tTVpKbVRPUXV0Tzh5QU9qcFNaOVBpc3NjN3EzQnNldzhIQVpGYTB1ZHFwMDh4LTd2T3dvRzFyYWZqM0M5djB4dGhrVlRiSUxsWDJVR01McVd2Umc?oc=5",
       "published": "2026-05-28T06:25:54+00:00"
-    },
-    {
-      "title": "Injuries: Teoscar, Tigers, Greene, Blue Jays, Red Sox",
-      "summary": "",
-      "source": "MLB.com",
-      "author": "",
-      "url": "https://www.mlb.com/news/baseball-injury-updates",
-      "published": "2026-05-28T03:15:00+00:00"
     },
     {
       "title": "Report: Blue Jays set to promote Charles McAdoo - Blue Jays Nation",
@@ -1165,20 +1165,20 @@
       "published": "2026-05-28T01:44:00+00:00"
     },
     {
-      "title": "Okamoto shakes off HBP to power Blue Jays to tense win over Marlins - Sportsnet",
-      "summary": "Okamoto shakes off HBP to power Blue Jays to tense win over Marlins&nbsp;&nbsp;Sportsnet",
+      "title": "Blue Jays fans can't deny this unorthodox John Schneider strategy has delivered positive results - Jays Journal",
+      "summary": "Blue Jays fans can't deny this unorthodox John Schneider strategy has delivered positive results&nbsp;&nbsp;Jays Journal",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQdUQ0OHFhNzhJOFphZ1ptN1AzR3hRZGVKaWhSNDBlZmtOd0hOZ0lzYmRnWVV2c1B2SGlldU5rLXQycmNHbzNIRVhzVmhHN1ZVdjBoOFNJaWhXM0JubzZGNTVhVGQ2ajhOVzZrbWRCekRhSGk2UFJIMk1RanlKcGYxX0d2U0xjTTJMbWpWMDFUSmJsQXZ4XzhjUzBGSHVyT25sUEp5UEpVY2E?oc=5",
-      "published": "2026-05-27T22:29:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQdldhNWQxaXQ5WnJINWY4ckFGMFVGdmpEbVBSMnk3eHVQbFhERzR2Wl9wVkFxTHZMR191YzlTcjBpRkhhN0tRc3Jzd3lIMlVDaTIyazk3QzVwOHB3SVFwRE5vMHhGREdEQllRTm56RWFfamJhbjVNUkd0a21zX3E1eXdaU1pLLVAxNTRuaHNjV3VpS19kd3J6QmRUTGItb1ZJZEpULWdGREVqMEhid3dZaUd3OW1HeGx1WGhlOQ?oc=5",
+      "published": "2026-05-28T01:09:13+00:00"
     },
     {
-      "title": "Okamoto back in HR column as Lukes shows everyday chops - MLB.com",
-      "summary": "Okamoto back in HR column as Lukes shows everyday chops&nbsp;&nbsp;MLB.com",
+      "title": "Gregor Chisholm: Blue Jays vs. Marlins: Toronto does its homework to slow Miami running game and take series - Toronto Star",
+      "summary": "Gregor Chisholm: Blue Jays vs. Marlins: Toronto does its homework to slow Miami running game and take series&nbsp;&nbsp;Toronto StarOkamoto shakes off HBP to power Blue Jays to tense win over Marlins&nbsp;&nbsp;SportsnetKazuma Okamoto\u2019s homer leads Blue Jays to win in rubber match with Marlins&nbsp;&nbsp;TSN",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5EdVlRQXBZZ0d6SkV6Tk9wNUpwaWlqcW5pNk11WU9sMk5DTjB4T1dBS2lsWkFFWk1aNzVrOUZqU2VOdkF5WHN6U3dLTUYwejRpQWZrWURkWnB5VUJ3a0ljalRFSDJqSzhDR2pxYnB6SG1tS3NyYjRRVmxLVDhENGs?oc=5",
-      "published": "2026-05-27T21:17:16+00:00"
+      "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxOb0hLR3JwLTVrY3VBS2tuU2lWWWEtTXVwQjFQOU9reXA1XzVwcUI2a3BUSGROMFFXa3o4dVdsekotczd1bjNRVzk5bVZiMEpjTkhnZVp2a1NremNkNy1XMy1UNllPV1ppZ09OZ1ZPeHFjTDNOQWVBamlDa0I1VEF2T3h0WDRmbVktZGx2SWpvaWtMczNmMy11UU5tM3FURGtlOUVYX1FWa1FaRUtSQnRDd2lONEt1cTg3cExvZlRVRGxNTzRVNVdTdUgybW9GSVVGRUVjSWIxMm9SNUhReVpSY0IzVkM0b2VHblg2MHVtdWdOUjl2TkJ6ZzhRUDJpWS1FMExnWFRXekdxTThJ?oc=5",
+      "published": "2026-05-28T00:29:04+00:00"
     },
     {
       "title": "Desperate for pitching, Blue Jays trade for Connor Seabold months after cutting him this spring - Toronto Sun",
@@ -1187,14 +1187,6 @@
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOdlpkaU5CX2x6UzJBbEpIZTdTQ1JBWmlqN2lBSGhBbTRGeG1hNy04a3ZZX3k5MTNxREVkb3RNVXpmUDE3TW9kMXhEVll0R185bXA0UWxBc2tMaEFMblpiV3gtZFFsV1haSnk0bzV3b3lmeDZJdFdWSjAzSzJVX1lKMGJZUFpxMHJDOFU4WmhINHFSMm0xWUFFZmpxVGpYWXc?oc=5",
       "published": "2026-05-27T20:37:32+00:00"
-    },
-    {
-      "title": "Kazuma Okamoto\u2019s homer leads Blue Jays to win in rubber match with Marlins - TSN",
-      "summary": "Kazuma Okamoto\u2019s homer leads Blue Jays to win in rubber match with Marlins&nbsp;&nbsp;TSN",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPZlR5NWNoZ19sVHd2TFh3VE1FRlgwWnp3ZUkxQXU5UUZ2NDRiZkxQREt3NXhsN25HUDA1RXVGREVCcXEweHA3QUdkdi03N3VRWFpkM2M2NXhsT0g1STRlaEpWajc0bFFzTnREWkxqLWwyZmxmeWpWTW1LaHFDTDl6TVdYVlRLSTlxaHlRNlFndTg5VlNKZnJIVE5BOEt4SFU?oc=5",
-      "published": "2026-05-27T20:22:38+00:00"
     },
     {
       "title": "Jays Beat Marlins, 2-1 - Bluebird Banter",
@@ -1213,12 +1205,20 @@
       "published": "2026-05-27T20:10:02+00:00"
     },
     {
+      "title": "Blue Jays among baseball\u2019s best on the field, and at the bank - BNN Bloomberg",
+      "summary": "Blue Jays among baseball\u2019s best on the field, and at the bank&nbsp;&nbsp;BNN Bloomberg",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxPekJmS1RaSFJ6dDFRWEFrellQNmw4UlVnbDV3Q0ZaWXdmREh4eUZZZTRKMGVmTmxvOFFXWHBQd2owR0lGQWw0elRKczdPa28xdnVIZ1hqNUFGRUQ4a1V4c1NfcE9XSG5OQzJXSjRHZjluZ2pJQ2ZQQU92UTBUTW90Q1J6bE05ejRwMHBzMm5FcXVYenZ6Q1QyRnRwSVRYY2pTSmVDdVU3ekF1OVBWNG5udzY3a3d6SEVjOUE?oc=5",
+      "published": "2026-05-27T19:30:20+00:00"
+    },
+    {
       "title": "Toronto Blue Jays player changes walk-up song to AI-generated tune - blogTO",
       "summary": "Toronto Blue Jays player changes walk-up song to AI-generated tune&nbsp;&nbsp;blogTO",
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNVGt0bHZIcnNmczB4bDBVT3Y1SkZXbzAxUFlQMW1nMDduZy1jWllfNklYeXktR0VJRUh1NkFrczRkYWRQNDZYaXZWUWJyQ0xhWUpteDRmcHU5ZFE4RHpMTFRPamRCM0UtREkxTG12QVlwUTlGY2puc091cVRFaUotV0R2N1FmOWpCbmdrMw?oc=5",
-      "published": "2026-05-27T19:21:11+00:00"
+      "published": "2026-05-27T19:20:53+00:00"
     }
   ],
   "run_diff_last_10": [
