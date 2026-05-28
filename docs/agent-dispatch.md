@@ -387,6 +387,62 @@ If a sub-agent is running for 10+ minutes and the daily-refresh workflow happens
 
 If precision matters, the PM can fetch and re-base the agent's branch after the agent completes. Most of the time, GitHub's 3-way merge handles it transparently.
 
+### `statsapi.mlb.com` is blocked from the interactive container
+
+The Claude Code remote-execution environment's outbound network policy rejects `statsapi.mlb.com`. You **cannot** run `fetch_data.py` locally to verify a fetcher change. `baseballsavant.mlb.com` (issue #29) is presumably the same.
+
+Verification path:
+
+1. Push the branch
+2. Trigger `.github/workflows/daily-refresh.yml` via `workflow_dispatch` (web UI; the GitHub MCP tools don't expose `workflow_dispatch` here)
+3. Pull the resulting commit, inspect `data.json`
+
+**Guardrail in every fetcher brief:** state explicitly that the agent cannot run the fetcher to confirm output shape — the PM verifies via workflow dispatch. Otherwise the agent will try to `python fetch_data.py` and the failure looks like a code bug.
+
+### The `/stats` endpoint with `personId` silently ignores `personId`
+
+The MLB stats API has two ways to ask for a player's stats: the `/stats` query endpoint and the `/people/{personId}` path-routed endpoint with a `stats` hydrate. **The first one silently ignores `personId` and returns league aggregates** — no error, no warning, just wrong data with the right shape.
+
+This bit us twice:
+
+- **Season stats (early Phase 2):** every player on the roster came back with the same `.330/.831/4` line. The author caught it and rewrote `fetch_player_season_stats` to use `statsapi.player_stat_data`, which routes through `/people/{id}`. Comment at `fetch_data.py:467-473` documents it.
+- **gameLog (#59, fixed in #63):** `_fetch_game_log` still used the broken `/stats` pattern, so `derive_recent_form` got empty splits or wrong-player splits for every player. The hot/cold/new pill rendered `null` on every player card for two consecutive daily refreshes. Fix routes via `statsapi.get("person", {"personId": ..., "hydrate": "stats(group=...,type=gameLog,...)"})`.
+
+**Guardrail:** any new per-player MLB stat call goes through `/people/{personId}`, not `/stats`. If a future statsapi version exposes a working `/stats?personId=X`, prove it with a single-player A/B (two different `personId` values must return different lines) before trusting it.
+
+### Schedule windows that meet at "today" drop today's not-yet-final games
+
+`fetch_schedule(cfg, -SCHEDULE_PAST_DAYS, 0)` (past through today) plus `fetch_schedule(cfg, 1, SCHEDULE_FUTURE_DAYS)` (tomorrow onward) seems exhaustive. It isn't — today's game lives only in the past window, but `transform_recent_game` filters out games without a `result` (no Final status yet), so an unfinished today-game falls into a gap between the two lists.
+
+Symptom (#62): the dashboard's "Upcoming" section started at *tomorrow's* game, hiding the game happening today. Probable-pitcher fields on the missing game were lost with it.
+
+**Fix pattern:** the future window should start at offset `0`, and the upcoming transformer should filter out games whose `abstractGameState == "Final"` (so a finished today-game that already lives in `recent_games` doesn't double-appear).
+
+**Guardrail:** any range-based pull whose ranges meet at a boundary (today, the season start, a trade-deadline date) needs a thought-out rule for which side owns the boundary. Off-by-one is the default outcome.
+
+### RSS feeds returning zero items can be completely silent
+
+`feedparser.parse(url)` sometimes returns `entries == []` without setting `bozo_exception`. The original `fetch_news` logged only when `bozo_exception` *and* entries were empty, so the genuine "feed returned 0 entries" case slipped through without a warning. Same for "feed returned entries but all failed the recency filter" and "all filtered by keyword."
+
+Result (#60): three of four configured feeds contributed 0 items to the dashboard for an unknown period, and the workflow log had no signal of why.
+
+**Fix pattern:** after parsing each feed, emit one INFO line with counts — entries received, kept, dropped by recency, dropped by keyword. Then the next workflow log tells you which filter is biting.
+
+```python
+log(f"INFO: feed {source}: {len(entries)} entries, "
+    f"{kept} kept, {recency_drops} too old, {keyword_drops} off-keyword")
+```
+
+**Guardrail:** any silent-skip path in a fetcher is a future debugging tax. Either log it or assert against it. "It didn't show up in the output" is the worst kind of bug report.
+
+### `EXPECTED_KEYS` drift when a new `data.json` field lands
+
+`index.html` keeps an `EXPECTED_KEYS` array used by the schema-drift banner — if a key goes missing from `data.json`, the banner fires. Easy to forget to add a new top-level key to this array when shipping a fetcher feature. The result is silent: a regression that drops the new key won't fire the banner.
+
+Caught in the debug pass before #58 — `team_stats` and `config` had been added to `data.json` but never added to `EXPECTED_KEYS`.
+
+**Guardrail:** every new top-level key in `data.json` must be added to `EXPECTED_KEYS` in the same PR. A quick post-merge check: `diff <(python3 -c "import json;print('\n'.join(sorted(json.load(open('data.json'))))))" <(grep "EXPECTED_KEYS" index.html | tr "'" '\n' | grep -v "^[][,= ]")` — empty diff means in sync.
+
 ---
 
 ## Reference
