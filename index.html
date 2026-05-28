@@ -201,6 +201,22 @@ h3 { font-size: 14px; font-weight: 600; margin: 0 0 10px 0; color: #c9d1d9; }
 .diamond-pos { position: absolute; width: 32px; height: 32px; background: var(--primary-color); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 13px; transform: translate(-50%, -50%); border: 2px solid #0a0e14; cursor: default; }
 .diamond-pos.outfield { background: var(--accent-color); }
 .diamond-pos.battery { background: #d29922; }
+.news-toggle { background: transparent; border: 1px solid #1f2937; color: #c9d1d9; padding: 6px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; font-family: inherit; font-weight: 600; letter-spacing: 0.02em; transition: all 0.15s; }
+.news-toggle:hover { border-color: var(--accent-color); color: #e6edf3; }
+.news-toggle .caret { display: inline-block; margin-left: 6px; transition: transform 0.15s; }
+.news-toggle.open .caret { transform: rotate(90deg); }
+.news-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; flex-wrap: wrap; }
+.news-head h2 { margin: 0; }
+.news-body { display: none; }
+.news-body.open { display: block; }
+.news-list { display: grid; grid-template-columns: 1fr; gap: 8px; }
+.news-item { display: block; padding: 12px 14px; background: #131923; border: 1px solid #1f2937; border-radius: 8px; color: #c9d1d9; text-decoration: none; transition: all 0.15s; }
+.news-item:hover { border-color: var(--accent-color); transform: translateY(-1px); }
+.news-source { font-size: 11px; color: #8b96a8; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-bottom: 4px; }
+.news-source .news-pill { display: inline-block; padding: 1px 7px; background: rgba(29,138,205,0.12); color: var(--accent-color); border-radius: 10px; margin-right: 6px; letter-spacing: 0.04em; }
+.news-title { font-size: 13px; line-height: 1.45; color: #e6edf3; font-weight: 600; }
+.news-summary { font-size: 12px; line-height: 1.5; color: #8b96a8; margin-top: 4px; }
+.news-disclaimer { font-size: 11px; color: #8b96a8; margin-top: 10px; }
 </style>
 </head>
 <body>
@@ -239,7 +255,7 @@ let NOTES = {};
 let CONFIG = null;
 let _chartDrawn = false;
 
-const EXPECTED_KEYS = ['as_of','team','division','wild_card','recent_games','upcoming_games','roster','injuries','other_unavailable','transactions','run_diff_last_10'];
+const EXPECTED_KEYS = ['as_of','team','division','wild_card','recent_games','upcoming_games','roster','injuries','other_unavailable','transactions','news','run_diff_last_10'];
 
 // Top-N hitters by AB go in "Lineup Regulars"; the rest fall to "Bench / Depth".
 const LINEUP_REGULAR_COUNT = 8;
@@ -667,10 +683,62 @@ function renderOverview() {
     '<div class="section grid grid-2">' +
       '<div class="card"><h2>Run Differential by Game (recent)</h2><div class="chart-wrap"><canvas id="diffChart"></canvas></div></div>' +
       '<div class="card"><h2>Upcoming</h2>' + renderUpcomingTable(DATA.upcoming_games || []) + '</div>' +
-    '</div>';
+    '</div>' +
+    renderNewsPanel();
 
   document.getElementById('panel-overview').innerHTML = html;
   _chartDrawn = false;
+}
+
+function renderNewsPanel() {
+  const news = (DATA && Array.isArray(DATA.news)) ? DATA.news : [];
+  if (!news.length) return '';
+  const items = news.map(n => {
+    const url = n.url || '#';
+    const source = escapeText(n.source || '');
+    const author = n.author ? ' · ' + escapeText(n.author) : '';
+    const when = n.published ? ' · ' + escapeText(relativeTime(n.published)) : '';
+    const title = escapeText(n.title || '(untitled)');
+    const summary = n.summary ? '<div class="news-summary">' + escapeText(n.summary) + '</div>' : '';
+    const sourcePill = source ? '<span class="news-pill">' + source + '</span>' : '';
+    return '<a class="news-item" href="' + escapeText(url) + '" target="_blank" rel="noopener">' +
+      '<div class="news-source">' + sourcePill + author + when + '</div>' +
+      '<div class="news-title">' + title + '</div>' +
+      summary +
+      '</a>';
+  }).join('');
+  return '<div class="section">' +
+    '<div class="news-head">' +
+      '<h2>Voices around</h2>' +
+      '<button class="news-toggle" id="newsToggle" type="button" onclick="toggleNewsPanel()">Show <span class="caret">&#8250;</span></button>' +
+    '</div>' +
+    '<div class="news-body" id="newsBody">' +
+      '<div class="news-list">' + items + '</div>' +
+      '<div class="news-disclaimer">External sources. Click to read the full piece.</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function toggleNewsPanel() {
+  const body = document.getElementById('newsBody');
+  const btn = document.getElementById('newsToggle');
+  if (!body || !btn) return;
+  const open = body.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.firstChild.nodeValue = open ? 'Hide ' : 'Show ';
+}
+
+function relativeTime(iso) {
+  if (!iso) return '';
+  const t = new Date(iso);
+  if (isNaN(t.getTime())) return '';
+  const diffMs = Date.now() - t.getTime();
+  if (diffMs < 0) return 'just now';
+  const h = Math.floor(diffMs / 3600000);
+  if (h < 1) return 'just now';
+  if (h < 24) return h + 'h ago';
+  const d = Math.floor(h / 24);
+  return d + 'd ago';
 }
 
 function renderOverviewNarrative() {
