@@ -8,6 +8,17 @@ The data layer pulls from the MLB Stats API every morning. Three layers of voice
 
 ---
 
+## What's on the dashboard
+
+Four tabs across the top, plus a persistent header with the team's record, freshness indicator, and current injury list.
+
+- **Overview** — KPI cards (record, run differential, projected wins, last-10), AL East standings, full AL wild-card race (all 15 teams, sorted into "Division leader" / "In (Nst WC seed)" / "Out" with games-back), a run-differential chart over the last 10 games, recent + upcoming games with probable pitchers, the "Voices around" RSS panel, and an optional analyst narrative ("State of the Season").
+- **Players** — active 26-man roster grouped into four sections: Starting Rotation / Bullpen / Lineup Regulars / Bench & Depth. Each player card shows the season line plus an auto-derived **hot / cold / new** tag pill (last 7 games' OPS vs season OPS for hitters; ERA delta for pitchers; "new" for fewer than 14 days in MLB this season). Click a card for the player modal: season stats with optional per-stat notes, plus the analyst paragraph from `notes.json.players[id].read`.
+- **Team Stats** — hitting and pitching with MLB ranks (1–30) on every populated stat, a "Strengths vs Soft Spots" two-column panel from `notes.json.team`, and optional per-stat context notes.
+- **Stat School** — inline explainers for every stat the dashboard surfaces, plus a pitch-type reference card with an optional team-specific note line.
+
+---
+
 ## Use it as-is
 
 Just visit the link above. Daily refresh runs at 09:00 UTC (05:00 ET, after prior night's boxscores have settled) via GitHub Actions — see [`.github/workflows/daily-refresh.yml`](.github/workflows/daily-refresh.yml). On reopens within the same day, the dashboard renders instantly from `localStorage` and refetches in the background.
@@ -148,14 +159,17 @@ The dashboard surfaces real bylined takes from RSS feeds, configured per-fork in
 
 ```json
 {
+  "news_recent_days": 7,
   "rss_feeds": [
     { "url": "https://www.sportsnet.ca/baseball/mlb/team/toronto-blue-jays/feed/", "source": "Sportsnet" },
-    { "url": "https://news.google.com/rss/search?q=%22Toronto+Blue+Jays%22", "source": "Google News" }
+    { "url": "https://news.google.com/rss/search?q=%22Toronto+Blue+Jays%22", "source": "Google News" },
+    { "url": "https://www.bluebirdbanter.com/rss/index.xml", "source": "Bluebird Banter" },
+    { "url": "https://www.mlb.com/feeds/news/rss.xml", "source": "MLB.com", "keyword_filter": "Blue Jays" }
   ]
 }
 ```
 
-Each entry: `url` is the feed, `source` is the display label, optional `keyword_filter` narrows general-MLB feeds to team-relevant items. Pure passthrough — headline + source + author + timestamp + link, no AI summarization. Reader clicks out to read the actual article. Forking for another team: swap in their local beats. No code change.
+Each feed entry: `url` is the source, `source` is the display label, optional `keyword_filter` narrows general-MLB feeds to team-relevant items. `news_recent_days` (top-level, default 2) sets the recency window in days — widen it for feeds that post sporadically, narrow it for a "today only" view. Pure passthrough — headline + source + author + timestamp + link, no AI summarization. Reader clicks out to read the actual article. Forking for another team: swap in their local beats. No code change.
 
 ---
 
