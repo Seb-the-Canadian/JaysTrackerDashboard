@@ -31,6 +31,7 @@ REPO_ROOT = Path(__file__).resolve().parent
 CONFIG_PATH = REPO_ROOT / "config.json"
 OUTPUT_PATH = REPO_ROOT / "data.json"
 TMP_PATH = REPO_ROOT / "data.json.tmp"
+GAMELOG_CACHE_PATH = REPO_ROOT / "data" / "gamelog_cache.json"
 
 # All six MLB divisions have 5 teams since the 2013 realignment.
 EXPECTED_DIVISION_SIZE = 5
@@ -57,6 +58,78 @@ NEW_DAYS_THRESHOLD = 14
 
 def log(msg):
     print(msg, file=sys.stderr)
+
+
+# --- gameLog cache (issue #52) ------------------------------------------
+#
+# Shape of data/gamelog_cache.json:
+#     {
+#         "players": {
+#             "<person_id>_<group>_<season>": {
+#                 "signature": "atBats=42|hits=14|...",
+#                 "splits": [ ... raw gameLog splits ... ],
+#                 "fetched_at": "2026-05-28T09:00:01+00:00"
+#             }, ...
+#         }
+#     }
+#
+# `signature` is a compact string built from the season counting-stats
+# returned by fetch_player_season_stats. It changes if and only if the
+# player accumulated stats since the last refresh — i.e., played in a
+# game. On the next run we recompute the signature; if it matches the
+# cached entry, we skip the gameLog API call and reuse cached splits.
+#
+# Net effect on a typical day: only the ~9-15 players who actually
+# appeared in last night's game hit the API; the bench is read from
+# cache. ~50%+ reduction in fetch_game_log API calls.
+
+_GAMELOG_CACHE = None
+_GAMELOG_CACHE_DIRTY = False
+
+
+def _load_gamelog_cache():
+    """Lazy-load the cache from disk. Corrupt or missing → empty cache."""
+    global _GAMELOG_CACHE
+    if _GAMELOG_CACHE is not None:
+        return _GAMELOG_CACHE
+    try:
+        with open(GAMELOG_CACHE_PATH) as f:
+            loaded = json.load(f)
+        if not isinstance(loaded, dict) or "players" not in loaded:
+            raise ValueError("missing 'players' key")
+        _GAMELOG_CACHE = loaded
+    except FileNotFoundError:
+        _GAMELOG_CACHE = {"players": {}}
+    except (json.JSONDecodeError, ValueError, OSError) as e:
+        log(f"warning: gameLog cache unreadable ({e}); starting fresh")
+        _GAMELOG_CACHE = {"players": {}}
+    return _GAMELOG_CACHE
+
+
+def _save_gamelog_cache():
+    """Persist the cache to disk if anything changed during this run."""
+    if not _GAMELOG_CACHE_DIRTY or _GAMELOG_CACHE is None:
+        return
+    GAMELOG_CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    tmp = GAMELOG_CACHE_PATH.with_suffix(".tmp")
+    with open(tmp, "w") as f:
+        json.dump(_GAMELOG_CACHE, f, indent=2, sort_keys=True)
+    tmp.replace(GAMELOG_CACHE_PATH)
+
+
+def _stat_signature(stat_dict, group):
+    """Compact string that changes iff the player played a game.
+
+    Empty string when stat_dict is empty — signals "don't cache, don't
+    trust cache" to the caller.
+    """
+    if not stat_dict:
+        return ""
+    if group == "hitting":
+        keys = ("atBats", "hits", "baseOnBalls", "homeRuns", "totalBases")
+    else:  # pitching
+        keys = ("inningsPitched", "earnedRuns", "strikeOuts", "baseOnBalls")
+    return "|".join(f"{k}={stat_dict.get(k, 0)}" for k in keys)
 
 
 def die(msg, code=1):
@@ -515,7 +588,7 @@ def _parse_iso_date(s):
         return None
 
 
-def _fetch_game_log(person_id, group, season):
+def _fetch_game_log(person_id, group, season, stat_signature=None):
     """Return the list of per-game splits from the gameLog endpoint, or [].
 
     Uses the `person` endpoint with a `stats` hydrate — same pattern as
@@ -528,7 +601,20 @@ def _fetch_game_log(person_id, group, season):
     counting stats (AB, H, BB, ER, IP, ...) off each split's `stat` dict,
     so the math is the same regardless of which rate stats the API
     surfaces per game.
+
+    When `stat_signature` is provided and matches the cached signature
+    for this (person_id, group, season), returns the cached splits
+    without an API call (issue #52). On API error with a cached entry
+    present, returns the (possibly stale) cached splits rather than
+    losing the data.
     """
+    global _GAMELOG_CACHE_DIRTY
+    cache = _load_gamelog_cache()
+    cache_key = f"{person_id}_{group}_{season}"
+    cached = cache.get("players", {}).get(cache_key)
+    if cached and stat_signature and cached.get("signature") == stat_signature:
+        return cached.get("splits") or []
+
     try:
         response = statsapi.get("person", {
             "personId": person_id,
@@ -539,16 +625,26 @@ def _fetch_game_log(person_id, group, season):
         })
     except Exception as e:
         log(f"warning: gameLog fetch for {person_id} ({group}) failed: {e}")
-        return []
+        return cached.get("splits") or [] if cached else []
+
+    splits = []
     people = response.get("people") or []
-    if not people:
-        return []
-    for entry in people[0].get("stats", []):
-        type_match = entry.get("type", {}).get("displayName") == "gameLog"
-        group_match = entry.get("group", {}).get("displayName") == group
-        if type_match and group_match:
-            return entry.get("splits") or []
-    return []
+    if people:
+        for entry in people[0].get("stats", []):
+            type_match = entry.get("type", {}).get("displayName") == "gameLog"
+            group_match = entry.get("group", {}).get("displayName") == group
+            if type_match and group_match:
+                splits = entry.get("splits") or []
+                break
+
+    if stat_signature:
+        cache.setdefault("players", {})[cache_key] = {
+            "signature": stat_signature,
+            "splits": splits,
+            "fetched_at": datetime.now(timezone.utc).isoformat(),
+        }
+        _GAMELOG_CACHE_DIRTY = True
+    return splits
 
 
 def _split_date(split):
@@ -629,7 +725,7 @@ def _aggregate_pitching_form(splits):
     return (er * 9.0) / ip_total
 
 
-def derive_recent_form(person_id, group, season, season_rate_str):
+def derive_recent_form(person_id, group, season, season_rate_str, stat_signature=None):
     """Return "hot"|"cold"|"new"|None for one active player.
 
     Pulls the player's gameLog, takes the most recent RECENT_FORM_GAMES
@@ -638,10 +734,14 @@ def derive_recent_form(person_id, group, season, season_rate_str):
     first game date in the season log: if the player's been in MLB for
     fewer than NEW_DAYS_THRESHOLD days this season, they're "new".
 
+    `stat_signature` is forwarded to the cache layer in `_fetch_game_log`
+    — callers should pass a signature built from the same season-stat
+    dict they already fetched (see `_stat_signature`).
+
     Defensive: any API failure, missing splits, or zero-volume window
     (no ABs / no IP) returns None rather than raising.
     """
-    splits = _fetch_game_log(person_id, group, season)
+    splits = _fetch_game_log(person_id, group, season, stat_signature=stat_signature)
     if not splits:
         return None
 
@@ -708,8 +808,9 @@ def transform_roster(roster_entries, cfg):
             # nothing to compare against, no window to compute. Stays None.
             recent = None
             if parse_float(stat.get("inningsPitched"), default=0.0) > 0:
+                sig = _stat_signature(stat, "pitching")
                 try:
-                    recent = derive_recent_form(pid, "pitching", cfg["season"], stat.get("era"))
+                    recent = derive_recent_form(pid, "pitching", cfg["season"], stat.get("era"), stat_signature=sig)
                 except Exception as e:
                     log(f"warning: derive_recent_form for pitcher {pid} failed: {e}")
             pitchers.append({
@@ -732,8 +833,9 @@ def transform_roster(roster_entries, cfg):
             # Skip the gameLog call if the player has no ABs this season.
             recent = None
             if int(stat.get("atBats") or 0) > 0:
+                sig = _stat_signature(stat, "hitting")
                 try:
-                    recent = derive_recent_form(pid, "hitting", cfg["season"], stat.get("ops"))
+                    recent = derive_recent_form(pid, "hitting", cfg["season"], stat.get("ops"), stat_signature=sig)
                 except Exception as e:
                     log(f"warning: derive_recent_form for hitter {pid} failed: {e}")
             hitters.append({
@@ -1221,6 +1323,7 @@ def main():
 
     assert_invariants(output, cfg)
     write_atomic(output)
+    _save_gamelog_cache()
     log(
         f"fetch_data.py: wrote {OUTPUT_PATH} "
         f"({len(division)} division teams, {len(recent_games)} recent games, "
