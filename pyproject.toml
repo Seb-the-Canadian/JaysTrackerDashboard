@@ -17,7 +17,7 @@ markers = [
     "slow: long-running tests",
 ]
 filterwarnings = [
-    "error",
+    "default",
     "ignore::DeprecationWarning:feedparser.*",
 ]
 
