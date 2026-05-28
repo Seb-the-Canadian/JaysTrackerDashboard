@@ -1014,8 +1014,9 @@ def fetch_news(cfg):
 
     Per-feed failures are warnings, not fatal — the daily refresh continues
     with whatever feeds succeeded. Items are filtered by recency
-    (NEWS_RECENT_DAYS), optionally narrowed by a per-feed keyword, sorted by
-    published desc, and capped at NEWS_TOTAL_LIMIT.
+    (config.news_recent_days, default NEWS_RECENT_DAYS), optionally narrowed
+    by a per-feed keyword, sorted by published desc, capped at
+    NEWS_TOTAL_LIMIT.
     """
     feeds = cfg.get("rss_feeds") or []
     if not feeds:
@@ -1023,6 +1024,7 @@ def fetch_news(cfg):
     if feedparser is None:
         log("WARN: feedparser is not installed; skipping fetch_news")
         return []
+    recent_days = int(cfg.get("news_recent_days") or NEWS_RECENT_DAYS)
     items = []
     for feed in feeds:
         source = feed.get("source") or feed.get("url") or "unknown"
@@ -1035,20 +1037,29 @@ def fetch_news(cfg):
         except Exception as e:
             log(f"WARN: feed {source} failed: {e}")
             continue
+        entries = list(parsed.entries or [])
         bozo_exc = getattr(parsed, "bozo_exception", None)
-        if bozo_exc and not parsed.entries:
+        if bozo_exc and not entries:
             log(f"WARN: feed {source} parse error: {bozo_exc}")
             continue
         keyword = feed.get("keyword_filter")
         kw_lower = keyword.lower() if keyword else None
-        for entry in (parsed.entries or [])[:NEWS_PER_FEED_LIMIT]:
-            if not _recent_enough(entry, days=NEWS_RECENT_DAYS):
+        recency_drops = keyword_drops = kept = 0
+        for entry in entries[:NEWS_PER_FEED_LIMIT]:
+            if not _recent_enough(entry, days=recent_days):
+                recency_drops += 1
                 continue
             if kw_lower:
                 haystack = (entry.get("title", "") + " " + entry.get("summary", "")).lower()
                 if kw_lower not in haystack:
+                    keyword_drops += 1
                     continue
             items.append(_transform_entry(entry, source))
+            kept += 1
+        log(
+            f"INFO: feed {source}: {len(entries)} entries, "
+            f"{kept} kept, {recency_drops} too old, {keyword_drops} off-keyword"
+        )
     items.sort(key=lambda x: x.get("published") or "", reverse=True)
     return items[:NEWS_TOTAL_LIMIT]
 
