@@ -879,10 +879,29 @@ function renderPlayers() {
     return '<div class="section"><h2>' + heading + '</h2><div class="grid grid-3">' + cards + '</div></div>';
   };
 
-  const renderInjuryCard = i =>
-    '<div class="injury-card"><div class="injury-name">' + escapeText(i.name) + '</div>' +
-    '<div class="injury-status">' + escapeText(i.status || '') + '</div>' +
-    (i.eta_note ? '<div class="injury-eta">' + escapeText(i.eta_note) + '</div>' : '') + '</div>';
+  const renderInjuryCard = i => {
+    const note = (NOTES.injuries && i.person_id != null)
+      ? NOTES.injuries[String(i.person_id)]
+      : null;
+    const detail = note && note.detail;
+    const eta = note && note.eta;
+    const apiStatus = i.status || '';
+    // Primary status: prefer hand-authored detail; fall back to API status.
+    const primary = detail || apiStatus;
+    // When detail is present, the raw API status moves to a muted subtitle.
+    const subtitleHTML = detail && apiStatus
+      ? '<div class="dim" style="font-size:11px; margin-top:2px;">' + escapeText(apiStatus) + '</div>'
+      : '';
+    const etaHTML = eta
+      ? '<div class="injury-eta">' + escapeText(eta) + '</div>'
+      : (i.eta_note ? '<div class="injury-eta">' + escapeText(i.eta_note) + '</div>' : '');
+    return '<div class="injury-card">' +
+      '<div class="injury-name">' + escapeText(i.name) + '</div>' +
+      '<div class="injury-status">' + escapeText(primary) + '</div>' +
+      subtitleHTML +
+      etaHTML +
+      '</div>';
+  };
 
   const injuryList = DATA.injuries || [];
   const otherList = DATA.other_unavailable || [];

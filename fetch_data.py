@@ -445,6 +445,7 @@ def fetch_injury_report(cfg):
         if is_active or not (code or desc):
             continue
         row = {
+            "person_id": person.get("id"),
             "name": person.get("fullName", ""),
             "status": desc or code,
             "eta_note": "",
