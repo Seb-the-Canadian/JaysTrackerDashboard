@@ -267,7 +267,9 @@ def fetch_wild_card(cfg, team_names=None):
         else:
             row["note"] = "Out"
             behind = _gb_diff(cutoff_w, cutoff_l, row["w"], row["l"])
-            row["gb"] = _fmt_gb(behind)
+            # Tied with the WC3 cutoff should read "0.0", not "-" (which
+            # we reserve for division leaders and the WC3 seed itself).
+            row["gb"] = f"{behind:.1f}"
 
     for row in division_leaders:
         row["note"] = "Division leader"
@@ -962,12 +964,12 @@ def _entry_published_dt(entry):
 
 
 def _published_iso(entry):
-    """Prefer the original published string, fall back to derived ISO."""
-    raw = entry.get("published") or entry.get("updated") or ""
-    if raw:
-        return raw
+    """Return publish time as ISO 8601. Falls back to the source's raw
+    published string only when feedparser couldn't parse the date."""
     dt = _entry_published_dt(entry)
-    return dt.isoformat() if dt else ""
+    if dt is not None:
+        return dt.isoformat()
+    return entry.get("published") or entry.get("updated") or ""
 
 
 def _recent_enough(entry, days):
