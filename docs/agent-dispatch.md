@@ -314,6 +314,81 @@ After they land: refresh graph. #20's solo dispatch and #24's parallel-pair disp
 
 ---
 
+## Lessons learned in production
+
+Real-world failure modes observed across Waves 1–3 + the wild-card and RSS work. Each one is a guardrail that belongs in every brief.
+
+### `git push` returns HTTP 403 in this container
+
+The interactive Claude container's outbound proxy rejects `git push` to the GitHub remote with HTTP 403. Force-push, regular push, `--no-thin`, larger `http.postBuffer` — all return the same 403. The MCP GitHub tools bypass the proxy and work fine.
+
+**Implication:** every brief must instruct the agent to push via `mcp__github__push_files` or `mcp__github__create_or_update_file`. Never `git push`. The PM (you) cannot fall back to `git push` either — same proxy, same 403.
+
+### Section divider drift causes merge conflicts
+
+`index.html` has JS section dividers like `// ─── State ──────────────────────────────────────────────────────────────────`. An agent that retypes one of these (e.g., during a partial-write retry) usually changes the `─` count by ±2. Git's 3-way merge then sees both branches modifying the same line with different content, and conflicts.
+
+This bit us hard on Wave 2: PRs #42, #43, #44 all had divider drift from agent retries. After #41 merged to main, all three had to be closed and redone on fresh branches.
+
+**Guardrail in every brief touching `index.html`:**
+
+```
+DO NOT modify any existing JS section divider comments
+(`// ─── ... ───`). Touch only the regions you need.
+```
+
+And a verification step:
+
+```
+git diff origin/main..HEAD -- index.html | grep "^[+-]// ─"
+# must be empty
+```
+
+### Worktree isolation has edge cases
+
+Sub-agents launched with `isolation: "worktree"` are supposed to operate in `.claude/worktrees/agent-<id>/`. In practice, two leak modes:
+
+1. **Agent leaves the main worktree on a different branch.** After an agent completes, `git status` in the main worktree may show you on the agent's branch with uncommitted changes. Always `git status` after agent runs; switch back to main if needed.
+2. **Stale worktrees accumulate.** `git worktree list` shows all of them with `locked` status. Clean up with `git worktree remove -f -f <path>` when they're no longer needed.
+
+### Pushing large files via MCP is byte-fragile
+
+`mcp__github__push_files` and `create_or_update_file` take file content as a string parameter. Constructing that string by hand for files >50 KB risks Unicode mangling — we lost two `─` characters per box-drawing line on a README push, which then read as a conflict against main.
+
+**Two patterns that work:**
+
+1. **Edit locally, delegate the push to a sub-agent.** The agent uses `Read` (preserves bytes) and immediately calls `push_files` with the result. No manual transcription.
+2. **For small files (<10 KB),** hand-construct the string in the tool call, with explicit `\n` escapes and `—` for em-dashes. Verify byte length after.
+
+### Branches based on stale main show "false" diff
+
+When agents work in worktrees off `origin/main` and the daily refresh moves main forward (new `data.json` commit), the agent's branch ends up "behind" on `data.json`. `git diff origin/main..branch` shows `data.json` in the diff — but **the 3-way merge resolves cleanly** because only main side changed it.
+
+Visually surprising in GitHub's PR view, but functionally fine. Just note it.
+
+### Closed-and-reopened PR pattern
+
+When a branch's history has accumulated too much drift (multiple catch-up commits, divider drift, conflict-resolution merges), trying to salvage the PR via further rebases is usually slower than:
+
+1. Close the dirty PR with a comment: `Superseded by #N`
+2. Create a fresh branch from current main
+3. Apply only the PR's intended changes via sub-agent
+4. Open new PR
+
+Worked twice this session — PR #38 → #41 (wild-card fix; convoluted merge history), Wave 2's #42/#43/#44 → #45/#46/#47 (divider drift).
+
+### Agents sometimes split commits
+
+A brief that says "push once" may still produce 2–3 commits — the agent retries on partial push failure, or splits files because one was too large for a single call. **The final tree state is what matters** for merging. Commit history is cosmetic for small PRs. Don't burn cycles fixing it.
+
+### Daily refresh moves main forward mid-work
+
+If a sub-agent is running for 10+ minutes and the daily-refresh workflow happens to fire, main moves forward by one `data.json` commit. The agent's worktree base is now stale. Nothing breaks — the merge still resolves cleanly — but the agent's "current main" snapshot is one commit behind.
+
+If precision matters, the PM can fetch and re-base the agent's branch after the agent completes. Most of the time, GitHub's 3-way merge handles it transparently.
+
+---
+
 ## Reference
 
 - [Agent tool docs](https://docs.claude.com/en/docs/claude-code/agents)
