@@ -4,7 +4,11 @@ A live MLB season dashboard. Auto-refreshes daily. Hosted on GitHub Pages. Forka
 
 **Live:** https://seb-the-canadian.github.io/JaysTrackerDashboard/
 
+![Blue Jays 2026 Tracker — Season Overview](docs/screenshots/01-overview.png)
+
 The data layer pulls from the MLB Stats API every morning. Three layers of voice sit on top of the facts: hand-authored analyst notes in `notes.json` (per-game, per-player, overview, team-level, pitch types, injuries); bylined external takes pulled from RSS feeds configured in `config.json` (the "Voices around" panel on the Overview tab); and inline static reference (Stat School). The maintainer pays no token cost for the daily data or news — only when authoring notes.
+
+More views: [Players](docs/screenshots/02-players.png) · [Team Stats](docs/screenshots/03-team-stats.png) · [Game Log](docs/screenshots/04-game-log.png) · Stat School — [Stats Reference](docs/screenshots/05-stat-school-stats.png) / [Pitch Types](docs/screenshots/06-stat-school-pitches.png) / [Positions & Scoring](docs/screenshots/07-stat-school-positions.png) / [How to Watch](docs/screenshots/08-stat-school-watch.png).
 
 ---
 
