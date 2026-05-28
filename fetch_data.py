@@ -196,48 +196,93 @@ def find_us_team_record(div_record, cfg):
 
 
 def fetch_wild_card(cfg, team_names=None):
+    """Build the league wildcard view from regular standings.
+
+    Why not standingsTypes=wildCard? That endpoint silently excludes division
+    leaders (they're not wildcard candidates) and uses a wildCardGamesBack
+    field where '-' means "leading the wildcard race for this division" — not
+    "leading the division." The old code mislabeled the WC-race leaders as
+    "Division leader" and dropped all three actual division leaders from
+    the dashboard list.
+
+    Computing the view ourselves from regular standings is more robust: every
+    team in the configured league shows up, division leaders are correctly
+    identified, and the math works for any team a forker plugs into config.
+    """
     team_names = team_names or {}
     response = api("standings", {
         "leagueId": cfg["league_id"],
         "season": cfg["season"],
-        "standingsTypes": "wildCard",
     })
-    rows = []
+
+    # Each division record's teamRecords is sorted by division rank.
+    # Top of each list is the division leader; rest are wildcard candidates.
+    division_leaders = []
+    candidates = []
     for rec in response.get("records", []):
-        for tr in rec.get("teamRecords", []):
-            tid = tr["team"]["id"]
-            rows.append({
-                "team": team_names.get(tid) or tr["team"].get("name", ""),
-                "team_id": tid,
-                "w": tr.get("wins", 0),
-                "l": tr.get("losses", 0),
-                "gb": tr.get("wildCardGamesBack", tr.get("gamesBack", "-")),
-                "note": "",
-                "is_us": tid == cfg["team_id"],
-            })
-    return annotate_wild_card(rows)
+        team_records = rec.get("teamRecords", [])
+        for i, tr in enumerate(team_records):
+            row = _wild_card_row(tr, team_names, cfg)
+            (division_leaders if i == 0 else candidates).append(row)
 
+    sort_key = lambda r: (-_pct(r["w"], r["l"]), -r["w"])
+    candidates.sort(key=sort_key)
+    division_leaders.sort(key=sort_key)
 
-def annotate_wild_card(rows):
-    """Heuristic labels: division leaders flagged, top 3 wildcard chasers 'In', rest 'Out'.
+    # Wildcard cutoff = the 3rd seed's record. Each non-leader's gb is
+    # measured against it: ahead (positive) for the top 3, behind for the rest.
+    if len(candidates) >= 3:
+        cutoff_w = candidates[2]["w"]
+        cutoff_l = candidates[2]["l"]
+    else:
+        cutoff_w = cutoff_l = 0
 
-    The MLB endpoint orders teams by wildcard rank; division leaders are usually
-    listed at the top with gb='-' or '0.0'. This is advisory text for the dashboard;
-    the actual postseason picture has more nuance the script doesn't try to compute.
-    """
-    wc_seed = 0
-    for r in rows:
-        gb = str(r.get("gb", ""))
-        if gb in ("-", "0", "0.0"):
-            r["note"] = "Division leader"
-            continue
-        wc_seed += 1
-        if wc_seed <= 3:
-            suffix = {1: "st", 2: "nd", 3: "rd"}[wc_seed]
-            r["note"] = f"In ({wc_seed}{suffix} WC seed)"
+    for i, row in enumerate(candidates):
+        if i < 3:
+            seed = i + 1
+            suffix = {1: "st", 2: "nd", 3: "rd"}[seed]
+            row["note"] = f"In ({seed}{suffix} WC seed)"
+            ahead = _gb_diff(row["w"], row["l"], cutoff_w, cutoff_l)
+            row["gb"] = "-" if ahead == 0 else f"+{_fmt_gb(ahead)}"
         else:
-            r["note"] = "Out"
-    return rows
+            row["note"] = "Out"
+            behind = _gb_diff(cutoff_w, cutoff_l, row["w"], row["l"])
+            row["gb"] = _fmt_gb(behind)
+
+    for row in division_leaders:
+        row["note"] = "Division leader"
+        row["gb"] = "-"
+
+    # Render order: division leaders first (the locked-in playoff spots),
+    # then the wildcard race in seed order.
+    return division_leaders + candidates
+
+
+def _wild_card_row(tr, team_names, cfg):
+    tid = tr["team"]["id"]
+    return {
+        "team": team_names.get(tid) or tr["team"].get("name", ""),
+        "team_id": tid,
+        "w": tr.get("wins", 0),
+        "l": tr.get("losses", 0),
+        "gb": "",
+        "note": "",
+        "is_us": tid == cfg["team_id"],
+    }
+
+
+def _pct(w, l):
+    return w / (w + l) if (w + l) > 0 else 0.0
+
+
+def _gb_diff(better_w, better_l, worse_w, worse_l):
+    """Standard MLB games-back formula. Positive when `better` is ahead."""
+    return ((better_w - worse_w) + (worse_l - better_l)) / 2
+
+
+def _fmt_gb(games):
+    """MLB-style games-back display: '0.5', '1.0', '6.0'. '-' for 0."""
+    return "-" if games == 0 else f"{games:.1f}"
 
 
 # --- Schedule and games -----------------------------------------------------
