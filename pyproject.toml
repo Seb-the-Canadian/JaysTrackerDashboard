@@ -1,6 +1,6 @@
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra --strict-markers --cov=fetch_data --cov-report=term-missing"
+addopts = "-ra --strict-markers --cov=fetch_data --cov-report=term-missing --cov-fail-under=70"
 markers = [
     "integration: live-API tests (not run by default)",
     "slow: long-running tests",
