@@ -53,6 +53,7 @@ body {
 .neg { color: #f85149; }
 .warn { color: #d29922; }
 .dim { color: #8b96a8; }
+.probable { font-style: italic; color: #b9c2d1; cursor: help; }
 .accent { color: var(--accent-color); }
 .tag { display: inline-block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 10px; background: #1f2937; color: #8b96a8; font-weight: 600; }
 .tag.injury { background: rgba(248,81,73,0.12); color: #f85149; }
@@ -793,8 +794,8 @@ function renderUpcomingTable(rows) {
   const head = '<thead><tr><th>Date</th><th>Opp</th><th>Probable SP</th></tr></thead>';
   const body = rows.map(g => {
     const opp = (g.home ? 'vs ' : '@ ') + escapeText(g.opp || '');
-    const sps = [g.probable_pitcher_us, g.probable_pitcher_them].filter(Boolean).join(' vs ');
-    return '<tr><td class="dim">' + escapeText(g.date) + '</td><td>' + opp + '</td><td>' + (escapeText(sps) || '—') + '</td></tr>';
+    const sps = [g.probable_pitcher_us, g.probable_pitcher_them].filter(Boolean).map(probable).join(' vs ');
+    return '<tr><td class="dim">' + escapeText(g.date) + '</td><td>' + opp + '</td><td>' + (sps || '—') + '</td></tr>';
   }).join('');
   return '<table>' + head + '<tbody>' + body + '</tbody></table>';
 }
@@ -810,7 +811,7 @@ function renderSinceYesterday() {
   const upcoming = (DATA.upcoming_games || [])[0];
   const nextStr = upcoming
     ? upcoming.date + ' ' + (upcoming.home ? 'vs' : '@') + ' ' + escapeText(upcoming.opp) + ' — ' +
-      (upcoming.probable_pitcher_us || 'TBD') + ' vs ' + (upcoming.probable_pitcher_them || 'TBD')
+      probable(upcoming.probable_pitcher_us) + ' vs ' + probable(upcoming.probable_pitcher_them)
     : 'No upcoming game scheduled.';
 
   const txs = (DATA.transactions || []).slice(0, 3);
@@ -1298,6 +1299,14 @@ function escapeText(s) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+// Wrap a probable-pitcher name with a "subject to change" affordance (#72).
+// Returns a string safe to inject as innerHTML — name is escaped inside.
+// Empty input renders as plain 'TBD' (no italic, no tooltip).
+function probable(name) {
+  if (!name) return 'TBD';
+  return '<span class="probable" title="Scheduled — subject to change">' + escapeText(name) + '</span>';
 }
 
 // ─── Init ──────────────────────────────────────────────────────────────────
