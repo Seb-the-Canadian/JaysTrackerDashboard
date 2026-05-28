@@ -518,33 +518,36 @@ def _parse_iso_date(s):
 def _fetch_game_log(person_id, group, season):
     """Return the list of per-game splits from the gameLog endpoint, or [].
 
-    The /stats endpoint with stats=gameLog returns one entry under `stats`
-    with `splits[]`, each split carrying a per-game `stat` dict plus a
-    `date` field. We don't depend on a specific field name for OPS/ERA per
-    split — `_aggregate_hitting_form` / `_aggregate_pitching_form` only
-    use raw counting stats (AB, H, BB, ER, IP, ...) so the math is the
-    same regardless of whether the API surfaces per-game rate stats.
+    Uses the `person` endpoint with a `stats` hydrate — same pattern as
+    `fetch_player_season_stats`. The raw /stats endpoint silently ignores
+    `personId` and returns league aggregates (see the comment on
+    `fetch_player_season_stats`), so we have to route through
+    /people/{id} which correctly scopes by player.
+
+    `_aggregate_hitting_form` / `_aggregate_pitching_form` only use raw
+    counting stats (AB, H, BB, ER, IP, ...) off each split's `stat` dict,
+    so the math is the same regardless of which rate stats the API
+    surfaces per game.
     """
     try:
-        response = statsapi.get("stats", {
-            "stats": "gameLog",
-            "group": group,
-            "season": season,
+        response = statsapi.get("person", {
             "personId": person_id,
-            "sportId": MLB_SPORT_ID,
+            "hydrate": (
+                f"stats(group={group},type=gameLog,"
+                f"season={season},sportId={MLB_SPORT_ID})"
+            ),
         })
     except Exception as e:
         log(f"warning: gameLog fetch for {person_id} ({group}) failed: {e}")
         return []
-    for entry in response.get("stats", []):
-        if entry.get("group", {}).get("displayName") == group:
+    people = response.get("people") or []
+    if not people:
+        return []
+    for entry in people[0].get("stats", []):
+        type_match = entry.get("type", {}).get("displayName") == "gameLog"
+        group_match = entry.get("group", {}).get("displayName") == group
+        if type_match and group_match:
             return entry.get("splits") or []
-        if entry.get("type", {}).get("displayName") == "gameLog":
-            return entry.get("splits") or []
-    # Fall through: first entry's splits, if any. Some shapes nest differently.
-    stats_list = response.get("stats") or []
-    if stats_list:
-        return stats_list[0].get("splits") or []
     return []
 
 
