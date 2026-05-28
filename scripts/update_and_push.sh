@@ -13,14 +13,15 @@ cd "$(git rev-parse --show-toplevel)"
 python3 -m pip install -r requirements.txt --quiet
 python3 fetch_data.py
 
-# git status --porcelain catches modified AND newly-untracked data.json
-# (first-run case). Empty output means no change to commit.
-if [[ -z "$(git status --porcelain data.json)" ]]; then
+# git status --porcelain catches modified AND newly-untracked files
+# (first-run case). data/gamelog_cache.json is the per-player gameLog
+# cache (#52); it usually updates with data.json but we check both.
+if [[ -z "$(git status --porcelain data.json data/gamelog_cache.json)" ]]; then
   echo "no changes"
   exit 0
 fi
 
-git add data.json
+git add data.json data/gamelog_cache.json
 git -c user.name="jays-tracker-bot" -c user.email="bot@example.invalid" \
   commit -m "Daily data refresh: $(date -u +%Y-%m-%d)"
 git push
