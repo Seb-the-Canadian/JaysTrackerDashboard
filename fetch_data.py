@@ -34,6 +34,16 @@ SCHEDULE_PAST_DAYS = 30
 SCHEDULE_FUTURE_DAYS = 7
 MLB_SPORT_ID = 1
 
+# Hot/cold/new tag thresholds (issue #25). Compared against the season line
+# already on each player record; tuned for a 7-game window. Values here so
+# the dial is in one obvious spot if we ever want to relax/tighten.
+RECENT_FORM_GAMES = 7
+HOT_OPS_DELTA = 0.100
+COLD_OPS_DELTA = -0.100
+HOT_ERA_DELTA = 1.50
+COLD_ERA_DELTA = 1.50
+NEW_DAYS_THRESHOLD = 14
+
 
 def log(msg):
     print(msg, file=sys.stderr)
@@ -482,6 +492,191 @@ def is_pitcher(entry):
     return pos.get("abbreviation") in ("P", "SP", "RP", "CL") or pos.get("type") == "Pitcher"
 
 
+def _parse_iso_date(s):
+    """Parse 'YYYY-MM-DD' or full ISO into a date; return None on failure."""
+    if not s:
+        return None
+    try:
+        return datetime.fromisoformat(str(s)[:10]).date()
+    except (TypeError, ValueError):
+        return None
+
+
+def _fetch_game_log(person_id, group, season):
+    """Return the list of per-game splits from the gameLog endpoint, or [].
+
+    The /stats endpoint with stats=gameLog returns one entry under `stats`
+    with `splits[]`, each split carrying a per-game `stat` dict plus a
+    `date` field. We don't depend on a specific field name for OPS/ERA per
+    split — `_aggregate_hitting_form` / `_aggregate_pitching_form` only
+    use raw counting stats (AB, H, BB, ER, IP, ...) so the math is the
+    same regardless of whether the API surfaces per-game rate stats.
+    """
+    try:
+        response = statsapi.get("stats", {
+            "stats": "gameLog",
+            "group": group,
+            "season": season,
+            "personId": person_id,
+            "sportId": MLB_SPORT_ID,
+        })
+    except Exception as e:
+        log(f"warning: gameLog fetch for {person_id} ({group}) failed: {e}")
+        return []
+    for entry in response.get("stats", []):
+        if entry.get("group", {}).get("displayName") == group:
+            return entry.get("splits") or []
+        if entry.get("type", {}).get("displayName") == "gameLog":
+            return entry.get("splits") or []
+    # Fall through: first entry's splits, if any. Some shapes nest differently.
+    stats_list = response.get("stats") or []
+    if stats_list:
+        return stats_list[0].get("splits") or []
+    return []
+
+
+def _split_date(split):
+    """Pull a usable game date off a gameLog split (multiple field names seen)."""
+    for k in ("date", "gameDate", "officialDate"):
+        d = _parse_iso_date(split.get(k))
+        if d:
+            return d
+        # Some shapes nest the date under game.
+        game = split.get("game") or {}
+        d = _parse_iso_date(game.get(k))
+        if d:
+            return d
+    return None
+
+
+def _aggregate_hitting_form(splits):
+    """Compute a 7-game OPS from raw counting stats across splits.
+
+    Returns a float OPS or None if we can't compute (no ABs in the window).
+    Uses standard MLB formulas:
+        OBP = (H + BB + HBP) / (AB + BB + HBP + SF)
+        SLG = TB / AB    (TB falls back to 1B + 2*2B + 3*3B + 4*HR)
+        OPS = OBP + SLG
+    Falls back to averaging per-game `ops` if raw counts are unavailable.
+    """
+    ab = h = bb = hbp = sf = tb = doubles = triples = hr = singles = 0
+    ops_values = []
+    for s in splits:
+        stat = s.get("stat") or {}
+        try:
+            ab += int(stat.get("atBats") or 0)
+            h += int(stat.get("hits") or 0)
+            bb += int(stat.get("baseOnBalls") or 0)
+            hbp += int(stat.get("hitByPitch") or 0)
+            sf += int(stat.get("sacFlies") or 0)
+            doubles += int(stat.get("doubles") or 0)
+            triples += int(stat.get("triples") or 0)
+            hr += int(stat.get("homeRuns") or 0)
+            tb += int(stat.get("totalBases") or 0)
+        except (TypeError, ValueError):
+            continue
+        ops_raw = stat.get("ops")
+        ops_f = parse_float(ops_raw, default=None)
+        if ops_f is not None:
+            ops_values.append(ops_f)
+    if ab <= 0:
+        return None
+    singles = max(0, h - doubles - triples - hr)
+    if tb <= 0:
+        tb = singles + 2 * doubles + 3 * triples + 4 * hr
+    obp_denom = ab + bb + hbp + sf
+    if obp_denom <= 0:
+        # Pathological — fall back to per-game OPS average if we have any.
+        return sum(ops_values) / len(ops_values) if ops_values else None
+    obp = (h + bb + hbp) / obp_denom
+    slg = tb / ab if ab > 0 else 0.0
+    return obp + slg
+
+
+def _aggregate_pitching_form(splits):
+    """Compute a 7-game ERA from raw counting stats across splits.
+
+    Returns a float ERA or None if we can't compute (no innings in the window).
+    ERA = (earnedRuns * 9) / inningsPitched
+    """
+    er = 0
+    ip_total = 0.0
+    for s in splits:
+        stat = s.get("stat") or {}
+        try:
+            er += int(stat.get("earnedRuns") or 0)
+        except (TypeError, ValueError):
+            pass
+        ip_total += ip_to_decimal(stat.get("inningsPitched"))
+    if ip_total <= 0:
+        return None
+    return (er * 9.0) / ip_total
+
+
+def derive_recent_form(person_id, group, season, season_rate_str):
+    """Return "hot"|"cold"|"new"|None for one active player.
+
+    Pulls the player's gameLog, takes the most recent RECENT_FORM_GAMES
+    entries, and compares the resulting 7-game rate to the season rate
+    we already have on the roster record. The "new" check fires off the
+    first game date in the season log: if the player's been in MLB for
+    fewer than NEW_DAYS_THRESHOLD days this season, they're "new".
+
+    Defensive: any API failure, missing splits, or zero-volume window
+    (no ABs / no IP) returns None rather than raising.
+    """
+    splits = _fetch_game_log(person_id, group, season)
+    if not splits:
+        return None
+
+    # Sort by game date ascending; take the trailing N. Splits with no
+    # parseable date sort to the front so they don't crowd out real games.
+    splits_sorted = sorted(splits, key=lambda s: _split_date(s) or datetime.min.date())
+
+    # "new" check: how many days has this player been in MLB this season?
+    today = datetime.now(timezone.utc).date()
+    first_date = None
+    for s in splits_sorted:
+        d = _split_date(s)
+        if d is not None:
+            first_date = d
+            break
+    if first_date is not None:
+        days_in_mlb = (today - first_date).days
+        if days_in_mlb < NEW_DAYS_THRESHOLD:
+            return "new"
+
+    window = splits_sorted[-RECENT_FORM_GAMES:]
+    if len(window) < RECENT_FORM_GAMES:
+        return None
+
+    season_rate = parse_float(season_rate_str, default=None)
+    if season_rate is None:
+        return None
+
+    if group == "hitting":
+        recent = _aggregate_hitting_form(window)
+        if recent is None:
+            return None
+        delta = recent - season_rate
+        if delta >= HOT_OPS_DELTA:
+            return "hot"
+        if delta <= COLD_OPS_DELTA:
+            return "cold"
+        return None
+
+    # pitching
+    recent = _aggregate_pitching_form(window)
+    if recent is None:
+        return None
+    # Lower ERA is better. Hot = recent ERA meaningfully below season ERA.
+    if (season_rate - recent) >= HOT_ERA_DELTA:
+        return "hot"
+    if (recent - season_rate) >= COLD_ERA_DELTA:
+        return "cold"
+    return None
+
+
 def transform_roster(roster_entries, cfg):
     hitters, pitchers = [], []
     for entry in roster_entries:
@@ -493,6 +688,14 @@ def transform_roster(roster_entries, cfg):
         pos = entry.get("position", {}).get("abbreviation", "")
         if is_pitcher(entry):
             stat = fetch_player_season_stats(pid, "pitching", cfg["season"])
+            # Skip the gameLog call if the player has no IP this season —
+            # nothing to compare against, no window to compute. Stays None.
+            recent = None
+            if parse_float(stat.get("inningsPitched"), default=0.0) > 0:
+                try:
+                    recent = derive_recent_form(pid, "pitching", cfg["season"], stat.get("era"))
+                except Exception as e:
+                    log(f"warning: derive_recent_form for pitcher {pid} failed: {e}")
             pitchers.append({
                 "id": pid,
                 "name": name,
@@ -505,9 +708,17 @@ def transform_roster(roster_entries, cfg):
                 "w": stat.get("wins", 0),
                 "l": stat.get("losses", 0),
                 "sv": stat.get("saves", 0),
+                "recent": recent,
             })
         else:
             stat = fetch_player_season_stats(pid, "hitting", cfg["season"])
+            # Skip the gameLog call if the player has no ABs this season.
+            recent = None
+            if int(stat.get("atBats") or 0) > 0:
+                try:
+                    recent = derive_recent_form(pid, "hitting", cfg["season"], stat.get("ops"))
+                except Exception as e:
+                    log(f"warning: derive_recent_form for hitter {pid} failed: {e}")
             hitters.append({
                 "id": pid,
                 "name": name,
@@ -520,6 +731,7 @@ def transform_roster(roster_entries, cfg):
                 "hr": stat.get("homeRuns", 0),
                 "rbi": stat.get("rbi", 0),
                 "sb": stat.get("stolenBases", 0),
+                "recent": recent,
             })
     return {"hitters": hitters, "pitchers": pitchers}
 
