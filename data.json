@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-05-27T20:19:49.389986+00:00",
+  "as_of": "2026-05-28T02:26:26.466977+00:00",
   "config": {
     "team_id": 141,
     "team_name": "Toronto Blue Jays",
@@ -24,22 +24,22 @@
       "team": "Tampa Bay Rays",
       "team_id": 139,
       "w": 34,
-      "l": 18,
-      "pct": ".654",
+      "l": 19,
+      "pct": ".642",
       "gb": "-",
-      "streak": "L3",
-      "last10": "6-4",
+      "streak": "L4",
+      "last10": "5-5",
       "is_us": false
     },
     {
       "team": "New York Yankees",
       "team_id": 147,
-      "w": 33,
+      "w": 34,
       "l": 22,
-      "pct": ".600",
-      "gb": "2.5",
-      "streak": "W3",
-      "last10": "5-5",
+      "pct": ".607",
+      "gb": "1.5",
+      "streak": "W4",
+      "last10": "6-4",
       "is_us": false
     },
     {
@@ -48,7 +48,7 @@
       "w": 27,
       "l": 29,
       "pct": ".482",
-      "gb": "9.0",
+      "gb": "8.5",
       "streak": "W2",
       "last10": "6-4",
       "is_us": true
@@ -56,50 +56,41 @@
     {
       "team": "Baltimore Orioles",
       "team_id": 110,
-      "w": 25,
+      "w": 26,
       "l": 30,
-      "pct": ".455",
-      "gb": "10.5",
-      "streak": "W2",
-      "last10": "5-5",
+      "pct": ".464",
+      "gb": "9.5",
+      "streak": "W3",
+      "last10": "6-4",
       "is_us": false
     },
     {
       "team": "Boston Red Sox",
       "team_id": 111,
-      "w": 22,
+      "w": 23,
       "l": 31,
-      "pct": ".415",
-      "gb": "12.5",
-      "streak": "L4",
-      "last10": "4-6",
+      "pct": ".426",
+      "gb": "11.5",
+      "streak": "W1",
+      "last10": "5-5",
       "is_us": false
     }
   ],
   "wild_card": [
     {
-      "team": "New York Yankees",
-      "team_id": 147,
+      "team": "Tampa Bay Rays",
+      "team_id": 139,
+      "w": 34,
+      "l": 19,
+      "gb": "-",
+      "note": "Division leader",
+      "is_us": false
+    },
+    {
+      "team": "Cleveland Guardians",
+      "team_id": 114,
       "w": 33,
-      "l": 22,
-      "gb": "+6.0",
-      "note": "In (1st WC seed)",
-      "is_us": false
-    },
-    {
-      "team": "Chicago White Sox",
-      "team_id": 145,
-      "w": 27,
-      "l": 27,
-      "gb": "+0.5",
-      "note": "In (2nd WC seed)",
-      "is_us": false
-    },
-    {
-      "team": "Minnesota Twins",
-      "team_id": 142,
-      "w": 27,
-      "l": 28,
+      "l": 25,
       "gb": "-",
       "note": "Division leader",
       "is_us": false
@@ -107,10 +98,28 @@
     {
       "team": "Seattle Mariners",
       "team_id": 136,
-      "w": 27,
+      "w": 28,
       "l": 29,
-      "gb": "0.5",
-      "note": "In (3rd WC seed)",
+      "gb": "-",
+      "note": "Division leader",
+      "is_us": false
+    },
+    {
+      "team": "New York Yankees",
+      "team_id": 147,
+      "w": 34,
+      "l": 22,
+      "gb": "+7.0",
+      "note": "In (1st WC seed)",
+      "is_us": false
+    },
+    {
+      "team": "Chicago White Sox",
+      "team_id": 145,
+      "w": 28,
+      "l": 27,
+      "gb": "+1.5",
+      "note": "In (2nd WC seed)",
       "is_us": false
     },
     {
@@ -118,25 +127,43 @@
       "team_id": 141,
       "w": 27,
       "l": 29,
-      "gb": "0.5",
-      "note": "Out",
+      "gb": "-",
+      "note": "In (3rd WC seed)",
       "is_us": true
     },
     {
-      "team": "Texas Rangers",
-      "team_id": 140,
-      "w": 25,
+      "team": "Minnesota Twins",
+      "team_id": 142,
+      "w": 27,
       "l": 29,
-      "gb": "1.5",
+      "gb": "-",
+      "note": "Out",
+      "is_us": false
+    },
+    {
+      "team": "Athletics",
+      "team_id": 133,
+      "w": 27,
+      "l": 29,
+      "gb": "-",
       "note": "Out",
       "is_us": false
     },
     {
       "team": "Baltimore Orioles",
       "team_id": 110,
-      "w": 25,
+      "w": 26,
       "l": 30,
-      "gb": "2.0",
+      "gb": "1.0",
+      "note": "Out",
+      "is_us": false
+    },
+    {
+      "team": "Texas Rangers",
+      "team_id": 140,
+      "w": 25,
+      "l": 29,
+      "gb": "1.0",
       "note": "Out",
       "is_us": false
     },
@@ -145,16 +172,25 @@
       "team_id": 117,
       "w": 24,
       "l": 32,
-      "gb": "3.5",
+      "gb": "3.0",
       "note": "Out",
       "is_us": false
     },
     {
       "team": "Boston Red Sox",
       "team_id": 111,
-      "w": 22,
+      "w": 23,
       "l": 31,
-      "gb": "4.0",
+      "gb": "3.0",
+      "note": "Out",
+      "is_us": false
+    },
+    {
+      "team": "Detroit Tigers",
+      "team_id": 116,
+      "w": 22,
+      "l": 34,
+      "gb": "5.0",
       "note": "Out",
       "is_us": false
     },
@@ -162,7 +198,7 @@
       "team": "Kansas City Royals",
       "team_id": 118,
       "w": 22,
-      "l": 33,
+      "l": 34,
       "gb": "5.0",
       "note": "Out",
       "is_us": false
@@ -171,16 +207,7 @@
       "team": "Los Angeles Angels",
       "team_id": 108,
       "w": 21,
-      "l": 34,
-      "gb": "6.0",
-      "note": "Out",
-      "is_us": false
-    },
-    {
-      "team": "Detroit Tigers",
-      "team_id": 116,
-      "w": 21,
-      "l": 34,
+      "l": 35,
       "gb": "6.0",
       "note": "Out",
       "is_us": false
@@ -330,15 +357,6 @@
   ],
   "upcoming_games": [
     {
-      "game_pk": 824834,
-      "date": "2026-05-28",
-      "home": false,
-      "opp": "Baltimore Orioles",
-      "probable_pitcher_us": "Patrick Corbin",
-      "probable_pitcher_them": "Chris Bassitt",
-      "status": "Scheduled"
-    },
-    {
       "game_pk": 824835,
       "date": "2026-05-29",
       "home": false,
@@ -382,6 +400,15 @@
       "probable_pitcher_us": "",
       "probable_pitcher_them": "",
       "status": "Scheduled"
+    },
+    {
+      "game_pk": 824919,
+      "date": "2026-06-04",
+      "home": false,
+      "opp": "Atlanta Braves",
+      "probable_pitcher_us": "",
+      "probable_pitcher_them": "",
+      "status": "Scheduled"
     }
   ],
   "roster": {
@@ -397,7 +424,8 @@
         "ops": ".616",
         "hr": 5,
         "rbi": 27,
-        "sb": 6
+        "sb": 6,
+        "recent": null
       },
       {
         "id": 678218,
@@ -410,7 +438,8 @@
         "ops": ".739",
         "hr": 4,
         "rbi": 10,
-        "sb": 1
+        "sb": 1,
+        "recent": null
       },
       {
         "id": 662139,
@@ -423,7 +452,8 @@
         "ops": ".751",
         "hr": 5,
         "rbi": 16,
-        "sb": 4
+        "sb": 4,
+        "recent": null
       },
       {
         "id": 676391,
@@ -436,7 +466,8 @@
         "ops": ".763",
         "hr": 5,
         "rbi": 20,
-        "sb": 2
+        "sb": 2,
+        "recent": null
       },
       {
         "id": 543807,
@@ -449,7 +480,8 @@
         "ops": ".657",
         "hr": 5,
         "rbi": 14,
-        "sb": 3
+        "sb": 3,
+        "recent": null
       },
       {
         "id": 660821,
@@ -462,7 +494,8 @@
         "ops": ".776",
         "hr": 6,
         "rbi": 27,
-        "sb": 1
+        "sb": 1,
+        "recent": null
       },
       {
         "id": 672960,
@@ -475,7 +508,8 @@
         "ops": ".718",
         "hr": 11,
         "rbi": 29,
-        "sb": 0
+        "sb": 0,
+        "recent": null
       },
       {
         "id": 672820,
@@ -488,7 +522,8 @@
         "ops": ".490",
         "hr": 1,
         "rbi": 9,
-        "sb": 0
+        "sb": 0,
+        "recent": null
       },
       {
         "id": 664702,
@@ -501,7 +536,8 @@
         "ops": ".661",
         "hr": 2,
         "rbi": 6,
-        "sb": 2
+        "sb": 2,
+        "recent": null
       },
       {
         "id": 664770,
@@ -514,7 +550,8 @@
         "ops": ".690",
         "hr": 0,
         "rbi": 9,
-        "sb": 0
+        "sb": 0,
+        "recent": null
       },
       {
         "id": 623168,
@@ -527,7 +564,8 @@
         "ops": ".385",
         "hr": 1,
         "rbi": 4,
-        "sb": 0
+        "sb": 0,
+        "recent": null
       },
       {
         "id": 665489,
@@ -540,7 +578,8 @@
         "ops": ".769",
         "hr": 3,
         "rbi": 22,
-        "sb": 5
+        "sb": 5,
+        "recent": null
       },
       {
         "id": 682818,
@@ -553,7 +592,8 @@
         "ops": ".743",
         "hr": 2,
         "rbi": 12,
-        "sb": 0
+        "sb": 0,
+        "recent": null
       }
     ],
     "pitchers": [
@@ -568,7 +608,8 @@
         "bb": 0,
         "w": 1,
         "l": 0,
-        "sv": 0
+        "sv": 0,
+        "recent": null
       },
       {
         "id": 608723,
@@ -581,7 +622,8 @@
         "bb": 1,
         "w": 0,
         "l": 0,
-        "sv": 0
+        "sv": 0,
+        "recent": null
       },
       {
         "id": 680755,
@@ -594,7 +636,8 @@
         "bb": 12,
         "w": 2,
         "l": 1,
-        "sv": 0
+        "sv": 0,
+        "recent": null
       },
       {
         "id": 695445,
@@ -607,7 +650,8 @@
         "bb": 4,
         "w": 0,
         "l": 0,
-        "sv": 0
+        "sv": 0,
+        "recent": null
       },
       {
         "id": 656546,
@@ -620,7 +664,8 @@
         "bb": 8,
         "w": 3,
         "l": 3,
-        "sv": 5
+        "sv": 5,
+        "recent": null
       },
       {
         "id": 592332,
@@ -633,7 +678,8 @@
         "bb": 12,
         "w": 4,
         "l": 3,
-        "sv": 0
+        "sv": 0,
+        "recent": null
       },
       {
         "id": 686973,
@@ -646,7 +692,8 @@
         "bb": 9,
         "w": 2,
         "l": 1,
-        "sv": 7
+        "sv": 7,
+        "recent": null
       },
       {
         "id": 689254,
@@ -659,7 +706,8 @@
         "bb": 9,
         "w": 2,
         "l": 0,
-        "sv": 0
+        "sv": 0,
+        "recent": null
       },
       {
         "id": 571578,
@@ -672,7 +720,8 @@
         "bb": 13,
         "w": 2,
         "l": 1,
-        "sv": 0
+        "sv": 0,
+        "recent": null
       },
       {
         "id": 693686,
@@ -685,7 +734,8 @@
         "bb": 9,
         "w": 2,
         "l": 0,
-        "sv": 0
+        "sv": 0,
+        "recent": null
       },
       {
         "id": 702056,
@@ -698,7 +748,8 @@
         "bb": 10,
         "w": 2,
         "l": 2,
-        "sv": 0
+        "sv": 0,
+        "recent": null
       },
       {
         "id": 643511,
@@ -711,7 +762,8 @@
         "bb": 9,
         "w": 1,
         "l": 2,
-        "sv": 2
+        "sv": 2,
+        "recent": null
       },
       {
         "id": 684320,
@@ -724,27 +776,24 @@
         "bb": 4,
         "w": 0,
         "l": 1,
-        "sv": 0
+        "sv": 0,
+        "recent": null
       }
     ]
   },
   "team_stats": {
     "hitting": {
-      "ops": {
-        "val": ".684",
-        "rank": 26
-      },
-      "hr": {
-        "val": 52,
-        "rank": 19
-      },
       "obp": {
         "val": ".309",
-        "rank": 26
+        "rank": 25
+      },
+      "ops": {
+        "val": ".684",
+        "rank": 25
       },
       "slg": {
         "val": ".375",
-        "rank": 23
+        "rank": 22
       },
       "runs": {
         "val": 226,
@@ -752,17 +801,17 @@
       },
       "avg": {
         "val": ".243",
-        "rank": 13
+        "rank": 14
+      },
+      "hr": {
+        "val": 52,
+        "rank": 20
       }
     },
     "pitching": {
       "whip": {
         "val": "1.26",
         "rank": 13
-      },
-      "bb9": {
-        "val": "3.13",
-        "rank": 7
       },
       "era": {
         "val": "3.78",
@@ -771,71 +820,88 @@
       "k9": {
         "val": "9.30",
         "rank": 5
+      },
+      "bb9": {
+        "val": "3.13",
+        "rank": 8
       }
     }
   },
   "injuries": [
     {
+      "person_id": 680718,
       "name": "Addison Barger",
       "status": "Injured 10-Day",
       "eta_note": ""
     },
     {
+      "person_id": 672386,
       "name": "Alejandro Kirk",
       "status": "Injured 60-Day",
       "eta_note": ""
     },
     {
+      "person_id": 623993,
       "name": "Anthony Santander",
       "status": "Injured 60-Day",
       "eta_note": ""
     },
     {
+      "person_id": 670102,
       "name": "Bowden Francis",
       "status": "Injured 60-Day",
       "eta_note": ""
     },
     {
+      "person_id": 664074,
       "name": "Cody Ponce",
       "status": "Injured 60-Day",
       "eta_note": ""
     },
     {
+      "person_id": 656302,
       "name": "Dylan Cease",
       "status": "Injured 15-Day",
       "eta_note": ""
     },
     {
+      "person_id": 573009,
       "name": "Joe Mantiply",
       "status": "Injured 15-Day",
       "eta_note": ""
     },
     {
+      "person_id": 621244,
       "name": "Jos\u00e9 Berr\u00edos",
       "status": "Injured 60-Day",
       "eta_note": ""
     },
     {
+      "person_id": 681751,
       "name": "Lazaro Estrada",
       "status": "Injured 15-Day",
       "eta_note": ""
     },
     {
+      "person_id": 453286,
       "name": "Max Scherzer",
       "status": "Injured 15-Day",
       "eta_note": ""
     },
     {
+      "person_id": 669456,
       "name": "Shane Bieber",
       "status": "Injured 60-Day",
       "eta_note": ""
     },
     {
+      "person_id": 667297,
       "name": "Tommy Nance",
       "status": "Injured 15-Day",
       "eta_note": ""
     },
     {
+      "person_id": 554340,
       "name": "Yimi Garc\u00eda",
       "status": "Injured 60-Day",
       "eta_note": ""
@@ -843,41 +909,49 @@
   ],
   "other_unavailable": [
     {
+      "person_id": 663893,
       "name": "Brendon Little",
       "status": "Reassigned to Minors",
       "eta_note": ""
     },
     {
+      "person_id": 657756,
       "name": "Connor Seabold",
       "status": "Not Yet Reported",
       "eta_note": ""
     },
     {
+      "person_id": 676914,
       "name": "Davis Schneider",
       "status": "Reassigned to Minors",
       "eta_note": ""
     },
     {
+      "person_id": 814005,
       "name": "Jake Bloss",
       "status": "Reassigned to Minors",
       "eta_note": ""
     },
     {
+      "person_id": 682729,
       "name": "Jonatan Clase",
       "status": "Reassigned to Minors",
       "eta_note": ""
     },
     {
+      "person_id": 694357,
       "name": "Ricky Tiedemann",
       "status": "Reassigned to Minors",
       "eta_note": ""
     },
     {
+      "person_id": 681084,
       "name": "Tanner Andrews",
       "status": "Reassigned to Minors",
       "eta_note": ""
     },
     {
+      "person_id": 680862,
       "name": "Willie MacIver",
       "status": "Reassigned to Minors",
       "eta_note": ""
@@ -910,15 +984,15 @@
     },
     {
       "date": "2026-05-25",
-      "type": "Optioned",
-      "description": "Toronto Blue Jays optioned LF Davis Schneider to Buffalo Bisons.",
-      "person_name": "Davis Schneider"
-    },
-    {
-      "date": "2026-05-25",
       "type": "Selected",
       "description": "Toronto Blue Jays selected the contract of RHP Tanner Andrews from Buffalo Bisons.",
       "person_name": "Tanner Andrews"
+    },
+    {
+      "date": "2026-05-25",
+      "type": "Optioned",
+      "description": "Toronto Blue Jays optioned LF Davis Schneider to Buffalo Bisons.",
+      "person_name": "Davis Schneider"
     },
     {
       "date": "2026-05-27",
@@ -928,21 +1002,15 @@
     },
     {
       "date": "2026-05-27",
-      "type": "Signed as Free Agent",
-      "description": "Toronto Blue Jays signed free agent RHP Matt Bowman to a minor league contract.",
-      "person_name": "Matt Bowman"
-    },
-    {
-      "date": "2026-05-27",
       "type": "Status Change",
       "description": "Toronto Blue Jays placed RHP Jos\u00e9 Berr\u00edos on the 60-day injured list. Right elbow stress fracture.",
       "person_name": "Jos\u00e9 Berr\u00edos"
     },
     {
       "date": "2026-05-27",
-      "type": "Trade",
-      "description": "Detroit Tigers traded RHP Connor Seabold to Toronto Blue Jays for LHP Juanmi Vasquez.",
-      "person_name": "Connor Seabold"
+      "type": "Signed as Free Agent",
+      "description": "Toronto Blue Jays signed free agent RHP Matt Bowman to a minor league contract.",
+      "person_name": "Matt Bowman"
     },
     {
       "date": "2026-05-27",
@@ -961,6 +1029,174 @@
       "type": "Optioned",
       "description": "Toronto Blue Jays optioned RHP Tanner Andrews to Buffalo Bisons.",
       "person_name": "Tanner Andrews"
+    },
+    {
+      "date": "2026-05-27",
+      "type": "Trade",
+      "description": "Detroit Tigers traded RHP Connor Seabold to Toronto Blue Jays for LHP Juanmi Vasquez.",
+      "person_name": "Connor Seabold"
+    }
+  ],
+  "news": [
+    {
+      "title": "Blue Jays notebook: Max Scherzer throws simulated game to Jays coaches - Toronto Star",
+      "summary": "Blue Jays notebook: Max Scherzer throws simulated game to Jays coaches&nbsp;&nbsp;Toronto Star",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMi8gFBVV95cUxPajBtdGJVaHNNSndtZUF2RVFNdEpYeWowd2Fma2NPWGpSZnAwa3JLT2swX0pjVEt3Ymx3U0hFbFh5X3dwUjVTSndSeXZlVnJxVGZDSlY1Y0o5QkZuNUpsYTBBZEVKYVk5S0JfN3NmS0NTU1VueGlURW1wUGpkSE95M25mbXlON1dfZ1dZOGdHTHViUTg3TVNHVzRUTko0bVhhekpRMXZkeHhHNEgtaU1LUmpXQmU3aGE1OWt3SXN2c0FTWmFscV9MWl9QYl9TMGpNZm0zRVliYzhtWmU5bzBQOUU4SHBvSE96MkwtZ2ZnMTd6UQ?oc=5",
+      "published": "Wed, 27 May 2026 23:00:00 GMT"
+    },
+    {
+      "title": "Okamoto shakes off HBP to power Blue Jays to tense win over Marlins - Sportsnet",
+      "summary": "Okamoto shakes off HBP to power Blue Jays to tense win over Marlins&nbsp;&nbsp;Sportsnet",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQdUQ0OHFhNzhJOFphZ1ptN1AzR3hRZGVKaWhSNDBlZmtOd0hOZ0lzYmRnWVV2c1B2SGlldU5rLXQycmNHbzNIRVhzVmhHN1ZVdjBoOFNJaWhXM0JubzZGNTVhVGQ2ajhOVzZrbWRCekRhSGk2UFJIMk1RanlKcGYxX0d2U0xjTTJMbWpWMDFUSmJsQXZ4XzhjUzBGSHVyT25sUEp5UEpVY2E?oc=5",
+      "published": "Wed, 27 May 2026 22:29:00 GMT"
+    },
+    {
+      "title": "Key takeaways from Blue Jays' 2-1 win over Marlins - MLB.com",
+      "summary": "Key takeaways from Blue Jays' 2-1 win over Marlins&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5EdVlRQXBZZ0d6SkV6Tk9wNUpwaWlqcW5pNk11WU9sMk5DTjB4T1dBS2lsWkFFWk1aNzVrOUZqU2VOdkF5WHN6U3dLTUYwejRpQWZrWURkWnB5VUJ3a0ljalRFSDJqSzhDR2pxYnB6SG1tS3NyYjRRVmxLVDhENGs?oc=5",
+      "published": "Wed, 27 May 2026 21:17:16 GMT"
+    },
+    {
+      "title": "Kazuma Okamoto talks clutch homer in Jays' 2-1 win - MLB.com",
+      "summary": "Kazuma Okamoto talks clutch homer in Jays' 2-1 win&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxNQlNfNTJxNHExdW5OQVQzVFg4RFQxTTNvMXhxZU5QNGRWUzBTRXRuLUN2Z1NlQWdfemN2QlpEaTBSTW1VNW9UUzRhOC1xSHh4amNhZnRhNVBDMDFhNnFqWDRpVUpnVXNtcWFXT0pHQUJJX3hGSEZZSHByQzl1M2hfZC1fajRESElYMUxybi1IWl9WdWhCQ2VnRDBFSHl2RDJpSWx4R3hB?oc=5",
+      "published": "Wed, 27 May 2026 21:01:06 GMT"
+    },
+    {
+      "title": "Okamoto's homer leads Jays to 2-1 win in rubber match with Marlins - CP24",
+      "summary": "Okamoto's homer leads Jays to 2-1 win in rubber match with Marlins&nbsp;&nbsp;CP24",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPMVJLVnZQdHhFZ1NiRnJKSDN4NmszTDhNdHBQMUZZbTBFeUZ0aTlsZHJucEp6czlvTHdVWGpqWGxzaEN4SkFnal9GMmxQUWhKNlEzcXFzQkZnaUprWlVnNHBNWEdhWGpnMEx1MjVfQjBGVFRZVFRELUxHSkljTDg4LXZxYTZkQlI5UlFSSkpCc0QwRGVjYTh6MndCbC1WQ0xyT2dIRGxXcnhDWTdnOGpR?oc=5",
+      "published": "Wed, 27 May 2026 20:22:27 GMT"
+    },
+    {
+      "title": "Okamoto's homer leads Jays to 2-1 win in rubber match with Marlins - CTV News",
+      "summary": "Okamoto's homer leads Jays to 2-1 win in rubber match with Marlins&nbsp;&nbsp;CTV News",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOSWRvMng2UWVIR0dFdllqYkY2RkM1eGNGNTJXQ25hU0x5d3REVjVGX0c5NlloNmd1VEdyeUZDTHI5MFdnRWdlaFBWbGRGT1o3ZWtJallqcDdkelA3YWdFTE1ma1kwNTRhdFJ3bV92MFg1WlhXM0JVSHRpMHVRd2NtMzd5RnZzdVQ4ZmQyb2hMcy1BMEg5Y1lzYXE2SGVpUTFJd0ZOWHhlaTZSNTctbUpZOFFn?oc=5",
+      "published": "Wed, 27 May 2026 20:22:27 GMT"
+    },
+    {
+      "title": "Toronto Blue Jays player changes walk-up song to AI-generated tune - blogTO",
+      "summary": "Toronto Blue Jays player changes walk-up song to AI-generated tune&nbsp;&nbsp;blogTO",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNVGt0bHZIcnNmczB4bDBVT3Y1SkZXbzAxUFlQMW1nMDduZy1jWllfNklYeXktR0VJRUh1NkFrczRkYWRQNDZYaXZWUWJyQ0xhWUpteDRmcHU5ZFE4RHpMTFRPamRCM0UtREkxTG12QVlwUTlGY2puc091cVRFaUotV0R2N1FmOWpCbmdrMw?oc=5",
+      "published": "Wed, 27 May 2026 19:19:10 GMT"
+    },
+    {
+      "title": "Miami Marlins at Toronto Blue Jays Game Story, Scores/Highlights - 05/27/2026 - MLB.com",
+      "summary": "Miami Marlins at Toronto Blue Jays Game Story, Scores/Highlights - 05/27/2026&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5JTFhTcDBVbDJUbHh6czVJUW9ZVXNuZ2pLM2d6aklwR1hDNHVkbDBUM1h2elhVZF9PNGxsUjJUSmhZNnZtcWZBX0N6b3VpNWlv0gFQQVVfeXFMTklMWFNwMFVsMlRseHpzNUlRb1lVc25nakszZ3pqSXBHWEM0dWRsMFQzWHZ6WFVkX080bGxSMlRKaFk2dm1xZkFfQ3pvdWk1aW8?oc=5",
+      "published": "Wed, 27 May 2026 18:42:16 GMT"
+    },
+    {
+      "title": "Blue Jays acquire Seabold, select Voth to bolster thinning pitching depth - Sportsnet",
+      "summary": "Blue Jays acquire Seabold, select Voth to bolster thinning pitching depth&nbsp;&nbsp;Sportsnet",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQN3ppTmhXa2xteDNOSmxhNUNMaHBXZGhUeW4zcmhCcmpTeDhTV01XTzBXVzc0QmR4VHdNVFd0N1hjNHlubjJvMm83cTJZMi05WDZzNEw5TV9nT1pfazFDb3poUHBvMjdCWTBkZTEybjFFcEpLcEtZU084VUVMNnBhX19USzdJSUtuWjdrVXExU2tZbk5WdEN4bW5MSmdGM1k?oc=5",
+      "published": "Wed, 27 May 2026 18:29:00 GMT"
+    },
+    {
+      "title": "Blue Jays' 'least valuable player' is $35.71 million All-Star with just three home runs - Yahoo Sports Canada",
+      "summary": "Blue Jays' 'least valuable player' is $35.71 million All-Star with just three home runs&nbsp;&nbsp;Yahoo Sports Canada",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPWmtxRXRYcG1rcEppY3N5OWVlLVhwZEdsNkd2cEZoQ2NEN1Q0VFRUV3E0VWotZ2dvdXVvdmoxVDlFVzVHMmkyUko2S3ZUUS1LRC1GSDBVUldiUEpNYUE4dkR2YkNHcnNnbzY3cjZIZk4wV0s4RVlQWUNFOUVRem1scUlwVzNFdw?oc=5",
+      "published": "Wed, 27 May 2026 17:57:09 GMT"
+    },
+    {
+      "title": "Blue Jays acquire Connor Seabold from Tigers - CityNews Toronto",
+      "summary": "Blue Jays acquire Connor Seabold from Tigers&nbsp;&nbsp;CityNews Toronto",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxQNjR6dWVqakhDek5wQWU3c182Wm5ORVVIMFk4UU00T0Fjb2lBSUJPcjZHcHhSc2htcUdoUHBxT1E5T1BZMnVzY2NZRVRQRGdQaG1iSDBheUgtaG5iWVdiT09qamJMbXp0dFY3YWcwMExnOWFNamNjVnRqTjVGX2gtV21tcGpkaHFmSk82V253?oc=5",
+      "published": "Wed, 27 May 2026 17:39:00 GMT"
+    },
+    {
+      "title": "Blue Jays provide injury updates on Scherzer, Barger, Kirk - Sportsnet",
+      "summary": "Blue Jays provide injury updates on Scherzer, Barger, Kirk&nbsp;&nbsp;Sportsnet",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQNVRTTUNmaWFrZWNMbUJfTDcxMWxNQWVNdWViY3VUTHRkNU52Z2ZReTZfRURHY0dHLXZzaTdITkRiRElGVlZaak5OeURNUXNCOE9ySDU3a3E4TGZXMUFxRTJIQk9PSG5hTXRKVEV0b3NZWHRDUks5N1I3ZktTTWhBcW9wWnh0WWxTamIyU0ZjRlZ6UXg4WTh1MmhB?oc=5",
+      "published": "Wed, 27 May 2026 17:25:00 GMT"
+    },
+    {
+      "title": "Pitcher-needy Blue Jays acquire Seabold from Tigers in exchange for Vasquez - TSN",
+      "summary": "Pitcher-needy Blue Jays acquire Seabold from Tigers in exchange for Vasquez&nbsp;&nbsp;TSN",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNR0hXS0I5V25vQ1dsc0VramJMV2d4TWNqSG5NQUpGRldkdFVJMFhSLThBUGlyVDVuUmh6OGpkZDRQT2U1TDJzclJxWDdKakNLZlp0b0pabEdPSDljdzZ4ajVoT1NuZXppRThzMXlmY05EQk5HRjNTNmdHemlpLXJIVzBwVHVmZFZFZmJYRWl3b1dhVGUzaHBUS1E4OA?oc=5",
+      "published": "Wed, 27 May 2026 17:24:54 GMT"
+    },
+    {
+      "title": "Blue Jays transfer Kirk to 60-day IL, Voth selected to MLB roster - TSN",
+      "summary": "Blue Jays transfer Kirk to 60-day IL, Voth selected to MLB roster&nbsp;&nbsp;TSN",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxObWZxYnRqd2l2QmlNaTdadHE2cFZ0M0FZOE9ERXVLaUxINm9NTW14eE5LaktocS1QVTdKaEcwUGhteVRZVGlYVFFfbUhzTVdqOFdhZDQxc2JNdm4yTFdVMXh0NnBQSVNhZ093WFdsS3JHRWN5UmU1ZWdzVGJYTXlZOEc0TG5oR2hfMGdZWGlmamNqcDhudlVwT0d6N2Q?oc=5",
+      "published": "Wed, 27 May 2026 16:05:57 GMT"
+    },
+    {
+      "title": "Blue Jays diversifying defensive abilities of this prospect may be bad news for Lenyn Sosa - Jays Journal",
+      "summary": "Blue Jays diversifying defensive abilities of this prospect may be bad news for Lenyn Sosa&nbsp;&nbsp;Jays Journal",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOWHM2ejQwbExQMmI5dzQ2bXBRSG5RNHJSZlU1RTRZRnpHTGlCeDcwaHVsZk42UDY2cVlGeUJ4NFhGMC1tUnRjaUNpMjBIaTFxcl9Ra0xkWW5MV29ESW42ZjNaeENQWFJQa1dFeVhIU2FXamkxUE1QeTJ1WEtPQXZFT2hnNTV6cU9SbUtYMG9aajhQSTBNUE9FZmVKWkNVWmRCY0JPWXp3anZwcWJoS0hOZnZvY2c?oc=5",
+      "published": "Wed, 27 May 2026 15:00:02 GMT"
+    },
+    {
+      "title": "Where to watch Miami Marlins vs Toronto Blue Jays: TV channel, start time, streaming for May 27 - USA Today",
+      "summary": "Where to watch Miami Marlins vs Toronto Blue Jays: TV channel, start time, streaming for May 27&nbsp;&nbsp;USA Today",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxPWEgwR3ZrSW9ieEE5UndiNWNydHlwZ3Zrd0lWbjdmRjBwMGQ1MGF5eU93VGcwWTljSDRsR2E0VFA2U2VqbTJCQ2tzWXhrMElrVU9mV1JoSnJBZEVnTWFkOG9CakVJcWxzWXcwa2o1NzdHdmJtZEIwRHZpajR5UjNramZMY1IxZHNPODBvencyNXAyM28zT3RDb0haeDdBS2VqUU5pS0wzQ2ZiQnd3dU05YmNkOS11cGdUVUtYaUdPQ3YwWnc1ZngwM2ZDZw?oc=5",
+      "published": "Wed, 27 May 2026 10:38:00 GMT"
+    },
+    {
+      "title": "Jesus Sanchez's grand slam propels Blue Jays to blowout win over Marlins - Sportsnet",
+      "summary": "Jesus Sanchez's grand slam propels Blue Jays to blowout win over Marlins&nbsp;&nbsp;Sportsnet",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxPdE9PdWpVaGNSTkRENTBjNndLQld0akNWaUNjYkxCd1p5MkVSMVhidlVfallUSzZwV0p6WllGRVBqNml2LU1tYUNHMWlNM2hKNDhXM0s3eFZ3S1lMZm9SaVVacHF4bG5KSlF2Q1lHbWpQLS1nbE02WExINGp4U0NSX1hVai1Cb08tTDI4LW1KM09oSW5JdDFWWU5jNTJIRldIUmNIMVdIYzlwRTlmc0E?oc=5",
+      "published": "Wed, 27 May 2026 04:44:00 GMT"
+    },
+    {
+      "title": "With 1st career slam, S\u00e1nchez flexes power potential Blue Jays coveted - MLB.com",
+      "summary": "With 1st career slam, S\u00e1nchez flexes power potential Blue Jays coveted&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxOZlhTZXdHRHNCaVFrSy1NOGFwUkhVTjFPcVI4blVsemFXdktPVk5RUXAxX2JUdExwaFFJZmhGcHkxa0VlaENmdlVfai1aTzhTMFZleU5OcjFFWGYtWnQzT1U3WVgzMUZQbllfVjBtOFd4WXM2MGVLVW5EV2RHR1RPTWx6cC1uMVI0REZwRg?oc=5",
+      "published": "Wed, 27 May 2026 03:24:23 GMT"
+    },
+    {
+      "title": "Miles, Blue Jays win a wild one - The Globe and Mail",
+      "summary": "Miles, Blue Jays win a wild one&nbsp;&nbsp;The Globe and Mail",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxPLUhxejBCV1AzNTBRbkJwNmFZRE9SLUJqRGZJcGxlTGVsY1AtYXZ4dDZKZ253QlJKMV9jZ0ozRVdDTGk1c05vZjdSNktnZE5yTDY4bVIyclJGenNIT05sSXFkRGFNRVkzOFFEeXkyZ3RXWUtJalJDX3RSUUhMeGduYTRXUjhrQTBvay1BVXBTNnpmZGxBWXBzV2hmRjZGbVZfWGhkX2dKbGtNcEE?oc=5",
+      "published": "Wed, 27 May 2026 02:48:55 GMT"
+    },
+    {
+      "title": "Clean-shaven Dylan Cease surprises Blue Jays fans with new look during IL stint - Toronto Sun",
+      "summary": "Clean-shaven Dylan Cease surprises Blue Jays fans with new look during IL stint&nbsp;&nbsp;Toronto Sun",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQOXIwWEtOLURUd2p0S0poY2NweEE4ZmhSa2toLUREa3BBNVFvaUEtWTRVcWNEVUJhbzZPM3RjbllFelBHeGdUM09lNmJnRlJVcmRUV0hFeVpnVk5ES0hrVWZmZEhCU1o3MDdnQzlPNWJ1UHpGU2RTNDV4SDFTd2VjLW54UVh0bTlpRGRFcHJwd21XTWptd3RZ?oc=5",
+      "published": "Wed, 27 May 2026 01:08:30 GMT"
     }
   ],
   "run_diff_last_10": [
