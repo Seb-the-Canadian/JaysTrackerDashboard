@@ -4,7 +4,7 @@ A live MLB season dashboard. Auto-refreshes daily. Hosted on GitHub Pages. Forka
 
 **Live:** https://seb-the-canadian.github.io/JaysTrackerDashboard/
 
-The data layer pulls from the MLB Stats API every morning; the analyst voice (per-game narrative) lives in `notes.json` and is hand-written. The maintainer pays no token cost for the data refresh — only when adding a note.
+The data layer pulls from the MLB Stats API every morning. Three layers of voice sit on top of the facts: hand-authored analyst notes in `notes.json` (per-game, per-player, overview, team-level, pitch types, injuries); bylined external takes pulled from RSS feeds configured in `config.json` (the "Voices around" panel on the Overview tab); and inline static reference (Stat School). The maintainer pays no token cost for the daily data or news — only when authoring notes.
 
 ---
 
@@ -114,35 +114,57 @@ Or just `bash scripts/update_and_push.sh` if you have push credentials configure
 
 ## Writing analyst notes
 
-The dashboard renders game results as facts by default — date, opponent, score, winning/losing pitcher. The "meaning" of a game is a writing job, and it lives in `notes.json`.
+`notes.json` carries hand-authored content that layers on top of the machine facts. Every entry is optional — missing keys render facts-only with no broken layout.
 
-`notes.json` is a JSON object keyed by `gamePk` (MLB's unique game identifier). Each entry has two fields:
+Top-level shape:
 
 ```json
 {
-  "778294": {
-    "moment": "Springer 65th career leadoff HR on Skenes' 3rd pitch.",
-    "meaning": "A genuine signature win and the loudest game of the streak. Springer turned on the third pitch Paul Skenes threw — the reigning NL Cy Young..."
-  }
+  "games":    { "<gamePk>":    { "moment": "...", "meaning": "..." } },
+  "players":  { "<person_id>": { "recentNote": "...", "read": "...", "contextNotes": { "<stat>": "..." } } },
+  "overview": { "headline": "...", "paragraphs": ["..."] },
+  "team":     { "ctx": { "<group.stat>": "..." }, "strengths": ["..."], "softspots": ["..."] },
+  "pitches":  { "<PitchName>":  "team-specific one-liner" },
+  "injuries": { "<person_id>":  { "detail": "...", "eta": "..." } }
 }
 ```
 
-- `moment` — one-line callout that replaces the auto-generated summary line on the game card.
-- `meaning` — paragraph(s) that appear when the game card is expanded.
+What each surfaces:
 
-Both fields are optional. A game with no entry in `notes.json` renders facts-only, no broken layout.
+- **`games`** (keyed by `gamePk`): `moment` replaces the auto-summary on the game card; `meaning` appears when the card expands. Find `gamePk` in `data.json.recent_games[].game_pk`.
+- **`players`** (keyed by `person_id`): `recentNote` shows on the player card; `read` is a paragraph in the player modal; `contextNotes` annotate each stat row in the modal. Find `person_id` in `data.json.roster.hitters[].id` / `pitchers[].id`.
+- **`overview`**: a "State of the Season" narrative panel on the Overview tab. `paragraphs[]` accepts simple HTML (e.g., `<strong>`).
+- **`team`**: per-stat context (keyed `group.stat`, e.g., `hitting.ops`) and a "Strengths vs Soft Spots" two-column panel on the Team Stats tab.
+- **`pitches`** (keyed by pitch `name`, e.g., `"Splitter"`): a "Team note" row at the bottom of each pitch card in Stat School. Generic label, fork-friendly.
+- **`injuries`** (keyed by `person_id`): `detail` replaces the API's terse status with a richer description; `eta` adds a return-timeline line.
 
-**Finding a `gamePk`:** they're in `data.json` under `recent_games[].game_pk`. After a fetcher run, open `data.json`, find the game, copy the integer. Or use `python3 -c "import json; [print(g['date'], g['game_pk'], g['opp']) for g in json.load(open('data.json'))['recent_games']]"`.
+HTML in note bodies renders as-is — the note author is the trust boundary (Phase 3 design). Add a note, commit `notes.json`, push. The dashboard picks it up on next load.
 
-Add a note, commit `notes.json`, push. The dashboard picks it up on next load.
+---
+
+## Voices around (external takes)
+
+The dashboard surfaces real bylined takes from RSS feeds, configured per-fork in `config.json.rss_feeds`:
+
+```json
+{
+  "rss_feeds": [
+    { "url": "https://www.sportsnet.ca/baseball/mlb/team/toronto-blue-jays/feed/", "source": "Sportsnet" },
+    { "url": "https://news.google.com/rss/search?q=%22Toronto+Blue+Jays%22", "source": "Google News" }
+  ]
+}
+```
+
+Each entry: `url` is the feed, `source` is the display label, optional `keyword_filter` narrows general-MLB feeds to team-relevant items. Pure passthrough — headline + source + author + timestamp + link, no AI summarization. Reader clicks out to read the actual article. Forking for another team: swap in their local beats. No code change.
 
 ---
 
 ## What this dashboard is not
 
-- It's not Statcast — no xwOBA, no barrel rate, no exit velocity, no sprint speed. Those live at Baseball Savant; future work could pull them.
+- It's not Statcast — no xwOBA, no barrel rate, no exit velocity, no sprint speed. Those live at Baseball Savant; deferred to v1.x (issue #29).
 - It's not FanGraphs — no fWAR. There's no public WAR API.
-- It's not real-time. The data is refreshed once a day; a game in progress won't appear here until tomorrow morning.
+- It's not real-time. The data is refreshed once a day; a game in progress won't appear here until tomorrow morning. The "Voices around" RSS panel refreshes with each daily run, so headlines may be more current than the stats.
+- It's not an AI commentator. The dashboard does not interpret what writers said in the "Voices around" panel — it surfaces their headlines + bylines + links, reader clicks for the full take. An opt-in LLM-summarize layer is filed as #53; off by default.
 - It's not a CMS for analyst notes. `notes.json` is hand-edited in a text editor. Future work could add a small admin tool.
 - It's not low-maintenance to zero. The schema invariants will catch most fetcher failures, but a major MLB Stats API change would break the fetcher until someone updates `fetch_data.py`. Budget a couple hours a year for that.
 
@@ -155,12 +177,13 @@ The dashboard is a chassis. The voice is yours; the data is canonical; the maint
 ```
 .
 ├── index.html                          Dashboard (static, fetches the JSON files)
-├── config.json                         Team identity — the only file a forker edits
-├── data.json                           Generated facts (machine-written daily)
-├── notes.json                          Analyst voice (hand-written, keyed by gamePk)
-├── fetch_data.py                       The fetcher
-├── requirements.txt                    Python deps (MLB-StatsAPI)
+├── config.json                         Team identity + rss_feeds — the only file a forker edits
+├── data.json                           Generated facts (machine-written daily; includes news[] from RSS)
+├── notes.json                          Analyst voice (hand-written; games/players/overview/team/pitches/injuries)
+├── fetch_data.py                       The fetcher (MLB Stats API + RSS via feedparser)
+├── requirements.txt                    Python deps (MLB-StatsAPI, feedparser)
 ├── .nojekyll                           Disables Jekyll on Pages
+├── CLAUDE.md                           Repo orientation auto-loaded by Claude Code sessions
 ├── scripts/
 │   ├── update_and_push.sh              Daily entrypoint (routine + launchd)
 │   ├── fetch_only.sh                   Local-run, no git side effects
@@ -169,7 +192,8 @@ The dashboard is a chassis. The voice is yours; the data is canonical; the maint
     ├── project-plan.md                 The refactor plan (architecture)
     ├── mlb-statsapi-reference.md       Endpoint shapes + field paths
     ├── launchd-migration.md            Setting up the macOS fallback
-    └── team-ids.md                     All 30 MLB teams' IDs for forkers
+    ├── team-ids.md                     All 30 MLB teams' IDs for forkers
+    └── agent-dispatch.md               How to use sub-agents on the issue backlog
 ```
 
 ---
