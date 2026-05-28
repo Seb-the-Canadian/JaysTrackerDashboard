@@ -14,11 +14,18 @@ when this script succeeds.
 
 import json
 import os
+import re
 import sys
+import time
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 import statsapi
+
+try:
+    import feedparser
+except ImportError:
+    feedparser = None
 
 REPO_ROOT = Path(__file__).resolve().parent
 CONFIG_PATH = REPO_ROOT / "config.json"
@@ -33,6 +40,9 @@ TRANSACTION_DAYS_BACK = 7
 SCHEDULE_PAST_DAYS = 30
 SCHEDULE_FUTURE_DAYS = 7
 MLB_SPORT_ID = 1
+NEWS_RECENT_DAYS = 2
+NEWS_PER_FEED_LIMIT = 25
+NEWS_TOTAL_LIMIT = 20
 
 
 def log(msg):
@@ -699,6 +709,131 @@ def fetch_transactions(cfg, days_back=TRANSACTION_DAYS_BACK):
     return rows
 
 
+# --- News (RSS passthrough) -------------------------------------------------
+
+_HTML_TAG_RE = re.compile(r"<[^>]+>")
+
+
+def _strip_html(s):
+    """Best-effort HTML strip for feed summaries — RSS escapes vary wildly.
+
+    feedparser already decodes entities, so we just need to drop tags so the
+    UI can render the text as plain content (and escape on the client side).
+    Whitespace gets collapsed because feeds often dump <p>...</p><p>...</p>
+    blocks separated by newlines.
+    """
+    if not s:
+        return ""
+    text = _HTML_TAG_RE.sub("", str(s))
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def _entry_published_dt(entry):
+    """Return entry publish time as a tz-aware UTC datetime, or None.
+
+    feedparser exposes a parsed struct_time on .published_parsed (or
+    .updated_parsed) for most well-formed feeds. The struct_time is in UTC
+    once feedparser normalizes it; treat it as such so timestamp comparison
+    against our `cutoff` is consistent.
+    """
+    for key in ("published_parsed", "updated_parsed"):
+        st = entry.get(key)
+        if not st:
+            continue
+        try:
+            return datetime.fromtimestamp(time.mktime(st), tz=timezone.utc)
+        except (TypeError, ValueError, OverflowError):
+            continue
+    return None
+
+
+def _published_iso(entry):
+    """Prefer the original published string, fall back to derived ISO."""
+    raw = entry.get("published") or entry.get("updated") or ""
+    if raw:
+        return raw
+    dt = _entry_published_dt(entry)
+    return dt.isoformat() if dt else ""
+
+
+def _recent_enough(entry, days):
+    dt = _entry_published_dt(entry)
+    if dt is None:
+        # No usable timestamp — keep it; feedparser dropped the date but the
+        # source still surfaced the item recently. Better to over-include than
+        # drop bylined content silently.
+        return True
+    cutoff = datetime.now(timezone.utc) - timedelta(days=days)
+    return dt >= cutoff
+
+
+def _entry_author(entry):
+    author = entry.get("author") or ""
+    if author:
+        return author.strip()
+    authors = entry.get("authors") or []
+    if authors and isinstance(authors, list):
+        first = authors[0]
+        if isinstance(first, dict):
+            return (first.get("name") or "").strip()
+    return ""
+
+
+def _transform_entry(entry, source):
+    return {
+        "title": _strip_html(entry.get("title", "")),
+        "summary": _strip_html(entry.get("summary", "")),
+        "source": source,
+        "author": _entry_author(entry),
+        "url": entry.get("link", "") or "",
+        "published": _published_iso(entry),
+    }
+
+
+def fetch_news(cfg):
+    """Pull recent items from configured RSS feeds; passthrough only.
+
+    Per-feed failures are warnings, not fatal — the daily refresh continues
+    with whatever feeds succeeded. Items are filtered by recency
+    (NEWS_RECENT_DAYS), optionally narrowed by a per-feed keyword, sorted by
+    published desc, and capped at NEWS_TOTAL_LIMIT.
+    """
+    feeds = cfg.get("rss_feeds") or []
+    if not feeds:
+        return []
+    if feedparser is None:
+        log("WARN: feedparser is not installed; skipping fetch_news")
+        return []
+    items = []
+    for feed in feeds:
+        source = feed.get("source") or feed.get("url") or "unknown"
+        url = feed.get("url")
+        if not url:
+            log(f"WARN: feed {source} missing url; skipping")
+            continue
+        try:
+            parsed = feedparser.parse(url)
+        except Exception as e:
+            log(f"WARN: feed {source} failed: {e}")
+            continue
+        bozo_exc = getattr(parsed, "bozo_exception", None)
+        if bozo_exc and not parsed.entries:
+            log(f"WARN: feed {source} parse error: {bozo_exc}")
+            continue
+        keyword = feed.get("keyword_filter")
+        kw_lower = keyword.lower() if keyword else None
+        for entry in (parsed.entries or [])[:NEWS_PER_FEED_LIMIT]:
+            if not _recent_enough(entry, days=NEWS_RECENT_DAYS):
+                continue
+            if kw_lower:
+                haystack = (entry.get("title", "") + " " + entry.get("summary", "")).lower()
+                if kw_lower not in haystack:
+                    continue
+            items.append(_transform_entry(entry, source))
+    items.sort(key=lambda x: x.get("published") or "", reverse=True)
+    return items[:NEWS_TOTAL_LIMIT]
+
+
 # --- Derived ----------------------------------------------------------------
 
 def pythag(rs, ra, games_played):
@@ -798,6 +933,7 @@ def main():
     injuries = injury_report["injuries"]
     other_unavailable = injury_report["other_unavailable"]
     transactions = fetch_transactions(cfg)
+    news = fetch_news(cfg)
 
     rs = us_record.get("runsScored") or 0
     ra = us_record.get("runsAllowed") or 0
@@ -843,6 +979,7 @@ def main():
         "injuries": injuries,
         "other_unavailable": other_unavailable,
         "transactions": transactions,
+        "news": news,
         "run_diff_last_10": run_diff_last_10(recent_games),
     }
 
@@ -851,7 +988,8 @@ def main():
     log(
         f"fetch_data.py: wrote {OUTPUT_PATH} "
         f"({len(division)} division teams, {len(recent_games)} recent games, "
-        f"{len(roster['hitters']) + len(roster['pitchers'])} active players)"
+        f"{len(roster['hitters']) + len(roster['pitchers'])} active players, "
+        f"{len(news)} news items)"
     )
 
 
