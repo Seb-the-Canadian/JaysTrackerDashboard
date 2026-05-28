@@ -719,6 +719,7 @@ def transform_roster(roster_entries, cfg):
                 "w": stat.get("wins", 0),
                 "l": stat.get("losses", 0),
                 "sv": stat.get("saves", 0),
+                "gs": stat.get("gamesStarted", 0),
                 "recent": recent,
             })
         else:
