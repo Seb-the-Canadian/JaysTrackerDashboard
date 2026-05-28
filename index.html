@@ -1058,18 +1058,26 @@ function rankPill(rank) {
   return '<span class="rank-pill">Rank ' + escapeText(String(rank)) + '</span>';
 }
 
-function teamStatRow(label, entry) {
+function teamStatRow(label, entry, ctxText) {
   const val = entry && entry.val !== undefined && entry.val !== null && entry.val !== '' ? entry.val : '—';
   const rank = entry ? entry.rank : null;
+  const ctxBlock = ctxText
+    ? '<div class="stat-row-context">' + escapeText(ctxText) + '</div>'
+    : '';
   return '<div class="stat-row">' +
     '<div class="stat-row-label">' + escapeText(label) + '</div>' +
     '<div class="stat-row-val">' + escapeText(String(val)) + rankPill(rank) + '</div>' +
+    ctxBlock +
   '</div>';
 }
 
-function teamStatSection(title, group, groupKey) {
+function teamStatSection(title, group, groupKey, ctxMap) {
   const labels = TEAM_STAT_LABELS[groupKey] || [];
-  const rows = labels.map(([key, label]) => teamStatRow(label, (group || {})[key])).join('');
+  const ctx = ctxMap || {};
+  const rows = labels.map(([key, label]) => {
+    const ctxText = ctx[groupKey + '.' + key];
+    return teamStatRow(label, (group || {})[key], ctxText);
+  }).join('');
   return '<div class="card">' +
     '<h3>' + escapeText(title) + '</h3>' +
     rows +
@@ -1092,18 +1100,37 @@ function renderTeam() {
       legendRow('Last 10', t.last10 || '—', t.streak || '') +
     '</div>';
 
+  const teamCtx = (NOTES.team && NOTES.team.ctx) || {};
+
   let body = summaryCard;
   if (hasStats) {
     body +=
       '<div class="section-title" style="margin-top:20px;">Team stats &amp; MLB ranks</div>' +
       '<div class="grid grid-2">' +
-        teamStatSection('Hitting', ts.hitting || {}, 'hitting') +
-        teamStatSection('Pitching', ts.pitching || {}, 'pitching') +
+        teamStatSection('Hitting', ts.hitting || {}, 'hitting', teamCtx) +
+        teamStatSection('Pitching', ts.pitching || {}, 'pitching', teamCtx) +
       '</div>';
   } else {
     body +=
       '<div class="note">Per-category team rankings and detailed splits are not yet pulled by <code>fetch_data.py</code>. The Phase 2 schema covers the team-level summary; deeper team stats are a future-phase extension.</div>';
   }
+
+  const tn = NOTES.team || {};
+  const strengthsHTML = (tn.strengths || []).length
+    ? '<div><h3 class="pos">Holding up</h3><ul>' +
+        tn.strengths.map(s => '<li>' + s + '</li>').join('') +
+      '</ul></div>'
+    : '';
+  const softspotsHTML = (tn.softspots || []).length
+    ? '<div><h3 class="neg">Cracking</h3><ul>' +
+        tn.softspots.map(s => '<li>' + s + '</li>').join('') +
+      '</ul></div>'
+    : '';
+  const sidesPanel = (strengthsHTML || softspotsHTML)
+    ? '<div class="section grid grid-2">' + strengthsHTML + softspotsHTML + '</div>'
+    : '';
+
+  body += sidesPanel;
 
   document.getElementById('panel-team').innerHTML = '<div class="section">' + body + '</div>';
 }
