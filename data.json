@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-05-28T14:22:39.640081+00:00",
+  "as_of": "2026-05-28T14:46:20.104218+00:00",
   "config": {
     "team_id": 141,
     "team_name": "Toronto Blue Jays",
@@ -136,7 +136,7 @@
       "team_id": 142,
       "w": 27,
       "l": 29,
-      "gb": "-",
+      "gb": "0.0",
       "note": "Out",
       "is_us": false
     },
@@ -145,7 +145,7 @@
       "team_id": 133,
       "w": 27,
       "l": 29,
-      "gb": "-",
+      "gb": "0.0",
       "note": "Out",
       "is_us": false
     },
@@ -357,6 +357,15 @@
   ],
   "upcoming_games": [
     {
+      "game_pk": 824834,
+      "date": "2026-05-28",
+      "home": false,
+      "opp": "Baltimore Orioles",
+      "probable_pitcher_us": "Patrick Corbin",
+      "probable_pitcher_them": "Chris Bassitt",
+      "status": "Scheduled"
+    },
+    {
       "game_pk": 824835,
       "date": "2026-05-29",
       "home": false,
@@ -425,7 +434,7 @@
         "hr": 5,
         "rbi": 27,
         "sb": 6,
-        "recent": null
+        "recent": "cold"
       },
       {
         "id": 678218,
@@ -453,7 +462,7 @@
         "hr": 5,
         "rbi": 16,
         "sb": 4,
-        "recent": null
+        "recent": "cold"
       },
       {
         "id": 676391,
@@ -467,7 +476,7 @@
         "hr": 5,
         "rbi": 20,
         "sb": 2,
-        "recent": null
+        "recent": "hot"
       },
       {
         "id": 543807,
@@ -481,7 +490,7 @@
         "hr": 5,
         "rbi": 14,
         "sb": 3,
-        "recent": null
+        "recent": "hot"
       },
       {
         "id": 660821,
@@ -495,7 +504,7 @@
         "hr": 6,
         "rbi": 27,
         "sb": 1,
-        "recent": null
+        "recent": "hot"
       },
       {
         "id": 672960,
@@ -509,7 +518,7 @@
         "hr": 11,
         "rbi": 29,
         "sb": 0,
-        "recent": null
+        "recent": "cold"
       },
       {
         "id": 672820,
@@ -523,7 +532,7 @@
         "hr": 1,
         "rbi": 9,
         "sb": 0,
-        "recent": null
+        "recent": "cold"
       },
       {
         "id": 664702,
@@ -537,7 +546,7 @@
         "hr": 2,
         "rbi": 6,
         "sb": 2,
-        "recent": null
+        "recent": "cold"
       },
       {
         "id": 664770,
@@ -551,7 +560,7 @@
         "hr": 0,
         "rbi": 9,
         "sb": 0,
-        "recent": null
+        "recent": "hot"
       },
       {
         "id": 623168,
@@ -579,7 +588,7 @@
         "hr": 3,
         "rbi": 22,
         "sb": 5,
-        "recent": null
+        "recent": "hot"
       },
       {
         "id": 682818,
@@ -610,7 +619,7 @@
         "l": 0,
         "sv": 0,
         "gs": 0,
-        "recent": null
+        "recent": "new"
       },
       {
         "id": 608723,
@@ -640,7 +649,7 @@
         "l": 1,
         "sv": 0,
         "gs": 3,
-        "recent": null
+        "recent": "hot"
       },
       {
         "id": 695445,
@@ -670,7 +679,7 @@
         "l": 3,
         "sv": 5,
         "gs": 0,
-        "recent": null
+        "recent": "hot"
       },
       {
         "id": 592332,
@@ -715,7 +724,7 @@
         "l": 0,
         "sv": 0,
         "gs": 2,
-        "recent": null
+        "recent": "hot"
       },
       {
         "id": 571578,
@@ -775,7 +784,7 @@
         "l": 2,
         "sv": 2,
         "gs": 0,
-        "recent": null
+        "recent": "cold"
       },
       {
         "id": 684320,
@@ -796,13 +805,9 @@
   },
   "team_stats": {
     "hitting": {
-      "hr": {
-        "val": 52,
-        "rank": 20
-      },
-      "runs": {
-        "val": 226,
-        "rank": 22
+      "ops": {
+        "val": ".684",
+        "rank": 24
       },
       "obp": {
         "val": ".309",
@@ -812,9 +817,13 @@
         "val": ".375",
         "rank": 22
       },
-      "ops": {
-        "val": ".684",
-        "rank": 24
+      "hr": {
+        "val": 52,
+        "rank": 20
+      },
+      "runs": {
+        "val": 226,
+        "rank": 22
       },
       "avg": {
         "val": ".243",
@@ -822,21 +831,21 @@
       }
     },
     "pitching": {
-      "whip": {
-        "val": "1.26",
-        "rank": 13
+      "k9": {
+        "val": "9.30",
+        "rank": 5
       },
       "bb9": {
         "val": "3.13",
         "rank": 8
       },
+      "whip": {
+        "val": "1.26",
+        "rank": 13
+      },
       "era": {
         "val": "3.78",
         "rank": 10
-      },
-      "k9": {
-        "val": "9.30",
-        "rank": 5
       }
     }
   },
@@ -985,15 +994,15 @@
     },
     {
       "date": "2026-05-25",
-      "type": "Assigned",
-      "description": "Toronto Blue Jays sent RHP Shane Bieber on a rehab assignment to FCL Blue Jays.",
-      "person_name": "Shane Bieber"
-    },
-    {
-      "date": "2026-05-25",
       "type": "Status Change",
       "description": "Toronto Blue Jays placed RHP Dylan Cease on the 15-day injured list. Left hamstring strain.",
       "person_name": "Dylan Cease"
+    },
+    {
+      "date": "2026-05-25",
+      "type": "Assigned",
+      "description": "Toronto Blue Jays sent RHP Shane Bieber on a rehab assignment to FCL Blue Jays.",
+      "person_name": "Shane Bieber"
     },
     {
       "date": "2026-05-25",
@@ -1010,32 +1019,20 @@
     {
       "date": "2026-05-27",
       "type": "Status Change",
-      "description": "Toronto Blue Jays placed RHP Jos\u00e9 Berr\u00edos on the 60-day injured list. Right elbow stress fracture.",
-      "person_name": "Jos\u00e9 Berr\u00edos"
+      "description": "Toronto Blue Jays transferred C Alejandro Kirk from the 10-day injured list to the 60-day injured list. Left thumb fracture.",
+      "person_name": "Alejandro Kirk"
     },
     {
       "date": "2026-05-27",
       "type": "Status Change",
-      "description": "Toronto Blue Jays transferred C Alejandro Kirk from the 10-day injured list to the 60-day injured list. Left thumb fracture.",
-      "person_name": "Alejandro Kirk"
+      "description": "Toronto Blue Jays placed RHP Jos\u00e9 Berr\u00edos on the 60-day injured list. Right elbow stress fracture.",
+      "person_name": "Jos\u00e9 Berr\u00edos"
     },
     {
       "date": "2026-05-27",
       "type": "Signed as Free Agent",
       "description": "Toronto Blue Jays signed free agent RHP Matt Bowman to a minor league contract.",
       "person_name": "Matt Bowman"
-    },
-    {
-      "date": "2026-05-27",
-      "type": "Trade",
-      "description": "Detroit Tigers traded RHP Connor Seabold to Toronto Blue Jays for LHP Juanmi Vasquez.",
-      "person_name": "Connor Seabold"
-    },
-    {
-      "date": "2026-05-27",
-      "type": "Optioned",
-      "description": "Toronto Blue Jays optioned RHP Tanner Andrews to Buffalo Bisons.",
-      "person_name": "Tanner Andrews"
     },
     {
       "date": "2026-05-27",
@@ -1048,136 +1045,28 @@
       "type": "Selected",
       "description": "Toronto Blue Jays selected the contract of RHP Austin Voth from Buffalo Bisons.",
       "person_name": "Austin Voth"
+    },
+    {
+      "date": "2026-05-27",
+      "type": "Optioned",
+      "description": "Toronto Blue Jays optioned RHP Tanner Andrews to Buffalo Bisons.",
+      "person_name": "Tanner Andrews"
+    },
+    {
+      "date": "2026-05-27",
+      "type": "Trade",
+      "description": "Detroit Tigers traded RHP Connor Seabold to Toronto Blue Jays for LHP Juanmi Vasquez.",
+      "person_name": "Connor Seabold"
     }
   ],
   "news": [
-    {
-      "title": "Okamoto shakes off HBP to power Blue Jays to tense win over Marlins - Sportsnet",
-      "summary": "Okamoto shakes off HBP to power Blue Jays to tense win over Marlins&nbsp;&nbsp;Sportsnet",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQdUQ0OHFhNzhJOFphZ1ptN1AzR3hRZGVKaWhSNDBlZmtOd0hOZ0lzYmRnWVV2c1B2SGlldU5rLXQycmNHbzNIRVhzVmhHN1ZVdjBoOFNJaWhXM0JubzZGNTVhVGQ2ajhOVzZrbWRCekRhSGk2UFJIMk1RanlKcGYxX0d2U0xjTTJMbWpWMDFUSmJsQXZ4XzhjUzBGSHVyT25sUEp5UEpVY2E?oc=5",
-      "published": "Wed, 27 May 2026 22:29:00 GMT"
-    },
-    {
-      "title": "Okamoto back in HR column as Lukes shows everyday chops - MLB.com",
-      "summary": "Okamoto back in HR column as Lukes shows everyday chops&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5EdVlRQXBZZ0d6SkV6Tk9wNUpwaWlqcW5pNk11WU9sMk5DTjB4T1dBS2lsWkFFWk1aNzVrOUZqU2VOdkF5WHN6U3dLTUYwejRpQWZrWURkWnB5VUJ3a0ljalRFSDJqSzhDR2pxYnB6SG1tS3NyYjRRVmxLVDhENGs?oc=5",
-      "published": "Wed, 27 May 2026 21:17:16 GMT"
-    },
-    {
-      "title": "Desperate for pitching, Blue Jays trade for Connor Seabold months after cutting him this spring - Toronto Sun",
-      "summary": "Desperate for pitching, Blue Jays trade for Connor Seabold months after cutting him this spring&nbsp;&nbsp;Toronto Sun",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOdlpkaU5CX2x6UzJBbEpIZTdTQ1JBWmlqN2lBSGhBbTRGeG1hNy04a3ZZX3k5MTNxREVkb3RNVXpmUDE3TW9kMXhEVll0R185bXA0UWxBc2tMaEFMblpiV3gtZFFsV1haSnk0bzV3b3lmeDZJdFdWSjAzSzJVX1lKMGJZUFpxMHJDOFU4WmhINHFSMm0xWUFFZmpxVGpYWXc?oc=5",
-      "published": "Wed, 27 May 2026 20:37:32 GMT"
-    },
-    {
-      "title": "Kazuma Okamoto\u2019s homer leads Blue Jays to win in rubber match with Marlins - TSN",
-      "summary": "Kazuma Okamoto\u2019s homer leads Blue Jays to win in rubber match with Marlins&nbsp;&nbsp;TSN",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPZlR5NWNoZ19sVHd2TFh3VE1FRlgwWnp3ZUkxQXU5UUZ2NDRiZkxQREt3NXhsN25HUDA1RXVGREVCcXEweHA3QUdkdi03N3VRWFpkM2M2NXhsT0g1STRlaEpWajc0bFFzTnREWkxqLWwyZmxmeWpWTW1LaHFDTDl6TVdYVlRLSTlxaHlRNlFndTg5VlNKZnJIVE5BOEt4SFU?oc=5",
-      "published": "Wed, 27 May 2026 20:22:38 GMT"
-    },
-    {
-      "title": "Jays Beat Marlins, 2-1 - Bluebird Banter",
-      "summary": "Jays Beat Marlins, 2-1&nbsp;&nbsp;Bluebird Banter",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQUFVSR09nN3hoTEZINEU1LTdiOWdrcUJEZnVfcEI2a1RnLWoydkliY3JxOXYyUlYyRTlaVE9KMW9ZUWJtSlhKbDBYQy1ENDc0QjhrMlVRRC1JRzhYV1NmTVhGcU15V01oWWp2Y01yY2ExMVFnOXFYaEhBdkZEbDBCdlB0MmxMdFViQVBV?oc=5",
-      "published": "Wed, 27 May 2026 20:10:02 GMT"
-    },
-    {
-      "title": "Toronto Blue Jays player changes walk-up song to AI-generated tune - blogTO",
-      "summary": "Toronto Blue Jays player changes walk-up song to AI-generated tune&nbsp;&nbsp;blogTO",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNVGt0bHZIcnNmczB4bDBVT3Y1SkZXbzAxUFlQMW1nMDduZy1jWllfNklYeXktR0VJRUh1NkFrczRkYWRQNDZYaXZWUWJyQ0xhWUpteDRmcHU5ZFE4RHpMTFRPamRCM0UtREkxTG12QVlwUTlGY2puc091cVRFaUotV0R2N1FmOWpCbmdrMw?oc=5",
-      "published": "Wed, 27 May 2026 19:21:11 GMT"
-    },
-    {
-      "title": "Miami Marlins at Toronto Blue Jays Game Story, Scores/Highlights - 05/27/2026 - MLB.com",
-      "summary": "Miami Marlins at Toronto Blue Jays Game Story, Scores/Highlights - 05/27/2026&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5JTFhTcDBVbDJUbHh6czVJUW9ZVXNuZ2pLM2d6aklwR1hDNHVkbDBUM1h2elhVZF9PNGxsUjJUSmhZNnZtcWZBX0N6b3VpNWlv0gFQQVVfeXFMTklMWFNwMFVsMlRseHpzNUlRb1lVc25nakszZ3pqSXBHWEM0dWRsMFQzWHZ6WFVkX080bGxSMlRKaFk2dm1xZkFfQ3pvdWk1aW8?oc=5",
-      "published": "Wed, 27 May 2026 18:42:16 GMT"
-    },
-    {
-      "title": "Blue Jays acquire Seabold, select Voth to bolster thinning pitching depth - Sportsnet",
-      "summary": "Blue Jays acquire Seabold, select Voth to bolster thinning pitching depth&nbsp;&nbsp;Sportsnet",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxQN3ppTmhXa2xteDNOSmxhNUNMaHBXZGhUeW4zcmhCcmpTeDhTV01XTzBXVzc0QmR4VHdNVFd0N1hjNHlubjJvMm83cTJZMi05WDZzNEw5TV9nT1pfazFDb3poUHBvMjdCWTBkZTEybjFFcEpLcEtZU084VUVMNnBhX19USzdJSUtuWjdrVXExU2tZbk5WdEN4bW5MSmdGM1k?oc=5",
-      "published": "Wed, 27 May 2026 18:29:00 GMT"
-    },
-    {
-      "title": "Blue Jays select right-hander Voth to major-league roster - CP24",
-      "summary": "Blue Jays select right-hander Voth to major-league roster&nbsp;&nbsp;CP24",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQYUZSek4xNTczQy1DY1BzTFBpVGpLY1pjalJVUmh0MmxlUVhmeC1UNGlIRFE5bFdHOEQ4ckl1aS1kb0ZiMVY1RDRJT3ZpTFktRVI2Q2xnSXl4VVRPMlBzclRCeVVaNUZDSjR0cElJOE41M2tib1I1VU1WVjFYVkZJdlZDa3RVU3hmTENIaFhlTjhPS2E2bFM4VHVXeXNkU3ozMWRMQw?oc=5",
-      "published": "Wed, 27 May 2026 18:07:30 GMT"
-    },
-    {
-      "title": "Blue Jays' 'least valuable player' is $35.71 million All-Star with just three home runs - Yahoo Sports Canada",
-      "summary": "Blue Jays' 'least valuable player' is $35.71 million All-Star with just three home runs&nbsp;&nbsp;Yahoo Sports Canada",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPWmtxRXRYcG1rcEppY3N5OWVlLVhwZEdsNkd2cEZoQ2NEN1Q0VFRUV3E0VWotZ2dvdXVvdmoxVDlFVzVHMmkyUko2S3ZUUS1LRC1GSDBVUldiUEpNYUE4dkR2YkNHcnNnbzY3cjZIZk4wV0s4RVlQWUNFOUVRem1scUlwVzNFdw?oc=5",
-      "published": "Wed, 27 May 2026 17:57:09 GMT"
-    },
-    {
-      "title": "Pitcher-needy Blue Jays acquire Seabold from Tigers in exchange for Vasquez - TSN",
-      "summary": "Pitcher-needy Blue Jays acquire Seabold from Tigers in exchange for Vasquez&nbsp;&nbsp;TSN",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNR0hXS0I5V25vQ1dsc0VramJMV2d4TWNqSG5NQUpGRldkdFVJMFhSLThBUGlyVDVuUmh6OGpkZDRQT2U1TDJzclJxWDdKakNLZlp0b0pabEdPSDljdzZ4ajVoT1NuZXppRThzMXlmY05EQk5HRjNTNmdHemlpLXJIVzBwVHVmZFZFZmJYRWl3b1dhVGUzaHBUS1E4OA?oc=5",
-      "published": "Wed, 27 May 2026 17:24:54 GMT"
-    },
-    {
-      "title": "Blue Jays select right-hander Voth to major-league roster before game against Marlins - Yahoo Sports Canada",
-      "summary": "Blue Jays select right-hander Voth to major-league roster before game against Marlins&nbsp;&nbsp;Yahoo Sports Canada",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPb2hVUXVLVFFJaXlfWEdGRURRS3pfUG1mcmFOckxzRUJ4NHktajFFWVRoWVVSQWpaOE1NN3ZITGdFM1FyLU1uM1lBUHhLdTVvbmRKbEM3WTA5MG5wbEU3bXhHNGRmbE1oNVFyb1JIenhBYzlJTm9HQWdwa3hjeDBTb3d3?oc=5",
-      "published": "Wed, 27 May 2026 16:27:55 GMT"
-    },
-    {
-      "title": "Blue Jays select right-hander Voth to major-league roster before game against Marlins - Toronto Star",
-      "summary": "Blue Jays select right-hander Voth to major-league roster before game against Marlins&nbsp;&nbsp;Toronto Star",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMihwJBVV95cUxOVEViX0dVME5nYkdMYW9WbTgyems2cmlROWpLWkZkc3JrdEZvajBJVnVrN3pfRGEzMG9Db1hKeWc5WHFHN0pZWVNOSXExTHhHUU1sczRRdDVkdE1rSEZtaDFTTGJuMFpDcjVlamEtVUE5OGhOVlp3UjU2aHRfbDVyUmNOb0lFeHBFZnhGTmt3LThYTW1UdWRfd184QkxFaWt0UXBuVW4wZW8xT2p2N1R0X0pTMnYyTmFWQnBEVmJxdkFTbF94a2hlZXlNQzQzdHdnWFBXd0kzQ0QwWWdSdG9KVkhYNVI0VTlBVGh1R3NpMXdhZDAyLTR0YnhJUHFBc2NmczY2bFdLVQ?oc=5",
-      "published": "Wed, 27 May 2026 16:13:21 GMT"
-    },
-    {
-      "title": "Report: Blue Jays ink P Bowman to minor league deal - TSN",
-      "summary": "Report: Blue Jays ink P Bowman to minor league deal&nbsp;&nbsp;TSN",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxON2dMd3BneVU1ZmFVR21VdHBOcU1rOW1DMXBWUm92eGFRSlIwa0o0VF82VkEtSmFMcFRienFvbkZGVzFKWng4emVnMGI3cDJpWGRmNndpemlVZXl6MjR2d0VzbWJfVDRyX2JMTWJLazRMWHlPaUliZTRfZ2JidURQMW84QkdCYVp4R2c?oc=5",
-      "published": "Wed, 27 May 2026 03:24:00 GMT"
-    },
     {
       "title": "Familiar face Chris Bassitt set to take mound against Blue Jays - Sportsnet",
       "summary": "Familiar face Chris Bassitt set to take mound against Blue Jays&nbsp;&nbsp;Sportsnet",
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOVkdTOUJEdDZzTE5nYXNBbUJsUGZtV3JOd2pwblM5eUFlOC1iTm5MbVdrTXEtVVlNdk9GZTNMZE5vR3Bmel9Oc1Jub3FrbnpSMFV5X1F6MFdNd1ZOS3NneU4wbm1tU01PZlgyWFZ4TDQyd2lXYUNON1FLTlNnOEk2THVSTVVNSkpBRHVGTVpxc0d4ZEtHemdDOXkxcnNGVDV0bFVUaUtJMk0?oc=5",
-      "published": "Thu, 28 May 2026 13:03:00 GMT"
-    },
-    {
-      "title": "3 questions lie ahead for Blue Jays as they get healthier - MLB.com",
-      "summary": "3 questions lie ahead for Blue Jays as they get healthier&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNOVVuNGlsb0VOci13dXlQWG1zZDlVM2VqV05hUXhJWEtiM1BuWjlVS01XNkZQMHRtSWpwRFpQN0pLYkVOWlNnMU52QnE5UTYzdE5EUzkzUjhPVGU2XzBoV0NHeEs0SEt1RUJTVGhFakhvbm9xUm13VlNqNDEtVXNFUDd30gGOAUFVX3lxTE9YWklCdm9FelNQVlN3YVlKZU1nbS1odm9ZZnFsWXBINThVN3I2UERHcEo0LWtoUFJEZG5IVmExSlNlMUlGM19uOTNzbXVkM0VmeU5Jd09kTVRGdmNxOTVfbWtOOVBhVl9xdGFyVnFjZnJzbUdCdnR1eFhnTEY4SzFrMExEV2JYYVZYS2Mtdnc?oc=5",
-      "published": "Thu, 28 May 2026 12:44:53 GMT"
+      "published": "2026-05-28T13:03:00+00:00"
     },
     {
       "title": "Blue Jays to select Charles McAdoo - MSN",
@@ -1185,7 +1074,7 @@
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOeTRHSTRHM1JMQXZnaHZ1UFVUeUs5NTZrb1E3SEtZei1JUlZac2xvRkpfWDI2YVZSaDVuTjNJM0NQV21WeF9yVG9XT3kxaHBLWnd4ajRXaTE1NzVTdS14cnFwUUV2Y3IxNjk5UlBkaksxSzdCWmdBMWI4Wk9ONTNKcm9jQnVQOHl4TEhv?oc=5",
-      "published": "Thu, 28 May 2026 12:32:25 GMT"
+      "published": "2026-05-28T12:32:25+00:00"
     },
     {
       "title": "MLB Insider Throws Wrench Into Possibility of Toronto Blue Jays Acquiring Cy Young Winner - roundtable.io",
@@ -1193,7 +1082,7 @@
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMi0gFBVV95cUxPc2dhdUdpRVM3ZDhjOWgzZFd5dTZPVXBMSU4zc2kyMXZlWGtmV0lsMV9LOW1POGFsWDQwNE03WFBWLTk5azdmY1FtWmQyUzBtNFVQSDVVWlBJMWxpN1ZXWVdGYU9JVlFBa1VxTF9HMXdzQmxiVmNGMFFLQ3JuWVZ4T0hlUFJiR21odnJfVm5sZWVLUGx3WEEyeFE5c1dUYXJUdFNPQWhTa05XRUp5c01peUF0Tlk3dW80WlEycFpLemVOdzVOeXotOGJ1ZEh2R1QxakE?oc=5",
-      "published": "Thu, 28 May 2026 12:14:50 GMT"
+      "published": "2026-05-28T12:14:50+00:00"
     },
     {
       "title": "Blue Jays rise three spots to No. 15 in latest MLB Power Rankings - TSN",
@@ -1201,7 +1090,15 @@
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPYlV4aktGZFFGa2JURlJVYlRqVGdfVW0tdjhnM01VUGdWNmgyZ3h1VEdOTmFKcC0zOHFnQm9ya2pKb2YxNl9rVXBZVDZpeGVESjluaThQSHllNmtob1lNbmdBOXpWVFZuM2VGSHpGQXpOVGJ6UUtfLWE2cTl0VlEwNWZFOU5FeHpfdjQyNVNXU1ZxOUJJZF8xY1pXN3YxTzZPLW5PcENid3AtZGRM?oc=5",
-      "published": "Thu, 28 May 2026 11:58:19 GMT"
+      "published": "2026-05-28T11:58:19+00:00"
+    },
+    {
+      "title": "From Division II to (nearly) every day, Varland thriving with Blue Jays' trust - MLB.com",
+      "summary": "From Division II to (nearly) every day, Varland thriving with Blue Jays' trust&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMibkFVX3lxTE9BN0Q2ZGZMSWFqaG1xVUlYSlJ6ZEJhYUdiS09iLW5PaDduNGk0VktMWGdUNFBPemxiQXotTDM3UWNMN0ZpQUphY21sMDBPbEZ0ZDFlbHl0cGVFT1ZFUFJnU2E4VHlWcFNzYmxOSmJB?oc=5",
+      "published": "2026-05-28T11:56:57+00:00"
     },
     {
       "title": "From Division II to (nearly) every day, Varland thriving with Blue Jays' trust",
@@ -1209,7 +1106,119 @@
       "source": "MLB.com",
       "author": "",
       "url": "https://www.mlb.com/news/louis-varland-thriving-for-blue-jays",
-      "published": "Thu, 28 May 2026 11:54:21 GMT"
+      "published": "2026-05-28T11:54:21+00:00"
+    },
+    {
+      "title": "3 questions lie ahead for Blue Jays as they get healthier",
+      "summary": "",
+      "source": "MLB.com",
+      "author": "Keegan Matheson",
+      "url": "https://www.mlb.com/news/blue-jays-questions-as-players-return-from-injuries",
+      "published": "2026-05-28T11:49:53+00:00"
+    },
+    {
+      "title": "Blue Jays sign former Orioles pitcher as fifth starter question lingers - Jays Journal",
+      "summary": "Blue Jays sign former Orioles pitcher as fifth starter question lingers&nbsp;&nbsp;Jays Journal",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxOR3FFQVZBN19rZ0FIT1ExTjNNdlBxSG05a0ZVWUtMRlRFa3VKVkFtdTlZWndkT093VkJzQ1JRSko5dlMzU0ViSEJuZm93cHV2NUU0cFZjWlM5M3NyV2tBbXRkRHpHNnJBcWd0MzVSSWxkUnFBV1c2QkVTVVRlM1lEd0dVeVAzd1kyMmYwYXkyZDlJLW5Nd2pFMjhJVQ?oc=5",
+      "published": "2026-05-28T11:00:04+00:00"
+    },
+    {
+      "title": "John Schneider sends message to Blue Jays\u2019 Bo Bichette replacement who has been horrendous - sportingnews.com",
+      "summary": "John Schneider sends message to Blue Jays\u2019 Bo Bichette replacement who has been horrendous&nbsp;&nbsp;sportingnews.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNcU1FSE1xU2ZtU1FIVWgtUEU0c19NaEpSTTJEOTJpcXI4SkpBa1BaMUkySGV3U0NFVllNNWZaMkxFTTlnRFBubFE3V1VMWjlTOFktYnFScUhrUFdBYWkwa3hNYl8xbTZOdmFsS19fQlRvS2F2QVJfampZdVc4SmRSSGMxNkhsV08tTVpKbVRPUXV0Tzh5QU9qcFNaOVBpc3NjN3EzQnNldzhIQVpGYTB1ZHFwMDh4LTd2T3dvRzFyYWZqM0M5djB4dGhrVlRiSUxsWDJVR01McVd2Umc?oc=5",
+      "published": "2026-05-28T06:25:54+00:00"
+    },
+    {
+      "title": "Injuries: Teoscar, Tigers, Greene, Blue Jays, Red Sox",
+      "summary": "",
+      "source": "MLB.com",
+      "author": "",
+      "url": "https://www.mlb.com/news/baseball-injury-updates",
+      "published": "2026-05-28T03:15:00+00:00"
+    },
+    {
+      "title": "Report: Blue Jays set to promote Charles McAdoo - Blue Jays Nation",
+      "summary": "Report: Blue Jays set to promote Charles McAdoo&nbsp;&nbsp;Blue Jays Nation",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxQdVc2U0Y1U2pWcExZamVOX0NIUzNqMzFRRVF6UzIwTUppWTVfVW53ZEFtVTR3bDgweWludDdwRGVWNVZtdlBPaVRvejVMLWt0bGk5M2VkVTZQdzBSUDlibG56SFh2Q2NNdW5tN01iUWRKTlRLRHNtU240dDZGX2NmU2ZjOW0?oc=5",
+      "published": "2026-05-28T01:48:00+00:00"
+    },
+    {
+      "title": "Blue Jays calling up infield prospect Charles McAdoo - Sportsnet",
+      "summary": "Blue Jays calling up infield prospect Charles McAdoo&nbsp;&nbsp;Sportsnet",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMilAFBVV95cUxNeS00ajVMTUdaRWtCeHJwbGdkZ25QWkRBR3NESGtyTzRzbDJuWGcyNlBscjZ0d3ZPcnAyNWh2YVNqTUw5cUl2UVRyTlQxV2dSVFdHUEhiVTdfNnhpM0ZlY0J2Yk9jaU45Zl9QemJzSzU4REFZSGdkOE9ob3ROTllXTk43Wmw3cFo0RTlYcmlSbU00bko2?oc=5",
+      "published": "2026-05-28T01:44:00+00:00"
+    },
+    {
+      "title": "Report: Blue Jays calling up infield prospect McAdoo - TSN",
+      "summary": "Report: Blue Jays calling up infield prospect McAdoo&nbsp;&nbsp;TSN",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxNdjBXeUdvRUlmbkxsZGE4aEJ1M0VVX1Vsa19nX3psSlFNRGJVa1dJU1locTA1aDN3emgyMFlRdzlPcXZYZHNHcmhXaDVNS2E4dnBXeTBVTV9DRzZyQWp1WXo3ZTRHY0RyZlNJdWZoZGFvTVpWWDFZQkUwOFRtYkxGWWZreExVaUpIMlV3?oc=5",
+      "published": "2026-05-28T01:44:00+00:00"
+    },
+    {
+      "title": "Okamoto shakes off HBP to power Blue Jays to tense win over Marlins - Sportsnet",
+      "summary": "Okamoto shakes off HBP to power Blue Jays to tense win over Marlins&nbsp;&nbsp;Sportsnet",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQdUQ0OHFhNzhJOFphZ1ptN1AzR3hRZGVKaWhSNDBlZmtOd0hOZ0lzYmRnWVV2c1B2SGlldU5rLXQycmNHbzNIRVhzVmhHN1ZVdjBoOFNJaWhXM0JubzZGNTVhVGQ2ajhOVzZrbWRCekRhSGk2UFJIMk1RanlKcGYxX0d2U0xjTTJMbWpWMDFUSmJsQXZ4XzhjUzBGSHVyT25sUEp5UEpVY2E?oc=5",
+      "published": "2026-05-27T22:29:00+00:00"
+    },
+    {
+      "title": "Okamoto back in HR column as Lukes shows everyday chops - MLB.com",
+      "summary": "Okamoto back in HR column as Lukes shows everyday chops&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE5EdVlRQXBZZ0d6SkV6Tk9wNUpwaWlqcW5pNk11WU9sMk5DTjB4T1dBS2lsWkFFWk1aNzVrOUZqU2VOdkF5WHN6U3dLTUYwejRpQWZrWURkWnB5VUJ3a0ljalRFSDJqSzhDR2pxYnB6SG1tS3NyYjRRVmxLVDhENGs?oc=5",
+      "published": "2026-05-27T21:17:16+00:00"
+    },
+    {
+      "title": "Desperate for pitching, Blue Jays trade for Connor Seabold months after cutting him this spring - Toronto Sun",
+      "summary": "Desperate for pitching, Blue Jays trade for Connor Seabold months after cutting him this spring&nbsp;&nbsp;Toronto Sun",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxOdlpkaU5CX2x6UzJBbEpIZTdTQ1JBWmlqN2lBSGhBbTRGeG1hNy04a3ZZX3k5MTNxREVkb3RNVXpmUDE3TW9kMXhEVll0R185bXA0UWxBc2tMaEFMblpiV3gtZFFsV1haSnk0bzV3b3lmeDZJdFdWSjAzSzJVX1lKMGJZUFpxMHJDOFU4WmhINHFSMm0xWUFFZmpxVGpYWXc?oc=5",
+      "published": "2026-05-27T20:37:32+00:00"
+    },
+    {
+      "title": "Kazuma Okamoto\u2019s homer leads Blue Jays to win in rubber match with Marlins - TSN",
+      "summary": "Kazuma Okamoto\u2019s homer leads Blue Jays to win in rubber match with Marlins&nbsp;&nbsp;TSN",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPZlR5NWNoZ19sVHd2TFh3VE1FRlgwWnp3ZUkxQXU5UUZ2NDRiZkxQREt3NXhsN25HUDA1RXVGREVCcXEweHA3QUdkdi03N3VRWFpkM2M2NXhsT0g1STRlaEpWajc0bFFzTnREWkxqLWwyZmxmeWpWTW1LaHFDTDl6TVdYVlRLSTlxaHlRNlFndTg5VlNKZnJIVE5BOEt4SFU?oc=5",
+      "published": "2026-05-27T20:22:38+00:00"
+    },
+    {
+      "title": "Jays Beat Marlins, 2-1 - Bluebird Banter",
+      "summary": "Jays Beat Marlins, 2-1&nbsp;&nbsp;Bluebird Banter",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxQUFVSR09nN3hoTEZINEU1LTdiOWdrcUJEZnVfcEI2a1RnLWoydkliY3JxOXYyUlYyRTlaVE9KMW9ZUWJtSlhKbDBYQy1ENDc0QjhrMlVRRC1JRzhYV1NmTVhGcU15V01oWWp2Y01yY2ExMVFnOXFYaEhBdkZEbDBCdlB0MmxMdFViQVBV?oc=5",
+      "published": "2026-05-27T20:10:02+00:00"
+    },
+    {
+      "title": "Jays Beat Marlins, 2-1",
+      "summary": "Well, after a one day only engagement, the offence has gone back on hiatus. It didn\u2019t end up mattering, though, as a combination of solid work from Kevin Gausman and the bullpen and questionable Marlins base running held them to only one run in spite of racking up 11 hits. The Jays are back within [&#8230;]",
+      "source": "Bluebird Banter",
+      "author": "Tom Mullie",
+      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-scores/62142/jays-beat-marlins-2-1",
+      "published": "2026-05-27T20:10:02+00:00"
+    },
+    {
+      "title": "Toronto Blue Jays player changes walk-up song to AI-generated tune - blogTO",
+      "summary": "Toronto Blue Jays player changes walk-up song to AI-generated tune&nbsp;&nbsp;blogTO",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxNVGt0bHZIcnNmczB4bDBVT3Y1SkZXbzAxUFlQMW1nMDduZy1jWllfNklYeXktR0VJRUh1NkFrczRkYWRQNDZYaXZWUWJyQ0xhWUpteDRmcHU5ZFE4RHpMTFRPamRCM0UtREkxTG12QVlwUTlGY2puc091cVRFaUotV0R2N1FmOWpCbmdrMw?oc=5",
+      "published": "2026-05-27T19:21:11+00:00"
     }
   ],
   "run_diff_last_10": [
