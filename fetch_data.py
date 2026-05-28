@@ -1132,11 +1132,17 @@ def main():
     wild_card = fetch_wild_card(cfg, team_names)
 
     past_schedule = fetch_schedule(cfg, -SCHEDULE_PAST_DAYS, 0)
-    future_schedule = fetch_schedule(cfg, 1, SCHEDULE_FUTURE_DAYS)
+    future_schedule = fetch_schedule(cfg, 0, SCHEDULE_FUTURE_DAYS)
     past_games = [transform_recent_game(g, cfg) for g in flatten_games(past_schedule)]
     completed = [g for g in past_games if g.get("result")]
     recent_games = completed[-RECENT_GAME_COUNT:]
-    upcoming_games = [transform_upcoming_game(g, cfg) for g in flatten_games(future_schedule)]
+    # Today's game lives in both schedules. If it's Final it's already in
+    # recent_games; exclude it here so it doesn't render twice.
+    upcoming_games = [
+        transform_upcoming_game(g, cfg)
+        for g in flatten_games(future_schedule)
+        if (g.get("status") or {}).get("abstractGameState") != "Final"
+    ]
 
     roster_entries = fetch_active_roster(cfg)
     roster = transform_roster(roster_entries, cfg)
