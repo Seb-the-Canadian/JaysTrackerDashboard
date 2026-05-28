@@ -1,0 +1,35 @@
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--import-mode=importlib",
+    "--cov=fetch_data",
+    "--cov-report=term-missing",
+    "--cov-fail-under=0",
+    "-m", "not integration",
+]
+python_files = ["test_*.py"]
+markers = [
+    "integration: live-API tests (not run by default; deselect via -m 'not integration')",
+    "slow: long-running tests",
+]
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning:feedparser.*",
+]
+
+[tool.coverage.run]
+source = ["fetch_data"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "if __name__ == .__main__.:",
+    "def main\\(",
+    "raise NotImplementedError",
+]
+show_missing = true
