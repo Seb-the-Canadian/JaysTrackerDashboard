@@ -1,0 +1,18 @@
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --cov=fetch_data --cov-report=term-missing"
+markers = [
+    "integration: live-API tests (not run by default)",
+    "slow: long-running tests",
+]
+filterwarnings = [
+    "default",
+    "ignore::DeprecationWarning:feedparser.*",
+]
+
+[tool.coverage.run]
+source = ["fetch_data"]
+branch = true
+
+[tool.coverage.report]
+show_missing = true

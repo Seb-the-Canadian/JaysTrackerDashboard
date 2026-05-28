@@ -20,5 +20,11 @@ env/
 .vscode/
 *.swp
 
+# Test coverage artifacts
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
 # Claude Code local state (worktrees, transcripts)
 .claude/
