@@ -56,6 +56,9 @@ body {
 .accent { color: var(--accent-color); }
 .tag { display: inline-block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; padding: 2px 8px; border-radius: 10px; background: #1f2937; color: #8b96a8; font-weight: 600; }
 .tag.injury { background: rgba(248,81,73,0.12); color: #f85149; }
+.tag.hot { background: rgba(248,81,73,0.16); color: #f85149; }
+.tag.cold { background: rgba(56,139,253,0.16); color: #58a6ff; }
+.tag.new { background: rgba(63,185,80,0.16); color: #3fb950; }
 .rank-pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 10px; background: rgba(29,138,205,0.12); color: var(--accent-color); margin-left: 8px; font-variant-numeric: tabular-nums; }
 .rank-pill.dim { background: #1f2937; color: #8b96a8; }
 table { width: 100%; border-collapse: collapse; font-size: 13px; }
@@ -856,12 +859,18 @@ function playerCardHTML(p, kind) {
   const recentNote = playerNote && playerNote.recentNote
     ? '<div class="recent-note">' + playerNote.recentNote + '</div>'
     : '';
+  // Hot/cold/new tag derived from fetch_data.py (issue #25). Field is one of
+  // "hot" | "cold" | "new" | null; render the pill only when populated.
+  const RECENT_LABEL = { hot: 'Hot', cold: 'Slumping', new: 'New' };
+  const recentTag = (p.recent && RECENT_LABEL[p.recent])
+    ? '<span class="tag ' + p.recent + '">' + RECENT_LABEL[p.recent] + '</span>'
+    : '';
   if (kind === 'hitter') {
     return '<div class="player-card" data-pid="' + p.id + '" data-kind="hitter">' +
       '<div class="player-card-head"><div>' +
         '<div class="player-name">' + escapeText(p.name) + '</div>' +
         '<div class="player-pos">' + escapeText(p.pos || '') + '</div>' +
-      '</div></div>' +
+      '</div>' + recentTag + '</div>' +
       '<div class="player-stats">' +
         '<div class="mini-stat"><div class="mini-stat-label">AVG / OPS</div><div class="mini-stat-val">' + (p.avg || '—') + ' / ' + (p.ops || '—') + '</div></div>' +
         '<div class="mini-stat"><div class="mini-stat-label">HR / RBI</div><div class="mini-stat-val">' + (p.hr ?? 0) + ' / ' + (p.rbi ?? 0) + '</div></div>' +
@@ -874,7 +883,7 @@ function playerCardHTML(p, kind) {
     '<div class="player-card-head"><div>' +
       '<div class="player-name">' + escapeText(p.name) + '</div>' +
       '<div class="player-pos">' + escapeText(p.role || '') + '</div>' +
-    '</div></div>' +
+    '</div>' + recentTag + '</div>' +
     '<div class="player-stats">' +
       '<div class="mini-stat"><div class="mini-stat-label">ERA / WHIP</div><div class="mini-stat-val">' + (p.era || '—') + ' / ' + (p.whip || '—') + '</div></div>' +
       '<div class="mini-stat"><div class="mini-stat-label">IP</div><div class="mini-stat-val">' + (p.ip || '0.0') + '</div></div>' +
