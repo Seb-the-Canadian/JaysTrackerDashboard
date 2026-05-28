@@ -10,9 +10,7 @@ dicts in and produce structured rows out:
 - transform_upcoming_game
 - last10_from_records (helper used by transform_division)
 
-Each test inlines a minimal MLB-shaped fixture dict — kept small enough
-to read at a glance, large enough to exercise the field paths the
-transform actually reads.
+Each test inlines a minimal MLB-shaped fixture dict.
 
 transform_roster is not tested here — it calls fetch_player_season_stats
 and derive_recent_form, which require mocking. PR3 covers it.
@@ -28,7 +26,6 @@ import fetch_data
 
 def _tr(team_id: int, name: str, wins: int, losses: int, *, pct: str = ".500",
         gb: str = "-", streak: str = "W2", last_ten: str = "5-5") -> dict:
-    """Build a teamRecords-shaped dict matching the MLB standings response."""
     return {
         "team": {"id": team_id, "name": name},
         "wins": wins,
@@ -46,7 +43,6 @@ def _tr(team_id: int, name: str, wins: int, losses: int, *, pct: str = ".500",
 
 
 def _al_east_record() -> dict:
-    """A complete 5-team AL East standings response."""
     return {
         "teamRecords": [
             _tr(139, "Tampa Bay Rays", 34, 19, pct=".642", streak="L4", last_ten="5-5"),
@@ -95,7 +91,7 @@ def test_transform_division_uses_team_names_lookup_when_provided(cfg):
 def test_transform_division_falls_back_to_team_name_when_lookup_missing(cfg):
     rows = fetch_data.transform_division(_al_east_record(), cfg, team_names={})
     us = [r for r in rows if r["is_us"]][0]
-    assert us["team"] == "Toronto Blue Jays"  # from tr.team.name
+    assert us["team"] == "Toronto Blue Jays"
 
 
 def test_transform_division_missing_streak_returns_empty_streak(cfg):
@@ -103,7 +99,7 @@ def test_transform_division_missing_streak_returns_empty_streak(cfg):
         "teamRecords": [
             {"team": {"id": 141, "name": "Toronto Blue Jays"},
              "wins": 27, "losses": 29, "winningPercentage": ".482",
-             "gamesBack": "8.5"},  # no streak key
+             "gamesBack": "8.5"},
         ],
     }
     rows = fetch_data.transform_division(record, cfg)
@@ -125,7 +121,7 @@ def test_find_us_team_record_present_returns_record(cfg):
 
 def test_find_us_team_record_absent_calls_die(cfg, capsys):
     cfg = dict(cfg)
-    cfg["team_id"] = 999  # nonexistent
+    cfg["team_id"] = 999
     with pytest.raises(SystemExit):
         fetch_data.find_us_team_record(_al_east_record(), cfg)
 
@@ -143,7 +139,6 @@ def test_last10_from_records_missing_split_returns_zero_zero():
 
 
 def test_last10_from_records_no_last_ten_split_returns_zero_zero():
-    """Only a 'home' split, no 'lastTen' — falls back to '0-0'."""
     records = {"splitRecords": [{"type": "home", "wins": 15, "losses": 10}]}
     assert fetch_data.last10_from_records(records) == "0-0"
 
@@ -184,7 +179,6 @@ def _game(*, game_pk: int = 100, date: str = "2026-05-27", our_team: int = 141,
           our_score: int = 5, opp_score: int = 3, is_home: bool = True,
           abstract: str = "Final", detailed: str = "Final",
           decisions: dict | None = None) -> dict:
-    """Build a schedule-game dict matching MLB's shape."""
     home_id, away_id = (our_team, opp_team) if is_home else (opp_team, our_team)
     home_name = "Toronto Blue Jays" if is_home else opp_name
     away_name = opp_name if is_home else "Toronto Blue Jays"
@@ -285,7 +279,6 @@ def _upcoming(*, game_pk: int = 200, date: str = "2026-05-28",
               their_pp: str | None = "Chris Bassitt",
               is_home: bool = False, opp_name: str = "Baltimore Orioles",
               detailed: str = "Scheduled") -> dict:
-    """Build an upcoming-game dict."""
     home_id, away_id = (141, 110) if is_home else (110, 141)
     home_name = "Toronto Blue Jays" if is_home else opp_name
     away_name = opp_name if is_home else "Toronto Blue Jays"

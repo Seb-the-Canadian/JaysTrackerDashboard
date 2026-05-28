@@ -130,7 +130,7 @@ def test_ip_to_decimal_handles_baseball_notation(ip_str, expected):
     if isinstance(expected, float):
         assert result == expected
     else:
-        assert result == expected  # pytest.approx handles ==
+        assert result == expected
 
 
 # --- _stat_signature ------------------------------------------------------
@@ -139,7 +139,7 @@ def test_stat_signature_hitting_uses_hitting_keys():
     stat = {
         "atBats": 42, "hits": 14, "baseOnBalls": 8,
         "homeRuns": 3, "totalBases": 28,
-        "rbi": 21,  # should NOT appear in signature
+        "rbi": 21,
     }
     sig = fetch_data._stat_signature(stat, "hitting")
     assert "atBats=42" in sig
@@ -154,7 +154,7 @@ def test_stat_signature_pitching_uses_pitching_keys():
     stat = {
         "inningsPitched": "40.2", "earnedRuns": 16,
         "strikeOuts": 38, "baseOnBalls": 12,
-        "wins": 4,  # should NOT appear in signature
+        "wins": 4,
     }
     sig = fetch_data._stat_signature(stat, "pitching")
     assert "inningsPitched=40.2" in sig
@@ -184,12 +184,8 @@ def test_stat_signature_deterministic_same_input_same_output():
 
 
 # --- _recent_enough -------------------------------------------------------
-#
-# Builds a minimal feed-entry-like dict with `published_parsed` set to a
-# struct_time. _entry_published_dt reads this and converts to UTC.
 
 def _make_entry(dt: datetime):
-    """Build a minimal entry dict with a published_parsed struct_time."""
     return {"published_parsed": time.gmtime(dt.timestamp())}
 
 
@@ -207,7 +203,6 @@ def test_recent_enough_outside_window_returns_false():
 
 @freeze_time("2026-05-28T12:00:00", tz_offset=0)
 def test_recent_enough_no_timestamp_returns_true():
-    """Safety default: missing date means keep the item."""
     entry = {"title": "no published date"}
     assert fetch_data._recent_enough(entry, days=2) is True
 
@@ -215,8 +210,8 @@ def test_recent_enough_no_timestamp_returns_true():
 @freeze_time("2026-05-28T12:00:00", tz_offset=0)
 def test_recent_enough_widened_window_keeps_older_items():
     entry = _make_entry(datetime(2026, 5, 22, 12, 0, 0, tzinfo=timezone.utc))
-    assert fetch_data._recent_enough(entry, days=2) is False  # 6 days old, 2-day window
-    assert fetch_data._recent_enough(entry, days=7) is True   # same item, 7-day window
+    assert fetch_data._recent_enough(entry, days=2) is False
+    assert fetch_data._recent_enough(entry, days=7) is True
 
 
 # --- ordinal --------------------------------------------------------------
@@ -260,9 +255,6 @@ def test_ordinal_invalid_input_returns_fallback(n, expected):
     [
         pytest.param("Plain text", "Plain text", id="plain_text_unchanged"),
         pytest.param("<p>Hello</p>", "Hello", id="single_tag_stripped"),
-        # Current behavior: adjacent tags with no whitespace between get
-        # concatenated. RSS feeds tend to use newlines anyway, so this
-        # rarely surfaces in practice.
         pytest.param("<p>One</p><p>Two</p>", "OneTwo", id="adjacent_tags_concatenate"),
         pytest.param("<p>One</p>\n<p>Two</p>", "One Two", id="tags_with_newline_collapse_to_space"),
         pytest.param("Word1\n\n\nWord2", "Word1 Word2", id="whitespace_collapsed"),
