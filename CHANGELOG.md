@@ -10,6 +10,17 @@ The format groups changes by milestone-or-wave rather than by category. Within e
 
 ## Unreleased
 
+### Statcast integration (2026-05-29)
+
+Issue #29 — pull Statcast metrics into the dashboard. Hybrid sourcing: xwOBA via MLB Stats API's `expectedStatistics` hydrate (no new dependencies); Barrel% / Hard-Hit% / team OAA via Baseball Savant leaderboard CSVs (stdlib `urllib` + `csv`, also no new dependencies). Shipped in 5 PRs with explicit roadblock decision points; planning detailed in `/root/.claude/plans/agile-seeking-seal.md`.
+
+**Added**
+- `feat(statcast): xwOBA on hitters via MLB Stats API` ([#83](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/83)) — new `fetch_player_xstats` helper, same `/people/{id}` hydrate pattern as `_fetch_game_log` (PR #63 workaround for `player_stat_data`'s strict-type guard). Adds `xwoba` field on every hitter row, `.---` placeholder fallback. Zero new dependencies, zero renderer changes (data-driven modal picks it up automatically).
+- `feat(statcast): probe Baseball Savant access` ([#84](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/84)) — manual-dispatch workflow + stdlib probe script that confirms `baseballsavant.mlb.com` is reachable from the GH Actions runner. Gates the next two PRs.
+- `feat(statcast): Barrel% + Hard-Hit% via Savant CSV` ([#85](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/85)) — `fetch_savant_team_csv` generic helper + `fetch_savant_barrels`. Adds `barrel_pct` and `hardhit_pct` fields on every hitter row. Soft-fails: WARN log + `---` placeholders, never `die()`. Defensive column-name lookup handles Savant's cross-season rotations.
+- `feat(statcast): team OAA + Defense card` ([#86](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/86)) — `fetch_savant_oaa` + new `team_stats.defense` group + Defense card on the Team Stats tab. `combine_team_stats` extended to emit any extra groups while preserving the hitting+pitching backwards-compatibility guarantee.
+- `docs(statcast): cleanup + roadmap migration` ([this PR]) — moves #29 from v2+ to Shipped; updates README's "not Statcast" line; documents `statcast_enabled` config flag in the forking guide.
+
 ### Debug pass + docs build-out (2026-05-28)
 
 A full debug pass on the as-shipped dashboard surfaced a cluster of bugs (some user-visible, some schema-only). Plus a cache layer for the gameLog API and substantial documentation work.

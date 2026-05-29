@@ -22,6 +22,8 @@ The chassis is feature-complete. v1.0 is gated on documentation polish and a sho
 - Hot/cold/new player tags auto-derived from a 7-game window — issue #25, fixed in #59/#63
 - gameLog cache cuts API calls to zero for non-playing players — issue #52, shipped in #67
 - RSS news ingest, per-feed configurable, optional keyword filter — issues #49/#50, recency configurable in #64
+- Optional LLM TL;DR summarizer with pluggable provider (Anthropic/OpenAI/Ollama) — issue #53, shipped in #82
+- Statcast metrics for hitters and team defense (xwOBA, Barrel%, Hard-Hit%, OAA) via MLB Stats API + Baseball Savant — issue #29, shipped in #83/#84/#85/#86
 - Atomic write + invariant assertions before publishing `data.json`
 - Today's game in `upcoming_games` (off-by-one fix) — issue #62
 - Schema-correct `news.published` (ISO 8601) and wild-card `gb` for tied teams — issue #61
@@ -77,7 +79,8 @@ Real work; just not blocking the v1.0 tag.
 
 Bigger asks. Not committed; filing here so they're not lost.
 
-- **Statcast integration — issue #29** — xwOBA, barrel%, hard-hit%, OAA. Distinct fetcher targeting Baseball Savant (not the MLB Stats API). Multi-PR.
+- **Per-position OAA** — currently a single team rolled-up number. Per-position (CF range ≠ 1B scoops) would expand `team_stats.defense` to a nested by-position structure.
+- **Pitcher expectedStatistics** (xERA, xwOBA-against) — issue body for #29 was hitter + team-defense only. Same MLB Stats API pattern as PR #83; would extend to the pitcher branch of `transform_roster`.
 - **Year-over-year comparison views** — same dashboard, current vs prior season side-by-side. Affects schema (`data.json`) and renderer.
 - **Live in-game polling** — once-a-day → minute-by-minute during a game. Substantial architectural shift; likely needs a different render layer.
 - **Multi-team dashboard view** — show a small set of teams (e.g., all AL East) on one page. Affects config shape and renderer.

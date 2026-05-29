@@ -66,6 +66,7 @@ Replace the Blue Jays values with your team's. The current Jays `config.json` fo
 | `dashboard_title` | Browser tab + header title | Free text |
 | `brand_mark` | Single character displayed in the brand box | Usually first letter of team |
 | `news_recent_days` | RSS recency window in days. Module default is `2`; the Jays repo widens to `7` (per PR #64) to catch low-cadence feeds like Bluebird Banter. Tune per your feeds. | Per-fork choice |
+| `statcast_enabled` | Boolean. When `true` (the default), the fetcher pulls Barrel%/Hard-Hit%/team OAA from Baseball Savant. Set `false` to skip the Savant calls entirely — useful on self-hosted runners with locked-down egress, or forks that don't want Statcast at all. xwOBA (via MLB Stats API) is unaffected by this flag and always populates. | Per-fork choice |
 | `news_summarize` | Boolean. When `true`, each news item gets a 1-2 sentence LLM TL;DR (issue #53). Default `false`. See "Optional: news TL;DRs" section below. | Per-fork choice |
 | `summarize_provider` | One of `"anthropic"` / `"openai"` / `"ollama"`. Default `"anthropic"`. Only consumed when `news_summarize=true`. | If summarize is on |
 | `summarize_model` | Provider-specific model identifier. Falls back to a sensible default per provider (`claude-haiku-4-5-20251001` / `gpt-4o-mini` / `llama3.2`). | Optional |
@@ -189,7 +190,7 @@ Anything else: [`docs/runbook.md`](runbook.md) has a more complete diagnosis tre
 
 - **Custom domain.** Optional; standard GitHub Pages custom-domain configuration applies.
 - **Renaming the repo after the fact.** Cosmetic; doesn't affect the dashboard.
-- **Multi-team views, year-over-year comparisons, Statcast.** Roadmap items (`docs/roadmap.md`), not v1 scope.
+- **Multi-team views, year-over-year comparisons, per-position OAA, pitcher xstats.** Roadmap items (`docs/roadmap.md`), not v1 scope. (Hitter xwOBA / Barrel% / Hard-Hit% and team OAA shipped via #29.)
 - **Modifying the analyst-notes schema.** The six top-level keys are fixed (`games`, `players`, `overview`, `team`, `pitches`, `injuries`); extending requires changes to `index.html`.
 
 If you fork and run into anything not covered here, file an issue against the upstream repo so this guide can be tightened.
