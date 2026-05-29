@@ -129,6 +129,19 @@ If `gs` is `MISSING` for every pitcher, the fetcher isn't populating it. Pre-PR 
 
 ---
 
+### Defense card missing from Team Stats tab
+
+**Symptom.** Hitting and Pitching cards render on the Team Stats tab, but no Defense card / OAA value appears.
+
+**Diagnosis.** The `team_stats.defense` group is conditional — only present in `data.json` when `fetch_savant_oaa` returned a non-`None` value. Two real causes:
+
+1. **Savant fetch failed.** Same root cause as the Barrel% issue — Cloudflare 403, timeout, etc. Workflow log shows `warning: savant outs_above_average fetch failed: ...`. The fetcher returns `None`; the `defense` group is simply not added; renderer skips the card.
+2. **`statcast_enabled: false`** in the fork's `config.json`. The OAA fetch is gated on this flag; setting `false` skips the entire Savant call surface. Working as designed.
+
+**Fix.** Cause 1: re-dispatch the probe (Actions → Probe Baseball Savant access) to confirm reachability; if it's now blocking, rotate `SAVANT_USER_AGENT` and re-probe. Cause 2: set `statcast_enabled: true` in config, dispatch the daily refresh, the Defense card appears on the next data.json commit.
+
+**Reference:** issue #29 (Phase B); see also the Probe Baseball Savant section below.
+
 ### Hitter cards show `---` for Barrel% and Hard-Hit%
 
 **Symptom.** Player modal renders `barrel_pct: ---` / `hardhit_pct: ---` for every hitter (or all but one). Field is present, but the value is the dash placeholder.

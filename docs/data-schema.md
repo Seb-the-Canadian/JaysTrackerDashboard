@@ -180,6 +180,28 @@ Hitting and pitching aggregate stats with MLB rank (1-30) per metric.
 >
 > **History:** Added in PR #51 for issue #24.
 
+### `team_stats.defense` (optional)
+
+Defensive metrics from Baseball Savant. Currently a single OAA entry; per-position OAA is a v1.x+ enhancement.
+
+```json
+{
+  "team_stats": {
+    "defense": {
+      "oaa": { "val": 12, "rank": null }
+    }
+  }
+}
+```
+
+**Source:** `fetch_savant_oaa(team_abbrev, season)` (`fetch_data.py`). Pulls the `outs_above_average` Savant leaderboard CSV; filters by team. Returns `None` on any fetch failure → the defense group is absent from the output.
+
+**Consumed by:** `renderTeam` (`index.html`) — a separate "Defense" card below the Hitting/Pitching grid, rendered only when the group is present in `team_stats`.
+
+**Fields per stat entry:** same `{val, rank}` shape as hitting/pitching. `rank` is `None` because Savant's leaderboard doesn't provide a team rank in the CSV; computing it from a league-wide pull is a follow-up.
+
+> **History:** Added in PR #29 Phase B for issue #29.
+
 ---
 
 ## Standings
