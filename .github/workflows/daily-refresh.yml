@@ -54,6 +54,15 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python fetch_data.py
 
+      - name: Scan notes for drift (warn-only)
+        # Runs the notes-drift scanner against the just-written data.json.
+        # WARN-only mode: never fails the build, findings go to the log.
+        # Forks can disable by setting config.scan_notes_drift=false; the
+        # scanner respects the flag and no-ops without scanning.
+        # See docs/free-text-fields.md for the registry and docs/runbook.md
+        # for the suppression workflow.
+        run: python3 tools/scan_notes_drift.py --warn-only
+
       - name: Commit and push if changed
         run: |
           # data/gamelog_cache.json is the per-player gameLog cache (#52).

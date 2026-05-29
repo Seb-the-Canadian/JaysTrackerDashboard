@@ -218,9 +218,9 @@ If running locally (`scripts/update_and_push.sh`), the same network restriction 
 
 ---
 
-### `test_notes_drift.py` failed: notes.json mentions a name not on current roster + IL
+### Notes-drift scanner flagged a stale name (PR-time test or daily-refresh log)
 
-**Symptom.** CI on a PR (or a local `pytest` run) fails on `tests/test_notes_drift.py::test_integration_real_files_scan_clean` with output like:
+**Symptom A — PR time.** CI on a PR (or a local `pytest` run) fails on `tests/test_notes_drift.py::test_integration_real_files_scan_clean` with output like:
 
 ```
 WARN notes.team.strengths[0]: "Bichette is walking at a career-high rate"
@@ -228,6 +228,8 @@ WARN notes.team.strengths[0]: "Bichette is walking at a career-high rate"
   reason: not_in_roster_or_il
   see: docs/free-text-fields.md
 ```
+
+**Symptom B — daily refresh log.** The `Scan notes for drift (warn-only)` step in the `Daily data refresh` workflow shows the same `WARN ...` lines. The workflow step always exits 0, so the refresh still commits and pushes — but the log is now flagging notes content that disagrees with the just-fetched roster + IL. Surface: GitHub → Actions → "Daily data refresh" → most recent run → "Scan notes for drift" step.
 
 **Diagnosis.** The notes-drift scanner (`tools/scan_notes_drift.py`) found a capitalized name-like token in a HIGH-drift field that doesn't match any current roster + IL name and isn't in the per-fork whitelist. Three possibilities:
 
