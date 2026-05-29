@@ -66,6 +66,10 @@ Replace the Blue Jays values with your team's. The current Jays `config.json` fo
 | `dashboard_title` | Browser tab + header title | Free text |
 | `brand_mark` | Single character displayed in the brand box | Usually first letter of team |
 | `news_recent_days` | RSS recency window in days. Module default is `2`; the Jays repo widens to `7` (per PR #64) to catch low-cadence feeds like Bluebird Banter. Tune per your feeds. | Per-fork choice |
+| `news_summarize` | Boolean. When `true`, each news item gets a 1-2 sentence LLM TL;DR (issue #53). Default `false`. See "Optional: news TL;DRs" section below. | Per-fork choice |
+| `summarize_provider` | One of `"anthropic"` / `"openai"` / `"ollama"`. Default `"anthropic"`. Only consumed when `news_summarize=true`. | If summarize is on |
+| `summarize_model` | Provider-specific model identifier. Falls back to a sensible default per provider (`claude-haiku-4-5-20251001` / `gpt-4o-mini` / `llama3.2`). | Optional |
+| `summarize_ollama_base_url` | Override the local Ollama endpoint when using the `ollama` provider. Default `http://localhost:11434`. | Only for Ollama |
 | `rss_feeds` | Array of RSS sources — see below | Per-fork choice |
 
 For `rss_feeds`, replace with the local-media feeds for your team. Each entry needs `url` and `source`; `keyword_filter` is optional and narrows general-MLB feeds to team-relevant items.
@@ -106,7 +110,29 @@ After this first run, the cron (`0 9 * * *` — 09:00 UTC daily) takes over auto
 
 ---
 
-## Step 5 (optional) — Author analyst notes
+## Step 5 (optional) — Enable news TL;DRs
+
+Issue #53. When `news_summarize=true`, each news item gets a 1-2 sentence LLM-generated TL;DR rendered as an italic line under the headline (labeled "TL;DR (AI)" so readers see the provenance — the project's editorial stance is that AI voice should be visibly distinct from human-authored copy).
+
+Pick a provider:
+
+- **Anthropic** (default, recommended) — Claude Haiku 4.5. ~$0.001 per news item with prompt caching. Set `ANTHROPIC_API_KEY` as a GitHub Actions repository secret. The `anthropic` SDK is already in `requirements.txt`.
+- **OpenAI** — `gpt-4o-mini`. Comparable cost. Install `openai` in your fork's `requirements.txt` and set `OPENAI_API_KEY` as a secret.
+- **Ollama** (local, free) — Pick when you self-host a runner and want to keep summarization off paid APIs. No SDK needed (uses stdlib `urllib`). Set `summarize_provider: "ollama"` and `summarize_ollama_base_url` if it isn't the default `http://localhost:11434`. The local model name goes in `summarize_model`.
+
+Then flip the toggle in your `config.json`:
+
+```json
+{
+  "news_summarize": true,
+  "summarize_provider": "anthropic",
+  "summarize_model": "claude-haiku-4-5-20251001"
+}
+```
+
+Cached TL;DRs land at `data/tldr_cache.json` (URL → summary). The cache is regenerable; safe to delete to force a re-summarize on the next refresh.
+
+## Step 6 (optional) — Author analyst notes
 
 `notes.json` carries the hand-written voice layer. It comes pre-populated with one example. Edit it to add your own notes — see the README's "Writing analyst notes" section for the schema, or [`docs/data-schema.md`](data-schema.md) for the field-level reference.
 

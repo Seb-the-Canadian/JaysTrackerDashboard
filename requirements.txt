@@ -1,2 +1,6 @@
 MLB-StatsAPI>=1.9.0
 feedparser>=6.0.0
+# Optional: news TL;DR summarizer (#53). Required only when
+# config.news_summarize=true with summarize_provider="anthropic".
+# Pinned to a major version that has Messages API + prompt caching.
+anthropic>=0.40.0
