@@ -26,7 +26,7 @@ Each field gets a row in a table. The columns:
 - **LOW** — Human-authored content about stable entities (historical games, pitch type names). Doesn't drift in practice because the entities don't change.
 - **NONE** — Machine-refreshed (regenerated every daily refresh from upstream) or static (rendered text that doesn't reference dynamic state). Cannot go stale by definition; other quality concerns may apply (LLM hallucination for `news[].tldr`, MLB API correctness for `injuries[].status`).
 
-The drift scanner (see [Scanner](#scanner-pr-2--pr-3) below) only walks **HIGH** fields with `Names = Y`.
+The drift scanner (see [Scanner](#scanner) below) only walks **HIGH** fields with `Names = Y`.
 
 ---
 
@@ -76,9 +76,9 @@ Multi-paragraph season narrative. Names appear frequently ("Vlad's surface line"
 
 | Path | Author | Renders | Drift | Names | HTML | Cadence |
 |---|---|---|---|---|---|---|
-| `pitches[name]` | human | Stat School → Pitch Types → "Team note" row | LOW | Y | N | per-author-commit |
+| `pitches[name]` | human | Stat School → Pitch Types → "Team note" row | HIGH | Y | N | per-author-commit |
 
-Keyed by pitch type name (`"Splitter"`, `"Curveball"`, etc.). Pitch types don't change. The text inside may mention players ("Gausman's calling card") — those mentions can go stale if the pitcher leaves, but the cadence of pitcher turnover is low enough that LOW is the right class.
+Keyed by pitch type name (`"Splitter"`, `"Curveball"`, etc.). The pitch-type keys themselves are stable, but the text inside often mentions specific pitchers ("Gausman's calling card", "Berríos's signature pitch") — and those references go stale when the pitcher leaves. Bumped from LOW to HIGH in the PR that introduced the scanner after a real Bassitt reference was found stale in this field.
 
 ### `injuries[id].*`
 
@@ -150,9 +150,9 @@ If MLB introduces a new pitch type (e.g., the "sweeper" classification rolled ou
 
 ---
 
-## Scanner (PR 2 + PR 3)
+## Scanner
 
-The drift scanner (`tools/scan_notes_drift.py`, shipping in PR 2 of the drift-registry sequence) walks the rows in this registry where `Drift = HIGH` and `Names = Y`:
+The drift scanner (`tools/scan_notes_drift.py`) walks the rows in this registry where `Drift = HIGH` and `Names = Y`:
 
 - `players[id].recentNote`
 - `players[id].read`
@@ -164,8 +164,9 @@ The drift scanner (`tools/scan_notes_drift.py`, shipping in PR 2 of the drift-re
 - `team.softspots[]`
 - `injuries[id].detail`
 - `injuries[id].eta`
+- `pitches[name]`
 
-For each scanned field, the scanner builds a name dictionary from the current `data.json.roster.{hitters,pitchers}[].name + injuries[].name`, then tokenizes the field's text (stripping HTML first if `HTML = Y`) and flags capitalized-word tokens that look like player names but aren't in the dictionary.
+The exact path list lives in [`tools/notes_drift_paths.json`](../tools/notes_drift_paths.json) — keep that file in sync with the registry rows above. For each scanned field, the scanner builds a name dictionary from the current `data.json.roster.{hitters,pitchers}[].name + injuries[].name`, then tokenizes the field's text (stripping HTML first if `HTML = Y`) and flags capitalized-word tokens that look like player names but aren't in the dictionary.
 
 ### Tuning controls
 

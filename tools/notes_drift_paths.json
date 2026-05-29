@@ -1,0 +1,16 @@
+{
+  "_comment": "Mirror of HIGH-drift, name-mentioning rows in docs/free-text-fields.md. Hand-maintained from the registry. The scanner walks each path and flags name-like tokens that aren't in data.json's current roster + IL. Path syntax: 'key' = descend; 'key[]' = array of strings; 'key{}' = object with arbitrary keys.",
+  "paths": [
+    {"path": "overview.headline",            "html": false},
+    {"path": "overview.paragraphs[]",        "html": true},
+    {"path": "team.ctx{}",                   "html": false},
+    {"path": "team.strengths[]",             "html": true},
+    {"path": "team.softspots[]",             "html": true},
+    {"path": "players{}.recentNote",         "html": true},
+    {"path": "players{}.read",               "html": true},
+    {"path": "players{}.contextNotes{}",     "html": false},
+    {"path": "injuries{}.detail",            "html": false},
+    {"path": "injuries{}.eta",               "html": false},
+    {"path": "pitches{}",                    "html": false}
+  ]
+}
