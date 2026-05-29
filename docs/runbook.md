@@ -218,6 +218,46 @@ If running locally (`scripts/update_and_push.sh`), the same network restriction 
 
 ---
 
+### `test_notes_drift.py` failed: notes.json mentions a name not on current roster + IL
+
+**Symptom.** CI on a PR (or a local `pytest` run) fails on `tests/test_notes_drift.py::test_integration_real_files_scan_clean` with output like:
+
+```
+WARN notes.team.strengths[0]: "Bichette is walking at a career-high rate"
+  unknown token: Bichette
+  reason: not_in_roster_or_il
+  see: docs/free-text-fields.md
+```
+
+**Diagnosis.** The notes-drift scanner (`tools/scan_notes_drift.py`) found a capitalized name-like token in a HIGH-drift field that doesn't match any current roster + IL name and isn't in the per-fork whitelist. Three possibilities:
+
+1. **Real drift.** The named player left the roster (trade, DFA, release, retirement, off the IL onto another team's IL). The note in `notes.json` is stale. Same class as the Bo / Berríos / Bassitt findings from #88 and the registry-scanner introduction.
+2. **Nickname or alias not in the dictionary.** E.g., `Vlad` for `Vladimir Guerrero Jr.`, `JT` for `Jonathan T. Realmuto`. The scanner builds its dictionary from whitespace-split `roster.*[].name` values, so it doesn't know nicknames.
+3. **Common word the scanner doesn't yet have stopworded.** E.g., a baseball noun like "Strikeouts" at the start of a new sentence. Universal across forks → should go in `STOPWORDS` in the scanner.
+
+**Fix, by cause:**
+
+| Cause | Action |
+|---|---|
+| Real drift | Edit `notes.json` — rewrite the affected field to reflect current reality, then re-run `python3 tools/scan_notes_drift.py` to confirm clean. |
+| Nickname / alias | Add the token to `.notes-scan-allow.json`. Example: `{"tokens": ["Vlad", "Schneider"]}`. Per-fork; forkers maintain their own list. |
+| Intentional historical reference (rare) | Add `<!-- noscan -->` as a trailing HTML comment in the affected field. Scanner skips any field containing the marker. Use sparingly — it suppresses all checking on that field. |
+| Common word / new stopword | Add to `STOPWORDS` in `tools/scan_notes_drift.py` and open a PR. Stopwords are universal; per-fork additions go in the allow file. |
+
+**Local debugging.**
+
+```bash
+python3 tools/scan_notes_drift.py             # exit 1 if findings exist
+python3 tools/scan_notes_drift.py --json      # structured output for tooling
+python3 tools/scan_notes_drift.py --warn-only # exit 0 always
+```
+
+The scanner inputs are configurable: `--notes`, `--data`, `--paths`, `--allow`. Useful when triaging a fixture or pre-deployment branch.
+
+**Reference.** PR #89 shipped the registry; the scanner shipped in the follow-up PR. See [`docs/free-text-fields.md`](free-text-fields.md) for the per-field drift class and the full list of paths the scanner walks.
+
+---
+
 ## Hypothetical failures (haven't seen, but watch for)
 
 These haven't happened to us yet but are reasonable to plan for.

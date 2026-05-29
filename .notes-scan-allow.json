@@ -1,0 +1,8 @@
+{
+  "_comment": "Per-fork whitelist of capitalized tokens the drift scanner should ignore. Add tokens here for: nicknames not present in roster names (e.g., 'Vlad' for 'Vladimir Guerrero Jr.'), manager and GM surnames, coach names, broadcaster names — anyone who shows up in notes.json text but isn't on the active roster. Scanner: tools/scan_notes_drift.py. Registry: docs/free-text-fields.md.",
+  "tokens": [
+    "Vlad",
+    "Schneider",
+    "Atkins"
+  ]
+}
