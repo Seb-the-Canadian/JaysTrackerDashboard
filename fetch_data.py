@@ -12,11 +12,15 @@ or any invariant failure; the wrapper script reads the exit code and only commit
 when this script succeeds.
 """
 
+import csv
+import io
 import json
 import os
 import re
 import sys
 import time
+import urllib.error
+import urllib.request
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -658,6 +662,125 @@ def is_pitcher(entry):
     return pos.get("abbreviation") in ("P", "SP", "RP", "CL") or pos.get("type") == "Pitcher"
 
 
+# --- Statcast via Baseball Savant CSV (#29 Phase B) -------------------------
+#
+# Stdlib only. urllib.request fetches the leaderboard CSV; csv.DictReader
+# parses. All failures are warnings — the caller falls back to placeholders.
+# See PR #84 for the network-reachability probe that gates this section.
+
+SAVANT_BASE = "https://baseballsavant.mlb.com/leaderboard"
+SAVANT_USER_AGENT = (
+    "JaysTrackerDashboard/1.0 "
+    "(+https://github.com/Seb-the-Canadian/JaysTrackerDashboard) "
+    "Python/urllib"
+)
+SAVANT_TIMEOUT_S = 30
+
+
+def fetch_savant_team_csv(slug, params):
+    """Generic Savant leaderboard CSV fetcher. Returns list of dict rows
+    (one per player or team), empty list on any failure.
+
+    `slug` is the leaderboard path component (e.g., `exit_velocity_barrels`,
+    `outs_above_average`). `params` is a dict of query-string params merged
+    with `csv=true`. Sets our project User-Agent so MLB has an identifiable
+    string in their access logs.
+    """
+    query = dict(params or {})
+    query["csv"] = "true"
+    qs = "&".join(f"{k}={v}" for k, v in query.items())
+    url = f"{SAVANT_BASE}/{slug}?{qs}"
+    req = urllib.request.Request(url, headers={"User-Agent": SAVANT_USER_AGENT})
+    try:
+        with urllib.request.urlopen(req, timeout=SAVANT_TIMEOUT_S) as resp:
+            body = resp.read().decode("utf-8", errors="replace")
+    except (urllib.error.HTTPError, urllib.error.URLError) as e:
+        log(f"warning: savant {slug} fetch failed: {e}")
+        return []
+    except Exception as e:
+        log(f"warning: savant {slug} unexpected error: {e}")
+        return []
+    try:
+        rows = list(csv.DictReader(io.StringIO(body)))
+    except csv.Error as e:
+        log(f"warning: savant {slug} CSV parse failed: {e}")
+        return []
+    return rows
+
+
+# Defensive column-name lookup — Savant has rotated leaderboard column names
+# across seasons (`brl_percent` vs `barrels_per_pa_percent`, etc.). Try a
+# small list of known aliases and use the first one that has a value.
+_BARREL_COL_ALIASES = (
+    "barrels_per_pa_percent", "barrels_per_pa", "brl_percent",
+    "barrels_per_bbe_percent",
+)
+_HARDHIT_COL_ALIASES = (
+    "ev95percent", "ev95_percent", "hardhit_percent", "hard_hit_percent",
+)
+
+
+def _first_present(row, aliases):
+    """Return the value of the first non-empty key from aliases, or ''."""
+    for key in aliases:
+        val = (row.get(key) or "").strip()
+        if val:
+            return val
+    return ""
+
+
+def _fmt_pct(raw):
+    """Normalize a Savant percentage value to '12.3%' display form.
+
+    Savant returns these as bare numbers ("12.3"). Empty/invalid → '---'.
+    """
+    if not raw:
+        return "---"
+    try:
+        return f"{float(raw):.1f}%"
+    except (TypeError, ValueError):
+        return "---"
+
+
+def fetch_savant_barrels(team_abbrev, season):
+    """Return {player_id: {barrel_pct, hardhit_pct}} for the team's hitters.
+
+    Pulls the exit_velocity_barrels leaderboard filtered to one team. Both
+    metrics are pre-formatted as display strings (e.g., '12.3%'); '---'
+    fallback when the player is sub-threshold or the column is missing.
+
+    Returns {} on any fetch failure — the caller writes '---' placeholders.
+    """
+    rows = fetch_savant_team_csv("statcast", {
+        "year": season,
+        "team": team_abbrev,
+        "type": "batter",
+        "min": "q",
+    })
+    # The statcast endpoint also accepts a slug-style URL; try the
+    # dedicated exit-velocity slug if the generic endpoint returned empty.
+    if not rows:
+        rows = fetch_savant_team_csv("exit_velocity_barrels", {
+            "year": season,
+            "team": team_abbrev,
+        })
+    out = {}
+    for row in rows:
+        pid_raw = row.get("player_id") or row.get("xMLBAMID") or ""
+        try:
+            pid = int(pid_raw)
+        except (TypeError, ValueError):
+            continue
+        out[pid] = {
+            "barrel_pct": _fmt_pct(_first_present(row, _BARREL_COL_ALIASES)),
+            "hardhit_pct": _fmt_pct(_first_present(row, _HARDHIT_COL_ALIASES)),
+        }
+    return out
+
+
+
+
+
 def _parse_iso_date(s):
     """Parse 'YYYY-MM-DD' or full ISO into a date; return None on failure."""
     if not s:
@@ -875,6 +998,14 @@ def derive_recent_form(person_id, group, season, season_rate_str, stat_signature
 
 def transform_roster(roster_entries, cfg):
     hitters, pitchers = [], []
+    # Fetch Savant Barrel% / Hard-Hit% for the whole team once before the
+    # loop; per-hitter lookup is a dict access. Empty {} on failure → all
+    # hitters get '---' placeholders, fetcher continues. (#29 PR 3)
+    # Gated on config.statcast_enabled (default True). Forks that don't
+    # want any Savant network traffic can set false.
+    barrels_map = {}
+    if cfg.get("statcast_enabled", True):
+        barrels_map = fetch_savant_barrels(cfg.get("team_abbrev", ""), cfg["season"])
     for entry in roster_entries:
         person = entry.get("person", {})
         pid = person.get("id")
@@ -926,6 +1057,10 @@ def transform_roster(roster_entries, cfg):
             if int(stat.get("atBats") or 0) > 0:
                 xstat = fetch_player_xstats(pid, cfg["season"])
                 xwoba = xstat.get("xWoba") or xstat.get("xwoba") or ".---"
+            # Barrel% / Hard-Hit% from Savant leaderboard (#29 PR 3).
+            # Sub-threshold-PA hitters won't appear in the leaderboard;
+            # fall back to '---' placeholders.
+            savant = barrels_map.get(pid, {})
             hitters.append({
                 "id": pid,
                 "name": name,
@@ -936,6 +1071,8 @@ def transform_roster(roster_entries, cfg):
                 "slg": stat.get("slg", ".---"),
                 "ops": stat.get("ops", ".---"),
                 "xwoba": xwoba,
+                "barrel_pct": savant.get("barrel_pct", "---"),
+                "hardhit_pct": savant.get("hardhit_pct", "---"),
                 "hr": stat.get("homeRuns", 0),
                 "rbi": stat.get("rbi", 0),
                 "sb": stat.get("stolenBases", 0),
@@ -1503,13 +1640,14 @@ def assert_invariants(output, cfg):
             rank = entry.get("rank")
             if not isinstance(rank, int) or rank < 1 or rank > 30:
                 die(f"team_stats.{group}.{key}.rank={rank!r} is not an int in [1, 30]")
-    # Every hitter must have an xwoba field as a string (#29 Phase A).
-    # ".---" placeholder is acceptable; anything else means the merge
-    # downstream of fetch_player_xstats dropped the key entirely.
+    # Every hitter must have xwoba (PR 83), barrel_pct, hardhit_pct as
+    # strings (#29 Phases A + B). Placeholder values ('.---', '---') are
+    # acceptable; anything else means a merge downstream dropped the key.
     roster = output.get("roster") or {}
     for h in roster.get("hitters", []):
-        if not isinstance(h.get("xwoba"), str):
-            die(f"roster.hitters[{h.get('id')!r}].xwoba is not a str ({h.get('xwoba')!r})")
+        for field in ("xwoba", "barrel_pct", "hardhit_pct"):
+            if not isinstance(h.get(field), str):
+                die(f"roster.hitters[{h.get('id')!r}].{field} is not a str ({h.get(field)!r})")
 
 
 # --- Write ------------------------------------------------------------------

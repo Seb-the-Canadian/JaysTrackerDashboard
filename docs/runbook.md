@@ -129,6 +129,19 @@ If `gs` is `MISSING` for every pitcher, the fetcher isn't populating it. Pre-PR 
 
 ---
 
+### Hitter cards show `---` for Barrel% and Hard-Hit%
+
+**Symptom.** Player modal renders `barrel_pct: ---` / `hardhit_pct: ---` for every hitter (or all but one). Field is present, but the value is the dash placeholder.
+
+**Diagnosis.** Two real causes:
+
+1. **Savant fetch failed.** The workflow log will show a `warning: savant {slug} fetch failed: ...` line — typically HTTPError 403 (Cloudflare bot gate) or `URLError: timed out`. The fetcher returns `{}`, all hitters get the dash. Quick check: dispatch the Probe Baseball Savant access workflow (Actions tab) and inspect its verdict.
+2. **Sub-threshold-PA player.** Savant's leaderboards are qualified-only by default. A hitter with ~40 PAs won't appear in the CSV — they correctly get `---`. Expected for bench bats and early-season callups.
+
+**Fix.** If cause 1: re-run the probe; if still 403, file an issue and consider rotating the `SAVANT_USER_AGENT` constant in `fetch_data.py` to a browser-style string. If cause 2: no action — placeholder is by design.
+
+**Reference:** issue #29 (Phase B); see also the Probe Baseball Savant section below.
+
 ### News panel is missing items from one or more feeds
 
 **Symptom.** `data.news[]` is dominated by a single source (typically Google News); other configured feeds contribute 0 items.
