@@ -218,6 +218,35 @@ If running locally (`scripts/update_and_push.sh`), the same network restriction 
 
 ---
 
+### Pytest suite failed in CI on a pull request
+
+**Symptom.** The "Tests" GitHub Actions check (`.github/workflows/tests.yml`) is red on a PR. The PR page shows a failing pytest step; clicking through lands on the failing test name + assertion diff.
+
+**Diagnosis.** The full suite runs on every PR open / push to `main`. There are three common shapes of failure:
+
+1. **Real regression.** A code change broke something the tests assert about. Read the failing test's docstring and assertion — the test was written to lock in some behavior, and the new code violated it.
+2. **Test depends on stale fixture.** Hand-edited fixtures in `tests/conftest.py` (or inline dicts) drifted away from the real MLB Stats API response shape. Less common — most tests use minimal-shape fixtures that don't track API evolution.
+3. **Coverage gate dropped below 70%.** The `pytest --cov=fetch_data` invocation enforces ≥70%. Removing tested code without removing the corresponding test, or adding a large new untested function, can trip this. The failure message reads `Required test coverage of 70% not reached`.
+
+**Fix.**
+
+- For cause 1: fix the code, or update the test if the behavior change is intentional (and document why in the test or commit message).
+- For cause 2: update the fixture to match current shape, ideally by capturing a real response with a quick `curl` against the documented endpoint.
+- For cause 3: add tests covering the new code, or — if the new code is genuinely hard to test (network, time, randomness) — extract the testable core and leave the I/O shell uncovered.
+
+**Local reproduction.**
+
+```bash
+python3 -m pytest                       # full suite, ~2-3 seconds
+python3 -m pytest tests/test_foo.py -v  # one file with names
+python3 -m pytest -x -k "injury"        # stop at first failure, name filter
+python3 -m pytest --cov=fetch_data --cov-report=term-missing  # coverage gaps
+```
+
+The CI workflow installs from `requirements-dev.txt`; locally you'll want the same. See the "Running tests" section of the README for the dev-env setup.
+
+---
+
 ### Notes-drift scanner flagged a stale name (PR-time test or daily-refresh log)
 
 **Symptom A — PR time.** CI on a PR (or a local `pytest` run) fails on `tests/test_notes_drift.py::test_integration_real_files_scan_clean` with output like:

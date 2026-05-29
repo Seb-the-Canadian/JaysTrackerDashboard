@@ -193,6 +193,26 @@ The dashboard is a chassis. The voice is yours; the data is canonical; the maint
 
 ---
 
+## Running tests
+
+The fetcher (`fetch_data.py`) is covered by a pytest suite in `tests/`. CI runs it on every PR and push to `main` via [`.github/workflows/tests.yml`](.github/workflows/tests.yml); coverage on `fetch_data.py` is gated at 70%.
+
+To run locally:
+
+```bash
+python3 -m pip install -r requirements-dev.txt
+python3 -m pytest                                       # full suite (~2-3s)
+python3 -m pytest tests/test_fetchers.py -v             # one file, verbose
+python3 -m pytest -k injury                             # name filter
+python3 -m pytest --cov=fetch_data --cov-report=term    # coverage report
+```
+
+Test layout follows the modules of `fetch_data.py`: `test_transforms.py` for the pure transforms, `test_fetchers.py` for the API-wrapping fetchers, `test_cache.py` for the gameLog cache, `test_news.py` for the RSS pipeline, `test_invariants.py` for `assert_invariants`, and so on. Fixtures are inline dicts in each test module; shared helpers (a minimal `cfg`, a `load_fixture` JSON loader) live in `tests/conftest.py`.
+
+For test-failure triage, see [`docs/runbook.md`](docs/runbook.md) → "Pytest suite failed in CI on a pull request".
+
+---
+
 ## Repo layout
 
 ```
