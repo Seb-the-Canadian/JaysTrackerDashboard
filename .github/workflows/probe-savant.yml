@@ -1,0 +1,29 @@
+name: Probe Baseball Savant access
+
+# Manual-only probe to confirm whether baseballsavant.mlb.com is reachable
+# from the GitHub Actions runner with a basic non-browser User-Agent.
+# Gates PRs 3 + 4 of the #29 Statcast plan; see tools/check_savant_access.py
+# for the probe details and docs/runbook.md for verdict interpretation.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: '3.11'
+
+      - name: Run probe
+        run: python tools/check_savant_access.py
