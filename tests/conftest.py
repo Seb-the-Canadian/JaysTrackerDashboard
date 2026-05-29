@@ -51,3 +51,11 @@ def reset_gamelog_cache():
     yield
     fetch_data._GAMELOG_CACHE = None
     fetch_data._GAMELOG_CACHE_DIRTY = False
+
+
+@pytest.fixture(autouse=True)
+def mock_player_xstats(mocker):
+    """Default fetch_player_xstats to return {} so transform_roster tests
+    don't silently hit the real statsapi (which would 403 from the sandbox).
+    Tests that exercise xstats behavior override this mock."""
+    return mocker.patch("fetch_data.fetch_player_xstats", return_value={})

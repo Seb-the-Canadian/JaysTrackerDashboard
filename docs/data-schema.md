@@ -472,6 +472,7 @@ The active 26-man roster split into hitters and pitchers, each row carrying seas
 | `obp` | `str` | On-base percentage. |
 | `slg` | `str` | Slugging. |
 | `ops` | `str` | On-base + slugging. |
+| `xwoba` | `str` | Expected wOBA from MLB Stats API's `expectedStatistics` hydrate (PR #29 Phase A). Pre-formatted `".XXX"`; `".---"` when missing (pre-Opening-Day, sub-threshold ABs, or API miss). |
 | `hr` | `int` | Home runs. |
 | `rbi` | `int` | Runs batted in. |
 | `sb` | `int` | Stolen bases. |

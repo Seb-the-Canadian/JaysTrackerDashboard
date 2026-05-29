@@ -124,9 +124,10 @@ def test_transform_roster_entry_missing_person_id_is_skipped(cfg, mocker):
 
 # --- hitter row shape -----------------------------------------------------
 
-def test_transform_roster_hitter_row_has_all_fields(cfg, mocker):
+def test_transform_roster_hitter_row_has_all_fields(cfg, mocker, mock_player_xstats):
     mocker.patch("fetch_data.fetch_player_season_stats", return_value=_hitter_stats())
     mocker.patch("fetch_data.derive_recent_form", return_value="hot")
+    mock_player_xstats.return_value = {"xWoba": ".385"}
     result = fetch_data.transform_roster(
         [_hitter_entry(665489, "Vladimir Guerrero Jr.", pos="1B")], cfg)
     h = result["hitters"][0]
@@ -135,10 +136,30 @@ def test_transform_roster_hitter_row_has_all_fields(cfg, mocker):
     assert h["pos"] == "1B"
     assert h["ab"] == 100
     assert h["ops"] == ".750"
+    assert h["xwoba"] == ".385"
     assert h["hr"] == 5
     assert h["rbi"] == 25
     assert h["sb"] == 3
     assert h["recent"] == "hot"
+
+
+def test_transform_roster_hitter_xwoba_dash_when_xstats_empty(cfg, mocker):
+    """Empty xstats (network fail, pre-Opening-Day) → '.---' placeholder."""
+    mocker.patch("fetch_data.fetch_player_season_stats", return_value=_hitter_stats())
+    mocker.patch("fetch_data.derive_recent_form", return_value=None)
+    # Autouse mock_player_xstats already returns {}
+    result = fetch_data.transform_roster([_hitter_entry(1, "Test")], cfg)
+    assert result["hitters"][0]["xwoba"] == ".---"
+
+
+def test_transform_roster_hitter_xstats_skipped_for_zero_at_bats(cfg, mocker, mock_player_xstats):
+    """No ABs → don't even call fetch_player_xstats; ship '.---'."""
+    mocker.patch("fetch_data.fetch_player_season_stats",
+                 return_value={**_hitter_stats(), "atBats": 0})
+    mocker.patch("fetch_data.derive_recent_form", return_value=None)
+    result = fetch_data.transform_roster([_hitter_entry(1, "BenchWarmer")], cfg)
+    assert result["hitters"][0]["xwoba"] == ".---"
+    mock_player_xstats.assert_not_called()
 
 
 def test_transform_roster_hitter_missing_stats_uses_dash_defaults(cfg, mocker):
