@@ -179,7 +179,7 @@ Each feed entry: `url` is the source, `source` is the display label, optional `k
 
 ## What this dashboard is not
 
-- It's not Statcast — no xwOBA, no barrel rate, no exit velocity, no sprint speed. Those live at Baseball Savant; deferred to v1.x (issue #29).
+- It's not full Statcast — xwOBA on hitters is included (via MLB Stats API's expectedStatistics), and Barrel%/Hard-Hit%/team OAA are in flight via Baseball Savant (issue #29). Exit velocity per batted ball, sprint speed, route efficiency, and other granular Statcast measures live at Baseball Savant; not in scope.
 - It's not FanGraphs — no fWAR. There's no public WAR API.
 - It's not real-time. The data is refreshed once a day; a game in progress won't appear here until tomorrow morning. The "Voices around" RSS panel refreshes with each daily run, so headlines may be more current than the stats.
 - It's not an AI commentator. The dashboard does not interpret what writers said in the "Voices around" panel — it surfaces their headlines + bylines + links, reader clicks for the full take. An opt-in LLM-summarize layer is filed as #53; off by default.

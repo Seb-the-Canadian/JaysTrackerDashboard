@@ -614,6 +614,45 @@ def fetch_player_season_stats(person_id, group, season):
     return {}
 
 
+def fetch_player_xstats(person_id, season):
+    """Return the expectedStatistics dict for a hitter, or {}.
+
+    MLB Stats API surfaces xBA / xSLG / xwOBA via type=expectedStatistics on
+    the same /people endpoint family we already use. Going through
+    statsapi.player_stat_data would raise — its strict guard rejects
+    `season=YYYY` with `type != season`. We use the raw `statsapi.get("person",
+    ...)` path with a hydrate, the same workaround as `_fetch_game_log`
+    (PR #63 history).
+
+    Returns {} for any failure (network, missing endpoint, no expectedStats
+    surfaced for the player yet) so the caller can apply a "---" placeholder.
+    Never raises; never `die()`s — Statcast is value-add, not foundational.
+    """
+    try:
+        response = statsapi.get("person", {
+            "personId": person_id,
+            "hydrate": (
+                f"stats(group=hitting,type=expectedStatistics,"
+                f"season={season},sportId={MLB_SPORT_ID})"
+            ),
+        })
+    except Exception as e:
+        log(f"warning: xstats fetch for {person_id} failed: {e}")
+        return {}
+    people = response.get("people") or []
+    if not people:
+        return {}
+    for entry in people[0].get("stats", []):
+        type_match = entry.get("type", {}).get("displayName") == "expectedStatistics"
+        group_match = entry.get("group", {}).get("displayName") == "hitting"
+        if type_match and group_match:
+            splits = entry.get("splits") or []
+            if splits:
+                return splits[0].get("stat") or {}
+            return {}
+    return {}
+
+
 def is_pitcher(entry):
     pos = entry.get("position", {})
     return pos.get("abbreviation") in ("P", "SP", "RP", "CL") or pos.get("type") == "Pitcher"
@@ -879,6 +918,14 @@ def transform_roster(roster_entries, cfg):
                     recent = derive_recent_form(pid, "hitting", cfg["season"], stat.get("ops"), stat_signature=sig)
                 except Exception as e:
                     log(f"warning: derive_recent_form for hitter {pid} failed: {e}")
+            # Statcast xwOBA via MLB Stats API expectedStatistics hydrate (#29
+            # Phase A). Skip the call for players with no ABs — they have no
+            # xstat surface yet and we'd just get an empty dict. Failures are
+            # warnings; the ".---" placeholder ships in their place.
+            xwoba = ".---"
+            if int(stat.get("atBats") or 0) > 0:
+                xstat = fetch_player_xstats(pid, cfg["season"])
+                xwoba = xstat.get("xWoba") or xstat.get("xwoba") or ".---"
             hitters.append({
                 "id": pid,
                 "name": name,
@@ -888,6 +935,7 @@ def transform_roster(roster_entries, cfg):
                 "obp": stat.get("obp", ".---"),
                 "slg": stat.get("slg", ".---"),
                 "ops": stat.get("ops", ".---"),
+                "xwoba": xwoba,
                 "hr": stat.get("homeRuns", 0),
                 "rbi": stat.get("rbi", 0),
                 "sb": stat.get("stolenBases", 0),
@@ -1455,6 +1503,13 @@ def assert_invariants(output, cfg):
             rank = entry.get("rank")
             if not isinstance(rank, int) or rank < 1 or rank > 30:
                 die(f"team_stats.{group}.{key}.rank={rank!r} is not an int in [1, 30]")
+    # Every hitter must have an xwoba field as a string (#29 Phase A).
+    # ".---" placeholder is acceptable; anything else means the merge
+    # downstream of fetch_player_xstats dropped the key entirely.
+    roster = output.get("roster") or {}
+    for h in roster.get("hitters", []):
+        if not isinstance(h.get("xwoba"), str):
+            die(f"roster.hitters[{h.get('id')!r}].xwoba is not a str ({h.get('xwoba')!r})")
 
 
 # --- Write ------------------------------------------------------------------
