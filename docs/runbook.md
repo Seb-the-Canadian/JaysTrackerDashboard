@@ -233,3 +233,25 @@ Add a new failure mode here when you see one. Use the same shape: **Symptom**, *
 Move a "Hypothetical" entry to "Real" if it happens. Tighten the diagnosis with what actually worked vs what didn't.
 
 The point of this doc is that the next person debugging a broken refresh doesn't have to re-discover what we already learned.
+
+---
+
+## Probe workflows
+
+### Baseball Savant reachability (Statcast plan, #29)
+
+**When to run.** Before merging PRs 3 / 4 of the Statcast plan, dispatch the `Probe Baseball Savant access` workflow from the Actions tab. The probe hits three Savant leaderboard CSV URLs from the GH Actions runner with our project User-Agent and prints diagnostics — HTTP status, byte count, parsed row count, first-row column names.
+
+**Interpreting the verdict.**
+
+| Output line | Meaning | Next step |
+|---|---|---|
+| `VERDICT: green — proceed with PRs 3 + 4` | All three probes returned `200` with non-empty CSV bodies | Merge PR 3 (Barrel%, Hard-Hit%); then PR 4 (OAA) |
+| `Status: 403` on any probe | Cloudflare or Savant-side bot gate | Try a browser-style User-Agent (re-run with `--ua "Mozilla/5.0 ..."` or edit `tools/check_savant_access.py`); if 403 persists across 2-3 variants, file a follow-up issue and stop at Phase A (xwOBA only) |
+| `Status: 429` or rate-limit error | Volume-based throttling | Wait 10+ min, re-run with a single probe slug |
+| `URLError: timed out` | Network reachability fail | Re-run once; if persistent, baseballsavant.mlb.com may be transiently unreachable from GH Actions egress |
+| `Row count: 0` with `Status: 200` | Probe URL was accepted but returned an empty CSV (could mean wrong slug or off-season) | Inspect the `Body bytes` count; if non-zero, the CSV has headers but no rows (likely pre-Opening-Day); re-run after the season is in progress |
+| `CSV parse error` | Body returned but not a CSV (likely an HTML error page) | Compare returned body to expected CSV format; Savant may have rotated their CSV endpoint |
+
+The probe always exits `0` regardless of result — we want the workflow to complete and surface the diagnostic, not fail the run on a probe miss.
+
