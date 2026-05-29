@@ -322,6 +322,63 @@ def test_fetch_game_log_successful_fetch_writes_to_cache(mocker, tmp_path):
     assert fetch_data._GAMELOG_CACHE_DIRTY is True
 
 
+# --- _prune_gamelog_cache ------------------------------------------------
+
+def test_prune_gamelog_cache_drops_departed_players(tmp_path, mocker, capsys):
+    """Cache entries for players not in active_keys must be removed."""
+    cache_path = tmp_path / "cache.json"
+    cache_path.write_text(json.dumps({
+        "players": {
+            "100_hitting_2026": {"signature": "x", "splits": [], "fetched_at": "now"},
+            "200_pitching_2026": {"signature": "y", "splits": [], "fetched_at": "now"},
+            "999_hitting_2026": {"signature": "z", "splits": [], "fetched_at": "now"},
+        },
+    }))
+    mocker.patch.object(fetch_data, "GAMELOG_CACHE_PATH", cache_path)
+    active = {"100_hitting_2026", "200_pitching_2026"}
+    fetch_data._prune_gamelog_cache(active)
+    remaining = fetch_data._GAMELOG_CACHE["players"]
+    assert set(remaining.keys()) == active
+    assert fetch_data._GAMELOG_CACHE_DIRTY is True
+    assert "pruned 1 departed-player entries" in capsys.readouterr().err
+
+
+def test_prune_gamelog_cache_no_op_when_all_active(tmp_path, mocker):
+    """No entries dropped → cache stays clean (dirty flag NOT set)."""
+    cache_path = tmp_path / "cache.json"
+    cache_path.write_text(json.dumps({
+        "players": {
+            "100_hitting_2026": {"signature": "x", "splits": [], "fetched_at": "now"},
+        },
+    }))
+    mocker.patch.object(fetch_data, "GAMELOG_CACHE_PATH", cache_path)
+    fetch_data._prune_gamelog_cache({"100_hitting_2026"})
+    assert fetch_data._GAMELOG_CACHE_DIRTY is False  # not marked dirty
+    assert "100_hitting_2026" in fetch_data._GAMELOG_CACHE["players"]
+
+
+def test_prune_gamelog_cache_empty_cache_safe(tmp_path, mocker):
+    """Empty cache + any active set → no-op, no error."""
+    mocker.patch.object(fetch_data, "GAMELOG_CACHE_PATH", tmp_path / "missing.json")
+    fetch_data._prune_gamelog_cache({"any_key_2026"})
+    assert fetch_data._GAMELOG_CACHE_DIRTY is False
+
+
+def test_prune_gamelog_cache_drops_all_when_active_is_empty(tmp_path, mocker, capsys):
+    """If no active players, everything in the cache is cruft. Drop it all."""
+    cache_path = tmp_path / "cache.json"
+    cache_path.write_text(json.dumps({
+        "players": {
+            "100_hitting_2026": {"signature": "x", "splits": [], "fetched_at": "now"},
+            "200_pitching_2026": {"signature": "y", "splits": [], "fetched_at": "now"},
+        },
+    }))
+    mocker.patch.object(fetch_data, "GAMELOG_CACHE_PATH", cache_path)
+    fetch_data._prune_gamelog_cache(set())
+    assert fetch_data._GAMELOG_CACHE["players"] == {}
+    assert "pruned 2 departed-player entries" in capsys.readouterr().err
+
+
 # --- _split_date ----------------------------------------------------------
 
 @pytest.mark.parametrize(

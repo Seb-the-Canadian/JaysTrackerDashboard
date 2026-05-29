@@ -441,7 +441,15 @@ log(f"INFO: feed {source}: {len(entries)} entries, "
 
 Caught in the debug pass before #58 — `team_stats` and `config` had been added to `data.json` but never added to `EXPECTED_KEYS`.
 
-**Guardrail:** every new top-level key in `data.json` must be added to `EXPECTED_KEYS` in the same PR. A quick post-merge check: `diff <(python3 -c "import json;print('\n'.join(sorted(json.load(open('data.json'))))))" <(grep "EXPECTED_KEYS" index.html | tr "'" '\n' | grep -v "^[][,= ]")` — empty diff means in sync.
+**Guardrail:** every new top-level key in `data.json` must be added to `EXPECTED_KEYS` in the same PR. A quick post-merge sync check:
+
+```bash
+diff \
+  <(python3 -c "import json; print('\n'.join(sorted(json.load(open('data.json')))))") \
+  <(python3 -c "import re; m=re.search(r'EXPECTED_KEYS\s*=\s*\[(.*?)\]', open('index.html').read(), re.S); print('\n'.join(sorted(re.findall(r\"'([^']+)'\", m.group(1)))))")
+```
+
+Empty diff means in sync. (The earlier one-liner here used `grep | tr` which didn't sort and pulled in the `const EXPECTED_KEYS = [` header — fixed in round-2 debug.)
 
 ---
 
