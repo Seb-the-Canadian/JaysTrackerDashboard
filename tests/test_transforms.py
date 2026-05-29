@@ -330,3 +330,71 @@ def test_transform_upcoming_game_status_passthrough_from_detailed_state(cfg):
 def test_transform_upcoming_game_opponent_name_correctly_set(cfg):
     row = fetch_data.transform_upcoming_game(_upcoming(opp_name="Baltimore Orioles"), cfg)
     assert row["opp"] == "Baltimore Orioles"
+
+
+# --- build_upcoming_games (REGRESSION GUARD for #62) ---------------------
+
+def _schedule_response(*games: dict) -> dict:
+    """Wrap raw game dicts in the dates[].games[] structure MLB returns."""
+    return {"dates": [{"games": list(games)}]}
+
+
+def test_build_upcoming_games_includes_scheduled_games(cfg):
+    """Baseline: a Scheduled future-window game appears in the output."""
+    schedule = _schedule_response(
+        _upcoming(date="2026-05-29", detailed="Scheduled"),
+    )
+    result = fetch_data.build_upcoming_games(schedule, cfg)
+    assert len(result) == 1
+    assert result[0]["status"] == "Scheduled"
+
+
+def test_build_upcoming_games_excludes_final_games(cfg):
+    """REGRESSION GUARD for #62: a Final game on the same day as today must
+    be filtered out so it doesn't double-render alongside recent_games."""
+    final_game = {
+        "gamePk": 100,
+        "gameDate": "2026-05-28T19:05:00Z",
+        "teams": {
+            "home": {"team": {"id": 110, "name": "Orioles"}, "score": 3},
+            "away": {"team": {"id": 141, "name": "Toronto Blue Jays"}, "score": 5},
+        },
+        "status": {"abstractGameState": "Final", "detailedState": "Final"},
+    }
+    scheduled = _upcoming(date="2026-05-29", detailed="Scheduled")
+    schedule = _schedule_response(final_game, scheduled)
+    result = fetch_data.build_upcoming_games(schedule, cfg)
+    assert len(result) == 1
+    assert result[0]["game_pk"] == scheduled["gamePk"]  # only the Scheduled one
+
+
+def test_build_upcoming_games_empty_schedule_returns_empty(cfg):
+    assert fetch_data.build_upcoming_games({}, cfg) == []
+    assert fetch_data.build_upcoming_games({"dates": []}, cfg) == []
+
+
+def test_build_upcoming_games_preserves_order(cfg):
+    """Games from the schedule preserve their input order."""
+    schedule = _schedule_response(
+        _upcoming(game_pk=1, date="2026-05-28"),
+        _upcoming(game_pk=2, date="2026-05-29"),
+        _upcoming(game_pk=3, date="2026-05-30"),
+    )
+    result = fetch_data.build_upcoming_games(schedule, cfg)
+    assert [r["game_pk"] for r in result] == [1, 2, 3]
+
+
+def test_build_upcoming_games_live_game_passes_through(cfg):
+    """abstractGameState=Live should NOT be filtered — only Final."""
+    live_game = {
+        "gamePk": 200,
+        "gameDate": "2026-05-28T19:05:00Z",
+        "teams": {
+            "home": {"team": {"id": 110, "name": "Orioles"}},
+            "away": {"team": {"id": 141, "name": "Toronto Blue Jays"}},
+        },
+        "status": {"abstractGameState": "Live", "detailedState": "In Progress"},
+    }
+    result = fetch_data.build_upcoming_games(_schedule_response(live_game), cfg)
+    assert len(result) == 1
+    assert result[0]["status"] == "In Progress"

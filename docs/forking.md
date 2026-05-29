@@ -65,7 +65,7 @@ Replace the Blue Jays values with your team's. The current Jays `config.json` fo
 | `accent_color` | Hex color for chart highlights, hot pills | Pick a complement |
 | `dashboard_title` | Browser tab + header title | Free text |
 | `brand_mark` | Single character displayed in the brand box | Usually first letter of team |
-| `news_recent_days` | RSS recency window in days (default `2`; widen for low-cadence feeds) | Tune to your feeds |
+| `news_recent_days` | RSS recency window in days. Module default is `2`; the Jays repo widens to `7` (per PR #64) to catch low-cadence feeds like Bluebird Banter. Tune per your feeds. | Per-fork choice |
 | `rss_feeds` | Array of RSS sources — see below | Per-fork choice |
 
 For `rss_feeds`, replace with the local-media feeds for your team. Each entry needs `url` and `source`; `keyword_filter` is optional and narrows general-MLB feeds to team-relevant items.

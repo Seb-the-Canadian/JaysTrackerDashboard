@@ -117,6 +117,29 @@ def _save_gamelog_cache():
     tmp.replace(GAMELOG_CACHE_PATH)
 
 
+def _prune_gamelog_cache(active_keys):
+    """Drop cache entries whose key isn't in `active_keys`.
+
+    Players who come off the roster (trades, DFAs, options to AAA) leave
+    cache entries behind; the fetcher never revisits them but the file
+    accumulates over a season. Pruning is safe because the cache is
+    regenerable from the live API on the next miss.
+
+    Called from main() after the roster is built, with the set of
+    `{person_id}_{group}_{season}` keys we expect to be active.
+    """
+    global _GAMELOG_CACHE_DIRTY
+    cache = _load_gamelog_cache()
+    players = cache.get("players", {})
+    departed = [k for k in players if k not in active_keys]
+    if not departed:
+        return
+    for k in departed:
+        del players[k]
+    _GAMELOG_CACHE_DIRTY = True
+    log(f"INFO: gamelog cache pruned {len(departed)} departed-player entries")
+
+
 def _stat_signature(stat_dict, group):
     """Compact string that changes iff the player played a game.
 
@@ -471,6 +494,21 @@ def transform_upcoming_game(game, cfg):
         "probable_pitcher_them": (them.get("probablePitcher") or {}).get("fullName", ""),
         "status": game.get("status", {}).get("detailedState", ""),
     }
+
+
+def build_upcoming_games(schedule_response, cfg):
+    """Filter the future-window schedule and transform what's left.
+
+    Today's game appears in both past_schedule (offsets -30..0) and
+    future_schedule (offsets 0..+7). If it's already Final it lands in
+    recent_games via the past-side pipeline; excluding Final games here
+    prevents double-render. See PR #62 for the bug this guards against.
+    """
+    return [
+        transform_upcoming_game(g, cfg)
+        for g in flatten_games(schedule_response)
+        if (g.get("status") or {}).get("abstractGameState") != "Final"
+    ]
 
 
 # --- Roster + player stats --------------------------------------------------
@@ -1254,16 +1292,19 @@ def main():
     past_games = [transform_recent_game(g, cfg) for g in flatten_games(past_schedule)]
     completed = [g for g in past_games if g.get("result")]
     recent_games = completed[-RECENT_GAME_COUNT:]
-    # Today's game lives in both schedules. If it's Final it's already in
-    # recent_games; exclude it here so it doesn't render twice.
-    upcoming_games = [
-        transform_upcoming_game(g, cfg)
-        for g in flatten_games(future_schedule)
-        if (g.get("status") or {}).get("abstractGameState") != "Final"
-    ]
+    upcoming_games = build_upcoming_games(future_schedule, cfg)
 
     roster_entries = fetch_active_roster(cfg)
     roster = transform_roster(roster_entries, cfg)
+    # Prune cache entries for players no longer on the active roster.
+    # Each player has one cache key per group they recorded stats in;
+    # transform_roster only ever writes to the hitter or pitcher side.
+    active_cache_keys = set()
+    for hitter in roster.get("hitters", []):
+        active_cache_keys.add(f"{hitter['id']}_hitting_{cfg['season']}")
+    for pitcher in roster.get("pitchers", []):
+        active_cache_keys.add(f"{pitcher['id']}_pitching_{cfg['season']}")
+    _prune_gamelog_cache(active_cache_keys)
     team_stat_values = fetch_team_stats(cfg)
     team_stat_ranks = fetch_league_team_rankings(cfg)
     team_stats = combine_team_stats(team_stat_values, team_stat_ranks)

@@ -617,7 +617,7 @@ Recent items from the configured RSS feeds. Pure passthrough — headline + byli
 }
 ```
 
-**Source:** `fetch_news(cfg)` (`fetch_data.py:1114`). Pulls each feed in `config.json.rss_feeds`, parses via `feedparser`, filters by `config.news_recent_days` (default `2`) and optional per-feed `keyword_filter`, sorts and caps.
+**Source:** `fetch_news(cfg)` (`fetch_data.py:1114`). Pulls each feed in `config.json.rss_feeds`, parses via `feedparser`, filters by `config.news_recent_days` (module default `2`; the Jays repo's `config.json` sets `7` to catch low-cadence feeds — see PR #64) and optional per-feed `keyword_filter`, sorts and caps.
 
 **Consumed by:** `renderNewsPanel` (`index.html:696`) — the "Voices around" panel on the Overview tab.
 
