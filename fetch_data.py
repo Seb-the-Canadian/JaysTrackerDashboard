@@ -778,6 +778,47 @@ def fetch_savant_barrels(team_abbrev, season):
     return out
 
 
+_OAA_COL_ALIASES = ("outs_above_average", "oaa", "outs_above")
+_OAA_TEAM_COL_ALIASES = ("team_id", "team", "abbreviation", "team_abbrev")
+
+
+def fetch_savant_oaa(team_abbrev, season):
+    """Return the team's OAA as an int, or None if unavailable.
+
+    Pulls the outs_above_average leaderboard. Savant returns one row per
+    team (when filtered) or a roll-up by team (when not filtered). Defensive
+    against column-name rotation — tries a handful of known aliases for both
+    the OAA value column and the team identifier column.
+    """
+    rows = fetch_savant_team_csv("outs_above_average", {
+        "year": season,
+        "team": team_abbrev,
+    })
+    if not rows:
+        return None
+    # If the URL filter matched a single row, return its OAA. If the CSV is
+    # league-wide, post-filter by the team-abbrev column.
+    if len(rows) == 1:
+        target = rows[0]
+    else:
+        target = None
+        for row in rows:
+            team_col = _first_present(row, _OAA_TEAM_COL_ALIASES)
+            if team_col.upper() == team_abbrev.upper():
+                target = row
+                break
+        if target is None:
+            return None
+    raw = _first_present(target, _OAA_COL_ALIASES)
+    if not raw:
+        return None
+    try:
+        # OAA is usually an integer but can have a decimal (rounded).
+        return int(round(float(raw)))
+    except (TypeError, ValueError):
+        return None
+
+
 
 
 
@@ -1222,11 +1263,16 @@ def fetch_league_team_rankings(cfg):
 def combine_team_stats(values, ranks):
     """Merge {group: {key: val}} + {group: {key: rank}} into the issue-#24 shape.
 
-    Output: {group: {key: {"val": <val>, "rank": <rank>}}}. Lives next to the
-    fetchers so the team_stats output stays in one file.
+    Output: {group: {key: {"val": <val>, "rank": <rank>}}}. Always emits
+    `hitting` and `pitching` groups for backwards compatibility; emits any
+    additional groups (e.g., `defense` for #29) if either input carries them.
+
+    Lives next to the fetchers so the team_stats output stays in one file.
     """
     out = {}
-    for group in ("hitting", "pitching"):
+    base_groups = ("hitting", "pitching")
+    extra_groups = (set(values.keys()) | set(ranks.keys())) - set(base_groups)
+    for group in list(base_groups) + sorted(extra_groups):
         out[group] = {}
         vmap = values.get(group, {}) or {}
         rmap = ranks.get(group, {}) or {}
@@ -1625,6 +1671,19 @@ def assert_invariants(output, cfg):
     ts = output.get("team_stats") or {}
     if not isinstance(ts, dict) or not ts:
         die("team_stats is missing or empty")
+    # team_stats.defense (#29 PR 4) is optional — only fires when Savant
+    # provided OAA. If present, every entry must follow the {val, rank}
+    # shape just like hitting/pitching; rank is None for now (no team
+    # rankings derived from Savant in this PR).
+    defense = ts.get("defense")
+    if defense is not None and not isinstance(defense, dict):
+        die(f"team_stats.defense must be a dict, got {type(defense).__name__}")
+    if defense:
+        for key, entry in defense.items():
+            if not isinstance(entry, dict):
+                die(f"team_stats.defense.{key} is not a dict")
+            if "val" not in entry:
+                die(f"team_stats.defense.{key} missing 'val' key")
     for group in ("hitting", "pitching"):
         gmap = ts.get(group)
         if not isinstance(gmap, dict) or not gmap:
@@ -1691,6 +1750,11 @@ def main():
     _prune_gamelog_cache(active_cache_keys)
     team_stat_values = fetch_team_stats(cfg)
     team_stat_ranks = fetch_league_team_rankings(cfg)
+    # Team OAA from Savant — empty group when disabled or fetch fails (#29 PR 4).
+    if cfg.get("statcast_enabled", True):
+        oaa = fetch_savant_oaa(cfg.get("team_abbrev", ""), cfg["season"])
+        if oaa is not None:
+            team_stat_values["defense"] = {"oaa": oaa}
     team_stats = combine_team_stats(team_stat_values, team_stat_ranks)
     injury_report = fetch_injury_report(cfg)
     injuries = injury_report["injuries"]

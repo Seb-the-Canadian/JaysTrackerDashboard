@@ -196,3 +196,160 @@ def test_first_present_all_empty_returns_empty():
 def test_first_present_strips_whitespace():
     row = {"a": "  value  "}
     assert fetch_data._first_present(row, ("a",)) == "value"
+
+
+# --- fetch_savant_oaa -----------------------------------------------------
+
+_OAA_CSV_SINGLE = b"""team,outs_above_average
+TOR,12
+"""
+
+_OAA_CSV_LEAGUE = b"""team,outs_above_average
+NYY,-3
+TOR,12
+BOS,5
+"""
+
+
+def test_fetch_savant_oaa_returns_int_for_single_row(mocker):
+    mocker.patch("fetch_data.urllib.request.urlopen",
+                 return_value=_urlopen_returning(_OAA_CSV_SINGLE))
+    assert fetch_data.fetch_savant_oaa("TOR", 2026) == 12
+
+
+def test_fetch_savant_oaa_filters_league_wide_csv_by_team(mocker):
+    """If the team= URL filter didn't apply, post-filter by team column."""
+    mocker.patch("fetch_data.urllib.request.urlopen",
+                 return_value=_urlopen_returning(_OAA_CSV_LEAGUE))
+    assert fetch_data.fetch_savant_oaa("TOR", 2026) == 12
+
+
+def test_fetch_savant_oaa_team_not_in_league_csv_returns_none(mocker):
+    mocker.patch("fetch_data.urllib.request.urlopen",
+                 return_value=_urlopen_returning(_OAA_CSV_LEAGUE))
+    assert fetch_data.fetch_savant_oaa("LAD", 2026) is None
+
+
+def test_fetch_savant_oaa_empty_csv_returns_none(mocker):
+    mocker.patch("fetch_data.urllib.request.urlopen",
+                 return_value=_urlopen_returning(b"team,outs_above_average\n"))
+    assert fetch_data.fetch_savant_oaa("TOR", 2026) is None
+
+
+def test_fetch_savant_oaa_fetch_failure_returns_none(mocker, capsys):
+    mocker.patch("fetch_data.urllib.request.urlopen",
+                 side_effect=urllib.error.HTTPError(
+                     "url", 403, "Forbidden", {}, None))
+    assert fetch_data.fetch_savant_oaa("TOR", 2026) is None
+
+
+def test_fetch_savant_oaa_decimal_rounds_to_int(mocker):
+    """Savant sometimes returns rounded decimals (e.g., '11.6'); coerce to int."""
+    body = b"team,outs_above_average\nTOR,11.6\n"
+    mocker.patch("fetch_data.urllib.request.urlopen",
+                 return_value=_urlopen_returning(body))
+    assert fetch_data.fetch_savant_oaa("TOR", 2026) == 12
+
+
+def test_fetch_savant_oaa_negative_value_preserved(mocker):
+    body = b"team,outs_above_average\nTOR,-5\n"
+    mocker.patch("fetch_data.urllib.request.urlopen",
+                 return_value=_urlopen_returning(body))
+    assert fetch_data.fetch_savant_oaa("TOR", 2026) == -5
+
+
+def test_fetch_savant_oaa_unparseable_value_returns_none(mocker):
+    body = b"team,outs_above_average\nTOR,not-a-number\n"
+    mocker.patch("fetch_data.urllib.request.urlopen",
+                 return_value=_urlopen_returning(body))
+    assert fetch_data.fetch_savant_oaa("TOR", 2026) is None
+
+
+def test_fetch_savant_oaa_handles_alternate_column_names(mocker):
+    """Some Savant exports use 'oaa' instead of 'outs_above_average'."""
+    body = b"team,oaa\nTOR,8\n"
+    mocker.patch("fetch_data.urllib.request.urlopen",
+                 return_value=_urlopen_returning(body))
+    assert fetch_data.fetch_savant_oaa("TOR", 2026) == 8
+
+
+# --- combine_team_stats defense extension --------------------------------
+
+def test_combine_team_stats_emits_defense_when_in_values():
+    """defense group emitted in output when present in values."""
+    values = {"hitting": {}, "pitching": {}, "defense": {"oaa": 12}}
+    result = fetch_data.combine_team_stats(values, {})
+    assert "defense" in result
+    assert result["defense"]["oaa"] == {"val": 12, "rank": None}
+
+
+def test_combine_team_stats_no_defense_when_absent():
+    """Backwards compatible: absent defense → not in output."""
+    result = fetch_data.combine_team_stats({"hitting": {"ops": ".750"}}, {})
+    assert "defense" not in result
+
+
+def test_combine_team_stats_defense_value_with_no_rank():
+    """OAA has no team rank from Savant; rank defaults to None."""
+    values = {"defense": {"oaa": 12}}
+    result = fetch_data.combine_team_stats(values, {})
+    assert result["defense"]["oaa"]["rank"] is None
+
+
+# --- assert_invariants defense group --------------------------------------
+
+def _valid_output_with_defense(defense_entries):
+    from datetime import datetime, timezone
+    return {
+        "division": [{"team": f"T{i}", "team_id": i, "w": 10, "l": 10}
+                     for i in range(5)],
+        "wild_card": [{"team": f"WC{i}", "team_id": i, "w": 10, "l": 10}
+                      for i in range(15)],
+        "recent_games": [{"date": "2026-05-27", "result": "W", "score": "5-3"}],
+        "team": {"record": {"w": 27, "l": 29},
+                 "runs_scored": 226, "runs_allowed": 230},
+        "injuries": [], "other_unavailable": [],
+        "team_stats": {
+            "hitting": {"ops": {"val": ".750", "rank": 12}},
+            "pitching": {"era": {"val": "3.45", "rank": 8}},
+            "defense": defense_entries,
+        },
+        "roster": {
+            "hitters": [{"id": 1, "name": "Bo", "xwoba": ".---",
+                          "barrel_pct": "---", "hardhit_pct": "---"}],
+            "pitchers": [],
+        },
+    }
+
+
+def test_assert_invariants_defense_valid_passes(cfg):
+    from freezegun import freeze_time
+    out = _valid_output_with_defense({"oaa": {"val": 12, "rank": None}})
+    with freeze_time("2026-05-28T12:00:00", tz_offset=0):
+        fetch_data.assert_invariants(out, cfg)
+
+
+def test_assert_invariants_defense_missing_val_raises(cfg):
+    from freezegun import freeze_time
+    out = _valid_output_with_defense({"oaa": {"rank": None}})  # no 'val'
+    with freeze_time("2026-05-28T12:00:00", tz_offset=0):
+        with pytest.raises(SystemExit):
+            fetch_data.assert_invariants(out, cfg)
+
+
+def test_assert_invariants_defense_non_dict_entry_raises(cfg):
+    from freezegun import freeze_time
+    out = _valid_output_with_defense({"oaa": "should-be-dict"})
+    with freeze_time("2026-05-28T12:00:00", tz_offset=0):
+        with pytest.raises(SystemExit):
+            fetch_data.assert_invariants(out, cfg)
+
+
+def test_assert_invariants_defense_absent_passes(cfg):
+    """No defense key → existing behavior, no invariant fires."""
+    from freezegun import freeze_time
+    out = _valid_output_with_defense({})  # empty defense
+    # remove the defense key entirely
+    del out["team_stats"]["defense"]
+    with freeze_time("2026-05-28T12:00:00", tz_offset=0):
+        fetch_data.assert_invariants(out, cfg)

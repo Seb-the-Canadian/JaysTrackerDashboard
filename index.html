@@ -1060,6 +1060,9 @@ const TEAM_STAT_LABELS = {
     ['k9',   'K/9'],
     ['bb9',  'BB/9'],
   ],
+  defense: [
+    ['oaa',  'OAA'],
+  ],
 };
 
 function rankPill(rank) {
@@ -1121,6 +1124,15 @@ function renderTeam() {
         teamStatSection('Hitting', ts.hitting || {}, 'hitting', teamCtx) +
         teamStatSection('Pitching', ts.pitching || {}, 'pitching', teamCtx) +
       '</div>';
+    // Defense card (OAA) rendered as a separate row when team_stats.defense
+    // is present. Single-stat group for now; future per-position OAA would
+    // expand TEAM_STAT_LABELS.defense (#29 PR 4).
+    if (ts.defense && Object.keys(ts.defense).length) {
+      body +=
+        '<div class="grid grid-2" style="margin-top:12px;">' +
+          teamStatSection('Defense', ts.defense, 'defense', teamCtx) +
+        '</div>';
+    }
   } else {
     body +=
       '<div class="note">Per-category team rankings and detailed splits are not yet pulled by <code>fetch_data.py</code>. The Phase 2 schema covers the team-level summary; deeper team stats are a future-phase extension.</div>';
