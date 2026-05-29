@@ -666,6 +666,198 @@ Recent items from the configured RSS feeds. Pure passthrough — headline + byli
 
 ---
 
+## notes.json
+
+Hand-authored content layered on top of `data.json` facts. Lives in `notes.json` at the repo root — never machine-written. Six top-level keys, each keyed by a stable identifier (`gamePk`, `person_id`, pitch type name) or a fixed key (`headline`). Every entry is optional; missing keys degrade silently to facts-only rendering.
+
+For per-field drift class, name/HTML capability, and the scanner that protects HIGH-drift fields, see [`free-text-fields.md`](free-text-fields.md).
+
+### `notes.games`
+
+Per-game analyst overlay keyed by `gamePk`.
+
+**Shape:** `object{gamePk: {moment?: str, meaning?: str}}`.
+
+**Real example:**
+
+```json
+{
+  "763472": {
+    "moment": "Walkoff in the 11th against the division leader.",
+    "meaning": "First walkoff of the year and the third comeback win in a week."
+  }
+}
+```
+
+**Source:** Hand-edited. Find `gamePk` values in `data.json.recent_games[].game_pk`.
+
+**Consumed by:** `renderGames` (`index.html:1180`). `moment` replaces the auto-generated card line; `meaning` shows when the card expands.
+
+**Fields per entry:**
+
+| Field | Type | Meaning |
+|---|---|---|
+| `moment` | `str?` | One-line summary replacing the auto-generated card line. |
+| `meaning` | `str?` | Longer paragraph shown when the card is expanded. |
+
+---
+
+### `notes.players`
+
+Per-player analyst overlay keyed by `person_id`.
+
+**Shape:** `object{person_id: {recentNote?: str, read?: str, contextNotes?: {stat: str}}}`.
+
+**Real example:**
+
+```json
+{
+  "665489": {
+    "recentNote": "On-base machine — <strong>.386 OBP</strong> carrying a quiet slugging line.",
+    "read": "Vlad's surface line looks merely good, but the shape is unusual...",
+    "contextNotes": {
+      "ops": "Pulled down by the slug. Watch this number when the power returns."
+    }
+  }
+}
+```
+
+**Source:** Hand-edited. Find `person_id` in `data.json.roster.hitters[].id` or `data.json.roster.pitchers[].id`.
+
+**Consumed by:** `index.html:956` (card-level `recentNote`) and `index.html:1000` (modal `read` + per-stat `contextNotes`).
+
+**Fields per entry:**
+
+| Field | Type | Meaning |
+|---|---|---|
+| `recentNote` | `str?` | Short note on the player card. HTML allowed. |
+| `read` | `str?` | Paragraph in the player modal. HTML allowed. |
+| `contextNotes` | `object{stat: str}?` | Per-stat row note in the modal. Plain text. Keys match the stat column names (`avg`, `obp`, `slg`, `ops`, `hr`, etc.). |
+
+---
+
+### `notes.overview`
+
+Season narrative panel on the Overview tab.
+
+**Shape:** `object{headline?: str, paragraphs?: array<str>}`.
+
+**Real example:**
+
+```json
+{
+  "headline": "Through 52 games — the bats are carrying the freight",
+  "paragraphs": [
+    "<strong>The shape of this season is already clear:</strong> the offense is doing the work..."
+  ]
+}
+```
+
+**Source:** Hand-edited.
+
+**Consumed by:** `renderOverviewNarrative` (`index.html:758`).
+
+**Fields:**
+
+| Field | Type | Meaning |
+|---|---|---|
+| `headline` | `str?` | Single-line panel header. Plain text. |
+| `paragraphs` | `array<str>?` | Body paragraphs. HTML allowed per paragraph. |
+
+---
+
+### `notes.team`
+
+Team-level analyst overlay on the Team Stats tab.
+
+**Shape:** `object{ctx?: {group.stat: str}, strengths?: array<str>, softspots?: array<str>}`.
+
+**Real example:**
+
+```json
+{
+  "ctx": {
+    "hitting.ops": "Bottom quartile in MLB. The OBP holds up; the slug drags the line down.",
+    "pitching.k9": "Top-five in MLB. The strikeout stuff is the load-bearing trait."
+  },
+  "strengths": [
+    "<strong>Patient at-bat work at the top:</strong> ..."
+  ],
+  "softspots": [
+    "<strong>Power outage:</strong> ..."
+  ]
+}
+```
+
+**Source:** Hand-edited. `ctx` keys follow `<group>.<stat>`, mirroring `data.json.team_stats[group][stat]`.
+
+**Consumed by:** `renderTeam` (`index.html:1101`) — `ctx` via line 1117, `strengths`/`softspots` via line 1141.
+
+**Fields:**
+
+| Field | Type | Meaning |
+|---|---|---|
+| `ctx` | `object{group.stat: str}?` | Per-stat footer rendered under each Team Stats row. Plain text. |
+| `strengths` | `array<str>?` | Strengths column on the Team Stats tab. HTML allowed. |
+| `softspots` | `array<str>?` | Soft Spots column. HTML allowed. |
+
+---
+
+### `notes.pitches`
+
+Per-pitch-type analyst overlay on Stat School → Pitch Types.
+
+**Shape:** `object{pitchName: str}`.
+
+**Real example:**
+
+```json
+{
+  "Splitter": "Gausman's calling card — when the velo separation off his four-seam is sharp, he's unhittable.",
+  "Curveball": "Berríos's signature pitch — heavy depth from a high slot, his best swing-and-miss offering."
+}
+```
+
+**Source:** Hand-edited. Keys match the pitch `name` values in the `PITCH_TYPES` array (`index.html:382`).
+
+**Consumed by:** `index.html:1251` — the "Team note" row at the bottom of each pitch card.
+
+**Fields:** the value is the note string itself; no nested structure.
+
+---
+
+### `notes.injuries`
+
+Per-player injury detail and ETA, keyed by `person_id`.
+
+**Shape:** `object{person_id: {detail?: str, eta?: str}}`.
+
+**Real example:**
+
+```json
+{
+  "672386": {
+    "detail": "Left thumb fracture — transferred from the 10-day to the 60-day IL on 5/27.",
+    "eta": "Schneider 5/27: thumb in a brace, late-July return barring a setback."
+  }
+}
+```
+
+**Source:** Hand-edited. Find `person_id` in `data.json.injuries[].person_id`.
+
+**Consumed by:** `index.html:894` — the header's injury list. `detail` replaces the MLB API's terse status; `eta` adds a return-timeline line.
+
+**Fields per entry:**
+
+| Field | Type | Meaning |
+|---|---|---|
+| `detail` | `str?` | Free-text injury description, richer than the API's status. Plain text. |
+| `eta` | `str?` | Free-text return-timeline. Plain text. |
+
+> **History:** PR #88 fixed three stale free-text references here (Bo in `team.strengths[0]`, Berríos in `team.strengths[1]`, Kirk's `injuries[672386].detail`). The [`free-text-fields.md`](free-text-fields.md) registry and the drift scanner (`tools/scan_notes_drift.py`) are the protective layer added in response.
+
+---
+
 ## Maintenance
 
 When a new top-level key lands in `data.json`:
