@@ -124,10 +124,13 @@ def test_transform_roster_entry_missing_person_id_is_skipped(cfg, mocker):
 
 # --- hitter row shape -----------------------------------------------------
 
-def test_transform_roster_hitter_row_has_all_fields(cfg, mocker, mock_player_xstats):
+def test_transform_roster_hitter_row_has_all_fields(cfg, mocker, mock_player_xstats, mock_savant_barrels):
     mocker.patch("fetch_data.fetch_player_season_stats", return_value=_hitter_stats())
     mocker.patch("fetch_data.derive_recent_form", return_value="hot")
     mock_player_xstats.return_value = {"xWoba": ".385"}
+    mock_savant_barrels.return_value = {
+        665489: {"barrel_pct": "12.3%", "hardhit_pct": "52.1%"},
+    }
     result = fetch_data.transform_roster(
         [_hitter_entry(665489, "Vladimir Guerrero Jr.", pos="1B")], cfg)
     h = result["hitters"][0]
@@ -137,6 +140,8 @@ def test_transform_roster_hitter_row_has_all_fields(cfg, mocker, mock_player_xst
     assert h["ab"] == 100
     assert h["ops"] == ".750"
     assert h["xwoba"] == ".385"
+    assert h["barrel_pct"] == "12.3%"
+    assert h["hardhit_pct"] == "52.1%"
     assert h["hr"] == 5
     assert h["rbi"] == 25
     assert h["sb"] == 3
@@ -150,6 +155,40 @@ def test_transform_roster_hitter_xwoba_dash_when_xstats_empty(cfg, mocker):
     # Autouse mock_player_xstats already returns {}
     result = fetch_data.transform_roster([_hitter_entry(1, "Test")], cfg)
     assert result["hitters"][0]["xwoba"] == ".---"
+
+
+def test_transform_roster_hitter_barrel_hardhit_dash_when_savant_empty(cfg, mocker):
+    """Empty barrels map (Savant fetch failed) → '---' placeholders."""
+    mocker.patch("fetch_data.fetch_player_season_stats", return_value=_hitter_stats())
+    mocker.patch("fetch_data.derive_recent_form", return_value=None)
+    # Autouse mock_savant_barrels already returns {}
+    result = fetch_data.transform_roster([_hitter_entry(1, "Test")], cfg)
+    h = result["hitters"][0]
+    assert h["barrel_pct"] == "---"
+    assert h["hardhit_pct"] == "---"
+
+
+def test_transform_roster_hitter_barrel_hardhit_from_savant(cfg, mocker, mock_savant_barrels):
+    """When Savant returns data for the player, fields populate."""
+    mocker.patch("fetch_data.fetch_player_season_stats", return_value=_hitter_stats())
+    mocker.patch("fetch_data.derive_recent_form", return_value=None)
+    mock_savant_barrels.return_value = {
+        665489: {"barrel_pct": "12.3%", "hardhit_pct": "52.1%"},
+    }
+    result = fetch_data.transform_roster(
+        [_hitter_entry(665489, "Vlad")], cfg)
+    h = result["hitters"][0]
+    assert h["barrel_pct"] == "12.3%"
+    assert h["hardhit_pct"] == "52.1%"
+
+
+def test_transform_roster_savant_fetched_once_per_run(cfg, mocker, mock_savant_barrels):
+    """The whole-team CSV is fetched ONCE per refresh, not per player."""
+    mocker.patch("fetch_data.fetch_player_season_stats", return_value=_hitter_stats())
+    mocker.patch("fetch_data.derive_recent_form", return_value=None)
+    entries = [_hitter_entry(i, f"H{i}") for i in range(1, 6)]
+    fetch_data.transform_roster(entries, cfg)
+    assert mock_savant_barrels.call_count == 1
 
 
 def test_transform_roster_hitter_xstats_skipped_for_zero_at_bats(cfg, mocker, mock_player_xstats):

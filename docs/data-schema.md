@@ -473,6 +473,8 @@ The active 26-man roster split into hitters and pitchers, each row carrying seas
 | `slg` | `str` | Slugging. |
 | `ops` | `str` | On-base + slugging. |
 | `xwoba` | `str` | Expected wOBA from MLB Stats API's `expectedStatistics` hydrate (PR #29 Phase A). Pre-formatted `".XXX"`; `".---"` when missing (pre-Opening-Day, sub-threshold ABs, or API miss). |
+| `barrel_pct` | `str` | Barrels per plate appearance, from Baseball Savant's `exit_velocity_barrels` leaderboard (PR #29 Phase B). Pre-formatted `"X.X%"`; `"---"` when sub-threshold or Savant unreachable. |
+| `hardhit_pct` | `str` | Hard-hit rate (95+ mph exit velocity), from the same Savant leaderboard. Same format + fallback as `barrel_pct`. |
 | `hr` | `int` | Home runs. |
 | `rbi` | `int` | Runs batted in. |
 | `sb` | `int` | Stolen bases. |

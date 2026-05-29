@@ -59,3 +59,11 @@ def mock_player_xstats(mocker):
     don't silently hit the real statsapi (which would 403 from the sandbox).
     Tests that exercise xstats behavior override this mock."""
     return mocker.patch("fetch_data.fetch_player_xstats", return_value={})
+
+
+@pytest.fixture(autouse=True)
+def mock_savant_barrels(mocker):
+    """Default fetch_savant_barrels to return {} so transform_roster tests
+    don't try to reach baseballsavant.mlb.com from the sandbox.
+    Tests that exercise Savant behavior override this mock."""
+    return mocker.patch("fetch_data.fetch_savant_barrels", return_value={})

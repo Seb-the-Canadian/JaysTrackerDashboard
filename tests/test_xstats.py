@@ -158,7 +158,10 @@ def test_assert_invariants_hitter_xwoba_dash_placeholder_passes(cfg):
             "pitching": {"era": {"val": "3.45", "rank": 8}},
         },
         "roster": {
-            "hitters": [{"id": 1, "name": "Bo", "xwoba": ".---"}],
+            # All three placeholder fields present — invariant expects every
+            # hitter to carry xwoba + barrel_pct + hardhit_pct as strings.
+            "hitters": [{"id": 1, "name": "Bo", "xwoba": ".---",
+                          "barrel_pct": "---", "hardhit_pct": "---"}],
             "pitchers": [],
         },
     }
