@@ -216,6 +216,8 @@ h3 { font-size: 14px; font-weight: 600; margin: 0 0 10px 0; color: #c9d1d9; }
 .news-list { display: grid; grid-template-columns: 1fr; gap: 8px; }
 .news-item { display: block; padding: 12px 14px; background: #131923; border: 1px solid #1f2937; border-radius: 8px; color: #c9d1d9; text-decoration: none; transition: all 0.15s; }
 .news-item:hover { border-color: var(--accent-color); transform: translateY(-1px); }
+.news-tldr { font-size: 13px; color: #b9c2d1; font-style: italic; margin-top: 8px; padding: 6px 10px; background: rgba(29,138,205,0.08); border-left: 2px solid var(--accent-color); border-radius: 4px; cursor: help; }
+.news-tldr-label { display: inline-block; font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; color: var(--accent-color); font-weight: 700; font-style: normal; margin-right: 6px; }
 .news-source { font-size: 11px; color: #8b96a8; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 600; margin-bottom: 4px; }
 .news-source .news-pill { display: inline-block; padding: 1px 7px; background: rgba(29,138,205,0.12); color: var(--accent-color); border-radius: 10px; margin-right: 6px; letter-spacing: 0.04em; }
 .news-title { font-size: 13px; line-height: 1.45; color: #e6edf3; font-weight: 600; }
@@ -704,10 +706,18 @@ function renderNewsPanel() {
     const when = n.published ? ' · ' + escapeText(relativeTime(n.published)) : '';
     const title = escapeText(n.title || '(untitled)');
     const summary = n.summary ? '<div class="news-summary">' + escapeText(n.summary) + '</div>' : '';
+    // TL;DR from issue #53's optional LLM summarizer. Rendered with the
+    // "AI-generated" label so readers see the provenance — the project's
+    // editorial stance is that AI voice should be visibly distinct from
+    // human-authored copy.
+    const tldr = n.tldr
+      ? '<div class="news-tldr" title="AI-generated summary; verify against the article"><span class="news-tldr-label">TL;DR (AI)</span> ' + escapeText(n.tldr) + '</div>'
+      : '';
     const sourcePill = source ? '<span class="news-pill">' + source + '</span>' : '';
     return '<a class="news-item" href="' + escapeText(url) + '" target="_blank" rel="noopener">' +
       '<div class="news-source">' + sourcePill + author + when + '</div>' +
       '<div class="news-title">' + title + '</div>' +
+      tldr +
       summary +
       '</a>';
   }).join('');

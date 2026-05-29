@@ -47,21 +47,27 @@ jobs:
         run: python -m pip install -r requirements.txt
 
       - name: Fetch data
+        env:
+          # Only consumed when config.news_summarize=true with the anthropic
+          # provider (issue #53). Safe-no-op otherwise; the secret can be
+          # absent on forks that haven't opted in.
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python fetch_data.py
 
       - name: Commit and push if changed
         run: |
           # data/gamelog_cache.json is the per-player gameLog cache (#52).
-          # It typically updates whenever data.json does, but we check
-          # both so a pure-cache update (e.g., new fetch with unchanged
-          # season totals) also commits.
-          if [[ -z "$(git status --porcelain data.json data/gamelog_cache.json)" ]]; then
+          # data/tldr_cache.json is the news TL;DR cache (#53, optional).
+          # We check all three so any one of them changing triggers a commit.
+          if [[ -z "$(git status --porcelain data.json data/gamelog_cache.json data/tldr_cache.json)" ]]; then
             echo "no changes"
             exit 0
           fi
           git config user.name "jays-tracker-bot"
           git config user.email "bot@example.invalid"
           git add data.json data/gamelog_cache.json
+          # Only add tldr_cache if it exists (most forks won't enable summarize).
+          [ -f data/tldr_cache.json ] && git add data/tldr_cache.json
           git commit -m "Daily data refresh: $(date -u +%Y-%m-%d)"
 
           # If main moved between checkout and push (concurrent PR merge,

@@ -631,10 +631,13 @@ Recent items from the configured RSS feeds. Pure passthrough — headline + byli
 | `author` | `str` | Byline if the feed provides one; often empty for aggregators like Google News. |
 | `url` | `str` | Link to the original article. |
 | `published` | `str` | ISO 8601 timestamp of publication. |
+| `tldr` | `str` (optional) | LLM-generated 1-2 sentence summary. Only present when `config.news_summarize=true` and the summarizer succeeded for this URL. Added by `summarize_news_items` (PR #53). The renderer marks it with an "AI-generated" label so readers see the provenance. |
 
 > **History:** `published` was RFC 822 before PR #63 (issue #61.A) — JS `Date` parses both, but the schema lied about its format. Now consistently ISO 8601.
 >
 > **Per-feed diagnostic logging** in `fetch_news` (added in PR #64, issue #60) emits an `INFO` line per feed: entries received, kept, dropped by recency, dropped by keyword. Useful when a feed silently contributes zero items.
+>
+> **TL;DR cache** at `data/tldr_cache.json` keys per-URL → summary; URLs are stable post-publication so we never re-pay for the same article. The cache lives only when summarization is enabled.
 
 ---
 

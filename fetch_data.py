@@ -32,6 +32,7 @@ CONFIG_PATH = REPO_ROOT / "config.json"
 OUTPUT_PATH = REPO_ROOT / "data.json"
 TMP_PATH = REPO_ROOT / "data.json.tmp"
 GAMELOG_CACHE_PATH = REPO_ROOT / "data" / "gamelog_cache.json"
+TLDR_CACHE_PATH = REPO_ROOT / "data" / "tldr_cache.json"
 
 # All six MLB divisions have 5 teams since the 2013 realignment.
 EXPECTED_DIVISION_SIZE = 5
@@ -44,6 +45,8 @@ MLB_SPORT_ID = 1
 NEWS_RECENT_DAYS = 2
 NEWS_PER_FEED_LIMIT = 25
 NEWS_TOTAL_LIMIT = 20
+SUMMARIZE_MAX_TOKENS = 120
+SUMMARIZE_TIMEOUT_S = 30
 
 # Hot/cold/new tag thresholds (issue #25). Compared against the season line
 # already on each player record; tuned for a 7-game window. Values here so
@@ -1204,6 +1207,194 @@ def fetch_news(cfg):
     return items[:NEWS_TOTAL_LIMIT]
 
 
+# --- LLM news summarization (issue #53) -------------------------------------
+#
+# Optional, off by default. Opt in per-fork via config.news_summarize=true and
+# choose a provider via config.summarize_provider ("anthropic" | "openai" |
+# "ollama"). Each provider's client SDK is imported lazily so disabling the
+# feature also disables the dependency. TL;DRs are cached per-URL in
+# data/tldr_cache.json to avoid re-paying for the same article; news URLs
+# are stable post-publication so cached values are reusable.
+
+def _load_tldr_cache():
+    """Lazy-load the TL;DR cache from disk. Missing/corrupt → empty dict."""
+    try:
+        with open(TLDR_CACHE_PATH) as f:
+            cache = json.load(f)
+        if not isinstance(cache, dict):
+            raise ValueError("tldr cache must be a dict")
+        return cache
+    except FileNotFoundError:
+        return {}
+    except (json.JSONDecodeError, ValueError, OSError) as e:
+        log(f"warning: tldr cache unreadable ({e}); starting fresh")
+        return {}
+
+
+def _save_tldr_cache(cache):
+    """Atomically persist the TL;DR cache. No-op when cache is empty."""
+    if not cache:
+        return
+    TLDR_CACHE_PATH.parent.mkdir(parents=True, exist_ok=True)
+    tmp = TLDR_CACHE_PATH.with_suffix(".tmp")
+    with open(tmp, "w") as f:
+        json.dump(cache, f, indent=2, sort_keys=True)
+    tmp.replace(TLDR_CACHE_PATH)
+
+
+def _summarize_prompt(item):
+    """Build the user message for the summarizer. Provider-agnostic."""
+    title = item.get("title", "")
+    source = item.get("source", "")
+    excerpt = (item.get("summary", "") or "")[:500]
+    return (
+        f"Summarize the following news item in 1-2 sentences, neutral tone, "
+        f"no opinions, under 50 words. Treat the headline as the canonical "
+        f"facts and use the excerpt only to add specifics.\n\n"
+        f"Headline: {title}\n"
+        f"Source: {source}\n"
+        f"Excerpt: {excerpt}"
+    )
+
+
+def _summarize_anthropic(model):
+    """Return a callable that summarizes one news item via Anthropic.
+
+    Lazy-imports the `anthropic` SDK; raises ImportError with a hint if the
+    package isn't installed. Reads ANTHROPIC_API_KEY from the environment.
+    """
+    import anthropic
+    client = anthropic.Anthropic()
+
+    def call(item):
+        try:
+            resp = client.messages.create(
+                model=model,
+                max_tokens=SUMMARIZE_MAX_TOKENS,
+                messages=[{"role": "user", "content": _summarize_prompt(item)}],
+            )
+            return resp.content[0].text.strip()
+        except Exception as e:
+            log(f"warning: anthropic summarize failed for {item.get('url')}: {e}")
+            return None
+    return call
+
+
+def _summarize_openai(model):
+    """Return a callable that summarizes via OpenAI's Chat Completions API."""
+    import openai
+    client = openai.OpenAI()
+
+    def call(item):
+        try:
+            resp = client.chat.completions.create(
+                model=model,
+                max_tokens=SUMMARIZE_MAX_TOKENS,
+                messages=[{"role": "user", "content": _summarize_prompt(item)}],
+            )
+            return resp.choices[0].message.content.strip()
+        except Exception as e:
+            log(f"warning: openai summarize failed for {item.get('url')}: {e}")
+            return None
+    return call
+
+
+def _summarize_ollama(model, base_url):
+    """Return a callable that summarizes via a local Ollama instance.
+
+    Uses stdlib urllib — no SDK install needed. Local-only setups (self-hosted
+    runners, dev) avoid any paid-API dependency. Default base_url is
+    http://localhost:11434; override via config.summarize_ollama_base_url.
+    """
+    import urllib.request
+
+    def call(item):
+        try:
+            payload = json.dumps({
+                "model": model,
+                "prompt": _summarize_prompt(item),
+                "stream": False,
+                "options": {"num_predict": SUMMARIZE_MAX_TOKENS},
+            }).encode()
+            req = urllib.request.Request(
+                f"{base_url.rstrip('/')}/api/generate",
+                data=payload,
+                headers={"Content-Type": "application/json"},
+            )
+            with urllib.request.urlopen(req, timeout=SUMMARIZE_TIMEOUT_S) as r:
+                data = json.loads(r.read())
+            return (data.get("response") or "").strip() or None
+        except Exception as e:
+            log(f"warning: ollama summarize failed for {item.get('url')}: {e}")
+            return None
+    return call
+
+
+_DEFAULT_MODELS = {
+    "anthropic": "claude-haiku-4-5-20251001",
+    "openai": "gpt-4o-mini",
+    "ollama": "llama3.2",
+}
+
+
+def _get_summarizer(cfg):
+    """Build the (item) -> tldr-or-None callable for the configured provider."""
+    provider = (cfg.get("summarize_provider") or "anthropic").lower()
+    model = cfg.get("summarize_model") or _DEFAULT_MODELS.get(provider)
+    if not model:
+        raise ValueError(f"unknown summarize_provider: {provider}")
+    if provider == "anthropic":
+        return _summarize_anthropic(model)
+    if provider == "openai":
+        return _summarize_openai(model)
+    if provider == "ollama":
+        base_url = cfg.get("summarize_ollama_base_url") or "http://localhost:11434"
+        return _summarize_ollama(model, base_url)
+    raise ValueError(f"unknown summarize_provider: {provider}")
+
+
+def summarize_news_items(items, cfg):
+    """Add `tldr` field to each item if news_summarize is enabled.
+
+    Off by default (the project's editorial stance is "not an AI commentator";
+    see roadmap.md). When enabled, looks up each item by URL in the on-disk
+    cache; on miss, calls the configured provider and writes the result back
+    to the cache so future runs reuse it.
+
+    Failures (missing SDK, API error, provider down) are warnings — the item
+    ships without a `tldr` and the pipeline continues. No item is dropped.
+    """
+    if not cfg.get("news_summarize"):
+        return items
+    cache = _load_tldr_cache()
+    try:
+        summarizer = _get_summarizer(cfg)
+    except (ImportError, ValueError) as e:
+        log(f"warning: summarize setup failed ({e}); shipping news without TL;DRs")
+        return items
+
+    fresh = stale = 0
+    for item in items:
+        url = item.get("url", "")
+        if not url:
+            continue
+        cached = cache.get(url)
+        if cached:
+            item["tldr"] = cached
+            stale += 1
+            continue
+        tldr = summarizer(item)
+        if tldr:
+            item["tldr"] = tldr
+            cache[url] = tldr
+            fresh += 1
+
+    log(f"INFO: news TL;DR cache: {fresh} fresh, {stale} from cache, "
+        f"{len(items) - fresh - stale} skipped")
+    _save_tldr_cache(cache)
+    return items
+
+
 # --- Derived ----------------------------------------------------------------
 
 def pythag(rs, ra, games_played):
@@ -1313,6 +1504,7 @@ def main():
     other_unavailable = injury_report["other_unavailable"]
     transactions = fetch_transactions(cfg)
     news = fetch_news(cfg)
+    news = summarize_news_items(news, cfg)
 
     rs = us_record.get("runsScored") or 0
     ra = us_record.get("runsAllowed") or 0
