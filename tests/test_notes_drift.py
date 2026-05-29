@@ -410,3 +410,75 @@ def test_main_missing_allow_file_is_optional(tmp_path):
         "--paths", str(paths_p), "--allow", str(tmp_path / "absent.json"),
     ])
     assert rc == 0
+
+
+def test_main_config_flag_false_skips_scan(tmp_path, capsys):
+    """When config.scan_notes_drift=false, main() returns 0 without scanning."""
+    notes_p, data_p, paths_p, _ = _write_fixture_files(
+        tmp_path,
+        {"team": {"strengths": ["Bichette is hot"]}},  # would normally flag
+        _empty_data(),
+        _config([{"path": "team.strengths[]", "html": False}]),
+    )
+    config_p = tmp_path / "config.json"
+    config_p.write_text(json.dumps({"scan_notes_drift": False}))
+    rc = sd.main([
+        "--notes", str(notes_p), "--data", str(data_p),
+        "--paths", str(paths_p), "--allow", str(tmp_path / "absent.json"),
+        "--config", str(config_p),
+    ])
+    assert rc == 0
+    err = capsys.readouterr().err
+    assert "disabled" in err.lower()
+
+
+def test_main_config_flag_true_runs_scan(tmp_path):
+    """When config.scan_notes_drift=true, scanner runs as normal."""
+    notes_p, data_p, paths_p, _ = _write_fixture_files(
+        tmp_path,
+        {"team": {"strengths": ["Bichette is hot"]}},
+        _empty_data(),
+        _config([{"path": "team.strengths[]", "html": False}]),
+    )
+    config_p = tmp_path / "config.json"
+    config_p.write_text(json.dumps({"scan_notes_drift": True}))
+    rc = sd.main([
+        "--notes", str(notes_p), "--data", str(data_p),
+        "--paths", str(paths_p), "--allow", str(tmp_path / "absent.json"),
+        "--config", str(config_p),
+    ])
+    assert rc == 1  # findings present, not warn-only
+
+
+def test_main_config_missing_flag_defaults_to_enabled(tmp_path):
+    """Config without scan_notes_drift key → default True → scanner runs."""
+    notes_p, data_p, paths_p, _ = _write_fixture_files(
+        tmp_path,
+        {"team": {"strengths": ["Bichette is hot"]}},
+        _empty_data(),
+        _config([{"path": "team.strengths[]", "html": False}]),
+    )
+    config_p = tmp_path / "config.json"
+    config_p.write_text(json.dumps({"team_id": 141}))  # no scan flag
+    rc = sd.main([
+        "--notes", str(notes_p), "--data", str(data_p),
+        "--paths", str(paths_p), "--allow", str(tmp_path / "absent.json"),
+        "--config", str(config_p),
+    ])
+    assert rc == 1  # finding present
+
+
+def test_main_missing_config_file_is_optional(tmp_path):
+    """Config file absent → scanner runs as normal."""
+    notes_p, data_p, paths_p, _ = _write_fixture_files(
+        tmp_path,
+        {"team": {"strengths": ["Patient at-bat work"]}},
+        _empty_data(),
+        _config([{"path": "team.strengths[]", "html": False}]),
+    )
+    rc = sd.main([
+        "--notes", str(notes_p), "--data", str(data_p),
+        "--paths", str(paths_p), "--allow", str(tmp_path / "absent.json"),
+        "--config", str(tmp_path / "no-config.json"),
+    ])
+    assert rc == 0

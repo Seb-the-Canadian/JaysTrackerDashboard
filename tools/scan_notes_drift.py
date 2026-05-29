@@ -29,6 +29,7 @@ DEFAULT_NOTES = REPO_ROOT / "notes.json"
 DEFAULT_DATA = REPO_ROOT / "data.json"
 DEFAULT_PATHS = REPO_ROOT / "tools" / "notes_drift_paths.json"
 DEFAULT_ALLOW = REPO_ROOT / ".notes-scan-allow.json"
+DEFAULT_CONFIG = REPO_ROOT / "config.json"
 
 NOSCAN_MARKER = "<!-- noscan -->"
 
@@ -262,6 +263,10 @@ def main(argv=None):
     parser.add_argument("--paths", default=str(DEFAULT_PATHS))
     parser.add_argument("--allow", default=str(DEFAULT_ALLOW))
     parser.add_argument(
+        "--config", default=str(DEFAULT_CONFIG),
+        help="Path to config.json. Respects scan_notes_drift flag (default true).",
+    )
+    parser.add_argument(
         "--warn-only", action="store_true",
         help="Always exit 0; print findings to stderr.",
     )
@@ -270,6 +275,12 @@ def main(argv=None):
         help="Emit findings as JSON to stdout.",
     )
     args = parser.parse_args(argv)
+
+    if Path(args.config).exists():
+        cfg = load_json(args.config)
+        if cfg.get("scan_notes_drift", True) is False:
+            print("scan_notes_drift disabled per config; skipping.", file=sys.stderr)
+            return 0
 
     notes = load_json(args.notes)
     data = load_json(args.data)
