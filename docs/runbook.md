@@ -289,6 +289,47 @@ The scanner inputs are configurable: `--notes`, `--data`, `--paths`, `--allow`. 
 
 ---
 
+### Notes-orphan scanner flagged a keyed note (PR-time test or daily-refresh log)
+
+**Symptom A — PR time.** CI on a PR fails on `tests/test_notes_orphans.py::test_integration_real_files_scan_clean` with output like:
+
+```
+ORPHAN notes.players[665487]: "Eye approaching career-high contact rate..."
+  reason: id_not_in_roster_or_il
+  see: docs/free-text-fields.md
+```
+
+**Symptom B — daily refresh log.** The `Scan notes for orphan keys (warn-only)` step shows the same `ORPHAN ...` lines. Always exit 0, doesn't fail the refresh.
+
+**Diagnosis.** A key in `notes.players[id]` or `notes.injuries[id]` doesn't correspond to anyone in the relevant `data.json` set. Two common causes:
+
+1. **Roster departure.** Player was traded, DFA'd, released, or retired. Their `notes.players[id]` entry no longer matches a roster / IL / other-unavailable entry. The note doesn't render on the dashboard (the renderer iterates `data.json.roster.*` not `notes.players` keys), but it lingers in the source file as cruft.
+2. **Off the IL.** Player came off the IL onto active duty. Their `notes.injuries[id]` entry is now stale because they're no longer on the Injured List panel. Same rendering story — the note silently dead-codes itself.
+
+A third cause for forks: **deliberate retention.** Sometimes you want to keep a former player's note (historical interest, planning for an off-season signing, beloved-figure cruft). That's what the allow-list is for.
+
+**Fix, by cause:**
+
+| Cause | Action |
+|---|---|
+| Roster departure, not coming back | Delete the entry from `notes.json`. The orphan check will go quiet. |
+| Off the IL but might re-injure | Decide: delete now and re-author later, or keep and allow-list. |
+| Deliberate retention | Add the integer ID to `.notes-scan-allow.json` under `orphan_ids`. Example: `{"tokens": [...], "orphan_ids": [665487]}`. |
+
+**Local debugging.**
+
+```bash
+python3 tools/scan_notes_orphans.py             # exit 1 if findings exist
+python3 tools/scan_notes_orphans.py --json      # structured output
+python3 tools/scan_notes_orphans.py --warn-only # exit 0 always
+```
+
+Inputs are configurable: `--notes`, `--data`, `--allow`, `--config`.
+
+**Reference.** Shipped alongside the drift work (PR #88–91 history); the orphan scanner closes the second half of the same bug class — drift is about content, orphans are about keys.
+
+---
+
 ## Hypothetical failures (haven't seen, but watch for)
 
 These haven't happened to us yet but are reasonable to plan for.
