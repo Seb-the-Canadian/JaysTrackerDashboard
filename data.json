@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-05-29T10:23:45.299549+00:00",
+  "as_of": "2026-05-30T09:40:04.056734+00:00",
   "config": {
     "team_id": 141,
     "team_name": "Toronto Blue Jays",
@@ -7,60 +7,60 @@
   },
   "team": {
     "record": {
-      "w": 28,
+      "w": 29,
       "l": 29
     },
     "place": "3rd in AL East",
-    "last10": "7-3",
-    "streak": "W3",
-    "runs_scored": 228,
-    "runs_allowed": 231,
-    "run_diff": -3,
-    "pythag_w": 28,
+    "last10": "8-2",
+    "streak": "W4",
+    "runs_scored": 234,
+    "runs_allowed": 236,
+    "run_diff": -2,
+    "pythag_w": 29,
     "pythag_l": 29
   },
   "division": [
     {
       "team": "Tampa Bay Rays",
       "team_id": 139,
-      "w": 34,
+      "w": 35,
       "l": 19,
-      "pct": ".642",
+      "pct": ".648",
       "gb": "-",
-      "streak": "L4",
-      "last10": "5-5",
+      "streak": "W1",
+      "last10": "6-4",
       "is_us": false
     },
     {
       "team": "New York Yankees",
       "team_id": 147,
-      "w": 34,
+      "w": 35,
       "l": 22,
-      "pct": ".607",
+      "pct": ".614",
       "gb": "1.5",
-      "streak": "W4",
-      "last10": "6-4",
+      "streak": "W5",
+      "last10": "7-3",
       "is_us": false
     },
     {
       "team": "Toronto Blue Jays",
       "team_id": 141,
-      "w": 28,
+      "w": 29,
       "l": 29,
-      "pct": ".491",
+      "pct": ".500",
       "gb": "8.0",
-      "streak": "W3",
-      "last10": "7-3",
+      "streak": "W4",
+      "last10": "8-2",
       "is_us": true
     },
     {
       "team": "Baltimore Orioles",
       "team_id": 110,
       "w": 26,
-      "l": 31,
-      "pct": ".456",
-      "gb": "10.0",
-      "streak": "L1",
+      "l": 32,
+      "pct": ".448",
+      "gb": "11.0",
+      "streak": "L2",
       "last10": "5-5",
       "is_us": false
     },
@@ -68,10 +68,10 @@
       "team": "Boston Red Sox",
       "team_id": 111,
       "w": 23,
-      "l": 32,
-      "pct": ".418",
-      "gb": "12.0",
-      "streak": "L1",
+      "l": 33,
+      "pct": ".411",
+      "gb": "13.0",
+      "streak": "L2",
       "last10": "4-6",
       "is_us": false
     }
@@ -80,7 +80,7 @@
     {
       "team": "Tampa Bay Rays",
       "team_id": 139,
-      "w": 34,
+      "w": 35,
       "l": 19,
       "gb": "-",
       "note": "Division leader",
@@ -89,7 +89,7 @@
     {
       "team": "Cleveland Guardians",
       "team_id": 114,
-      "w": 33,
+      "w": 34,
       "l": 25,
       "gb": "-",
       "note": "Division leader",
@@ -98,7 +98,7 @@
     {
       "team": "Seattle Mariners",
       "team_id": 136,
-      "w": 28,
+      "w": 29,
       "l": 29,
       "gb": "-",
       "note": "Division leader",
@@ -107,7 +107,7 @@
     {
       "team": "New York Yankees",
       "team_id": 147,
-      "w": 34,
+      "w": 35,
       "l": 22,
       "gb": "+6.5",
       "note": "In (1st WC seed)",
@@ -116,7 +116,7 @@
     {
       "team": "Chicago White Sox",
       "team_id": 145,
-      "w": 29,
+      "w": 30,
       "l": 27,
       "gb": "+1.5",
       "note": "In (2nd WC seed)",
@@ -125,7 +125,7 @@
     {
       "team": "Toronto Blue Jays",
       "team_id": 141,
-      "w": 28,
+      "w": 29,
       "l": 29,
       "gb": "-",
       "note": "In (3rd WC seed)",
@@ -135,8 +135,8 @@
       "team": "Athletics",
       "team_id": 133,
       "w": 27,
-      "l": 29,
-      "gb": "0.5",
+      "l": 30,
+      "gb": "1.5",
       "note": "Out",
       "is_us": false
     },
@@ -144,8 +144,17 @@
       "team": "Minnesota Twins",
       "team_id": 142,
       "w": 27,
-      "l": 30,
-      "gb": "1.0",
+      "l": 31,
+      "gb": "2.0",
+      "note": "Out",
+      "is_us": false
+    },
+    {
+      "team": "Texas Rangers",
+      "team_id": 140,
+      "w": 26,
+      "l": 31,
+      "gb": "2.5",
       "note": "Out",
       "is_us": false
     },
@@ -153,8 +162,8 @@
       "team": "Baltimore Orioles",
       "team_id": 110,
       "w": 26,
-      "l": 31,
-      "gb": "2.0",
+      "l": 32,
+      "gb": "3.0",
       "note": "Out",
       "is_us": false
     },
@@ -162,17 +171,8 @@
       "team": "Houston Astros",
       "team_id": 117,
       "w": 26,
-      "l": 32,
-      "gb": "2.5",
-      "note": "Out",
-      "is_us": false
-    },
-    {
-      "team": "Texas Rangers",
-      "team_id": 140,
-      "w": 25,
-      "l": 31,
-      "gb": "2.5",
+      "l": 33,
+      "gb": "3.5",
       "note": "Out",
       "is_us": false
     },
@@ -180,8 +180,8 @@
       "team": "Boston Red Sox",
       "team_id": 111,
       "w": 23,
-      "l": 32,
-      "gb": "4.0",
+      "l": 33,
+      "gb": "5.0",
       "note": "Out",
       "is_us": false
     },
@@ -189,8 +189,8 @@
       "team": "Kansas City Royals",
       "team_id": 118,
       "w": 22,
-      "l": 34,
-      "gb": "5.5",
+      "l": 35,
+      "gb": "6.5",
       "note": "Out",
       "is_us": false
     },
@@ -198,8 +198,8 @@
       "team": "Detroit Tigers",
       "team_id": 116,
       "w": 22,
-      "l": 35,
-      "gb": "6.0",
+      "l": 36,
+      "gb": "7.0",
       "note": "Out",
       "is_us": false
     },
@@ -207,27 +207,13 @@
       "team": "Los Angeles Angels",
       "team_id": 108,
       "w": 22,
-      "l": 35,
-      "gb": "6.0",
+      "l": 36,
+      "gb": "7.0",
       "note": "Out",
       "is_us": false
     }
   ],
   "recent_games": [
-    {
-      "game_pk": 823548,
-      "date": "2026-05-19",
-      "home": false,
-      "opp": "New York Yankees",
-      "result": "L",
-      "score": "4-5",
-      "status": "Final",
-      "winning_pitcher": "Will Warren",
-      "losing_pitcher": "Dylan Cease",
-      "summary_facts": "Final 4-5 (L). WP Will Warren. LP Dylan Cease. SV Camilo Doval",
-      "us_score": 4,
-      "them_score": 5
-    },
     {
       "game_pk": 823547,
       "date": "2026-05-20",
@@ -353,18 +339,23 @@
       "summary_facts": "Final 2-1 (W). WP Jeff Hoffman. LP Anthony Nunez. SV Louis Varland",
       "us_score": 2,
       "them_score": 1
-    }
-  ],
-  "upcoming_games": [
+    },
     {
       "game_pk": 824835,
       "date": "2026-05-29",
       "home": false,
       "opp": "Baltimore Orioles",
-      "probable_pitcher_us": "",
-      "probable_pitcher_them": "Trevor Rogers",
-      "status": "Scheduled"
-    },
+      "result": "W",
+      "score": "6-5",
+      "status": "Final",
+      "winning_pitcher": "Mason Fluharty",
+      "losing_pitcher": "Yennier Cano",
+      "summary_facts": "Final 6-5 (W). WP Mason Fluharty. LP Yennier Cano. SV Braydon Fisher",
+      "us_score": 6,
+      "them_score": 5
+    }
+  ],
+  "upcoming_games": [
     {
       "game_pk": 824833,
       "date": "2026-05-30",
@@ -418,6 +409,15 @@
       "probable_pitcher_us": "",
       "probable_pitcher_them": "",
       "status": "Scheduled"
+    },
+    {
+      "game_pk": 822808,
+      "date": "2026-06-06",
+      "home": true,
+      "opp": "Baltimore Orioles",
+      "probable_pitcher_us": "",
+      "probable_pitcher_them": "",
+      "status": "Scheduled"
     }
   ],
   "roster": {
@@ -443,10 +443,10 @@
         "id": 678218,
         "name": "Brandon Valenzuela",
         "pos": "C",
-        "ab": 94,
+        "ab": 98,
         "avg": ".245",
-        "obp": ".343",
-        "slg": ".394",
+        "obp": ".339",
+        "slg": ".398",
         "ops": ".737",
         "xwoba": ".---",
         "barrel_pct": "---",
@@ -460,28 +460,28 @@
         "id": 807727,
         "name": "Charles McAdoo",
         "pos": "2B",
-        "ab": 0,
-        "avg": ".---",
-        "obp": ".---",
-        "slg": ".---",
-        "ops": ".---",
+        "ab": 4,
+        "avg": ".250",
+        "obp": ".250",
+        "slg": "1.000",
+        "ops": "1.250",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
-        "hr": 0,
-        "rbi": 0,
+        "hr": 1,
+        "rbi": 2,
         "sb": 0,
-        "recent": null
+        "recent": "new"
       },
       {
         "id": 662139,
         "name": "Daulton Varsho",
         "pos": "CF",
-        "ab": 192,
-        "avg": ".260",
-        "obp": ".336",
-        "slg": ".406",
-        "ops": ".742",
+        "ab": 196,
+        "avg": ".265",
+        "obp": ".339",
+        "slg": ".423",
+        "ops": ".762",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
@@ -494,35 +494,35 @@
         "id": 676391,
         "name": "Ernie Clement",
         "pos": "2B",
-        "ab": 215,
-        "avg": ".293",
-        "obp": ".317",
-        "slg": ".447",
-        "ops": ".764",
+        "ab": 219,
+        "avg": ".292",
+        "obp": ".316",
+        "slg": ".443",
+        "ops": ".759",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 5,
         "rbi": 20,
         "sb": 2,
-        "recent": "hot"
+        "recent": null
       },
       {
         "id": 543807,
         "name": "George Springer",
         "pos": "DH",
-        "ab": 147,
-        "avg": ".211",
-        "obp": ".288",
-        "slg": ".367",
-        "ops": ".655",
+        "ab": 151,
+        "avg": ".212",
+        "obp": ".292",
+        "slg": ".364",
+        "ops": ".656",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 5,
         "rbi": 14,
         "sb": 3,
-        "recent": "hot"
+        "recent": null
       },
       {
         "id": 660821,
@@ -545,28 +545,28 @@
         "id": 672960,
         "name": "Kazuma Okamoto",
         "pos": "3B",
-        "ab": 200,
-        "avg": ".215",
-        "obp": ".301",
-        "slg": ".410",
-        "ops": ".711",
+        "ab": 204,
+        "avg": ".216",
+        "obp": ".300",
+        "slg": ".422",
+        "ops": ".722",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
-        "hr": 11,
-        "rbi": 29,
+        "hr": 12,
+        "rbi": 31,
         "sb": 0,
-        "recent": null
+        "recent": "hot"
       },
       {
         "id": 664702,
         "name": "Myles Straw",
         "pos": "RF",
-        "ab": 84,
-        "avg": ".250",
-        "obp": ".319",
-        "slg": ".357",
-        "ops": ".676",
+        "ab": 86,
+        "avg": ".244",
+        "obp": ".313",
+        "slg": ".349",
+        "ops": ".662",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
@@ -579,11 +579,11 @@
         "id": 664770,
         "name": "Nathan Lukes",
         "pos": "RF",
-        "ab": 63,
-        "avg": ".286",
-        "obp": ".324",
-        "slg": ".365",
-        "ops": ".689",
+        "ab": 65,
+        "avg": ".292",
+        "obp": ".329",
+        "slg": ".385",
+        "ops": ".714",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
@@ -613,16 +613,16 @@
         "id": 665489,
         "name": "Vladimir Guerrero Jr.",
         "pos": "1B",
-        "ab": 194,
-        "avg": ".289",
-        "obp": ".390",
-        "slg": ".371",
-        "ops": ".761",
+        "ab": 198,
+        "avg": ".293",
+        "obp": ".391",
+        "slg": ".379",
+        "ops": ".770",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 3,
-        "rbi": 22,
+        "rbi": 24,
         "sb": 5,
         "recent": "hot"
       },
@@ -630,11 +630,11 @@
         "id": 682818,
         "name": "Yohendrick Pi\u00f1ango",
         "pos": "LF",
-        "ab": 79,
-        "avg": ".291",
-        "obp": ".333",
-        "slg": ".418",
-        "ops": ".751",
+        "ab": 83,
+        "avg": ".277",
+        "obp": ".318",
+        "slg": ".398",
+        "ops": ".716",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
@@ -649,26 +649,26 @@
         "id": 671936,
         "name": "Adam Macko",
         "role": "P",
-        "ip": "4.1",
+        "ip": "6.0",
         "era": "0.00",
-        "whip": "0.92",
-        "k": 4,
+        "whip": "1.17",
+        "k": 5,
         "bb": 0,
         "w": 1,
         "l": 0,
         "sv": 0,
-        "gs": 0,
+        "gs": 1,
         "recent": "new"
       },
       {
         "id": 608723,
         "name": "Austin Voth",
         "role": "P",
-        "ip": "2.2",
-        "era": "3.38",
-        "whip": "1.50",
+        "ip": "6.0",
+        "era": "9.00",
+        "whip": "2.17",
         "k": 1,
-        "bb": 1,
+        "bb": 5,
         "w": 0,
         "l": 0,
         "sv": 0,
@@ -679,31 +679,31 @@
         "id": 680755,
         "name": "Braydon Fisher",
         "role": "P",
-        "ip": "31.2",
-        "era": "2.56",
-        "whip": "0.98",
+        "ip": "32.2",
+        "era": "2.48",
+        "whip": "0.95",
         "k": 33,
         "bb": 12,
         "w": 2,
         "l": 1,
-        "sv": 0,
+        "sv": 1,
         "gs": 3,
-        "recent": null
+        "recent": "hot"
       },
       {
         "id": 657756,
         "name": "Connor Seabold",
         "role": "P",
-        "ip": "15.2",
-        "era": "3.45",
-        "whip": "1.40",
-        "k": 14,
+        "ip": "17.1",
+        "era": "3.12",
+        "whip": "1.27",
+        "k": 15,
         "bb": 5,
         "w": 1,
         "l": 0,
         "sv": 0,
         "gs": 0,
-        "recent": "cold"
+        "recent": null
       },
       {
         "id": 656546,
@@ -754,12 +754,12 @@
         "id": 689254,
         "name": "Mason Fluharty",
         "role": "P",
-        "ip": "19.2",
-        "era": "4.58",
-        "whip": "1.53",
-        "k": 26,
+        "ip": "21.0",
+        "era": "4.29",
+        "whip": "1.43",
+        "k": 27,
         "bb": 9,
-        "w": 2,
+        "w": 3,
         "l": 0,
         "sv": 0,
         "gs": 2,
@@ -844,47 +844,47 @@
   },
   "team_stats": {
     "hitting": {
-      "runs": {
-        "val": 228,
-        "rank": 22
+      "hr": {
+        "val": 55,
+        "rank": 20
       },
-      "slg": {
-        "val": ".375",
+      "runs": {
+        "val": 234,
         "rank": 22
       },
       "avg": {
-        "val": ".242",
+        "val": ".243",
         "rank": 14
+      },
+      "slg": {
+        "val": ".380",
+        "rank": 21
+      },
+      "ops": {
+        "val": ".689",
+        "rank": 23
       },
       "obp": {
         "val": ".309",
-        "rank": 24
-      },
-      "hr": {
-        "val": 53,
-        "rank": 20
-      },
-      "ops": {
-        "val": ".684",
-        "rank": 23
+        "rank": 25
       }
     },
     "pitching": {
+      "k9": {
+        "val": "9.17",
+        "rank": 5
+      },
       "whip": {
         "val": "1.25",
         "rank": 12
       },
       "era": {
-        "val": "3.73",
-        "rank": 8
-      },
-      "k9": {
-        "val": "9.28",
-        "rank": 5
+        "val": "3.75",
+        "rank": 9
       },
       "bb9": {
-        "val": "3.09",
-        "rank": 6
+        "val": "3.11",
+        "rank": 7
       }
     }
   },
@@ -1026,22 +1026,16 @@
   ],
   "transactions": [
     {
-      "date": "2026-05-22",
-      "type": "Signed",
-      "description": "Toronto Blue Jays signed RHP Sam Gardner.",
-      "person_name": "Sam Gardner"
+      "date": "2026-05-25",
+      "type": "Status Change",
+      "description": "Toronto Blue Jays placed RHP Dylan Cease on the 15-day injured list. Left hamstring strain.",
+      "person_name": "Dylan Cease"
     },
     {
       "date": "2026-05-25",
       "type": "Assigned",
       "description": "Toronto Blue Jays sent RHP Shane Bieber on a rehab assignment to FCL Blue Jays.",
       "person_name": "Shane Bieber"
-    },
-    {
-      "date": "2026-05-25",
-      "type": "Status Change",
-      "description": "Toronto Blue Jays placed RHP Dylan Cease on the 15-day injured list. Left hamstring strain.",
-      "person_name": "Dylan Cease"
     },
     {
       "date": "2026-05-25",
@@ -1062,10 +1056,16 @@
       "person_name": "Davis Schneider"
     },
     {
+      "date": "2026-05-26",
+      "type": "Signed as Free Agent",
+      "description": "Toronto Blue Jays signed free agent RHP Angel Obando to a minor league contract.",
+      "person_name": "Angel Obando"
+    },
+    {
       "date": "2026-05-27",
       "type": "Status Change",
-      "description": "Toronto Blue Jays transferred C Alejandro Kirk from the 10-day injured list to the 60-day injured list. Left thumb fracture.",
-      "person_name": "Alejandro Kirk"
+      "description": "Toronto Blue Jays placed RHP Jos\u00e9 Berr\u00edos on the 60-day injured list. Right elbow stress fracture.",
+      "person_name": "Jos\u00e9 Berr\u00edos"
     },
     {
       "date": "2026-05-27",
@@ -1076,8 +1076,14 @@
     {
       "date": "2026-05-27",
       "type": "Status Change",
-      "description": "Toronto Blue Jays placed RHP Jos\u00e9 Berr\u00edos on the 60-day injured list. Right elbow stress fracture.",
-      "person_name": "Jos\u00e9 Berr\u00edos"
+      "description": "Toronto Blue Jays transferred C Alejandro Kirk from the 10-day injured list to the 60-day injured list. Left thumb fracture.",
+      "person_name": "Alejandro Kirk"
+    },
+    {
+      "date": "2026-05-27",
+      "type": "Trade",
+      "description": "Detroit Tigers traded RHP Connor Seabold to Toronto Blue Jays for LHP Juanmi Vasquez.",
+      "person_name": "Connor Seabold"
     },
     {
       "date": "2026-05-27",
@@ -1087,21 +1093,21 @@
     },
     {
       "date": "2026-05-27",
-      "type": "Optioned",
-      "description": "Toronto Blue Jays optioned RHP Tanner Andrews to Buffalo Bisons.",
-      "person_name": "Tanner Andrews"
-    },
-    {
-      "date": "2026-05-27",
       "type": "Trade",
       "description": "Detroit Tigers traded RHP Connor Seabold to Toronto Blue Jays for LHP Juanmi Vasquez.",
       "person_name": "Juanmi Vasquez"
     },
     {
       "date": "2026-05-27",
-      "type": "Trade",
-      "description": "Detroit Tigers traded RHP Connor Seabold to Toronto Blue Jays for LHP Juanmi Vasquez.",
-      "person_name": "Connor Seabold"
+      "type": "Optioned",
+      "description": "Toronto Blue Jays optioned RHP Tanner Andrews to Buffalo Bisons.",
+      "person_name": "Tanner Andrews"
+    },
+    {
+      "date": "2026-05-28",
+      "type": "Assigned",
+      "description": "Toronto Blue Jays sent RHP Lazaro Estrada on a rehab assignment to Dunedin Blue Jays.",
+      "person_name": "Lazaro Estrada"
     },
     {
       "date": "2026-05-28",
@@ -1112,14 +1118,14 @@
     {
       "date": "2026-05-28",
       "type": "Status Change",
-      "description": "Toronto Blue Jays activated 2B Charles McAdoo.",
-      "person_name": "Charles McAdoo"
+      "description": "Toronto Blue Jays transferred RHP Lazaro Estrada from the 15-day injured list to the 60-day injured list. Right shoulder impingement.",
+      "person_name": "Lazaro Estrada"
     },
     {
       "date": "2026-05-28",
       "type": "Status Change",
-      "description": "Toronto Blue Jays transferred RHP Lazaro Estrada from the 15-day injured list to the 60-day injured list. Right shoulder impingement.",
-      "person_name": "Lazaro Estrada"
+      "description": "Toronto Blue Jays activated 2B Charles McAdoo.",
+      "person_name": "Charles McAdoo"
     },
     {
       "date": "2026-05-28",
@@ -1148,172 +1154,167 @@
   ],
   "news": [
     {
-      "title": "How the 2024 trade deadline is keeping the Blue Jays afloat - The New York Times",
-      "summary": "How the 2024 trade deadline is keeping the Blue Jays afloat&nbsp;&nbsp;The New York Times",
+      "title": "Where are they now? Shannon Stewart revisits the scene of his Blue Jays prime - Toronto Star",
+      "summary": "Where are they now? Shannon Stewart revisits the scene of his Blue Jays prime&nbsp;&nbsp;Toronto Star",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNd3hyVkNFbVp5bW1BSXJadkw5clBNb2c0alJVNnNReFJZNVR1dmpDZDlJMnYydzR0VE40SktKYXBIZElQMWdmbE85SWtxNnktQlkwaGI2UFBuQm5wa2JUYklTREtqclBhdWVGX1BvSE9iWEFrSkkyd2RTY1JJZ2pkQXRQWkp0Vldzd1lpc2xIdEUtVHlkTG5V?oc=5",
-      "published": "2026-05-29T09:30:58+00:00"
+      "url": "https://news.google.com/rss/articles/CBMi-wFBVV95cUxQWVpwTXk5eDJTbFFjVlJoT2tIYktQZW44dkxQaFZRQTEtMHppNVduNk5GLXJWM01iQS1RMWpsQWpnOF9rWG9idFBnb0FZUFVMSmNoM3JOVk1DY012ZXNpdGM3eUtoRm5HN0ZCLVdpNk5qSVljaXZlT0JheXNzRE04OWJWUVpkMjE3N253bkdWaHl5M3BmTENVczBqdGUtX0tnX0dmaHRHUzQzNHc3NktIaE5LUXBJdF81QWJUM2NGU0ZVOXZOSG1kLW9DTHdic1FGWndzY0pZVFZCQ0ctRDRxLXl2VXJRMnVhcEV1SVptOGJjM0tvWTZZM1gtQQ?oc=5",
+      "published": "2026-05-30T09:00:00+00:00"
     },
     {
-      "title": "Gim\u00e9nez homers, Corbin sets tone in Blue Jays' win over O's",
+      "title": "McAdoo (HR for 1st hit), Vladdy help Blue Jays get back to .500",
       "summary": "",
       "source": "MLB.com",
       "author": "Ian Quillen",
-      "url": "https://www.mlb.com/news/andres-gimenez-homers-as-blues-jays-beat-orioles",
-      "published": "2026-05-29T03:55:00+00:00"
+      "url": "https://www.mlb.com/news/charles-mcadoo-homers-for-first-hit-as-blue-jays-reach-500",
+      "published": "2026-05-30T05:28:00+00:00"
     },
     {
-      "title": "Blue Jays Receive Injury News After Orioles Games - Athlon Sports",
-      "summary": "Blue Jays Receive Injury News After Orioles Games&nbsp;&nbsp;Athlon Sports",
+      "title": "Guerrero Jr. breaks through as Blue Jays storm back to beat Orioles - Sportsnet",
+      "summary": "Guerrero Jr. breaks through as Blue Jays storm back to beat Orioles&nbsp;&nbsp;SportsnetGame #56 GameThread: Jays @ Orioles&nbsp;&nbsp;Bluebird BanterMacko to make first career start for Blue Jays Friday vs. Orioles&nbsp;&nbsp;TSN",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNQnV3akc2aVJQVGNLZ18tMlJsanFkYkEzOGoxY0NFcjc4dDB3UXhtRGlnRHN2NVRveTZXUHVqaF9Yd01JejNGWlZXZVhHVmhWQnNaODFKZXdYNFV0a1dhMEtVbFo3MWNKc3pTcTU5RVdvMElDRExUeHdFWnluZHhjWlNRejFvME1ZTUplRVFUbVkyNWxRVG5Jb091UjI?oc=5",
-      "published": "2026-05-29T02:27:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQRDdkSF82cy1oalVVdFAxY2E5NHlYYXNERlhrMnlFZDM3Z0ZWWmdXSlRMbnU4YkFLODcxTThkcmEtNVNXektHZ3Z3SjZ0NFlVMk01RUpWQnpsWUdBX282amFWdTNOaGNzVFphZVI4Sjd1T3hzRVR0Slphd0p3SkF6UFc3bDA3MUNVU1RlYmpQUktJblpxbzNoX0hjT1R4VDEzeERYMGVIZw?oc=5",
+      "published": "2026-05-30T04:54:00+00:00"
     },
     {
-      "title": "Bases-loaded walk lifts the Blue Jays to a 2-1 victory over Orioles - The Globe and Mail",
-      "summary": "Bases-loaded walk lifts the Blue Jays to a 2-1 victory over Orioles&nbsp;&nbsp;The Globe and Mail",
+      "title": "Blue Jays storm back late for 6-5 win - MLB.com",
+      "summary": "Blue Jays storm back late for 6-5 win&nbsp;&nbsp;MLB.com",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiwgFBVV95cUxNLUZYV29EcUJmbmt3ZHVCYWNHZTNfQUJFbkNoVUJDVkgyZjdEU0VxVzZhNlRWSWdsTnpaWGlIMTBpd1lVbmg2X2FHVjVITURWN0p1dmI1c3hONjllYU1IQjNpajRNV1g3aDREbDJsRzZCODNCTFBkeS1pTXYtb1ZzRTRNbTVOSk13aTl5SHRvbElWa2w2TEFCVEdZaXRKdE9QamV5b3BjZ3FjZkswOUhNTnhFWTB0ODRibDk5QUQyUVdIdw?oc=5",
-      "published": "2026-05-29T01:55:57+00:00"
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPajl5LVF4aFBXdzF1QlFzYmxId0tENmJzV0VyZzVIRGx4NVhiZnhJelY0WkhwSUxranV6eEU3aW9sVXhXeXY3NlljQ2dJM3RsUjQ1Tm9rUlJlZGdFYzRZSjRFbVZTRng5RW5FSUdWVFVERjRaQ2RMZGVkeDdGWkpHcmR2SW1zb0JhTnMwXzdZT1B5blk5MHc?oc=5",
+      "published": "2026-05-30T04:18:53+00:00"
     },
     {
-      "title": "Jays Beat Orioles",
-      "summary": "Blue Jays 2 Orioles 1 I guess we scored some runs yesterday, so it was too much to ask for us to get more than two today. We scored: We had 6 hits and 5 walks, so you would have hoped for more runs. But such is life. No one had two hits. Okamoto was [&#8230;]",
+      "title": "Condensed Game: TOR@BAL - 5/29/26 - MLB.com",
+      "summary": "Condensed Game: TOR@BAL - 5/29/26&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMijAFBVV95cUxQSnVQLWJDVkl3Z2RINF90Y3hjUjNLXzFuVjI1YW51VWdEdExvRzk4TXJEUHQ2X0pESTcxUVFsVkFxZ3pkX1JFX1g0a0lNaThNc0FlUmZhdjZidGc2eUVnWW42Ym10N09MMU96WVZjOGxjaHhEc3d3NS1TZXhBVnlRRWJGcnJyNzV1OThaQg?oc=5",
+      "published": "2026-05-30T04:18:50+00:00"
+    },
+    {
+      "title": "Okamoto and McAdoo Homer, Jays Beat Orioles",
+      "summary": "Blue Jays 6 Orioles 5 Back to .500. Bullpen days are a terrible thing to watch. One of my lines is that if you use a lot of relievers, you are likely to find the one that doesn\u2019t have it on that day. And the Jays did find that guy. The second pitcher into the [&#8230;]",
       "source": "Bluebird Banter",
       "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-scores/62160/jays-beat-orioles",
-      "published": "2026-05-29T01:49:27+00:00"
+      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-scores/62182/okamoto-and-mcadoo-homer-jays-beat-orioles",
+      "published": "2026-05-30T02:25:33+00:00"
     },
     {
-      "title": "Jays Beat Orioles - Bluebird Banter",
-      "summary": "Jays Beat Orioles&nbsp;&nbsp;Bluebird BanterBlue Jays Receive Tyler Rogers Injury News After Orioles Games&nbsp;&nbsp;Yahoo SportsBlue Jays eke out win over sharp Bassitt, Orioles&nbsp;&nbsp;Sportsnet",
+      "title": "Okamoto and McAdoo Homer, Jays Beat Orioles - Bluebird Banter",
+      "summary": "Okamoto and McAdoo Homer, Jays Beat Orioles&nbsp;&nbsp;Bluebird Banter",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQSXcwaTNNS0QxbGtJM1ZkUlVuSVlBa0hFRVlkT2gzNHdZRGk2ZDNWTHN1RXBOOWVndS1IbHYxLTJvR1hBeHk1aXp0cFJjdW5zajBiMFFjU01SblZQYjhXQ3FwOGEySHJIZXpBWDBwR2NZLVY1UksyU19sQmlBVWRYeWJYRzFvdw?oc=5",
-      "published": "2026-05-29T01:49:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxQeDc2RnpXckg2QjUzNWxBTHZucmFSTTVOemZsNW05YXhuakRJRTY3Y3R6Q0puazRfYTNxbUxoLUJnUGRuWDFtS0t3M3VlbGNUQnNfNEo3QXJweXh6V2hzNEVZd2ZQWnBEdDYwYXJrZTZGcFA0WjBGZkNxaWRualUyYXc5WThzT0Vab3NPTHFEM0tLUU9hSl9vZjlVSFZOdDExUzZjeFRWVQ?oc=5",
+      "published": "2026-05-30T02:25:00+00:00"
     },
     {
-      "title": "Spencer Miles talks his first season with Blue Jays - MLB.com",
-      "summary": "Spencer Miles talks his first season with Blue Jays&nbsp;&nbsp;MLB.com",
+      "title": "McAdoo (HR for 1st hit), Vladdy help Blue Jays get back to .500 - MLB.com",
+      "summary": "McAdoo (HR for 1st hit), Vladdy help Blue Jays get back to .500&nbsp;&nbsp;MLB.com",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOc2dKclVBRVJmcHFsWEJQaGpVcU41dnJkbEhZV0JqVG9LZC1Iajk1VDl3NWg2NHpDdmNtbDBIN3U4MmRpRlNtSGYxZVZTX0JvZlNNcEJqQmdoMUdPcjMwTEdkaDE5anNyNXdjM1JCb1g2RTg5Q3ZEZmkxN3pOSGc3aDF3S2c5NEFZU2Q5d3BjcnlJT2lIVkdlb2N1RS1Na2pKUG94dnpQMjk?oc=5",
-      "published": "2026-05-29T00:35:42+00:00"
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQU2I3N2ZUMk8wSGt1dVFhLXp1eVI0cnZ0QUJRQ1Q0bkROcjRYekpnMDhSN2h2VVMxdFFHeldjcGhuUlZrWjIxM1g2YVFZNVN4am1heG8tVGo5alNkVTRIZXlKQlliSzFJSDhmTldWM2k3Ylo5S1pTUkVfTV94SXFRMkVZWjctSWJuUWxqR0JRQTAySGVXRDZF?oc=5",
+      "published": "2026-05-30T02:07:29+00:00"
     },
     {
-      "title": "Toronto Blue Jays at Baltimore Orioles Game Story, Scores/Highlights - 05/28/2026 - MLB.com",
-      "summary": "Toronto Blue Jays at Baltimore Orioles Game Story, Scores/Highlights - 05/28/2026&nbsp;&nbsp;MLB.com",
+      "title": "Blue Jays win by erasing five-run deficit as Orioles crumble in late innings - The Globe and Mail",
+      "summary": "Blue Jays win by erasing five-run deficit as Orioles crumble in late innings&nbsp;&nbsp;The Globe and Mail",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE9uc1JZMGV6UUFBTUVBdHJ2b1IwbE5GSVJwNGt3MW1OcEtCY1B1NDRyaG9tRWVkRFVlWlEtUjJscUVXWDdKV1pMWS1YeU85djVa0gFQQVVfeXFMT25zUlkwZXpRQUFNRUF0cnZvUjBsTkZJUnA0a3cxbU5wS0JjUHU0NHJob21FZWREVWVaUS1SMmxxRVdYN0pXWkxZLVh5Tzl2NVo?oc=5",
-      "published": "2026-05-28T23:39:31+00:00"
+      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOS1BDVVlmZkgxN1ZURG1kUzF3eHRVX012M3RHaVdaSFhUZ0pEeV9ZVGVwZ1g2bkNpamFpeXJuXzc4ZzlGNWFzYlk4S1p3NmlKWGxPUURrS1lGU0kzTWNmS1B4blZuQVNPcU1yek5XTHFHeEF4WjdPekxMZDV0U0NwS2RXaFRSLWRScEV4bm5hX0t2WEhvck9FaEVtX294U3ZPWFpsNDN4YURoRGl1d09DZVZmWXdVQlE?oc=5",
+      "published": "2026-05-30T01:58:18+00:00"
     },
     {
-      "title": "Injuries: Teoscar, Tigers, Greene, Blue Jays, Red Sox",
-      "summary": "",
-      "source": "MLB.com",
+      "title": "WATCH: Charles McAdoo hits home run in Blue Jays debut - Blue Jays Nation",
+      "summary": "WATCH: Charles McAdoo hits home run in Blue Jays debut&nbsp;&nbsp;Blue Jays Nation",
+      "source": "Google News",
       "author": "",
-      "url": "https://www.mlb.com/news/baseball-injury-updates",
-      "published": "2026-05-28T23:14:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQcVhSYmV1Ym9mU2FDSHF0amphNklTcG9TT0pEMlR2b21hTmlBblJTZDV1MllwMi1HNDhlRERUWl9YcGRUd04yYkhsUzFPRGxJRnlpTzFITnpnNWVxZ2xfWmJuRHMxM1Y1emw1R1JlT0V1RUZNTU9rNDFVT3FkYTVodzd4LTU0Z0NoZHc?oc=5",
+      "published": "2026-05-30T01:52:28+00:00"
     },
     {
-      "title": "Game #56 GameThread: Jays @ Orioles",
-      "summary": "Game one of four in Baltimore. There have been moves. McAdoo is up. Sosa is on the Il. I bet you didn\u2019t know that inability to take a walk was something that could land you on the IL. Seabold is on the roster, Chase Lee is headed to Buffalo. Today&#8217;s Lineups BLUE JAYS ORIOLES George [&#8230;]",
+      "title": "'Some of my best friends': Orioles' Bassitt reflects on time with Blue Jays - Sportsnet",
+      "summary": "'Some of my best friends': Orioles' Bassitt reflects on time with Blue Jays&nbsp;&nbsp;Sportsnet",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMirgFBVV95cUxNMzdCcHUzLUZ5dGZ1OHBPMWhFZmtoUU5BdUlpaV9YOHdmamNkMjNGc0F6UTR6amZDSnAtbTh3UG81TE1xWjZwbHp1TE5YTk44QWRLS3A2VkxqMnF1aTdFdnltazlIUXhUMkMwc1cwM2xqVTF0c21CbUhlXzB4Y2U3LUlxcHJ1U3NxTVhzREdIQTZtZUtUZVVyaUEzRmltc0hlNkV5RnY3cTB2OFd5b1E?oc=5",
+      "published": "2026-05-30T00:04:00+00:00"
+    },
+    {
+      "title": "Toronto Blue Jays at Baltimore Orioles Game Story, Scores/Highlights - 05/29/2026 - MLB.com",
+      "summary": "Toronto Blue Jays at Baltimore Orioles Game Story, Scores/Highlights - 05/29/2026&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFBuWDlvdFRIdnNub1NldC1wbkFGYXBiOHppeGYxNllVWDNYeDJndlhmbUxnRTlscjRlWlN2di1JMEQxMkpNc1hZTEVRRG5jVXJi0gFQQVVfeXFMUG5YOW90VEh2c25vU2V0LXBuQUZhcGI4eml4ZjE2WVVYM1h4Mmd2WGZtTGdFOWxyNGVaU3Z2LUkwRDEySk1zWFlMRVFEbmNVcmI?oc=5",
+      "published": "2026-05-29T23:48:12+00:00"
+    },
+    {
+      "title": "Game #58 GameThread: Jays @ Orioles",
+      "summary": "Adam Macko gets the \u2018start\u2019 tonight (likely closer to an opener). I don\u2019t know what they expect out of him. Two innings, three? The most he threw in Buffalo is 2.1 innings. Austin Voth is to be the \u2018bulk\u2019 guy. And they are planning another bullpen day Sunday. And Charles McAdoo makes his MLB debut, [&#8230;]",
       "source": "Bluebird Banter",
       "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-gamethreads/62157/game-56-gamethread-jays-orioles",
-      "published": "2026-05-28T22:37:52+00:00"
+      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-gamethreads/62179/game-58-gamethread-jays-orioles",
+      "published": "2026-05-29T22:36:00+00:00"
     },
     {
-      "title": "Tyler Rogers discusses his time at the Blue Jays - MLB.com",
-      "summary": "Tyler Rogers discusses his time at the Blue Jays&nbsp;&nbsp;MLB.com",
+      "title": "Clement on the \u2018tide turning\u2019 for the the Blue Jays, the key to finding consistency and his Sabres fandom - TSN",
+      "summary": "Clement on the \u2018tide turning\u2019 for the the Blue Jays, the key to finding consistency and his Sabres fandom&nbsp;&nbsp;TSN",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOSmJfalQtY1JDTjliUWNmeXZXUXlGd2lrREFZNmo5NHdvOEtIcDVCSW94MUw0aHluNGVqeFp3ZEFtV2lWMUZyd0wyOTVIY2I2NjBrUGpKSUYwUlFxOEYwODJCRFVsNDJDQWZoODk5OHo2clJ5TE5aVFNCa0JxdTZod2s0SGtGZ2p6ZUlB?oc=5",
-      "published": "2026-05-28T22:28:24+00:00"
+      "url": "https://news.google.com/rss/articles/CBMi4wFBVV95cUxNU0wzOHFKX3EwTzNPQjlQV3MzTVRWTzl3czV0TmsxN0N4SFU4SnNsT2pHSDMwMVJnRVdJR2dvMVVsM0dLaUR6c0FlakV2ZGlzeGNUczg1ZTJSMlQxc1lCMUNoTW9YdXdfT3dJbWhfN3c4RzdOZlp0UVhtQ0kzRGdZRm5mOGtCY3V0NVg3MGhWWHRYZ1ktZ3A0VXFvS1dZREVkWTRra1VnVFpLM3JDYWg3RktyVlFhclhPSXR2SWhTdmhDdVZhLTRWb1J6Unk0VzI5WUpqM0FyNlJYN0taanlKMi14QQ?oc=5",
+      "published": "2026-05-29T21:41:11+00:00"
     },
     {
-      "title": "View from the Other Side: Tyler Young from Camden Chat",
-      "summary": "The Baltimore Orioles went into the 2026 offseason with a purpose, making significant moves like signing slugger Pete Alonso, Ryan Helsley, and Leody Taveras and dipping into their deep farm system to trade for Taylor Ward, Andrew Kittredge and Shane Baz. Between those moves and the graduation of top prospects like Sam Basallo, many considered [&#8230;]",
+      "title": "Canadian Macko to start for Blue Jays Friday vs. Orioles, McAdoo to debut - Sportsnet",
+      "summary": "Canadian Macko to start for Blue Jays Friday vs. Orioles, McAdoo to debut&nbsp;&nbsp;Sportsnet",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxNUEdJTmJubENyakRfWkNOZzR3UVJPS1NxYmYzS2pqQkR0b01oWW1vYjNWcF9QSDZtblJjMVhNOVRKTXRXeWZ0cF9OcFRyVFBUZjFnUHAzVTNjaGtMNHJ0UEluOVduWTYzTjZ4REVNWGE3aFlEZTVVcW85MnVkRUg3cmtrcFlCSTVQLW1ERVhOT3RCak9MOFMxUkwwVV9rNDQ?oc=5",
+      "published": "2026-05-29T20:32:00+00:00"
+    },
+    {
+      "title": "Blue Jays\u2019 Jes\u00fas S\u00e1nchez has quickly become a fan favourite - The Globe and Mail",
+      "summary": "Blue Jays\u2019 Jes\u00fas S\u00e1nchez has quickly become a fan favourite&nbsp;&nbsp;The Globe and Mail",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOSjJZQjB3NzNpTkNvbHNzbnFTTWlJTkxLZnNULWp4azE0RGwxTDcydVZJOEFvdmZTc01idU1wWUdQTTNxeVN6WktHLUp5a19KSFppaXNuSHVnN2lwYi1CN0RpbDFlQmhDQWdJSUNnUEhXX21XM2VIM3hZeHpRSFNGRUVOOWJLTVFvU3RvaDNpNG54ckI0eFlqdWVEVzBpcUJXdGROSQ?oc=5",
+      "published": "2026-05-29T19:52:45+00:00"
+    },
+    {
+      "title": "Toronto mansion reportedly owned by Blue Jays' George Springer sells for $6 million - Toronto Sun",
+      "summary": "Toronto mansion reportedly owned by Blue Jays' George Springer sells for $6 million&nbsp;&nbsp;Toronto Sun",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNS2NSR0xBUmxYbl9NM25MejB2amlybkJERXZvRHdsZjNPc24yczhEUmx4d1ktaXcwUkhjbGd3Ri1GZVJNSkFHeGZVcHlYYjZYaDVKZkNTNDg4UnBqZG9wMVF3dll6YmFGUjdDYnFFRzRkeG43TnpnZ1BaRnJCRkxLRnZFNndWb3J3WVZVTk1pdUd6eGxRcE1F?oc=5",
+      "published": "2026-05-29T18:37:27+00:00"
+    },
+    {
+      "title": "MLB and MLBPA Submit Initial Proposals",
+      "summary": "The MLBPA issued their proposals for the new CBA a few days ago and the MLB did so yesterday. The link below to Fangraphs will give you a good list of the details: The MLBPA\u2019s offer is a list of initiatives designed primarily to lift starting salaries and get players to Free Agency earlier, reflecting [&#8230;]",
       "source": "Bluebird Banter",
       "author": "B Telfer",
-      "url": "https://www.bluebirdbanter.com/mlb-news/62153/view-from-the-other-side-tyler-young-from-camden-chat",
-      "published": "2026-05-28T21:10:48+00:00"
+      "url": "https://www.bluebirdbanter.com/mlb-news/62168/mlb-and-mlbpa-submit-initial-proposals",
+      "published": "2026-05-29T17:34:03+00:00"
     },
     {
-      "title": "Blue Jays place Lenyn Sosa on IL, send Chase Lee to triple-A - Sportsnet",
-      "summary": "Blue Jays place Lenyn Sosa on IL, send Chase Lee to triple-A&nbsp;&nbsp;Sportsnet",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNT09GcmdRRXQ1QWoyZ3N4T1VwWjhzSk0xbXI0VGw5dm8wRTBBWk5BT3ozRUtLVmc4OG9lSHBNQjFfeXQ2YWxrS2tQWjdGNHNKbnlfVzVxOVdsWGNSMkg0bE1HdndzdmdYRW4xTkwySzRoZ1ZMaHdYXzR6dVEtelhsUmNLLWFpZVh5cmk0c1A5Q3ZpZ3FBT2c4X2FMVzZzdw?oc=5",
-      "published": "2026-05-28T20:35:00+00:00"
-    },
-    {
-      "title": "King aims to be ace: Top Blue Jays pitching prospect struts stuff with Vancouver Canadians - The Province",
-      "summary": "King aims to be ace: Top Blue Jays pitching prospect struts stuff with Vancouver Canadians&nbsp;&nbsp;The Province",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxPZThmeE5tQ0VQV1d2aVJLZ2JJWjB4c0tHbTVIT1RUWDQxRlljakczNmpCN29xcm1KOXFiNzBncWZyVmF5M2IzV2NyYWliSTE0eWJRVmYyRkIzQ2xIZmFqWldpVXdOUm9CLU1CTnZBZElOUjRWV0laV1U3UzhVNGRMcWFXZlRTYjVkRGJTTTg5SVhtMHc2TTRHTFg2UkZzQjZvYzlKWA?oc=5",
-      "published": "2026-05-28T18:55:22+00:00"
-    },
-    {
-      "title": "Blue Jays add McAdoo, Seabold to roster; Sosa (wrist) lands on IL - TSN",
-      "summary": "Blue Jays add McAdoo, Seabold to roster; Sosa (wrist) lands on IL&nbsp;&nbsp;TSN",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxPQlZOTXlMdVNIRU5rZGN5MUdKRHJPU0tLamJaUXNLRjl5LU1nRGxiU0VCQXdLUUIxTmdoOW1Ydy1EWU5fSUlvM1g0RmV6VnkxM1AtTk5KdzI2ZEVfWEZSY1ZidWU1d2w5RFpQcEN3LW1wUDBjeEpRc0JuOHVxOERqeVRwRzh0LTVnTkRkSW50SG5MQQ?oc=5",
-      "published": "2026-05-28T18:04:39+00:00"
-    },
-    {
-      "title": "Blue Jays Calling Up Charles McAdoo - Bluebird Banter",
-      "summary": "Blue Jays Calling Up Charles McAdoo&nbsp;&nbsp;Bluebird Banter",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQdXd5dEJKeHpsNnNPSG83LVBwQlc0Sk1JaGFVUVZ1UkI1S1lWMDEyalBuek1wSkVzaEpQcnpkVTZTcUR5aDNBRWJJb3NtbFRPaDJKSHdlZXJNcGZXaV9JdmgtTjFDaU80LXVwRkk3QktpaHpMVm5KaEVDUnVWNlVNTzNCNA?oc=5",
-      "published": "2026-05-28T16:23:22+00:00"
-    },
-    {
-      "title": "Blue Jays Calling Up Charles McAdoo",
-      "summary": "I missed this yesterday (being fair, I haven\u2019t turned on the computer for two days, but I did ride my bike 100 very hill kilometers over the last couple of days). Charles McAdoo will be getting the call-up today. He is hitting .250/.356/.436 with 6 home runs, 28 walks, 40 strikeouts and 6 stolen bases [&#8230;]",
+      "title": "Happy Birthday Joe Biagini",
+      "summary": "Today marks Joe Biagini&#8217;s 36th birthday. Biagini joined the Jays as a Rule 5 draft pick before the 2016 season and, somewhat unexpectedly, became a key bullpen contributor. He appeared in 60 games with a 3.06 ERA and served as a long reliever, pitching two innings in 13 of those outings. He was also known [&#8230;]",
       "source": "Bluebird Banter",
       "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/news/62149/blue-jays-calling-up-charles-mcadoo",
-      "published": "2026-05-28T16:23:22+00:00"
+      "url": "https://www.bluebirdbanter.com/blue-jay-history/62163/happy-birthday-joe-biagini",
+      "published": "2026-05-29T15:14:06+00:00"
     },
     {
-      "title": "Wild Blue Jays attendance numbers show fans are ready for another World Series run - Jays Journal",
-      "summary": "Wild Blue Jays attendance numbers show fans are ready for another World Series run&nbsp;&nbsp;Jays Journal",
+      "title": "Pirates\u2019 decision to move Charles McAdoo keeps aging poorly as Blue Jays call him up - Jays Journal",
+      "summary": "Pirates\u2019 decision to move Charles McAdoo keeps aging poorly as Blue Jays call him up&nbsp;&nbsp;Jays Journal",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNdUFZY0RGWUVQS3hTSW5CdWVKbWFQU2puN1NYWUpzbmtPdUMwT1gtN2taN183R05vUVc0T29Jd1VDRTZlZnFWOF9jSWRHeEJ2d3FJR2dwTmtqT1JfMW5JbldJbHdsVmpfQkRmclJCSVBMSlA4bnlBRkM5UFhfQXIzTnhtVTdTV3ZtcDBWMktQXzlGQTBsR0luQW1URHM1SDBmNjIzZlplbjVlZw?oc=5",
-      "published": "2026-05-28T16:04:14+00:00"
-    },
-    {
-      "title": "Happy Birthday Duane Ward",
-      "summary": "Today marks Duane Ward&#8217;s 62nd birthday. Duane ranks second on the Blue Jays\u2019 all-time saves list with 121. Jordan Romano is third with 105 saves. The way pitching is changing, I don\u2019t see anyone getting into that top three for a long time, unless the tide changes again and we go back to one reliever [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/blue-jay-history/62145/happy-birthday-duane-ward",
-      "published": "2026-05-28T15:35:53+00:00"
-    },
-    {
-      "title": "Okamoto shakes off HBP to power Blue Jays to tense win over Marlins - Sportsnet",
-      "summary": "Okamoto shakes off HBP to power Blue Jays to tense win over Marlins&nbsp;&nbsp;Sportsnet",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQdUQ0OHFhNzhJOFphZ1ptN1AzR3hRZGVKaWhSNDBlZmtOd0hOZ0lzYmRnWVV2c1B2SGlldU5rLXQycmNHbzNIRVhzVmhHN1ZVdjBoOFNJaWhXM0JubzZGNTVhVGQ2ajhOVzZrbWRCekRhSGk2UFJIMk1RanlKcGYxX0d2U0xjTTJMbWpWMDFUSmJsQXZ4XzhjUzBGSHVyT25sUEp5UEpVY2E?oc=5",
-      "published": "2026-05-28T15:30:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNR0xVV3N2WHVXbXp4RWUtWHNadmtiazcyd3RhWFFFSnI2WkprRV84Mnp4Z29sdTlrSmhGY2V0NUNMaHFEb1lEMERWcVNqY2toc0NkZGU3cDItQk9uWTlIa3VSbk9lbURyQzVqZDRTUC04bDgxakN4NHJ4SW81c1hGQjRycElKc1dkM01ralFDTnBfbVZlMlRoRzEzWDVKQ1RrUl9ZVzhsYVdYdkU?oc=5",
+      "published": "2026-05-29T15:00:02+00:00"
     }
   ],
   "run_diff_last_10": [
-    {
-      "date": "2026-05-19",
-      "diff": -1,
-      "result": "L"
-    },
     {
       "date": "2026-05-20",
       "diff": 1,
@@ -1356,6 +1357,11 @@
     },
     {
       "date": "2026-05-28",
+      "diff": 1,
+      "result": "W"
+    },
+    {
+      "date": "2026-05-29",
       "diff": 1,
       "result": "W"
     }
