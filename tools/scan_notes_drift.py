@@ -80,6 +80,9 @@ STOPWORDS = frozenset({
     "The", "This", "That", "These", "Those", "Some", "Any", "All", "None",
     "Each", "Every", "Both", "Either", "Neither", "Most", "Many", "Few",
     "Several", "Various", "Another", "Other",
+    # Indefinite pronouns at sentence start
+    "Nobody", "Somebody", "Anybody", "Everybody",
+    "Someone", "Anyone", "Everyone", "No-one",
     # Numbers at sentence start
     "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
     "Ten", "First", "Second", "Third", "Fourth", "Fifth", "Sixth",
@@ -90,7 +93,8 @@ STOPWORDS = frozenset({
     # Prepositions
     "From", "With", "Without", "During", "Through", "Throughout", "Above",
     "Below", "Across", "Around", "Between", "Beyond", "Beneath", "Outside",
-    "Inside", "Within", "Upon", "Toward", "Towards", "Against",
+    "Inside", "Within", "Upon", "Toward", "Towards", "Against", "Among",
+    "Amongst", "Despite", "Until",
     # Time markers
     "Earlier", "Later", "Recently", "Currently", "Today", "Tomorrow",
     "Yesterday", "Eventually", "Finally", "Lately",
@@ -117,6 +121,8 @@ STOPWORDS = frozenset({
     "Patient", "Strong", "Weak", "Top", "Bottom", "Mid", "Free", "Healthy",
     "Solid", "Suspect", "Recent", "Right", "Left", "Heavy", "Light",
     "Last", "Next", "Previous", "Initial", "Final", "Late", "Early",
+    "Rare", "Common", "Unusual", "Normal", "Standard", "Hard", "Soft",
+    "Sharp", "Dull", "Clean", "Dirty",
     "Well", "Better", "Worse", "Best", "Worst",
     # Misc
     "There", "Here", "Yes", "No", "Now", "Maybe", "Perhaps",
