@@ -152,6 +152,10 @@ If MLB introduces a new pitch type (e.g., the "sweeper" classification rolled ou
 
 ## Scanner
 
+Two scanners ship with the repo. Both run as warn-only steps in the daily refresh and as pytest gates at PR time.
+
+### Drift scanner (free-text)
+
 The drift scanner (`tools/scan_notes_drift.py`) walks the rows in this registry where `Drift = HIGH` and `Names = Y`:
 
 - `players[id].recentNote`
@@ -181,6 +185,24 @@ The exact path list lives in [`tools/notes_drift_paths.json`](../tools/notes_dri
 - **In daily refresh** (PR 3): the workflow log emits `WARN notes_drift: ...` lines. Doesn't fail the build (`--warn-only` mode).
 - **Optional reader-side**: surface findings as `data.json.notes_drift[]` for a maintainer-only banner. Deferred unless wanted.
 
+### Orphan scanner (keyed entries)
+
+The orphan scanner (`tools/scan_notes_orphans.py`) checks the *keys* of keyed objects in `notes.json` against the authoritative ID sets in `data.json`:
+
+- `notes.players[id]` — valid if `id` ∈ `data.json.roster.{hitters,pitchers}[].id` ∪ `injuries[].person_id` ∪ `other_unavailable[].person_id`. Anyone "associated with the team today" counts.
+- `notes.injuries[id]` — valid if `id` ∈ `injuries[].person_id` ∪ `other_unavailable[].person_id`. Tighter scope: injury notes are only meaningful for players whose status renders in the Injured List panel.
+
+Where the drift scanner is about *content* — capitalized tokens mentioning names not on the roster — the orphan scanner is about *keys*: notes authored for a player who's no longer with the team, or an injury note for someone who's already come off the IL. Same bug class as the Bo/Berríos drift findings from #88, just rooted in the key rather than the body.
+
+**Not scanned:**
+
+- `notes.games[gamePk]` — old games age out of the 30-day window naturally; orphaned game notes are archive, not bug.
+- `notes.pitches[name]` / `notes.team.*` / `notes.overview.*` — singletons or stable-key dictionaries, no orphan risk.
+
+**Tuning controls.** Per-fork allow-list at `.notes-scan-allow.json` under the `orphan_ids` key — list of integer IDs to skip. Useful for a beloved former player whose note you're keeping deliberately. Config flag `scan_notes_orphans` (default `true`).
+
+**How findings surface.** `tests/test_notes_orphans.py::test_integration_real_files_scan_clean` fails CI on a PR; the daily-refresh workflow's "Scan notes for orphan keys (warn-only)" step emits `ORPHAN ...` lines in the log post-merge.
+
 ---
 
 ## Maintenance
@@ -204,4 +226,4 @@ When a field is removed:
 
 - [`data-schema.md`](data-schema.md) — full field-level reference for `data.json` (and `notes.json` schema section).
 - [`runbook.md`](runbook.md) — how to act on drift findings (how to whitelist, how to suppress, how to fix).
-- [`forking.md`](forking.md) — `scan_notes_drift` config flag for forkers.
+- [`forking.md`](forking.md) — `scan_notes_drift` and `scan_notes_orphans` config flags for forkers.

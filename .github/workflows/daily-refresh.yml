@@ -63,6 +63,13 @@ jobs:
         # for the suppression workflow.
         run: python3 tools/scan_notes_drift.py --warn-only
 
+      - name: Scan notes for orphan keys (warn-only)
+        # Catches keyed entries (notes.players[id], notes.injuries[id])
+        # whose ID no longer matches the roster / IL / other_unavailable.
+        # Same warn-only posture: findings appear in the log, exit always 0.
+        # Forks can disable via config.scan_notes_orphans=false.
+        run: python3 tools/scan_notes_orphans.py --warn-only
+
       - name: Commit and push if changed
         run: |
           # data/gamelog_cache.json is the per-player gameLog cache (#52).
