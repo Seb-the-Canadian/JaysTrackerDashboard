@@ -235,3 +235,4 @@ When a field is removed:
 - [`data-schema.md`](data-schema.md) — full field-level reference for `data.json` (and `notes.json` schema section).
 - [`runbook.md`](runbook.md) — how to act on drift findings (how to whitelist, how to suppress, how to fix).
 - [`forking.md`](forking.md) — `scan_notes_drift` and `scan_notes_orphans` config flags for forkers.
+- [`authoring-notes.md`](authoring-notes.md) — the maintenance loop: cadence guidance, evergreen phrasing, refresh checklist, and the `tools/draft_notes_brief.py` brief tool.
