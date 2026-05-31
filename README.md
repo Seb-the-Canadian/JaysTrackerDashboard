@@ -156,7 +156,7 @@ What each surfaces:
 
 HTML in note bodies renders as-is — the note author is the trust boundary (Phase 3 design). Add a note, commit `notes.json`, push. The dashboard picks it up on next load.
 
-For per-field detail (drift class, names/HTML capability, where each field renders) see [`docs/free-text-fields.md`](docs/free-text-fields.md); for shape/types/examples see the [`notes.json`](docs/data-schema.md#notesjson) section of the schema reference.
+For per-field detail (drift class, names/HTML capability, where each field renders) see [`docs/free-text-fields.md`](docs/free-text-fields.md); for shape/types/examples see the [`notes.json`](docs/data-schema.md#notesjson) section of the schema reference. For the maintenance loop (cadence guidance, evergreen phrasing, refresh checklist + draft brief) see [`docs/authoring-notes.md`](docs/authoring-notes.md).
 
 ---
 
