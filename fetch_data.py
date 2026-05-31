@@ -17,6 +17,7 @@ import io
 import json
 import os
 import re
+import subprocess
 import sys
 import time
 import urllib.error
@@ -65,6 +66,29 @@ NEW_DAYS_THRESHOLD = 14
 
 def log(msg):
     print(msg, file=sys.stderr)
+
+
+# --- notes.json freshness (per the "main dashboard text gets stale" thread) ---
+
+def notes_last_updated_iso(repo_root=None):
+    """Return ISO timestamp of the last git commit touching notes.json, or None.
+
+    File mtime is unreliable in CI (checkouts reset it), so we read from git
+    history. Used by the renderer to show a "analyst voice refreshed Nd ago"
+    badge with the same green/amber/red staleness posture as the data-freshness
+    header. Returns None when git is unavailable or notes.json isn't tracked.
+    """
+    root = Path(repo_root) if repo_root else Path(__file__).resolve().parent
+    try:
+        result = subprocess.run(
+            ["git", "log", "-1", "--format=%aI", "--", "notes.json"],
+            cwd=str(root),
+            capture_output=True, text=True, check=True, timeout=10,
+        )
+        ts = result.stdout.strip()
+        return ts or None
+    except (subprocess.SubprocessError, FileNotFoundError, OSError):
+        return None
 
 
 # --- gameLog cache (issue #52) ------------------------------------------
@@ -1792,6 +1816,9 @@ def main():
 
     output = {
         "as_of": datetime.now(timezone.utc).isoformat(),
+        "notes_meta": {
+            "last_updated_iso": notes_last_updated_iso(),
+        },
         "config": {
             "team_id": cfg["team_id"],
             "team_name": cfg["team_name"],

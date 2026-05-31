@@ -31,6 +31,9 @@ body {
 .refreshed { font-size: 11px; color: #6b7689; margin-top: 2px; text-align: right; }
 .refreshed.staleness-amber { color: #d29922; font-weight: 600; }
 .refreshed.staleness-red { color: #f85149; font-weight: 700; }
+.notes-refreshed { font-size: 11px; color: #6b7689; margin-top: 2px; text-align: right; font-style: italic; }
+.notes-refreshed.staleness-amber { color: #d29922; font-weight: 600; font-style: normal; }
+.notes-refreshed.staleness-red { color: #f85149; font-weight: 700; font-style: normal; }
 .nav { display: flex; gap: 4px; margin-bottom: 24px; border-bottom: 1px solid #1f2937; overflow-x: auto; }
 .nav-btn { background: transparent; border: none; color: #8b96a8; padding: 10px 16px; font-size: 14px; font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; transition: all 0.15s; white-space: nowrap; display: inline-flex; align-items: center; gap: 6px; }
 .nav-btn:hover { color: #e6edf3; }
@@ -238,6 +241,7 @@ h3 { font-size: 14px; font-weight: 600; margin: 0 0 10px 0; color: #c9d1d9; }
     <div>
       <div class="as-of" id="asOf"></div>
       <div class="refreshed" id="refreshed"></div>
+      <div class="notes-refreshed" id="notesRefreshed"></div>
     </div>
   </header>
   <div id="schemaBanner" class="schema-banner" style="display:none"></div>
@@ -261,7 +265,7 @@ let NOTES = {};
 let CONFIG = null;
 let _chartDrawn = false;
 
-const EXPECTED_KEYS = ['as_of','team','division','wild_card','recent_games','upcoming_games','roster','injuries','other_unavailable','transactions','news','run_diff_last_10','team_stats','config'];
+const EXPECTED_KEYS = ['as_of','team','division','wild_card','recent_games','upcoming_games','roster','injuries','other_unavailable','transactions','news','run_diff_last_10','team_stats','config','notes_meta'];
 
 // Top-N hitters by AB go in "Lineup Regulars"; the rest fall to "Bench / Depth".
 const LINEUP_REGULAR_COUNT = 8;
@@ -505,6 +509,7 @@ async function loadAll() {
       DATA = cached;
       NOTES = JSON.parse(localStorage.getItem('jaysTracker.notes') || '{}');
       applyStaleness(DATA.as_of);
+      applyNotesStaleness(DATA.notes_meta);
       renderAll();
     }
   } catch (_) {}
@@ -536,6 +541,7 @@ async function loadAll() {
     localStorage.setItem('jaysTracker.notes', JSON.stringify(notes || {}));
   } catch (_) {}
   applyStaleness(data.as_of);
+  applyNotesStaleness(data.notes_meta);
   renderAll();
 }
 
@@ -566,6 +572,25 @@ function applyStaleness(asOf) {
   refreshed.className = cls;
   refreshed.textContent = 'Last refreshed: ' + fetched.toLocaleString();
   asOfEl.textContent = 'As of ' + fetched.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function applyNotesStaleness(notesMeta) {
+  const el = document.getElementById('notesRefreshed');
+  if (!el) return;
+  const iso = notesMeta && notesMeta.last_updated_iso;
+  if (!iso) { el.textContent = ''; el.className = 'notes-refreshed'; return; }
+  const updated = new Date(iso);
+  if (isNaN(updated.getTime())) { el.textContent = ''; el.className = 'notes-refreshed'; return; }
+  const ageDays = Math.floor((Date.now() - updated.getTime()) / 86400000);
+  let cls = 'notes-refreshed';
+  if (ageDays > 14) cls += ' staleness-red';
+  else if (ageDays > 7) cls += ' staleness-amber';
+  let label;
+  if (ageDays === 0) label = 'Analyst voice: refreshed today';
+  else if (ageDays === 1) label = 'Analyst voice: 1d old';
+  else label = 'Analyst voice: ' + ageDays + 'd old';
+  el.className = cls;
+  el.textContent = label;
 }
 
 function validateSchema(data) {

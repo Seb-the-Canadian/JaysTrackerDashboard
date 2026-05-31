@@ -18,11 +18,12 @@ This file is generated at the end of each daily refresh and committed to `main`.
 - **Self-validating.** Before write, `assert_invariants` (`fetch_data.py:1189`) checks size + type constraints on every required key and `die()`s on a violation. A run that fails invariants leaves the previous `data.json` in place — the dashboard goes stale, but it never goes wrong.
 - **Schema-drift-checked.** The renderer compares `data.json`'s top-level keys to `EXPECTED_KEYS` (`index.html:261`). Missing keys raise a visible banner. New keys are silently ignored — but if the renderer needs them, you'll see it in the next consumer.
 
-### Top-level keys (14)
+### Top-level keys (15)
 
 | Key | Type | Section |
 |---|---|---|
 | `as_of` | `str` | [Meta](#as_of) |
+| `notes_meta` | `object` | [Meta](#notes_meta) |
 | `config` | `object` | [Meta](#config) |
 | `team` | `object` | [Team](#team) |
 | `team_stats` | `object` | [Team](#team_stats) |
@@ -56,6 +57,30 @@ ISO 8601 timestamp of when this `data.json` was generated, in UTC.
 **Source:** Set at the top of `main()` in `fetch_data.py` (around line 1265), `datetime.now(timezone.utc).isoformat()`. Not a fetch — generated.
 
 **Consumed by:** `applyStaleness(DATA.as_of)` in `index.html:504`. The header turns amber if `as_of` is more than 24 hours old, red if more than 48 hours. The freshness indicator is the dashboard's "is this stale?" signal.
+
+---
+
+### `notes_meta`
+
+Metadata about the hand-authored `notes.json` file. Distinct from `as_of`, which is about the machine-fetched data.
+
+**Shape:** `object` with one key.
+
+```json
+{
+  "last_updated_iso": "2026-05-30T03:07:57+00:00"
+}
+```
+
+| Field | Type | Meaning |
+|---|---|---|
+| `last_updated_iso` | `str \| null` | ISO 8601 timestamp of the last git commit touching `notes.json`. `null` when git is unavailable or `notes.json` isn't tracked. |
+
+**Source:** `notes_last_updated_iso()` in `fetch_data.py` shells out to `git log -1 --format=%aI -- notes.json` and returns the trimmed stdout. File mtime would be unreliable in CI (checkout resets it), so we go through git history.
+
+**Consumed by:** `applyNotesStaleness(DATA.notes_meta)` in `index.html`. Renders an "Analyst voice: Nd old" badge in the header, with the same green/amber/red staleness posture as `as_of` — but on a longer cadence (green <7d, amber 7-14d, red >14d). Tells the reader when the hand-authored narrative was last refreshed, separately from when the machine data was last refreshed.
+
+**Why this exists.** The analyst-voice layer in `notes.json` is hand-authored and doesn't refresh on a cron. Without a visible signal, readers can't tell that the overview narrative talking about "this recent stretch" was actually written N days ago. The badge makes the staleness honest and lets the maintainer self-calibrate.
 
 ---
 

@@ -116,6 +116,14 @@ Most fields are structured (numbers, IDs, enums). The free-text fields below all
 
 The `roster.*[].name` and `injuries[].name` rows are the **name dictionary** the scanner builds at runtime to validate `notes.json` mentions. Treat them as the source of truth for "currently on the team."
 
+There is also a metadata-only field that supports the notes-freshness story:
+
+| Path | Author | Renders | Drift | Names | HTML | Cadence |
+|---|---|---|---|---|---|---|
+| `notes_meta.last_updated_iso` | fetcher (reads `git log` on `notes.json`) | Header — "Analyst voice: Nd old" badge with green/amber/red staleness | NONE | N | N | daily |
+
+The badge thresholds are green <7d, amber 7-14d, red >14d — a longer cadence than the data-freshness header (amber >36h, red >72h) because the hand-authored layer has a longer natural half-life.
+
 For field-level details on `data.json`, see [`data-schema.md`](data-schema.md).
 
 ---
