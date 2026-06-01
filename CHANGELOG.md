@@ -10,6 +10,26 @@ The format groups changes by milestone-or-wave rather than by category. Within e
 
 ## Unreleased
 
+### Notes-staleness maintenance loop (2026-05-30 – 2026-06-01)
+
+Sibling to the free-text-protection work below. Where the drift / orphan scanners protect *content* (names that no longer match the roster), this thread protects *framing* — the temporal-staleness class where the analyst voice ages on its own cadence and the prose talks about "the recent stretch" days after the stretch ended. The user noticed it: "the main dashboard text got stale pretty fast, despite other updates running regularly without issue." The fix is a three-layer maintenance loop so the next staleness is visible (badge), cheap to fix (brief), and impossible to ignore (warn-only workflow step).
+
+The loop:
+
+1. **Visible** — header badge on the live dashboard shows "Analyst voice: Nd old" with the same green/amber/red posture as the data-freshness timestamp. Reader self-calibrates.
+2. **Cheap** — `python3 tools/draft_notes_brief.py` pulls current team state, hot/cold tags, roster drift, and per-section refresh-due flags. Authors get the facts in one screen.
+3. **Loud** — daily-refresh workflow's third notes-scanner step (`check_notes_freshness.py --warn-only`) flags sections past their cadence threshold in the log.
+
+The first organic post-merge drift catch arrived on the day the loop landed: PR [#98](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/98) fixed an Austin Voth reference in Kirk's injury note that became stale when Voth rolled off the roster in the 2026-05-31 daily refresh. The pytest integration test failed on main, the WARN line appeared in the workflow log, and the fix was a one-line edit — exactly the loop working as designed.
+
+**Added**
+- `feat(notes): freshness badge for hand-authored layer + evergreen overview` ([#96](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/96)) — fetcher reads `git log -1` for `notes.json` and writes `data.json.notes_meta.last_updated_iso`; new `applyNotesStaleness` in `index.html` renders the "Analyst voice: Nd old" badge alongside the existing "As of X" header. Green <7d, amber 7-14d, red >14d. Also rewrites `overview.headline` + `overview.paragraphs[]` + `team.ctx.hitting.runs` with evergreen phrasing — dropped "Through 52 games," "the first two months," and "the schedule turns favorable through mid-June." 10 new pytest tests (subprocess mocked at the boundary), 423 total at 81.05% coverage.
+- `feat(notes): authoring guide + draft-brief helper` ([#97](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/97)) — new `tools/draft_notes_brief.py` (stdlib-only CLI) prints a structured authoring brief from `data.json` + `notes.json`: team state, hot/cold/new roster partition, notes ↔ roster drift, per-section refresh status. `--json` mode for piping. New `docs/authoring-notes.md` codifies the maintenance loop, cadence-by-section table (overview weekly, team bi-weekly, players bi-weekly, injuries reactive, pitches rare, games historical), evergreen-phrasing principle with anti-pattern examples lifted from #96. Cross-linked from README and free-text-fields.md. 36 new pytest tests, 459 total at 81.05%.
+- `feat(notes): freshness scanner — workflow staleness step` ([#99](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/99)) — new `tools/check_notes_freshness.py` mirrors the drift / orphan scanner shape: stdlib-only, warn-only in workflow, strict in PR-time CI. Imports `CADENCE` from `draft_notes_brief.py` so threshold edits propagate to both the brief tool and the scanner. New `check_notes_freshness` config flag (default `true`) for fork opt-out. `--age-days N` override supports CI dry-runs and threshold tuning. 21 new pytest tests, 480 total at 81.05%.
+
+**Fixed**
+- `fix(notes): drop Austin Voth ref from Kirk injury detail (drift)` ([#98](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/98)) — the 2026-05-31 daily refresh rolled Austin Voth off the roster, and the drift scanner flagged the lingering "an Austin Voth call-up" reference in `notes.injuries[672386].detail`. First post-merge drift caught organically; the scanner doing its job. Replaced "Austin Voth" with "depth" — narrative intent preserved, name-specific drift eliminated.
+
 ### Notes free-text protection + test buildout (2026-05-30)
 
 A direct response to PR #88's three stale-name findings (Bo Bichette, Berríos, Kirk's outdated injury detail). Builds the documentation, scanners, and tests that make this class of drift visible and prevent it going forward. Anti-fragile layers ship as warn-only post-merge nets so they catch real bugs without blocking the build on tuning. Closes [#75](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/issues/75) (comprehensive pytest coverage) along the way.

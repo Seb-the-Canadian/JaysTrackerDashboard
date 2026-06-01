@@ -42,6 +42,10 @@ The chassis is feature-complete. v1.0 is gated on documentation polish and a sho
 - Six top-level keys: `games`, `players`, `overview`, `team`, `pitches`, `injuries` — Waves 1–3
 - HTML in note bodies renders as-is (author is the trust boundary, Phase 3)
 - Missing keys degrade silently — facts always render
+- **Free-text drift protection** — `tools/scan_notes_drift.py` flags names not in current roster + IL; per-fork whitelist; `<!-- noscan -->` opt-out marker — PRs #89/#90/#91
+- **Keyed-orphan protection** — `tools/scan_notes_orphans.py` flags `players[id]` / `injuries[id]` keys with no matching `data.json` ID — PR #93
+- **Temporal-staleness loop** — three-layer maintenance loop: dashboard freshness badge (`data.json.notes_meta`), `tools/draft_notes_brief.py` author brief, `tools/check_notes_freshness.py --warn-only` in workflow — PRs #96/#97/#99, guide at [`docs/authoring-notes.md`](authoring-notes.md)
+- All 11 pitch types have analyst notes — issue #81, PR #95
 
 **Forkability**
 
@@ -53,7 +57,11 @@ The chassis is feature-complete. v1.0 is gated on documentation polish and a sho
 
 - README accurate after Wave 1/2/3 + RSS + wild card + hot/cold — shipped in #65
 - `docs/agent-dispatch.md` lessons learned — shipped in #65
-- `docs/data-schema.md` canonical data.json reference — shipped in #68
+- `docs/data-schema.md` canonical data.json reference — shipped in #68, extended with `notes.json` schema in #89 and `notes_meta` in #96
+- `docs/free-text-fields.md` — drift surface registry across `notes.json` / `data.json` / `config.json` / `index.html` — shipped in #89
+- `docs/authoring-notes.md` — notes maintenance loop (cadence, evergreen phrasing, refresh checklist, scanners) — shipped in #97
+- `docs/runbook.md` — symptom/cause/fix entries for pytest failures, drift / orphan / freshness scanner findings — shipped in #69, extended in #92/#90/#93/#99
+- `tests/` — 480+ pytest tests, 81% coverage on `fetch_data.py`, gated at 70% in CI — shipped through #92 (closes #75)
 
 ### Gating items for the v1.0 tag
 
