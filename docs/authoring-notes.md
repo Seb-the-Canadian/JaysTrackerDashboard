@@ -136,13 +136,14 @@ Written at the time of the game; not refreshed. `gamePk` is permanent. Once a ga
 
 ## Validation infrastructure
 
-Three layers guard the notes file. Each is documented elsewhere; pointers below.
+Four layers guard the notes file. Each is documented elsewhere; pointers below.
 
 | Layer | Tool | What it catches | Where |
 |---|---|---|---|
 | **Drift** | `tools/scan_notes_drift.py` | Capitalized name-tokens not in the current roster + IL | [`docs/free-text-fields.md`](free-text-fields.md) |
 | **Orphan** | `tools/scan_notes_orphans.py` | Keyed entries (`players[id]` / `injuries[id]`) with no matching `data.json` ID | [`docs/free-text-fields.md`](free-text-fields.md) |
-| **Freshness** | `data.json.notes_meta` → dashboard badge | File-level age signal; surfaces "this is N days old" | [`docs/data-schema.md#notes_meta`](data-schema.md#notes_meta) |
+| **Freshness badge** | `data.json.notes_meta` → dashboard header | File-level age signal in the live UI; green/amber/red | [`docs/data-schema.md#notes_meta`](data-schema.md#notes_meta) |
+| **Freshness scanner** | `tools/check_notes_freshness.py` | Sections older than their cadence threshold (workflow log + PR-time CI) | [`docs/runbook.md`](runbook.md) |
 
 All three run in CI on every PR (the drift / orphan integration tests fail the build; the freshness badge is data-only). All three also run warn-only in the daily refresh workflow as a post-merge net.
 
