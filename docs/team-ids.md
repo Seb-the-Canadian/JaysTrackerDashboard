@@ -3,6 +3,8 @@
 The `config.json` in your fork needs three identifiers from MLB Stats API: `team_id`, `league_id`, `division_id`. This file lists all 30 teams.
 
 > **Verification.** These IDs are from stable historical knowledge of the API; the API itself is the canonical source. Before relying on this list for production, regenerate it once on your machine to confirm nothing has shifted. See [Regenerating this list](#regenerating-this-list) at the bottom.
+>
+> **Last verified: 2026-06-01.** All 15 AL teams cross-checked against the live `data.json` (which carries `team_id` + `team` for division and wild-card teams); names and IDs match. The Athletics rebrand (no "Oakland" prefix as of 2025) is reflected; `team_id 133` is preserved across the rebrand. NL IDs are stable historical — MLB Stats API team IDs persist across rebrands (Cleveland 114 stayed for Indians → Guardians; same pattern for Athletics 133).
 
 **League IDs:**
 

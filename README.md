@@ -2,6 +2,8 @@
 
 A live MLB season dashboard. Auto-refreshes daily. Hosted on GitHub Pages. Forkable for any team in MLB by editing one config file.
 
+> **Status: v1 — stable, suitable for forks.** Chassis is feature-complete; the daily refresh is unattended; documentation is comprehensive. See [`CHANGELOG.md`](CHANGELOG.md) for the shipped history and [`docs/roadmap.md`](docs/roadmap.md) for what's next.
+
 **Live:** https://seb-the-canadian.github.io/JaysTrackerDashboard/
 
 <img width="1302" height="2062" alt="CleanShot 2026-05-28 at 15 11 44" src="https://github.com/user-attachments/assets/327c17c5-8019-4f52-beae-327cd2869076" />
