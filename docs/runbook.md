@@ -330,6 +330,46 @@ Inputs are configurable: `--notes`, `--data`, `--allow`, `--config`.
 
 ---
 
+### Notes-freshness scanner flagged a stale section (daily-refresh log)
+
+**Symptom.** The `Check notes freshness vs cadence (warn-only)` step in the `Daily data refresh` workflow shows lines like:
+
+```
+WARN notes.overview: 9d old (cadence: weekly, threshold: 7d)
+  see: docs/authoring-notes.md
+```
+
+The step exits 0 always (warn-only), so the refresh still commits and pushes. The dashboard header's "Analyst voice: Nd old" badge will also be amber or red.
+
+**Diagnosis.** `tools/check_notes_freshness.py` checks `notes.json`'s git mtime against per-section cadence thresholds. A finding means: section X's threshold has been exceeded. Three possibilities:
+
+1. **Genuinely overdue refresh.** Sit down, run `python3 tools/draft_notes_brief.py`, edit the affected sections per the cadence in `docs/authoring-notes.md`. This is the normal case.
+2. **Cadence threshold too aggressive for your fork.** If you don't want a weekly overview refresh, edit `CADENCE` in `tools/draft_notes_brief.py` to raise the threshold. Universal across all consumers (scanner + brief tool).
+3. **Forking and don't want the check.** Set `config.json.check_notes_freshness = false` to skip the workflow step entirely.
+
+**Fix, by cause:**
+
+| Cause | Action |
+|---|---|
+| Overdue refresh | Edit `notes.json`, commit + push. The badge / scanner will go quiet on the next refresh. |
+| Threshold mis-tuned | Raise the relevant value in `CADENCE` (e.g., overview from 7 → 10 days). |
+| Don't want the check | Set `check_notes_freshness: false` in `config.json`. |
+
+**Local debugging.**
+
+```bash
+python3 tools/check_notes_freshness.py                 # exit 1 if findings
+python3 tools/check_notes_freshness.py --json          # structured output
+python3 tools/check_notes_freshness.py --age-days 14   # simulate 14d-old
+python3 tools/check_notes_freshness.py --warn-only     # exit 0 always
+```
+
+The `--age-days` override is useful for dry-running cadence changes ("what would the scanner say if notes were 14 days old?").
+
+**Reference.** Shipped as part of the "main dashboard text gets stale" thread alongside the freshness badge ([#96](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/96)) and the authoring guide + draft brief ([#97](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/97)). See [`docs/authoring-notes.md`](authoring-notes.md) for the full maintenance loop.
+
+---
+
 ## Hypothetical failures (haven't seen, but watch for)
 
 These haven't happened to us yet but are reasonable to plan for.

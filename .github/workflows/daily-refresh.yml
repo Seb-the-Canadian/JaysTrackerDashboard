@@ -70,6 +70,14 @@ jobs:
         # Forks can disable via config.scan_notes_orphans=false.
         run: python3 tools/scan_notes_orphans.py --warn-only
 
+      - name: Check notes freshness vs cadence (warn-only)
+        # Temporal drift: notes.json hasn't been edited recently enough
+        # that its prose still reflects current state. Uses per-section
+        # cadence thresholds (overview weekly, team bi-weekly, etc.).
+        # Warn-only post-merge net; forks can disable via
+        # config.check_notes_freshness=false. See docs/authoring-notes.md.
+        run: python3 tools/check_notes_freshness.py --warn-only
+
       - name: Commit and push if changed
         run: |
           # data/gamelog_cache.json is the per-player gameLog cache (#52).
