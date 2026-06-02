@@ -187,6 +187,7 @@
       // Tabs not yet implemented stay as stubs in the HTML.
       if (window.JaysOverview) window.JaysOverview.render(state);
       if (window.JaysPlayers) window.JaysPlayers.render(state);
+      if (window.JaysTeamStats) window.JaysTeamStats.render(state);
 
       // Expose for later commits + console debugging.
       window.JT_STATE = state;

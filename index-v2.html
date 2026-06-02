@@ -12,6 +12,7 @@
 <!-- Per-tab styles. Tabs not yet wired share the panel kit fallback. -->
 <link rel="stylesheet" href="assets/overview.css" />
 <link rel="stylesheet" href="assets/players.css" />
+<link rel="stylesheet" href="assets/team-stats.css" />
 
 <!-- Hanken Grotesk via Google Fonts CDN; preconnect for first-paint. -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -399,12 +400,8 @@ a { color: inherit; }
   <!-- Players tab body — populated by assets/players.js on boot. -->
   <section class="tab-body" id="tab-players" role="tabpanel" hidden></section>
 
-  <section class="tab-body" id="tab-team-stats" role="tabpanel" hidden>
-    <div class="tab-stub">
-      <h2>Team Stats</h2>
-      <p>Content lands in step 5.</p>
-    </div>
-  </section>
+  <!-- Team Stats tab body — populated by assets/team-stats.js on boot. -->
+  <section class="tab-body" id="tab-team-stats" role="tabpanel" hidden></section>
 
   <section class="tab-body" id="tab-stat-school" role="tabpanel" hidden>
     <div class="tab-stub">
@@ -423,6 +420,7 @@ a { color: inherit; }
 <script src="assets/format.js"></script>
 <script src="assets/overview.js"></script>
 <script src="assets/players.js"></script>
+<script src="assets/team-stats.js"></script>
 <script src="assets/render.js"></script>
 
 </body>
