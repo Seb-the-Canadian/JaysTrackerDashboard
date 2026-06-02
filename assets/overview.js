@@ -385,14 +385,15 @@
 
   function renderRecentGame(g) {
     const opp = abbreviate(g.opp);
-    const prefix = g.home ? '' : '@ ';
     const sub = F.shortMonthDay(g.date)
       + (g.winning_pitcher ? ' · ' + g.winning_pitcher.split(' ').slice(-1)[0] : '');
     const cls = g.result === 'W' ? 'w' : 'l';
     return el('div', { class: 'game' }, [
       el('span', { class: 'opp' }, (g.home ? '' : '@') + opp),
       el('span', { class: 'meta' }, [
-        document.createTextNode(prefix + (g.home ? 'vs ' : 'at ') + opp),
+        // Bug M4: dropped the redundant '@ ' prefix; the .opp tile
+        // already carries the home/away indicator.
+        document.createTextNode((g.home ? 'vs ' : 'at ') + opp),
         el('small', null, sub),
       ]),
       el('span', { class: 'res' }, [
@@ -548,7 +549,10 @@
     if (!root) return;
     root.innerHTML = '';
 
-    // Eyebrow + KPI row
+    // Eyebrow + h2 (visually hidden — "Overview" is communicated by the
+    // active tab; the h2 exists for assistive tech and document outline).
+    // Bug B6: prior Overview had no h2; other tabs all had one.
+    root.appendChild(el('h2', { class: 'sr-only' }, 'Overview'));
     root.appendChild(el('p', { class: 'ov-eyebrow' }, [
       document.createTextNode('The season right now'),
       el('span', { class: 'rule' }),

@@ -90,17 +90,25 @@
     root.style.setProperty('--team-secondary', secondary);
     root.style.setProperty('--team-accent', accent);
 
-    // Derived soft tints (10% color against white) for backgrounds
-    root.style.setProperty('--team-primary-soft', mixHex(primary, '#ffffff', 0.90));
-    root.style.setProperty('--team-secondary-soft', mixHex(secondary, '#ffffff', 0.90));
+    // Derived soft tints. In light mode mix toward white (10% color, 90%
+    // white) for the near-white pastel the design specifies. In dark mode
+    // mix toward the dark card surface at 0.75 ratio — produces a subtle
+    // tinted-dark distinguishable from --card but not so dark it traps
+    // light text. Bug B1: previously mixed toward white regardless of
+    // theme; .pc-av text was 1.04:1.
+    const isDark = root.getAttribute('data-theme') === 'dark';
+    const cardBg = isDark ? '#1b1f27' : '#fffdf8';
+    if (isDark) {
+      root.style.setProperty('--team-primary-soft', mixHex(primary, cardBg, 0.75));
+      root.style.setProperty('--team-secondary-soft', mixHex(secondary, cardBg, 0.75));
+    } else {
+      root.style.setProperty('--team-primary-soft', mixHex(primary, '#ffffff', 0.90));
+      root.style.setProperty('--team-secondary-soft', mixHex(secondary, '#ffffff', 0.90));
+    }
 
     // Team color used as text on --card must pass WCAG AA. For dark primaries
     // (NYY #003087, NYM blue) the raw value passes on cream. For low-contrast
-    // edge cases, fall back to --ink. Dark mode shifts --team-primary-ink up
-    // via the [data-theme="dark"] block in tokens.css — but if the page is
-    // currently dark, evaluate against the dark card surface instead.
-    const isDark = root.getAttribute('data-theme') === 'dark';
-    const cardBg = isDark ? '#1b1f27' : '#fffdf8';
+    // edge cases, fall back to --ink.
     const inkFallback = isDark ? '#eceef2' : '#1c2230';
     root.style.setProperty(
       '--team-primary-ink',

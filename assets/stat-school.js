@@ -362,10 +362,26 @@
 
   // ---- Main entry ----
 
+  function renderSkeleton(root) {
+    // Synchronous placeholder while stat_school.json is in-flight.
+    // Bug B8: previously empty body during load (slow network UX).
+    root.innerHTML = ''
+      + '<div class="panel-skeleton">'
+      +   '<div class="sk-line" style="width:35%"></div>'
+      +   '<div class="sk-line" style="width:60%"></div>'
+      +   '<div class="sk-line" style="width:90%"></div>'
+      +   '<div class="sk-line" style="width:75%"></div>'
+      +   '<div class="sk-line" style="width:55%"></div>'
+      + '</div>';
+  }
+
   function render(state) {
+    const root = document.getElementById('tab-stat-school');
+    if (!root) return Promise.resolve();
+    // Render the skeleton synchronously so the tab body isn't empty if
+    // the user lands on / clicks Stat School during the JSON load.
+    renderSkeleton(root);
     return loadSchool().then(function () {
-      const root = document.getElementById('tab-stat-school');
-      if (!root) return;
       root.innerHTML = '';
 
       // Eyebrow + intro

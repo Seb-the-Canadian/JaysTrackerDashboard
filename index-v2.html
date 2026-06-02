@@ -73,9 +73,11 @@ a { color: inherit; }
   background: var(--card);
   transform: rotate(45deg); /* diamond bug */
 }
+.brand .wordmark h1,
 .brand .wordmark b {
   font-weight: var(--w-display); font-size: 16px;
   letter-spacing: .02em; display: block; line-height: 1.1;
+  margin: 0;
 }
 .brand .wordmark small {
   font-size: 10.5px; color: var(--ink-3);
@@ -330,11 +332,36 @@ a { color: inherit; }
   .tab-body { padding: 18px 18px 20px; }
 }
 @media (max-width: 480px) {
+  /* Source key collapses to glyphs only */
   .srckey {
-    padding: 4px 8px;  /* glyphs only at this width */
+    padding: 4px 8px;
   }
   .srckey .k { font-size: 0; gap: 0; }
   .srckey .glyph { font-size: 12px; }
+}
+/* Bug B7: at narrow phone widths (≤360px iPhone SE class) header chrome
+   pushes past viewport. Allow appbar-meta to wrap and trim padding so
+   nothing forces horizontal scroll. */
+@media (max-width: 360px) {
+  body { overflow-x: hidden; }
+  .appbar {
+    flex-wrap: wrap;
+    padding: 10px 12px 8px;
+    gap: 10px;
+  }
+  .appbar-meta {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .hdr-rec { white-space: normal; }
+  .hdr-rec b { font-size: 17px; }
+  .freshness small { display: none; }
+  .il-chip { padding: 4px 8px; }
+  .tabs { padding: 4px 12px 0; }
+  .tab { padding: 9px 12px 14px; font-size: 13px; }
+  .tab-body { padding: 14px 12px 18px; }
 }
 </style>
 </head>
@@ -352,7 +379,7 @@ a { color: inherit; }
   <div class="brand">
     <span class="mark"><span aria-hidden="true"></span></span>
     <span class="wordmark">
-      <b id="brand-title">Loading…</b>
+      <h1 id="brand-title">Loading…</h1>
       <small id="brand-sub">v2 build</small>
     </span>
   </div>

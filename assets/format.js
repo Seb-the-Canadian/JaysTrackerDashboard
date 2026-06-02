@@ -39,9 +39,12 @@
   }
 
   // Ordinal suffix: 1 → '1st', 22 → '22nd', etc.
+  // Bug M6: prior version returned "-1th" for negatives; ranks below
+  // 1 are nonsense (MLB ranks are 1–30), return '—' instead.
   function ordinal(n) {
     if (n == null || isNaN(n)) return '—';
     var v = Number(n);
+    if (!Number.isFinite(v) || v < 1) return '—';
     var rem100 = v % 100;
     if (rem100 >= 11 && rem100 <= 13) return v + 'th';
     var suffix = { 1: 'st', 2: 'nd', 3: 'rd' }[v % 10] || 'th';
@@ -92,22 +95,18 @@
   }
 
   // Relative phrasing for RSS timestamps: "6h ago", "3d ago", "2w ago".
+  // Bug M7: future timestamps (clock skew, bad data) returned 'just now';
+  // now returns 'soon' so the consumer can distinguish.
   function relativeAge(iso) {
     var d = parseIso(iso);
     if (!d) return '';
     var diff = (Date.now() - d.getTime()) / 1000;
+    if (diff < 0) return 'soon';
     if (diff < 60) return 'just now';
     if (diff < 3600) return Math.round(diff / 60) + 'm ago';
     if (diff < 86400) return Math.round(diff / 3600) + 'h ago';
     if (diff < 604800) return Math.round(diff / 86400) + 'd ago';
     return Math.round(diff / 604800) + 'w ago';
-  }
-
-  // Time of day, no timezone label: "7:07 PM".
-  function timeOfDay(iso) {
-    var d = parseIso(iso);
-    if (!d) return '';
-    return d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
   }
 
   // ---- Avatar helper ----
@@ -149,7 +148,6 @@
     shortMonthDay: shortMonthDay,
     slashDate: slashDate,
     relativeAge: relativeAge,
-    timeOfDay: timeOfDay,
     initials: initials,
     slugify: slugify,
   };

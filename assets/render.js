@@ -18,9 +18,14 @@
 
   function parseTabFromHash() {
     const h = (window.location.hash || '').replace(/^#/, '');
-    // Player modal & stat anchors get routed in later commits; for now
-    // any tab-shaped hash wins, anything else falls back to default.
+    // Exact tab match wins.
     if (TABS.indexOf(h) !== -1) return h;
+    // Deep-link prefixes — each per-tab module handles its own anchor /
+    // modal logic on top of the tab being active. Bug B2: previously
+    // fell back to overview, so a direct-load #stat-xwoba landed on
+    // Overview instead of activating Stat School + scrolling.
+    if (h.indexOf('stat-') === 0) return 'stat-school';
+    if (h.indexOf('player-') === 0) return 'players';
     return DEFAULT_TAB;
   }
 
@@ -134,16 +139,9 @@
   }
 
   function hookIlChip(state) {
-    const chip = document.getElementById('il-chip');
-    chip.addEventListener('click', function () {
-      // Popover lands in a later commit. For now, no-op + visible toggle hint.
-      const data = state.data || {};
-      const injuries = data.injuries || [];
-      // eslint-disable-next-line no-alert
-      if (injuries.length === 0) return;
-      console.info('[v2] IL chip clicked — popover lands in a later commit. Current IL:',
-        injuries.map(function (r) { return r.name + ' (' + (r.status || '?') + ')'; }));
-    });
+    // IL chip is currently a static badge. Popover (names + status + ETA)
+    // is a tracked follow-up (M2 from the round-1 bug log).
+    void state;
   }
 
   function hookTabRouting() {

@@ -458,9 +458,17 @@
     // Try to open a modal from the URL hash (deep-link).
     tryOpenFromHash(state);
 
-    // Listen for hash changes that pop into a player.
+    // Listen for hash changes: open the modal when the hash matches a
+    // player anchor, OR close the open modal if the hash navigates away
+    // from #player- (covers the browser-back case — bug B4).
     window.addEventListener('hashchange', function () {
-      tryOpenFromHash(state);
+      const h = window.location.hash || '';
+      if (h.indexOf('#player-') === 0) {
+        tryOpenFromHash(state);
+      } else {
+        const scrim = document.getElementById('player-modal-scrim');
+        if (scrim && scrim.classList.contains('show')) closeModal();
+      }
     }, { once: false });
   }
 

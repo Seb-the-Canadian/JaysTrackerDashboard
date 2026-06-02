@@ -478,3 +478,9 @@
     padding-top: 10px; margin-top: 10px;
   }
 }
+/* Bug B7: at narrow phone widths the two-up KPI grid still overflows. */
+@media (max-width: 360px) {
+  .kpis { grid-template-columns: 1fr; gap: 10px; }
+  .kpi { padding: 14px 14px; }
+  .kpi .kv { font-size: 38px; }
+}
