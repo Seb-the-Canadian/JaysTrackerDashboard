@@ -1,7 +1,7 @@
 {
-  "as_of": "2026-06-01T10:48:06.977803+00:00",
+  "as_of": "2026-06-02T01:10:11.171864+00:00",
   "notes_meta": {
-    "last_updated_iso": "2026-05-31T15:10:27-04:00"
+    "last_updated_iso": "2026-06-01T19:22:11-04:00"
   },
   "config": {
     "team_id": 141,
@@ -365,7 +365,7 @@
       "home": false,
       "opp": "Atlanta Braves",
       "probable_pitcher_us": "Kevin Gausman",
-      "probable_pitcher_them": "",
+      "probable_pitcher_them": "Bryce Elder",
       "status": "Scheduled"
     },
     {
@@ -374,7 +374,7 @@
       "home": false,
       "opp": "Atlanta Braves",
       "probable_pitcher_us": "Patrick Corbin",
-      "probable_pitcher_them": "",
+      "probable_pitcher_them": "Grant Holmes",
       "status": "Scheduled"
     },
     {
@@ -383,7 +383,7 @@
       "home": false,
       "opp": "Atlanta Braves",
       "probable_pitcher_us": "",
-      "probable_pitcher_them": "",
+      "probable_pitcher_them": "Chris Sale",
       "status": "Scheduled"
     },
     {
@@ -416,6 +416,15 @@
     {
       "game_pk": 822806,
       "date": "2026-06-08",
+      "home": true,
+      "opp": "Philadelphia Phillies",
+      "probable_pitcher_us": "",
+      "probable_pitcher_them": "",
+      "status": "Scheduled"
+    },
+    {
+      "game_pk": 822805,
+      "date": "2026-06-09",
       "home": true,
       "opp": "Philadelphia Phillies",
       "probable_pitcher_us": "",
@@ -847,47 +856,47 @@
   },
   "team_stats": {
     "hitting": {
-      "slg": {
-        "val": ".380",
-        "rank": 22
-      },
       "avg": {
         "val": ".244",
-        "rank": 12
-      },
-      "runs": {
-        "val": 244,
-        "rank": 22
-      },
-      "obp": {
-        "val": ".310",
-        "rank": 25
-      },
-      "ops": {
-        "val": ".690",
-        "rank": 24
+        "rank": 13
       },
       "hr": {
         "val": 56,
         "rank": 21
+      },
+      "obp": {
+        "val": ".310",
+        "rank": 26
+      },
+      "ops": {
+        "val": ".690",
+        "rank": 25
+      },
+      "slg": {
+        "val": ".380",
+        "rank": 22
+      },
+      "runs": {
+        "val": 244,
+        "rank": 22
       }
     },
     "pitching": {
-      "bb9": {
-        "val": "3.28",
-        "rank": 10
-      },
       "k9": {
         "val": "9.11",
         "rank": 6
       },
-      "era": {
-        "val": "3.89",
-        "rank": 11
-      },
       "whip": {
         "val": "1.28",
         "rank": 15
+      },
+      "bb9": {
+        "val": "3.28",
+        "rank": 10
+      },
+      "era": {
+        "val": "3.89",
+        "rank": 10
       }
     }
   },
@@ -1029,36 +1038,6 @@
   ],
   "transactions": [
     {
-      "date": "2026-05-25",
-      "type": "Assigned",
-      "description": "Toronto Blue Jays sent RHP Shane Bieber on a rehab assignment to FCL Blue Jays.",
-      "person_name": "Shane Bieber"
-    },
-    {
-      "date": "2026-05-25",
-      "type": "Status Change",
-      "description": "Toronto Blue Jays activated RF Nathan Lukes from the 10-day injured list.",
-      "person_name": "Nathan Lukes"
-    },
-    {
-      "date": "2026-05-25",
-      "type": "Status Change",
-      "description": "Toronto Blue Jays placed RHP Dylan Cease on the 15-day injured list. Left hamstring strain.",
-      "person_name": "Dylan Cease"
-    },
-    {
-      "date": "2026-05-25",
-      "type": "Optioned",
-      "description": "Toronto Blue Jays optioned LF Davis Schneider to Buffalo Bisons.",
-      "person_name": "Davis Schneider"
-    },
-    {
-      "date": "2026-05-25",
-      "type": "Selected",
-      "description": "Toronto Blue Jays selected the contract of RHP Tanner Andrews from Buffalo Bisons.",
-      "person_name": "Tanner Andrews"
-    },
-    {
       "date": "2026-05-26",
       "type": "Signed as Free Agent",
       "description": "Toronto Blue Jays signed free agent RHP Angel Obando to a minor league contract.",
@@ -1090,9 +1069,9 @@
     },
     {
       "date": "2026-05-27",
-      "type": "Optioned",
-      "description": "Toronto Blue Jays optioned RHP Tanner Andrews to Buffalo Bisons.",
-      "person_name": "Tanner Andrews"
+      "type": "Selected",
+      "description": "Toronto Blue Jays selected the contract of RHP Austin Voth from Buffalo Bisons.",
+      "person_name": "Austin Voth"
     },
     {
       "date": "2026-05-27",
@@ -1102,15 +1081,33 @@
     },
     {
       "date": "2026-05-27",
-      "type": "Selected",
-      "description": "Toronto Blue Jays selected the contract of RHP Austin Voth from Buffalo Bisons.",
-      "person_name": "Austin Voth"
+      "type": "Optioned",
+      "description": "Toronto Blue Jays optioned RHP Tanner Andrews to Buffalo Bisons.",
+      "person_name": "Tanner Andrews"
+    },
+    {
+      "date": "2026-05-28",
+      "type": "Status Change",
+      "description": "Toronto Blue Jays placed 2B Lenyn Sosa on the 10-day injured list retroactive to May 27, 2026. Right wrist contusion.",
+      "person_name": "Lenyn Sosa"
     },
     {
       "date": "2026-05-28",
       "type": "Status Change",
       "description": "Toronto Blue Jays activated RHP Connor Seabold.",
       "person_name": "Connor Seabold"
+    },
+    {
+      "date": "2026-05-28",
+      "type": "Status Change",
+      "description": "Toronto Blue Jays activated 2B Charles McAdoo.",
+      "person_name": "Charles McAdoo"
+    },
+    {
+      "date": "2026-05-28",
+      "type": "Assigned",
+      "description": "Toronto Blue Jays sent RHP Lazaro Estrada on a rehab assignment to Dunedin Blue Jays.",
+      "person_name": "Lazaro Estrada"
     },
     {
       "date": "2026-05-28",
@@ -1121,26 +1118,8 @@
     {
       "date": "2026-05-28",
       "type": "Status Change",
-      "description": "Toronto Blue Jays activated 2B Charles McAdoo.",
-      "person_name": "Charles McAdoo"
-    },
-    {
-      "date": "2026-05-28",
-      "type": "Status Change",
       "description": "Toronto Blue Jays activated RHP Connor Seabold.",
       "person_name": "Connor Seabold"
-    },
-    {
-      "date": "2026-05-28",
-      "type": "Status Change",
-      "description": "Toronto Blue Jays placed 2B Lenyn Sosa on the 10-day injured list retroactive to May 27, 2026. Right wrist contusion.",
-      "person_name": "Lenyn Sosa"
-    },
-    {
-      "date": "2026-05-28",
-      "type": "Assigned",
-      "description": "Toronto Blue Jays sent RHP Lazaro Estrada on a rehab assignment to Dunedin Blue Jays.",
-      "person_name": "Lazaro Estrada"
     },
     {
       "date": "2026-05-28",
@@ -1169,6 +1148,118 @@
   ],
   "news": [
     {
+      "title": "Blue Jays-Marlins Sandy Alc\u00e1ntara Mock Trade to Jumpstart Trade Season - Sports Illustrated",
+      "summary": "Blue Jays-Marlins Sandy Alc\u00e1ntara Mock Trade to Jumpstart Trade Season&nbsp;&nbsp;Sports Illustrated",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMivwFBVV95cUxQWFN0Z2Z1NUNqSXdIRzNvSlNhSXFnaHEwNEQ1YnM1X0w2emVRYWt2SjkyN0xmYVVJV0VzQ1dfSFpUc2pnREMwX3N1clJxVmlzTXY5eS1qNzB6OE41SFROaXRHbmxmTnRNWXRadk53SVBRU2ZvbG9lcEtDb3FzM3RVS1h4Yy1TbnFsX3JtMG9RMWVOcUdPQ0pJcmd4Mkt2NDRxV1JlNU9Vazk3NGJIUWxEQXVjUzRHZjB4QklGS1kzTQ?oc=5",
+      "published": "2026-06-01T23:59:30+00:00"
+    },
+    {
+      "title": "Reliever Louis Varland Entering Rare Territory With Blue Jays - Sports Illustrated",
+      "summary": "Reliever Louis Varland Entering Rare Territory With Blue Jays&nbsp;&nbsp;Sports Illustrated",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQT1JIRTZEVlZST0FZdG80eDFWbHVGTVMzUHNjS0ZFSlZheTZ3a3kyS0x3RjBRNjJiSzZDOXN2OW55N09WdHdtSHZ2UmVKODNpYlh3OXVMcWkyZGpEUTJ3OE9ZR3dUeHVSNWVvUDR5UVJoOUJEaWhaNWdHZ2FpYUgtcVFBNUJiakhtSzRubWc0Y3ZHNVdPcEFyMQ?oc=5",
+      "published": "2026-06-01T23:00:00+00:00"
+    },
+    {
+      "title": "Nathan Lukes' contact skills are what the Toronto Blue Jays need atop their lineup - Jays Journal",
+      "summary": "Nathan Lukes' contact skills are what the Toronto Blue Jays need atop their lineup&nbsp;&nbsp;Jays Journal",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQMGJkUTlHMmFPeWV6clVnbEUyOVBTN2lzZjFKMG9JamJSV3dXNmlQZWZqcW1HTk56Ymt0S1R3clNZSHczSF9HWjktWTNhcVBaUEJ4NlBMczMwQmF6QjZlWjBua1R0NkU4MWtPeXc3dTdPc0Z1dVJTT3k3ai1oTzRNaXdXSkR0ellTTnEwb3dod0d6RVVhVFBCQWdKY3MxamNVem1INUpXX1c?oc=5",
+      "published": "2026-06-01T21:00:00+00:00"
+    },
+    {
+      "title": "Banged up Blue Jays are in the playoff hunt as they enter June - The Globe and Mail",
+      "summary": "Banged up Blue Jays are in the playoff hunt as they enter June&nbsp;&nbsp;The Globe and Mail",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQWjlZNERGNnl6RW4zcFlvUi0zYTVXVVNVbWZBTEtNWVJUbzRKUE5pM2o0akRkMktWX2Jhc052YWtraHZSR3JHTF9HeWtSRng2azFaY2NoRDh2dDdhYnFwSlJXX3ZLTHFCbFRtSGFiQnU5dzJlNThGSnE5UTVHMTQwdUVhUW56b3JjQ2NVTlJMYU5qVUN1ZnBGUGcyN2ZwNFpWMG1ZZHFTTXRMd01QdXRN?oc=5",
+      "published": "2026-06-01T19:06:31+00:00"
+    },
+    {
+      "title": "Five Things: Reigning American League champion Blue Jays dealing with inconsistency - Toronto Star",
+      "summary": "Five Things: Reigning American League champion Blue Jays dealing with inconsistency&nbsp;&nbsp;Toronto Star",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMigwJBVV95cUxNbnRIZjIxVi1wMTlJOXBpdWtBQlRqQ2pkQ1BpcXlsVzFuN0FOT1l3T3JzNUVTS09ldkdZNVhjbUo4T21MVHJZOUo5OC1nRWMwMFUzdmlCV0stZnYxb3BvcldJbDZFQksxYkNqRS1PeC1URzhlNDRiWGZEeDNWTmc3R3o0UGhGYTI2b3liOS1ZU1RYTTJSakFkbk9FVVFoUHNEOXhvYW4zb09MRTdsOC00Z0dtR1RiNklVVWZuOU9ITHBiTk1aRTFRZHJ1UkhyZTJveHpKYl9iZnJ1cEtQTjdGdU1lSXdCQ2YtcXU5RW4ySUlHZzg5c3YwV2pxTGtPdWstUWRF?oc=5",
+      "published": "2026-06-01T18:48:05+00:00"
+    },
+    {
+      "title": "Unlikely Blue Jays star Ernie Clement's love affair with Toronto fans grows - USA Today",
+      "summary": "Unlikely Blue Jays star Ernie Clement's love affair with Toronto fans grows&nbsp;&nbsp;USA Today",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxPV1hTUkVFSnp6TWd3LTlOLWI0VWRQZU41U1NZR3huNmpkVE03a19BNkFDdlViUGpmWnpWa3lfOU9OcERLM28wSV9ldWoxR281aERGSk9DNlEzOVQ0dDI4bVR6VFdjZmJnd2VKcC00akJQaXlHVVVlelRVNUIzUW43RC12NV9CdlByOXJBNVZGM3V3UWJBck5EcVBYaVhUaGxHTkNnbjFYT1dKdHZ6?oc=5",
+      "published": "2026-06-01T15:36:00+00:00"
+    },
+    {
+      "title": "Off-Day OpenThread",
+      "summary": "The Jays and we get a day off. As much as I enjoy baseball, I don\u2019t mind days off. We are using the evening to see a National Geographic lecture. Yes, I\u2019m that old. So we have time for an OpenThread. Use it to chat about anything you like, within site rules. It doesn\u2019t have [&#8230;]",
+      "source": "Bluebird Banter",
+      "author": "tom dakers",
+      "url": "https://www.bluebirdbanter.com/general/62203/off-day-openthread",
+      "published": "2026-06-01T15:04:56+00:00"
+    },
+    {
+      "title": "3 top Blue Jays trade deadline assets if the Toronto front office decides to sell - Jays Journal",
+      "summary": "3 top Blue Jays trade deadline assets if the Toronto front office decides to sell&nbsp;&nbsp;Jays Journal",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNdE1rVHB5eVprU2JoMk9TcnJsQ0d5TXlLbnVKMjd6VUVWT3lSUWxJU0x0bjlWS3AteVctbVVvbzc4Q3lFbENqMWR5U0pBVHpKeFVtYmNXb3IzQWJvX0xuUmN6SHVCQVFmNXBSTm5xcktoRVFnanRhckp0RjlmTjhHMnJuUi0xbmV4V01yTGtFMGRHYWFpUTYzUUJBWUZFX0lCVV9jR29mWkY?oc=5",
+      "published": "2026-06-01T15:00:00+00:00"
+    },
+    {
+      "title": "2026 MLB Draft: How 2025 decisions alter the Blue Jays\u2019 draft strategy this year - Blue Jays Nation",
+      "summary": "2026 MLB Draft: How 2025 decisions alter the Blue Jays\u2019 draft strategy this year&nbsp;&nbsp;Blue Jays Nation",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxPcmF6WVRIUWVwVlBlVUFDSFBidWk5anUzMjNFOUJKeFN6cGxueWotRGljN0FHZURselBSR1NmSmR6eG1RdDF3clBjeVo5VmZCcHVIRHZOWVdyUFFzd2VsUGVwZ3JHU3NURjRXbVhOZTU4XzdkQVcyaVJ2WHVPZVAtOXhzdWZOWFF4bjhkMVNOSG1mYkFRMkVOZXMwUjZINmlSdXhwN2RGbVVodm1kLXA0?oc=5",
+      "published": "2026-06-01T15:00:00+00:00"
+    },
+    {
+      "title": "Measuring potential future impact of Blue Jays' standout rookie class - Sportsnet",
+      "summary": "Measuring potential future impact of Blue Jays' standout rookie class&nbsp;&nbsp;Sportsnet",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNb0hsOVBoV3R2OFEyTmgwQ29sNjRRNjEwb1hWR09SWDRBQ3lQd2lmQ0FVZ2ROREJ3ZzVpSndUVTY5QVd3NnRlWFhYc1l0Mm44Njh4YUlLa0FNNzFGYVRzSl96OUJUcnZteW5WSXE1LW1rM1JZYTlQc0ZFaDNBQThDOHpVNUlnTk5xNjl3Z2dkdThOalpKSmY0ZkNncUhBeG1XUW9lcUlVNloxZw?oc=5",
+      "published": "2026-06-01T14:35:00+00:00"
+    },
+    {
+      "title": "Blue Jays' trade cost revealed to get Tarik Skubal from Tigers - sportingnews.com",
+      "summary": "Blue Jays' trade cost revealed to get Tarik Skubal from Tigers&nbsp;&nbsp;sportingnews.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMizgFBVV95cUxNZVNVdVFtVFRiTVRTS2hZUW9ISnRJVWVrdkl2bXFoQkd0dmgwR0pGTDlRRUszQ1RPd0VBTGZFdWhfUjdaN1ZMcTBYWUsza21jOW5iMWpoVUUyWXpCbkk5emRQeF84UkNXbWNQRHdRelBrWlk2dVpZSUx2OVNLYXlNZ2V1SUJYNU1SMEQ0SUNqUWxrbzdkQUxvN194dEs1YXZ2bHNjZmFUcjdWQ3R6RTUwa1dnM3BDOXhHeEt5TnMxQkUxMkVxZEtYMWVpelRZdw?oc=5",
+      "published": "2026-06-01T14:30:47+00:00"
+    },
+    {
+      "title": "Phillips on Hoffman\u2019s usage and future with the Jays, Jesus Sanchez\u2019s bizarre injury and more - TSN",
+      "summary": "Phillips on Hoffman\u2019s usage and future with the Jays, Jesus Sanchez\u2019s bizarre injury and more&nbsp;&nbsp;TSN",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMi0wFBVV95cUxOeEp3djFzUkVBWUpxRTU1alVGb2JGRTc0anE5bmlhSlJxQ2ZhUHFFQUhOTXFUTExtTTdwUGlmdWQ0dzZEc2R2UkNwbzEwa0pDRTJmRm4xQjd6dEhNaXhhMnVqZ25reFhMT1Mzck1WS1R4U1lDbWtxcjZueWw2d3p3T2VVVEluSjVpWUxuYS0ybDRjWDB4Y3o4VEtKQkFtbG5lbFJERlY2N2N3OVhpaFpOZGtXTkd1VnVrZW1BZ1JPWkNJU0c2d1BoN3BSOXAyN1RvX25z?oc=5",
+      "published": "2026-06-01T14:22:02+00:00"
+    },
+    {
+      "title": "Proposed Trade Has Blue Jays Cut Ties With Slugger for Projected $379 Million Star - heavy.com",
+      "summary": "Proposed Trade Has Blue Jays Cut Ties With Slugger for Projected $379 Million Star&nbsp;&nbsp;heavy.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxNZXRCQ01rWU4tQzE1NzNVMzY2SWpfMlZTSWRWamtDdVRldmI3WTFVZFJZNkJ0SHF0TUtGak9UdC1EOUgzd3FnRVplR3FhQzNnQWVpY2s2X2tKZElEelpvblBBVksyNU1KVmltQXVHZGNOMGd6WjJ6RTBEWE4yT3NYblNGOEZUQzRJMWUyVVpDcS1iWms1QmFR?oc=5",
+      "published": "2026-06-01T12:47:58+00:00"
+    },
+    {
+      "title": "Blue Jays Interview: Sean Keys continues to impress with his power swing - Blue Jays Nation",
+      "summary": "Blue Jays Interview: Sean Keys continues to impress with his power swing&nbsp;&nbsp;Blue Jays Nation",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOTENVa29zaXhacl94dGVfYkh4TDFyY3VwOUN6azlpcy1YRFFHZUIzSkRBYmc1UVUzdW01bU5PaFV2dVBwRlNpck16N3FHVS1kclVnckZzYmF0SVZ2d2s5UmZiajNQdVJ4ODBzaWxIQjc3UjNxeUtDczRtUUNfU1R0d0JLcHYtOTh0N0RLdTlGTjNvM25MNmI2NzdSVUlJblY2RU5La2Z3?oc=5",
+      "published": "2026-06-01T12:00:00+00:00"
+    },
+    {
       "title": "Where Blue Jays sportscaster Hazel Mae finds her off-field joy - The Globe and Mail",
       "summary": "Where Blue Jays sportscaster Hazel Mae finds her off-field joy&nbsp;&nbsp;The Globe and Mail",
       "source": "Google News",
@@ -1177,20 +1268,12 @@
       "published": "2026-06-01T10:00:00+00:00"
     },
     {
-      "title": "Unlikely Blue Jays star Ernie Clement's love affair with Toronto fans grows - Yahoo Sports",
-      "summary": "Unlikely Blue Jays star Ernie Clement's love affair with Toronto fans grows&nbsp;&nbsp;Yahoo Sports",
+      "title": "Toronto Blue Jays - Sportsnet",
+      "summary": "Toronto Blue Jays&nbsp;&nbsp;Sportsnet",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPSVhDMlVXZ0hKcVN5YkhxTDBWZmJ4bHI1UWQtYkFtS05LNldjVExVQW52NktxaHYyMDRpWkZEWmFpcDgtcnlNOG01UFpuN0hBMHh2bUdLOGZHU1hpd2JvdEVxNGJyTi1RUW80QXN5R0ZsWjRuOW5JdExTa3hwMzFWUjZGVjU?oc=5",
-      "published": "2026-06-01T09:46:47+00:00"
-    },
-    {
-      "title": "Blue Jays' Shane Bieber struggles in latest rehab outing - Sportsnet",
-      "summary": "Blue Jays' Shane Bieber struggles in latest rehab outing&nbsp;&nbsp;Sportsnet",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOYnJUam9sYnFHV012ZmlGMDFuSTBvSnFEQ2tJUTlDMkNidmVzaUw1V2Y3b0ZuWVVXQlRBNmFzX0Q0LWQtS3I2UGNuX1JUbnh4SWVXVHNEaV9wRWZSZXFkSXBQX0Zqc08zMm9uN0dFMzdGWUZud1ZDa0pwV1NydDkzWXdqalJvNWMyT1pxWlJzaFNYZlRiMG02dA?oc=5",
-      "published": "2026-06-01T02:29:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMib0FVX3lxTFBMc08tOHFTSm1HdjBhRVZVeGNMY1V1V3huakpPcWlvZmFZa2pCTE9GWC0ybzJpOFdIVUhsOVlnMndyc18zdk1xUC1xSzc3STRncVZWd3RtRkpqS1pVSEtpTWxuc0d2NUUzeHBNbnEzUQ?oc=5",
+      "published": "2026-06-01T06:52:00+00:00"
     },
     {
       "title": "Blue Jays' Jesus Sanchez suffers wrist bruise on ball thrown by kid from stands - Sportsnet",
@@ -1209,124 +1292,20 @@
       "published": "2026-05-31T22:42:18+00:00"
     },
     {
-      "title": "Toronto Blue Jays Announce Vladimir Guerrero Jr. Change Before Orioles Game - heavy.com",
-      "summary": "Toronto Blue Jays Announce Vladimir Guerrero Jr. Change Before Orioles Game&nbsp;&nbsp;heavy.com",
+      "title": "'Misunderstanding' from young fan leads to S\u00e1nchez's early exit with wrist injury - MLB.com",
+      "summary": "'Misunderstanding' from young fan leads to S\u00e1nchez's early exit with wrist injury&nbsp;&nbsp;MLB.com",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOUkduTjdTcllfQ3A0Ul9objZzc0xtYVBFd0l4VVdJNEdUVTFVdUQ5SC13SVlIdmoybVF6N1NfazN5VmZURFdMUE1WMlJGdUJqM1VWVGFjeHB3LXRHeDVuNHRhZGtHWWI3d2xLbU5XaHFzblMtTWNMRG9pYmlKZncxWG9iLXpZVUtKOTVyMUJfbkpMZ2I1WWpyQk1RWEE0WlBqTklka1prWQ?oc=5",
-      "published": "2026-05-31T20:54:32+00:00"
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQQnhUb0wzMVBuZVhnMTR2UUNyVmZOZ2ZPNzU4RVNkb2JLUUozV1UtNExzQzNIMC1wZkdNVktZT0Flb091QUplQlF2dFBfUjB5OC1IOFRSNG5hUHVJUWJ3WDNhSmZaaER3YjhvbWFQY21SeEVFbEdTN3pobEd4S1RMTUpIbw?oc=5",
+      "published": "2026-05-31T21:31:58+00:00"
     },
     {
-      "title": "Just A Terrible Game, Jays Lose To Orioles - Bluebird Banter",
-      "summary": "Just A Terrible Game, Jays Lose To Orioles&nbsp;&nbsp;Bluebird Banter",
+      "title": "Blue Jays drop finale, split series against Orioles; Sanchez hurt after incident with fan - TSN",
+      "summary": "Blue Jays drop finale, split series against Orioles; Sanchez hurt after incident with fan&nbsp;&nbsp;TSNBlue Jays ready for breather as loss to Orioles caps busy stretch&nbsp;&nbsp;SportsnetNo time like now: Why the Blue Jays must heat up as summer approaches&nbsp;&nbsp;Toronto Sun",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOUmFfeVF3TncwUVRLVnVUZ1k2M2d6d2dIQVRQel9wVFVxZHVrQ0xjdHhjamFNWDR5OHF2MDQ0eGhtSVZNdFRFN2h0Q0lQSGFzNmMwMWVkYUJyRWFLSnJoc2NmSGt6MEw5QXpRRmhKUzFIb2U3dkVUZDczc1JaeHdLSUpsczhkakpSMW9NNnlGTlJBZnZhZ29oRDN6ZU1QTXl4MEQyc3pB?oc=5",
-      "published": "2026-05-31T19:16:30+00:00"
-    },
-    {
-      "title": "Just A Terrible Game, Jays Lose To Orioles",
-      "summary": "Orioles 9 Blue Jays 5 That was bad in so many ways. Worst of which, Jes\u00fas S\u00e1nchez was hit in the wrist by a ball thrown from the stands. They are saying he has a contusion, which is pretty much the best possible news. It was weird. Apparently, a kid(?) or young person, thought that [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-scores/62198/just-a-terrible-game-jays-lose-to-orioles",
-      "published": "2026-05-31T19:16:30+00:00"
-    },
-    {
-      "title": "Breaking down Spencer Miles' pitches - MLB.com",
-      "summary": "Breaking down Spencer Miles' pitches&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxNWTE4U1VMRi1lX1JNVnJDWnhIRk10dzR3dDE3NlpSSGpxTjZ2VDA3Q0l2U3E1S1RGeUZaWHdobUFXbUxiS25TWnZybkxKTWoxeUtTbmNsZkx3OUljaE00Vkd5UUltTGxVQXJiTmxpa0VmSE9taDdZTkdkVGRjTkhTdzBQdlV0c013T09WYUxqTXF6RlFCSkZEb1YyMA?oc=5",
-      "published": "2026-05-31T18:44:06+00:00"
-    },
-    {
-      "title": "Blue Jays\u2019 Jesus Sanchez exits vs. Orioles with arm injury after fan incident - CityNews Toronto",
-      "summary": "Blue Jays\u2019 Jesus Sanchez exits vs. Orioles with arm injury after fan incident&nbsp;&nbsp;CityNews Toronto",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNRGFiQ2lkc0Jvb2tmX01qNEFFckNYMkw4a184OVNaZGdZTk5PZUs3elJrLXRoNDhBWGU5U3RVYU9MMDh3b1l2X0RrTnVGekl5TXh6cEJEOWt1bmZXdTNUR3pOM05JdGF4eHQxeEptLWlnbnJOd2NhWE5KdlJwUC15RW5TS3lfOGo4ejNRUkxyN3MxcFB6MlRsU05GcFppbjlVVzdUaVY5aXEzNURoeFYxcG9xY0M0UQ?oc=5",
-      "published": "2026-05-31T18:41:00+00:00"
-    },
-    {
-      "title": "Jes\u00fas S\u00e1nchez exits after being hit by ball from fan | 05/31/2026 - MLB.com",
-      "summary": "Jes\u00fas S\u00e1nchez exits after being hit by ball from fan | 05/31/2026&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQaXNmNnNUNFUxOE96aTV3dmg4ZUFmcUc2OVc4aHdpb1pBMzBJYlNZNC0xcmEzZXRYQXhxVHBhYng1MDF4Wm5jdE84UjU1eDZzZndzUHJhSVlBZkdKTkdScVFYOVRPTGtBOFB3cEZZN3Z1dF9wNXdrZ2pwcmZJTVBKMWdXWHRRMXEtZHFXOWJDVkJnQQ?oc=5",
-      "published": "2026-05-31T18:26:09+00:00"
-    },
-    {
-      "title": "Jays\u2019 Sanchez suffers wrist contusion after being hit with ball thrown from fan in \u2018misunderstanding\u2019 - TSN",
-      "summary": "Jays\u2019 Sanchez suffers wrist contusion after being hit with ball thrown from fan in \u2018misunderstanding\u2019&nbsp;&nbsp;TSN",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiqgFBVV95cUxNZlBRX1BBb0Iwd2xHU1F6U0FUNHhnUkllbTd4Tk0wLWVfT3prdFljNmplSFJNYUxycGxmTGRlTEppa25LdmhoVWRGXzhMWW1FTTFJVENDVnROT3V3SnRiNUNVeXRSUjRoZGluX3NCVGVJZm12RnhBS1pnbFN2U0JPMzNra2lOYUd6MUlteEJSOEd6X3dkVlRPN3lMQ2N6b0hZUGFiZE9pSVZyZw?oc=5",
-      "published": "2026-05-31T18:16:06+00:00"
-    },
-    {
-      "title": "Game #60 GameThread: Jays @ Orioles",
-      "summary": "I\u2019m going to put up the GameThread a bit early today. The game is an early start and there isn\u2019t much for news this morning. It is Shane Bieber\u2019s birthday. He is 30 today and has exactly 100 decisions in his career, 66-34. Do you think he\u2019ll make it to 100 wins? Often pitchers who [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-gamethreads/62195/game-60-gamethread-jays-orioles",
-      "published": "2026-05-31T15:42:47+00:00"
-    },
-    {
-      "title": "Blue Jays' George Springer not in starting lineup vs. Orioles - Sportsnet",
-      "summary": "Blue Jays' George Springer not in starting lineup vs. Orioles&nbsp;&nbsp;Sportsnet",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOQ3FJZXFQdzBVcG45NFk3T0tyRzZ2b25wZ19vVkpIaGJZRWQwZ0NzSFlPeF9qaUpndWJ0ZC14ZkhHZHlBSXhEMWVpZ2hOc3I1aktyRy14TjBLT0RodklxX050OGRFNGI1X0kxZ1F6Ty1yTkZqUDhoRXRBcndHd1J0aWZxdm40UHVvbmZFbGppazdROFBlOG1OYldJNGYzZw?oc=5",
-      "published": "2026-05-31T14:45:00+00:00"
-    },
-    {
-      "title": "Blue Jays\u2019 Bieber, Scherzer make minor league rehab starts - TSN",
-      "summary": "Blue Jays\u2019 Bieber, Scherzer make minor league rehab starts&nbsp;&nbsp;TSN",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPSG1ldE4waWRkdFpVaHEtQUJaemFJZ0JRRG5GekNFdEpzQnM5UTlCX08zc2hkOGIwNFc3YTUzZHVnZnMzTWR6Q2M5T1RWTFAyWFUwR094d3NlSHVpSEdMWE5PSEdVdHlza1lEUmN1c0kwNjN6QUFlVEQxQ01wMldnN2x4RmdmTnVXRUsxT05qeWU1aFh1alJma0lJWQ?oc=5",
-      "published": "2026-05-31T14:41:56+00:00"
-    },
-    {
-      "title": "Blue Jays\u2019 Shane Bieber hit hard in second rehab outing - Blue Jays Nation",
-      "summary": "Blue Jays\u2019 Shane Bieber hit hard in second rehab outing&nbsp;&nbsp;Blue Jays Nation",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQZWJERG1lLTFiSzhDc05rdXZCT1FpNGxfTGFTWGRpd2NTOEpZNlRzMTNsRld2enZzWHYtQVNhSTlVUUhfTERrdGN2UGM2QjhfSldEM082VlJiNkFrS2NtYXdEa2l5Y2xyQ19NaGtXYUhseW1uQkgyanhvMFJ6WG1DVm5KdHU5S2dmR0xIdG11Zw?oc=5",
-      "published": "2026-05-31T13:32:18+00:00"
-    },
-    {
-      "title": "Bo Bichette is adjusting to life with the New York Mets. His time with the Blue Jays helped him prepare - Toronto Star",
-      "summary": "Bo Bichette is adjusting to life with the New York Mets. His time with the Blue Jays helped him prepare&nbsp;&nbsp;Toronto Star",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMingJBVV95cUxOU01GOWJzN3I2WlZRWU9mOXRyRzhiQWtQbGxMeGQwY2h5azZoNW1sSmdfRHNKNmc3V0NmdDF0eHZ3Qm13bXczeThkaGdkbFZlY1FTQWZsWThFY3pTV011U2YzTnNaRmVMMmFteDgwQXR4NGgtZjZwSnpOM1lNWFJBaWtkTlYwenEtYlVJV3E1aVZtYjhHcEN3TW9qVm9hNE0tRVZOYlliS0czMFVQNkFueWJwdXc3UThENEhOOWVYU0h6TFgxVy1jeWFRVTdWNk9Td2k1WlQxZ3kyNGRBZ2h1OFhuOU9icjdNVUVzMkFycWxPMWdHWUhRRlpzT2VHd3JGc2s3V1JIeVl2bkdEMlJ0Y19jMjZBeVJOWl9ySUZn?oc=5",
-      "published": "2026-05-31T09:00:00+00:00"
-    },
-    {
-      "title": "Ninth-inning meltdown costs Blue Jays in a crushing loss to Orioles - Toronto Sun",
-      "summary": "Ninth-inning meltdown costs Blue Jays in a crushing loss to Orioles&nbsp;&nbsp;Toronto SunAnother ninth-inning Hoffman meltdown halts Blue Jays' momentum&nbsp;&nbsp;SportsnetBlue Jays\u2019 World Series Pitcher Shares \u2018Emotion\u2019 Of Reunion&nbsp;&nbsp;Yahoo Sports Canada",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPdVVGbEJKMU9WMjdsbDJacXNCLXJmWmt6VHlXWFZwekx0UHM0TTJ1S0ZMOGd4VnU0MG1sV3NMb25LQVQxMWRCMUIxRVR2MUdNZk9xak10NmdJVFp1clEzcmNoSFZLcGVpUHB3bmFVV2VieElEQTc3QkdTOTBOV0xFZkl4enFuV3FnVFI5cnY4WS1YY0w5Z0ludklHdHBKX1hubTNN?oc=5",
-      "published": "2026-05-31T02:36:14+00:00"
-    },
-    {
-      "title": "Hoffman's disastrous outing leads to stunning loss for Blue Jays - Sportsnet",
-      "summary": "Hoffman's disastrous outing leads to stunning loss for Blue Jays&nbsp;&nbsp;Sportsnet",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxPdEFqajJmX0V3X1JpYkpkMjBUTzEwRmt3MFo1bnJKUWNlcldUYWlHR0dZQjRVTUpGRFlmTG9EMU9KYW4waUdQN09TQTVHWWlldG9JekU5dzlhTmF6TFMtMlpCSFVjR0oxMWtUcTlZaDQ2djRDVlBoNVhYbmlUWUZLcEdGQ3g3enFweXREY0R4QkNDRnJTQ2pTUVgxX0FLNndjTDhn?oc=5",
-      "published": "2026-05-31T02:11:00+00:00"
-    },
-    {
-      "title": "Japanese Player Highlight: Kazuma Okamoto - MLB.com",
-      "summary": "Japanese Player Highlight: Kazuma Okamoto&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMigAFBVV95cUxQWFVLWFZRdmg3cnpxcGtLNkp1V3hLMHdhQ0g1QV9VU0V2Q3pxNGZHV19sZC1rU083SXlRaHp0NHo5VmM3Smw3cVcwQldDNEcwQWFTZzItTTNaLWtOODR5SUJCcGxaamhMeGxUelNSbm1mSHR6YUx2SWl4Q3J3ZV9GOA?oc=5",
-      "published": "2026-05-31T01:27:33+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiuwFBVV95cUxQX1VVV1dPclB6aXgwMmFnNWtCejVBZjZwM1dPWEp4UUo0VUJPSWNYYnVwOGxtU3RNZ1dPbFE3TDZYT0VIR2p3RktEcS1YY0x0a2htNnpJa2stczVxUjJRNlQ2eS1hU0NRcHE4UFlYdnRHZEgxQUNXdUw0NlZRTmdlYWJ0bFdZeW5KclNWRGtic0VXOE1PZ08wTFYybWtydUp6Tk9VcFlpdWR1SUcza1B1TTF1UXRwSU9YSTlN?oc=5",
+      "published": "2026-05-31T19:32:20+00:00"
     }
   ],
   "run_diff_last_10": [
