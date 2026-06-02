@@ -1,0 +1,480 @@
+/* ============================================================
+   Jays Tracker — Overview tab styles (v2)
+   Loaded by index-v2.html. Scoped under [data-tab-styles="overview"]
+   isn't strictly needed since per-tab classes don't collide.
+   ============================================================ */
+
+/* ---- Section eyebrow (with optional trailing rule) ---- */
+.ov-eyebrow {
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--label);
+  margin: 0 0 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ov-eyebrow .rule { flex: 1; height: 1px; background: var(--line); }
+
+/* ============================================================
+   KPI ROW — 4 cards across the top of Overview
+   ============================================================ */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 8px;
+}
+.kpi {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r3);
+  box-shadow: var(--sh2);
+  padding: 16px 18px;
+  position: relative;
+}
+.kpi .kl {
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 8px;
+}
+.kpi .kv {
+  font-size: var(--t-display);
+  font-weight: var(--w-display);
+  letter-spacing: -.02em;
+  line-height: .9;
+  font-variant-numeric: tabular-nums;
+}
+.kpi .kv small {
+  font-size: 18px;
+  color: var(--ink-3);
+  font-weight: 600;
+}
+.kpi .kf {
+  font-size: var(--t-small);
+  color: var(--ink-2);
+  margin-top: 10px;
+  line-height: 1.45;
+}
+.kpi .kf b { color: var(--ink); font-weight: 700; }
+
+/* Frame-pill (e.g. "8th / 30 MLB") */
+.rankpill {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: var(--r-pill);
+  background: var(--card-2);
+  border: 1px solid var(--line);
+}
+.rankpill .r { color: var(--ink); }
+.rankpill .o { color: var(--ink-3); font-weight: 500; }
+
+/* W/L pip strip (last-10 cell) */
+.pips { display: flex; gap: 4px; margin-top: 10px; }
+.pip {
+  width: 16px; height: 16px; border-radius: 4px;
+  display: grid; place-items: center;
+  font-size: 9px; font-weight: 800;
+  font-family: var(--mono); color: #fff;
+}
+.pip.w { background: var(--pos); }
+.pip.l { background: var(--neg); }
+
+/* Mini RS/RA tracks inside the Run-diff KPI */
+.diffmini {
+  display: flex; flex-direction: column;
+  gap: 5px; margin-top: 10px;
+}
+.diffmini .row {
+  display: grid;
+  grid-template-columns: 22px 1fr 30px;
+  align-items: center; gap: 8px;
+  font-size: 10.5px; font-family: var(--mono); color: var(--ink-3);
+}
+.dtrack {
+  height: 7px;
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  overflow: hidden;
+}
+.dtrack i { display: block; height: 100%; }
+
+/* Term affordance: dotted underline = link to Stat School */
+.term {
+  border-bottom: 1px dotted var(--ink-3);
+  cursor: help;
+}
+
+/* ============================================================
+   MAIN TWO-COLUMN GRID
+   Left: 1.62fr (analyst + chart + games)
+   Right: 1fr (standings + WC + voices)
+   ============================================================ */
+.ov-main {
+  display: grid;
+  grid-template-columns: minmax(0, 1.62fr) minmax(0, 1fr);
+  gap: 20px;
+  padding: 18px 0 10px;
+}
+.ov-col { display: flex; flex-direction: column; gap: 18px; }
+
+/* ============================================================
+   ANALYST: State of the Season
+   ============================================================ */
+.analyst-lead {
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -.01em;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+.analyst-body {
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: #4a4332;
+  margin: 0 0 14px;
+}
+[data-theme="dark"] .analyst-body { color: #cabfa6; }
+.analyst-body .term { border-bottom-color: var(--analyst); }
+
+.byline {
+  display: flex; align-items: center; gap: 9px;
+  font-size: 11.5px; color: var(--analyst-ink);
+  font-family: var(--mono);
+}
+.byline .nib {
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--analyst); color: #fff;
+  display: grid; place-items: center; font-size: 11px;
+}
+
+/* Inline machine pills inside analyst prose */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  padding: 1px 6px;
+  border-radius: var(--r-pill);
+  vertical-align: middle;
+  font-family: var(--mono);
+}
+.pill.hot { background: var(--q-hot); color: #fff; }
+.pill.cold { background: var(--q-cold); color: #fff; }
+.pill.new { background: var(--ink); color: var(--paper); }
+
+/* ============================================================
+   RUN-DIFFERENTIAL CHART (last 10)
+   ============================================================ */
+.rd-wrap { padding: 6px 4px 0; }
+.rd-chart { width: 100%; height: auto; display: block; }
+.rd-anno {
+  font-size: 11px;
+  color: var(--ink-2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.rd-anno .sw {
+  width: 10px; height: 10px; border-radius: 2px;
+}
+.rd-anno .spacer { margin-left: auto; color: var(--ink-3); }
+
+/* ============================================================
+   GAMES (Recent + Upcoming split)
+   ============================================================ */
+.gsplit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0;
+}
+.gsplit .gcol + .gcol {
+  border-left: 1px solid var(--line);
+  padding-left: 18px;
+  margin-left: 18px;
+}
+.gcol .ghd {
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 0 0 6px;
+}
+.game {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 11px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.game:last-child { border-bottom: 0; }
+.opp {
+  width: 34px; height: 34px;
+  border-radius: 8px;
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  display: grid; place-items: center;
+  font-family: var(--mono); font-weight: 700; font-size: 10.5px;
+  color: var(--ink-2);
+}
+.game .meta {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+.game .meta small {
+  display: block;
+  font-size: 10.5px;
+  color: var(--ink-3);
+  font-weight: 500;
+  font-family: var(--mono);
+  margin-top: 2px;
+}
+.res {
+  text-align: right;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 13px;
+  display: flex; align-items: center; gap: 7px;
+  justify-content: flex-end;
+}
+.res .wl {
+  width: 18px; height: 18px;
+  border-radius: 5px;
+  display: grid; place-items: center;
+  font-size: 10px; color: #fff;
+}
+.res .wl.w { background: var(--pos); }
+.res .wl.l { background: var(--neg); }
+.wp { text-align: right; }
+.wp .v {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 13px;
+}
+.wp small {
+  display: block;
+  font-size: 9px;
+  color: var(--ink-3);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   STANDINGS (AL East)
+   ============================================================ */
+.st-row {
+  display: grid;
+  grid-template-columns: 30px 1fr 56px;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+  padding: 5px 0;
+}
+.st-row .abbr {
+  font-weight: 700;
+  font-family: var(--mono);
+  color: var(--ink-2);
+}
+.st-bar {
+  height: 11px;
+  background: var(--card-2);
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+}
+.st-bar i {
+  display: block; height: 100%;
+  background: var(--ink-4);
+  border-radius: 2px;
+}
+.st-row .rec {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  text-align: right;
+}
+.st-row.me .abbr { color: var(--team-primary-ink); }
+.st-row.me .st-bar i { background: var(--team-primary); }
+.gb-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--team-primary-ink);
+  background: var(--team-primary-soft);
+  border-radius: var(--r-pill);
+  padding: 2px 7px;
+  font-weight: 700;
+}
+
+/* ============================================================
+   WILD CARD RACE
+   ============================================================ */
+.wc-grp {
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin: 12px 0 5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.wc-grp:first-child { margin-top: 2px; }
+.wc-grp .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+}
+.wc-grp.in .dot { background: var(--pos); }
+.wc-grp.out .dot { background: var(--ink-4); }
+.wc-leaders {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  padding: 2px 0 4px;
+}
+.wc-row {
+  display: grid;
+  grid-template-columns: 22px 30px 1fr auto;
+  align-items: center;
+  gap: 9px;
+  font-size: 12px;
+  padding: 5px 0;
+}
+.wc-row .seed {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-3);
+}
+.wc-row .abbr {
+  font-weight: 700;
+  font-family: var(--mono);
+}
+.wc-row .rc {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.wc-row .gb {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  text-align: right;
+}
+.wc-row.me {
+  background: var(--team-primary-soft);
+  margin: 0 -8px;
+  padding-left: 8px;
+  padding-right: 8px;
+  border-radius: var(--r1);
+}
+.wc-row.me .abbr { color: var(--team-primary-ink); }
+.cutline {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0 4px;
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--neg);
+}
+.cutline .ln {
+  flex: 1; height: 0;
+  border-top: 1.5px dashed var(--neg);
+  opacity: .6;
+}
+
+/* ============================================================
+   VOICES AROUND (external)
+   ============================================================ */
+.voice {
+  display: block;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+  color: inherit;
+}
+.voice:last-child { border-bottom: 0; }
+.voice-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 5px;
+}
+.src-chip {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--external-ink);
+  background: var(--external-tint);
+  border-radius: var(--r1);
+  padding: 2px 7px;
+}
+.voice-top .time {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  color: var(--ink-3);
+  margin-left: auto;
+}
+.voice h4 {
+  margin: 0 0 4px;
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ink);
+}
+.voice .by {
+  font-size: 11px;
+  color: var(--ink-3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.voice .arr {
+  color: var(--external);
+  font-weight: 700;
+}
+.voice:hover h4 {
+  color: var(--external-ink);
+  text-decoration: underline;
+  text-decoration-color: var(--external);
+  text-underline-offset: 2px;
+}
+
+/* ============================================================
+   RESPONSIVE (Overview-specific; tab body padding from chrome)
+   ============================================================ */
+@media (max-width: 1100px) {
+  .ov-main { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+  .kpis { grid-template-columns: 1fr 1fr; }
+  .gsplit { grid-template-columns: 1fr; }
+  .gsplit .gcol + .gcol {
+    border-left: 0; padding-left: 0; margin-left: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 10px; margin-top: 10px;
+  }
+}

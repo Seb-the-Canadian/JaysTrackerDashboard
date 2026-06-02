@@ -182,6 +182,11 @@
       hookThemeToggle(state);
       hookIlChip(state);
       hookTabRouting();
+
+      // Per-tab renderers. Each module exposes window.Jays<Tab>.render(state).
+      // Tabs not yet implemented stay as stubs in the HTML.
+      if (window.JaysOverview) window.JaysOverview.render(state);
+
       // Expose for later commits + console debugging.
       window.JT_STATE = state;
     });

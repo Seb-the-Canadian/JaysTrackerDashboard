@@ -9,6 +9,8 @@
      by editing config.json only; assets/theme.js overrides --team-*
      tokens at boot. -->
 <link rel="stylesheet" href="tokens.css" />
+<!-- Per-tab styles. Tabs not yet wired share the panel kit fallback. -->
+<link rel="stylesheet" href="assets/overview.css" />
 
 <!-- Hanken Grotesk via Google Fonts CDN; preconnect for first-paint. -->
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -390,12 +392,8 @@ a { color: inherit; }
 </nav>
 
 <main>
-  <section class="tab-body" id="tab-overview" role="tabpanel" aria-labelledby="tab-overview">
-    <div class="tab-stub">
-      <h2>Overview</h2>
-      <p>Content lands in step 3 of the v2 build plan.</p>
-    </div>
-  </section>
+  <!-- Overview tab body — populated by assets/overview.js on boot. -->
+  <section class="tab-body" id="tab-overview" role="tabpanel" aria-labelledby="tab-overview"></section>
 
   <section class="tab-body" id="tab-players" role="tabpanel" hidden>
     <div class="tab-stub">
@@ -425,6 +423,8 @@ a { color: inherit; }
 </footer>
 
 <script src="assets/theme.js"></script>
+<script src="assets/format.js"></script>
+<script src="assets/overview.js"></script>
 <script src="assets/render.js"></script>
 
 </body>
