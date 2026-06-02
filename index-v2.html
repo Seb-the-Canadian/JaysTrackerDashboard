@@ -6,8 +6,8 @@
 <title>Blue Jays 2026 Tracker — v2 (in development)</title>
 
 <!-- v2 design tokens (light + dark). External so a fork can swap teams
-     by editing config.json only; the runtime helper in assets/theme.js
-     overrides --team-* tokens at boot. -->
+     by editing config.json only; assets/theme.js overrides --team-*
+     tokens at boot. -->
 <link rel="stylesheet" href="tokens.css" />
 
 <!-- Hanken Grotesk via Google Fonts CDN; preconnect for first-paint. -->
@@ -16,221 +16,416 @@
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
 <style>
-  /* Page chrome only. Component styles land in later commits. */
-  *, *::before, *::after { box-sizing: border-box; }
-  html, body { margin: 0; }
-  body {
-    font-family: var(--sans);
-    color: var(--ink);
-    background: var(--paper);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
-    min-height: 100vh;
-  }
+/* ============================================================
+   PAGE BASELINE
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+button { font-family: inherit; }
+a { color: inherit; }
 
-  /* Foundation status panel — visible only while v2 is in development.
-     Removed in the final cutover commit. Demonstrates fork wiring works. */
-  .v2-status {
-    max-width: 720px;
-    margin: 48px auto;
-    padding: 24px 28px;
-    background: var(--card);
-    border: 1px solid var(--line);
-    border-radius: var(--r3);
-    box-shadow: var(--sh2);
+/* Focus-visible — universal accessibility ring per handoff §5.
+   2px team-primary outline at 2px offset. */
+:focus-visible {
+  outline: 2px solid var(--team-primary);
+  outline-offset: 2px;
+}
+
+/* Screen-reader-only helper for accessible labels on glyph buttons. */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+
+/* ============================================================
+   PERSISTENT HEADER — record · IL · freshness · source key · theme
+   Load-bearing across all four tabs.
+   ============================================================ */
+.appbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s5); padding: 16px 26px 14px;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand .mark {
+  width: 40px; height: 40px; border-radius: 9px;
+  background: var(--team-primary);
+  display: grid; place-items: center;
+  box-shadow: var(--sh1);
+}
+.brand .mark span {
+  display: block; width: 16px; height: 16px;
+  background: var(--card);
+  transform: rotate(45deg); /* diamond bug */
+}
+.brand .wordmark b {
+  font-weight: var(--w-display); font-size: 16px;
+  letter-spacing: .02em; display: block; line-height: 1.1;
+}
+.brand .wordmark small {
+  font-size: 10.5px; color: var(--ink-3);
+  font-family: var(--mono); letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.appbar-meta {
+  display: flex; align-items: center; gap: 16px;
+  flex-wrap: wrap; justify-content: flex-end;
+}
+.hdr-rec { display: flex; align-items: baseline; gap: 8px; white-space: nowrap; }
+.hdr-rec b {
+  font-weight: var(--w-display); font-size: 20px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em; white-space: nowrap;
+}
+.hdr-rec span { font-size: 12px; color: var(--ink-3); font-family: var(--mono); }
+.hdr-div { width: 1px; height: 30px; background: var(--line-2); }
+
+.freshness {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11px; color: var(--ink-2);
+}
+.freshness .diamond {
+  /* Static — no pulse. Composure over urgency (handoff §0/§4). */
+  width: 8px; height: 8px; background: var(--pos);
+  transform: rotate(45deg); border-radius: 1px;
+}
+.freshness.amber .diamond { background: var(--q-warm); }
+.freshness.red .diamond { background: var(--neg); }
+.freshness small { display: block; color: var(--ink-3); font-size: 10px; }
+
+.il-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11.5px; font-weight: var(--w-label); color: var(--ink-2);
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r-pill); padding: 5px 11px; cursor: pointer;
+  font-family: inherit;
+}
+.il-chip .ic {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--q-warm); color: #fff;
+  font-size: 10px; font-weight: 700;
+  display: grid; place-items: center;
+}
+.il-chip:hover { background: var(--card-2); }
+
+/* Three-layer source key — always present. */
+.srckey {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r-pill); padding: 6px 14px;
+}
+.srckey .k {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--ink-2); font-weight: var(--w-label);
+}
+.srckey .glyph {
+  width: 14px; height: 14px;
+  display: grid; place-items: center; font-size: 10px;
+}
+.g-machine { color: var(--machine); }
+.g-analyst { color: var(--analyst); }
+.g-external { color: var(--external); }
+
+/* Theme toggle — small icon button next to source key. */
+.theme-toggle {
+  width: 32px; height: 32px;
+  border-radius: var(--r-pill);
+  background: var(--card); border: 1px solid var(--line);
+  color: var(--ink-2); cursor: pointer;
+  display: grid; place-items: center;
+  font-size: 14px;
+}
+.theme-toggle:hover { background: var(--card-2); color: var(--ink); }
+
+/* ============================================================
+   TABS (4-tab IA, fixed) — hash-routed
+   ============================================================ */
+.tabs {
+  display: flex; gap: 2px;
+  padding: 6px 26px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;  /* mobile: scroll, never hide */
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  position: relative;
+  padding: 11px 18px 16px;
+  font-size: 14px; font-weight: var(--w-label);
+  color: var(--ink-2); cursor: pointer;
+  border: 0; background: none; font-family: inherit;
+  display: flex; align-items: center; gap: 7px;
+  text-decoration: none; white-space: nowrap;
+}
+.tab:hover { color: var(--ink); }
+.tab.active { color: var(--team-secondary); }
+.tab .sch-ic { font-size: 11px; opacity: .7; }
+[data-theme="dark"] .tab.active { color: #dbe4f1; }
+/* NOSTALGIA gesture: dashed-seam underline on active tab.
+   Pulled in step 7 if it fights legibility. */
+.tab.active::before {
+  content: "";
+  position: absolute; left: 10px; right: 10px; bottom: -1px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--seam) 60%, transparent 0) repeat-x;
+  background-size: 7px 2px;
+}
+
+/* ============================================================
+   TAB BODY — placeholder until per-tab content lands.
+   ============================================================ */
+.tab-body { padding: 22px 26px 24px; }
+.tab-body[hidden] { display: none; }
+.tab-stub {
+  max-width: 720px; margin: 24px auto;
+  text-align: center; padding: 60px 24px;
+  border: 1px dashed var(--line-2);
+  border-radius: var(--r3);
+  background: var(--card);
+  color: var(--ink-3);
+}
+.tab-stub h2 {
+  margin: 0 0 8px; font-size: var(--t-h2);
+  font-weight: var(--w-label); color: var(--ink);
+}
+.tab-stub p { margin: 0; font-size: var(--t-small); font-family: var(--mono); }
+
+/* ============================================================
+   PANEL KIT — every visible block uses this base.
+   Per handoff §7 step 5: panel-state pattern built BEFORE charts so
+   skeleton/empty/error inherit. Three source-treatment variants:
+   panel = machine default, panel.analyst = warm ochre tint with
+   left rule, panel.external = muted slate clipping.
+   ============================================================ */
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r3);
+  box-shadow: var(--sh2);
+  position: relative;
+}
+.panel.analyst {
+  background: var(--analyst-tint);
+  border-color: #e4d8bd;
+  border-left: 3px solid var(--analyst);
+}
+[data-theme="dark"] .panel.analyst {
+  background: #221e16;
+  border-color: #36301f;
+  border-left-color: var(--analyst);
+}
+.panel.external {
+  /* External takes get the standard surface but a slate accent on the header. */
+}
+
+.panel-h {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px 18px 11px; gap: 12px;
+}
+.panel-h h3 {
+  margin: 0; font-size: var(--t-h2);
+  font-weight: 700; letter-spacing: -.01em;
+}
+.panel.analyst .panel-h h3 { color: var(--analyst-ink); }
+.panel-h .hint {
+  font-size: 11px; color: var(--ink-3); font-family: var(--mono);
+}
+
+/* Source tag on panel headers — chip variants per data layer. */
+.srctag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: var(--r-pill);
+}
+.srctag.machine { color: var(--machine); background: #eef0f3; }
+.srctag.analyst { color: var(--analyst-ink); background: var(--analyst-tint); }
+.srctag.external { color: var(--external-ink); background: var(--external-tint); }
+[data-theme="dark"] .srctag.machine { background: #262b34; }
+
+.panel-b { padding: 2px 18px 18px; }
+
+/* ---- SKELETON (loading) ---- */
+.panel-skeleton { padding: 16px 18px 18px; }
+.sk-line {
+  height: 11px; border-radius: 4px;
+  background: linear-gradient(90deg, var(--card-2) 25%, #efeadd 37%, var(--card-2) 63%);
+  background-size: 400% 100%;
+  animation: sk-shimmer 1.4s ease infinite;
+  margin-bottom: 8px;
+}
+[data-theme="dark"] .sk-line {
+  background: linear-gradient(90deg, var(--card-2) 25%, #2c333f 37%, var(--card-2) 63%);
+  background-size: 400% 100%;
+}
+@keyframes sk-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
+/* ---- EMPTY (no data, no error — by-design absence) ---- */
+.panel-empty {
+  padding: 24px 18px;
+  text-align: center;
+  color: var(--ink-3);
+  font-size: var(--t-small);
+}
+
+/* ---- ERROR (fetch failed for this panel only) ---- */
+.panel-error {
+  padding: 16px 18px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: var(--t-small);
+  color: var(--neg);
+  border-top: 1px dashed var(--neg);
+  margin-top: 6px;
+}
+.panel-error .msg { flex: 1; }
+.panel-retry {
+  border: 1px solid var(--neg);
+  background: transparent;
+  color: var(--neg);
+  border-radius: var(--r-pill);
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: var(--w-label);
+  cursor: pointer;
+  font-family: inherit;
+}
+.panel-retry:hover { background: var(--neg); color: #fff; }
+
+/* ============================================================
+   COLOPHON
+   ============================================================ */
+.colophon {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 16px 26px 24px;
+  font-size: 10.5px; color: var(--ink-3); font-family: var(--mono);
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   RESPONSIVE (handoff §6 universals — per-tab rules in their CSS)
+   ============================================================ */
+@media (max-width: 760px) {
+  .appbar { padding: 12px 18px 10px; gap: var(--s4); }
+  .appbar-meta { gap: 10px; }
+  .hdr-div { display: none; }
+  .tabs { padding: 6px 18px 0; }
+  .tab-body { padding: 18px 18px 20px; }
+}
+@media (max-width: 480px) {
+  .srckey {
+    padding: 4px 8px;  /* glyphs only at this width */
   }
-  .v2-status h1 {
-    margin: 0 0 8px;
-    font-size: var(--t-h1);
-    font-weight: var(--w-display);
-    letter-spacing: -0.02em;
-    color: var(--ink);
-  }
-  .v2-status p {
-    margin: 0 0 16px;
-    font-size: var(--t-body);
-    line-height: 1.5;
-    color: var(--ink-2);
-  }
-  .v2-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    margin-top: 18px;
-  }
-  .v2-swatch {
-    padding: 12px 14px;
-    border: 1px solid var(--line);
-    border-radius: var(--r2);
-    background: var(--card-2);
-    font-family: var(--mono);
-    font-size: var(--t-small);
-    color: var(--ink-2);
-  }
-  .v2-swatch .bar {
-    display: block;
-    width: 100%;
-    height: 28px;
-    border-radius: var(--r1);
-    margin-bottom: 8px;
-  }
-  .v2-swatch b {
-    color: var(--ink);
-    font-weight: var(--w-label);
-  }
-  .v2-toggle {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 18px;
-    padding: 8px 14px;
-    border: 1px solid var(--line);
-    border-radius: var(--r-pill);
-    background: var(--card-2);
-    font-family: var(--sans);
-    font-size: var(--t-small);
-    font-weight: var(--w-label);
-    color: var(--ink);
-    cursor: pointer;
-  }
-  .v2-toggle:hover { background: var(--line); }
-  .v2-toggle:focus-visible {
-    outline: 2px solid var(--team-primary);
-    outline-offset: 2px;
-  }
-  .v2-error {
-    padding: 12px 14px;
-    background: var(--card-2);
-    border-left: 3px solid var(--neg);
-    border-radius: var(--r1);
-    font-size: var(--t-small);
-    color: var(--neg);
-    margin-top: 12px;
-    display: none;
-  }
-  .v2-error.show { display: block; }
+  .srckey .k { font-size: 0; gap: 0; }
+  .srckey .glyph { font-size: 12px; }
+}
 </style>
 </head>
 <body>
 
 <!-- ============================================================
      V2 DEVELOPMENT IN PROGRESS
-     This file is the v2 design build, served alongside the live
-     v1 index.html during the redesign. When v2 is complete, the
-     final commit will delete the old index.html and rename this
-     file to take its place.
-     See /root/.claude/plans/redesign-v2.md for the plan.
+     This file is the v2 build, served alongside the live v1
+     (index.html). When v2 is complete, the cutover commit
+     deletes the old and renames this file. Plan:
+     /root/.claude/plans/redesign-v2.md
      ============================================================ -->
 
-<main class="v2-status" id="v2-status">
-  <h1>Blue Jays 2026 Tracker — v2 build</h1>
-  <p>
-    Foundation commit. Tokens loaded, runtime theme helpers wired,
-    config.json team colors applied to <code>:root</code>. The live
-    v1 dashboard is unchanged at <code>index.html</code>.
-  </p>
-
-  <p style="font-size: var(--t-small); color: var(--ink-3); margin: 0;">
-    <b>Current state read-out</b> (proves the wiring works — removed in
-    the cutover commit):
-  </p>
-
-  <div class="v2-grid" id="v2-grid">
-    <!-- populated by inline script below -->
+<header class="appbar">
+  <div class="brand">
+    <span class="mark"><span aria-hidden="true"></span></span>
+    <span class="wordmark">
+      <b id="brand-title">Loading…</b>
+      <small id="brand-sub">v2 build</small>
+    </span>
   </div>
 
-  <button class="v2-toggle" id="v2-theme-toggle" type="button">
-    <span id="v2-theme-glyph">◐</span>
-    <span id="v2-theme-label">Toggle theme</span>
-  </button>
+  <div class="appbar-meta">
+    <div class="hdr-rec" id="hdr-rec">
+      <b id="hdr-rec-line">—</b>
+      <span id="hdr-rec-detail"></span>
+    </div>
+    <span class="hdr-div"></span>
+    <button class="il-chip" id="il-chip" type="button" aria-label="Open injury list">
+      <span class="ic" id="il-count">0</span> Injured list
+    </button>
+    <span class="hdr-div"></span>
+    <div class="freshness" id="freshness">
+      <span class="diamond"></span>
+      <div>
+        <span id="freshness-label">—</span>
+        <small id="freshness-detail">Daily · 09:00 UTC</small>
+      </div>
+    </div>
+    <div class="srckey" aria-label="Data layer key">
+      <span class="k"><span class="glyph g-machine">◆</span>MLB data</span>
+      <span class="k"><span class="glyph g-analyst">✎</span>Analyst</span>
+      <span class="k"><span class="glyph g-external">↗</span>Voices</span>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+      <span id="theme-glyph">◐</span>
+    </button>
+  </div>
+</header>
 
-  <div class="v2-error" id="v2-error"></div>
+<nav class="tabs" role="tablist" aria-label="Sections">
+  <a class="tab" href="#overview" data-tab="overview" role="tab">Overview</a>
+  <a class="tab" href="#players" data-tab="players" role="tab">Players</a>
+  <a class="tab" href="#team-stats" data-tab="team-stats" role="tab">Team Stats</a>
+  <a class="tab" href="#stat-school" data-tab="stat-school" role="tab">
+    Stat School <span class="sch-ic">✦</span>
+  </a>
+</nav>
+
+<main>
+  <section class="tab-body" id="tab-overview" role="tabpanel" aria-labelledby="tab-overview">
+    <div class="tab-stub">
+      <h2>Overview</h2>
+      <p>Content lands in step 3 of the v2 build plan.</p>
+    </div>
+  </section>
+
+  <section class="tab-body" id="tab-players" role="tabpanel" hidden>
+    <div class="tab-stub">
+      <h2>Players</h2>
+      <p>Content lands in step 4.</p>
+    </div>
+  </section>
+
+  <section class="tab-body" id="tab-team-stats" role="tabpanel" hidden>
+    <div class="tab-stub">
+      <h2>Team Stats</h2>
+      <p>Content lands in step 5.</p>
+    </div>
+  </section>
+
+  <section class="tab-body" id="tab-stat-school" role="tabpanel" hidden>
+    <div class="tab-stub">
+      <h2>Stat School</h2>
+      <p>Content lands in step 6.</p>
+    </div>
+  </section>
 </main>
 
+<footer class="colophon">
+  <span>Source: MLB Stats API + maintainer notes + configured RSS · refreshed daily 09:00 UTC</span>
+  <span>v2 build in progress · the live v1 dashboard is unchanged at index.html</span>
+</footer>
+
 <script src="assets/theme.js"></script>
-<script>
-  // ---- Bootstrap: load config.json → apply team theme → init dark mode ----
-
-  (function () {
-    'use strict';
-    var errorBox = document.getElementById('v2-error');
-    var grid = document.getElementById('v2-grid');
-
-    function showError(msg) {
-      errorBox.textContent = msg;
-      errorBox.classList.add('show');
-    }
-
-    function readToken(name) {
-      return getComputedStyle(document.documentElement)
-        .getPropertyValue(name).trim();
-    }
-
-    function renderSwatches() {
-      var ratio = window.JaysTheme._contrastRatio(
-        readToken('--team-primary'),
-        readToken('--card')
-      );
-      grid.innerHTML = ''
-        + swatch('--team-primary')
-        + swatch('--team-secondary')
-        + swatch('--team-accent')
-        + swatch('--team-primary-soft')
-        + swatch('--pos')
-        + swatch('--neg')
-        + '<div class="v2-swatch" style="grid-column:1 / -1;">'
-        +   '<b>Theme:</b> ' + window.JaysTheme.currentMode()
-        +   '  ·  <b>--team-primary on --card contrast:</b> ' + ratio.toFixed(2) + ':1'
-        +   (ratio < 4.5 ? ' (AA fallback applied)' : ' (passes AA)')
-        + '</div>';
-    }
-
-    function swatch(varName) {
-      return '<div class="v2-swatch">'
-        +    '<span class="bar" style="background:var(' + varName + ');"></span>'
-        +    '<b>' + varName + '</b> · ' + readToken(varName)
-        +  '</div>';
-    }
-
-    function init() {
-      fetch('config.json')
-        .then(function (r) {
-          if (!r.ok) throw new Error('config.json: HTTP ' + r.status);
-          return r.json();
-        })
-        .then(function (cfg) {
-          // Page <title> + visible heading absorb dashboard_title if present.
-          if (cfg.dashboard_title) {
-            document.title = cfg.dashboard_title + ' — v2 (in development)';
-            var h1 = document.querySelector('.v2-status h1');
-            if (h1) h1.textContent = cfg.dashboard_title + ' — v2 build';
-          }
-          // Theme wiring.
-          window.JaysTheme.initTheme(cfg);
-          renderSwatches();
-
-          // Hook the toggle.
-          document.getElementById('v2-theme-toggle')
-            .addEventListener('click', function () {
-              window.JaysTheme.toggleTheme(cfg);
-              renderSwatches();
-            });
-        })
-        .catch(function (e) {
-          showError('Config load failed: ' + e.message
-            + ' — theme falls back to Blue Jays reference values.');
-          window.JaysTheme.initTheme({});
-          renderSwatches();
-        });
-    }
-
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
-  })();
-</script>
+<script src="assets/render.js"></script>
 
 </body>
 </html>
