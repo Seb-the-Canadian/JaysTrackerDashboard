@@ -1,0 +1,446 @@
+/* ============================================================
+   Jays Tracker — Players tab styles (v2)
+   ============================================================ */
+
+.pl-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 14px;
+  flex-wrap: wrap;
+}
+.pl-head h2 {
+  margin: 0;
+  font-size: var(--t-h1);
+  font-weight: var(--w-display);
+  letter-spacing: -.02em;
+}
+.pl-head p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+
+/* Pill legend (top-right of Players header) */
+.pill-legend {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r2);
+  padding: 9px 14px;
+  box-shadow: var(--sh1);
+}
+.ple {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  color: var(--ink-2);
+}
+.ple .pill { pointer-events: none; }
+.ple small { color: var(--ink-3); }
+
+/* Role groups (Rotation / Bullpen / Catchers / Infield / Outfield / DH) */
+.role-group { margin: 0 0 6px; }
+.role-h {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 16px 0 10px;
+}
+.role-h h3 {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: .02em;
+}
+.role-h .cnt {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  padding: 1px 9px;
+}
+.role-h .rule {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+/* Player card grid */
+.pcards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 11px;
+}
+.pcard {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 11px;
+  align-items: center;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--r2);
+  box-shadow: var(--sh1);
+  padding: 11px 13px;
+  cursor: pointer;
+  text-align: left;
+  font-family: inherit;
+  width: 100%;
+  transition: box-shadow .12s, border-color .12s, transform .12s;
+}
+.pcard:hover {
+  box-shadow: var(--sh2);
+  border-color: var(--line-2);
+  transform: translateY(-1px);
+}
+.pc-av {
+  width: 38px; height: 38px;
+  border-radius: 9px;
+  background: var(--team-secondary-soft);
+  display: grid; place-items: center;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--team-primary-ink);
+}
+.pc-id { min-width: 0; }
+.pc-id b {
+  font-weight: 700;
+  font-size: 13.5px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pc-id small {
+  font-size: 10.5px;
+  color: var(--ink-3);
+  font-family: var(--mono);
+}
+.pc-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+}
+.pc-stat {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--ink-3);
+  white-space: nowrap;
+}
+.pc-stat b {
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--ink);
+}
+.pc-stat i {
+  font-style: normal;
+  font-weight: 700;
+}
+.pc-stat i.good { color: var(--pos); }
+.pc-stat i.mid  { color: var(--ink-3); }
+.pc-stat i.warn { color: var(--q-warm); }
+.pc-stat i.muted { color: var(--ink-4); }
+
+/* Honesty: struggling players look identical to anyone else.
+   .struggle class exists for future hooks but applies no de-emphasis. */
+.pcard.struggle { /* intentionally blank */ }
+
+/* ============================================================
+   PLAYER MODAL
+   ============================================================ */
+.modal-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 18, 12, .52);
+  z-index: 100;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 46px 20px 30px;
+  overflow-y: auto;
+}
+.modal-scrim.show { display: flex; }
+[data-theme="dark"] .modal-scrim { background: rgba(0, 0, 0, .6); }
+.modal {
+  width: 560px;
+  max-width: 100%;
+  background: var(--paper);
+  border: 1px solid var(--line-2);
+  border-radius: var(--r3);
+  box-shadow: var(--sh4);
+  overflow: hidden;
+  margin-bottom: 30px;
+}
+.modal-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px 16px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+  position: relative;
+}
+.modal-av {
+  width: 54px; height: 54px;
+  border-radius: 12px;
+  background: var(--team-secondary);
+  color: #fff;
+  display: grid; place-items: center;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 17px;
+  flex: none;
+}
+.modal-id { min-width: 0; flex: 1; }
+.modal-id h3 {
+  margin: 0;
+  font-size: 22px;
+  font-weight: var(--w-display);
+  letter-spacing: -.02em;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.modal-id .meta {
+  font-size: 12px;
+  color: var(--ink-3);
+  font-family: var(--mono);
+  margin-top: 3px;
+}
+.modal-x {
+  position: absolute;
+  top: 14px; right: 14px;
+  width: 28px; height: 28px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--card-2);
+  color: var(--ink-2);
+  font-size: 15px;
+  display: grid; place-items: center;
+  cursor: pointer;
+  font-family: inherit;
+}
+.modal-x:hover { background: var(--line); }
+
+.slash-big {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  padding: 16px 20px 6px;
+  flex-wrap: wrap;
+}
+.slash-cell { display: flex; flex-direction: column; }
+.slash-cell b {
+  font-size: 25px;
+  font-weight: var(--w-display);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.02em;
+  line-height: 1;
+}
+.slash-cell small {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  margin-top: 5px;
+}
+.slash-cell.lead b { color: var(--team-primary-ink); }
+.slash-sep {
+  width: 1px;
+  align-self: stretch;
+  background: var(--line);
+  margin: 2px 0;
+}
+.modal-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: auto;
+}
+.modal-form small {
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--q-hot);
+}
+
+.modal-b { padding: 8px 20px 18px; }
+.mb-label {
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: var(--label);
+  margin: 12px 0 9px;
+}
+
+/* "Where he ranks" rows — shared rank strip pattern */
+.ctx-row {
+  display: grid;
+  grid-template-columns: 140px 46px 1fr 40px;
+  align-items: center;
+  gap: 11px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--line);
+}
+.ctx-row:last-child { border-bottom: 0; }
+.ctx-name {
+  font-size: 12.5px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.ctx-name .term {
+  border-bottom: 1px dotted var(--ink-3);
+  cursor: help;
+}
+.ctx-name .sc {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--external-ink);
+  background: var(--external-tint);
+  border-radius: 3px;
+  padding: 1px 4px;
+  text-transform: uppercase;
+}
+.ctx-val {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 13px;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.ctx-rank {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 12px;
+  text-align: right;
+}
+.ctx-rank small {
+  color: var(--ink-4);
+  font-weight: 500;
+  font-size: 9px;
+}
+.ctx-rank.m1 { color: var(--pos); }
+.ctx-rank.m2 { color: var(--pos-2); }
+.ctx-rank.m3 { color: var(--ink-2); }
+.ctx-rank.m4 { color: var(--q-warm); }
+.ctx-rank.m5 { color: var(--neg); }
+
+/* The rank strip — reusable: Players modal + Team Stats ledger */
+.strip {
+  position: relative;
+  height: 9px;
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+}
+.strip .avg {
+  position: absolute;
+  top: -2px; bottom: -2px;
+  left: 50%;
+  width: 1px;
+  background: var(--ink-3);
+  opacity: .4;
+}
+.strip .mk {
+  position: absolute;
+  top: 50%;
+  width: 11px; height: 11px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--card);
+  box-shadow: var(--sh1);
+}
+.strip .mk.m1 { background: var(--pos); }
+.strip .mk.m2 { background: var(--pos-2); }
+.strip .mk.m3 { background: var(--q-mid); }
+.strip .mk.m4 { background: var(--q-warm); }
+.strip .mk.m5 { background: var(--neg); }
+
+/* Analyst note inside modal */
+.modal-note {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  margin-top: 14px;
+  background: var(--analyst-tint);
+  border: 1px solid #e4d8bd;
+  border-left: 3px solid var(--analyst);
+  border-radius: var(--r2);
+  padding: 11px 13px;
+}
+[data-theme="dark"] .modal-note {
+  background: #221e16;
+  border-color: #36301f;
+}
+.modal-note .nib {
+  flex: none;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: var(--analyst);
+  color: #fff;
+  display: grid; place-items: center;
+  font-size: 11px;
+  margin-top: 1px;
+}
+.modal-note p {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: #4a4332;
+}
+[data-theme="dark"] .modal-note p { color: #cabfa6; }
+.modal-note .by {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--analyst-ink);
+}
+.modal-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 13px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--line-2);
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 980px) {
+  .pcards { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 680px) {
+  .pcards { grid-template-columns: 1fr 1fr; }
+  .slash-big { gap: 12px; }
+  .modal-form { margin-left: 0; width: 100%; }
+}
+@media (max-width: 460px) {
+  .pcards { grid-template-columns: 1fr; }
+  .ctx-row {
+    grid-template-columns: 96px 44px 1fr 34px;
+    gap: 8px;
+  }
+}
