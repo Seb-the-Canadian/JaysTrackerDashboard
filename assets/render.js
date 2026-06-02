@@ -188,6 +188,7 @@
       if (window.JaysOverview) window.JaysOverview.render(state);
       if (window.JaysPlayers) window.JaysPlayers.render(state);
       if (window.JaysTeamStats) window.JaysTeamStats.render(state);
+      if (window.JaysStatSchool) window.JaysStatSchool.render(state);
 
       // Expose for later commits + console debugging.
       window.JT_STATE = state;
