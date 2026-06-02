@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blue Jays 2026 Tracker — v2 (in development)</title>
+
+<!-- v2 design tokens (light + dark). External so a fork can swap teams
+     by editing config.json only; the runtime helper in assets/theme.js
+     overrides --team-* tokens at boot. -->
+<link rel="stylesheet" href="tokens.css" />
+
+<!-- Hanken Grotesk via Google Fonts CDN; preconnect for first-paint. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+  /* Page chrome only. Component styles land in later commits. */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--paper);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    min-height: 100vh;
+  }
+
+  /* Foundation status panel — visible only while v2 is in development.
+     Removed in the final cutover commit. Demonstrates fork wiring works. */
+  .v2-status {
+    max-width: 720px;
+    margin: 48px auto;
+    padding: 24px 28px;
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: var(--r3);
+    box-shadow: var(--sh2);
+  }
+  .v2-status h1 {
+    margin: 0 0 8px;
+    font-size: var(--t-h1);
+    font-weight: var(--w-display);
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .v2-status p {
+    margin: 0 0 16px;
+    font-size: var(--t-body);
+    line-height: 1.5;
+    color: var(--ink-2);
+  }
+  .v2-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 18px;
+  }
+  .v2-swatch {
+    padding: 12px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--r2);
+    background: var(--card-2);
+    font-family: var(--mono);
+    font-size: var(--t-small);
+    color: var(--ink-2);
+  }
+  .v2-swatch .bar {
+    display: block;
+    width: 100%;
+    height: 28px;
+    border-radius: var(--r1);
+    margin-bottom: 8px;
+  }
+  .v2-swatch b {
+    color: var(--ink);
+    font-weight: var(--w-label);
+  }
+  .v2-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 18px;
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--r-pill);
+    background: var(--card-2);
+    font-family: var(--sans);
+    font-size: var(--t-small);
+    font-weight: var(--w-label);
+    color: var(--ink);
+    cursor: pointer;
+  }
+  .v2-toggle:hover { background: var(--line); }
+  .v2-toggle:focus-visible {
+    outline: 2px solid var(--team-primary);
+    outline-offset: 2px;
+  }
+  .v2-error {
+    padding: 12px 14px;
+    background: var(--card-2);
+    border-left: 3px solid var(--neg);
+    border-radius: var(--r1);
+    font-size: var(--t-small);
+    color: var(--neg);
+    margin-top: 12px;
+    display: none;
+  }
+  .v2-error.show { display: block; }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     V2 DEVELOPMENT IN PROGRESS
+     This file is the v2 design build, served alongside the live
+     v1 index.html during the redesign. When v2 is complete, the
+     final commit will delete the old index.html and rename this
+     file to take its place.
+     See /root/.claude/plans/redesign-v2.md for the plan.
+     ============================================================ -->
+
+<main class="v2-status" id="v2-status">
+  <h1>Blue Jays 2026 Tracker — v2 build</h1>
+  <p>
+    Foundation commit. Tokens loaded, runtime theme helpers wired,
+    config.json team colors applied to <code>:root</code>. The live
+    v1 dashboard is unchanged at <code>index.html</code>.
+  </p>
+
+  <p style="font-size: var(--t-small); color: var(--ink-3); margin: 0;">
+    <b>Current state read-out</b> (proves the wiring works — removed in
+    the cutover commit):
+  </p>
+
+  <div class="v2-grid" id="v2-grid">
+    <!-- populated by inline script below -->
+  </div>
+
+  <button class="v2-toggle" id="v2-theme-toggle" type="button">
+    <span id="v2-theme-glyph">◐</span>
+    <span id="v2-theme-label">Toggle theme</span>
+  </button>
+
+  <div class="v2-error" id="v2-error"></div>
+</main>
+
+<script src="assets/theme.js"></script>
+<script>
+  // ---- Bootstrap: load config.json → apply team theme → init dark mode ----
+
+  (function () {
+    'use strict';
+    var errorBox = document.getElementById('v2-error');
+    var grid = document.getElementById('v2-grid');
+
+    function showError(msg) {
+      errorBox.textContent = msg;
+      errorBox.classList.add('show');
+    }
+
+    function readToken(name) {
+      return getComputedStyle(document.documentElement)
+        .getPropertyValue(name).trim();
+    }
+
+    function renderSwatches() {
+      var ratio = window.JaysTheme._contrastRatio(
+        readToken('--team-primary'),
+        readToken('--card')
+      );
+      grid.innerHTML = ''
+        + swatch('--team-primary')
+        + swatch('--team-secondary')
+        + swatch('--team-accent')
+        + swatch('--team-primary-soft')
+        + swatch('--pos')
+        + swatch('--neg')
+        + '<div class="v2-swatch" style="grid-column:1 / -1;">'
+        +   '<b>Theme:</b> ' + window.JaysTheme.currentMode()
+        +   '  ·  <b>--team-primary on --card contrast:</b> ' + ratio.toFixed(2) + ':1'
+        +   (ratio < 4.5 ? ' (AA fallback applied)' : ' (passes AA)')
+        + '</div>';
+    }
+
+    function swatch(varName) {
+      return '<div class="v2-swatch">'
+        +    '<span class="bar" style="background:var(' + varName + ');"></span>'
+        +    '<b>' + varName + '</b> · ' + readToken(varName)
+        +  '</div>';
+    }
+
+    function init() {
+      fetch('config.json')
+        .then(function (r) {
+          if (!r.ok) throw new Error('config.json: HTTP ' + r.status);
+          return r.json();
+        })
+        .then(function (cfg) {
+          // Page <title> + visible heading absorb dashboard_title if present.
+          if (cfg.dashboard_title) {
+            document.title = cfg.dashboard_title + ' — v2 (in development)';
+            var h1 = document.querySelector('.v2-status h1');
+            if (h1) h1.textContent = cfg.dashboard_title + ' — v2 build';
+          }
+          // Theme wiring.
+          window.JaysTheme.initTheme(cfg);
+          renderSwatches();
+
+          // Hook the toggle.
+          document.getElementById('v2-theme-toggle')
+            .addEventListener('click', function () {
+              window.JaysTheme.toggleTheme(cfg);
+              renderSwatches();
+            });
+        })
+        .catch(function (e) {
+          showError('Config load failed: ' + e.message
+            + ' — theme falls back to Blue Jays reference values.');
+          window.JaysTheme.initTheme({});
+          renderSwatches();
+        });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+</body>
+</html>
