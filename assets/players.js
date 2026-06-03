@@ -116,7 +116,10 @@
       +   '</span>'
       + '</span>';
 
-    card.addEventListener('click', function () { openModal(player, isHitter, state, card); });
+    card.addEventListener('click', function () {
+      player.__isHitter = isHitter;
+      window.JaysModal.openFromClick(player, card);
+    });
     return card;
   }
 
@@ -132,71 +135,13 @@
     }
   }
 
-  // ---- Modal ----
-
-  // Module-level: the card that opened the modal (for focus return).
-  let lastTrigger = null;
-  let escHandler = null;
-
-  function openModal(player, isHitter, state, triggerEl) {
-    lastTrigger = triggerEl || null;
-    const scrim = ensureScrim();
-    scrim.innerHTML = '';
-    scrim.appendChild(buildModalContent(player, isHitter, state));
-    scrim.classList.add('show');
-    document.body.style.overflow = 'hidden';
-    // Deep-link: write hash without triggering route change.
-    if (player.id) {
-      const newHash = '#player-' + player.id;
-      if (window.location.hash !== newHash) {
-        history.pushState({ playerModal: true }, '', newHash);
-      }
-    }
-    // Escape close
-    escHandler = function (e) {
-      if (e.key === 'Escape') closeModal();
-    };
-    document.addEventListener('keydown', escHandler);
-    // Focus the close button so keyboard nav has a starting point.
-    const x = scrim.querySelector('.modal-x');
-    if (x) x.focus();
-  }
-
-  function closeModal() {
-    const scrim = document.getElementById('player-modal-scrim');
-    if (!scrim) return;
-    scrim.classList.remove('show');
-    document.body.style.overflow = '';
-    if (escHandler) {
-      document.removeEventListener('keydown', escHandler);
-      escHandler = null;
-    }
-    // Restore hash to current tab
-    if (window.location.hash.indexOf('#player-') === 0) {
-      history.pushState({}, '', '#players');
-    }
-    // Return focus
-    if (lastTrigger) {
-      try { lastTrigger.focus(); } catch (_) {}
-      lastTrigger = null;
-    }
-  }
-
-  function ensureScrim() {
-    let scrim = document.getElementById('player-modal-scrim');
-    if (!scrim) {
-      scrim = document.createElement('div');
-      scrim.id = 'player-modal-scrim';
-      scrim.className = 'modal-scrim';
-      scrim.setAttribute('role', 'dialog');
-      scrim.setAttribute('aria-modal', 'true');
-      scrim.addEventListener('click', function (e) {
-        if (e.target === scrim) closeModal();
-      });
-      document.body.appendChild(scrim);
-    }
-    return scrim;
-  }
+  // ---- Modal content builder ----
+  //
+  // The lifecycle (open / close / scrim / esc / focus / hashchange)
+  // moved to assets/modal.js in the antifragile pass (Class 4). This
+  // module retains buildModalContent because it's a pure factory over
+  // state — it constructs the DOM tree that modal.js mounts. Same with
+  // findPlayer below — the lookup belongs to the Players domain.
 
   function buildModalContent(player, isHitter, state) {
     const ranks = (state.data && state.data.player_ranks) || {};
@@ -253,7 +198,7 @@
     x.type = 'button';
     x.setAttribute('aria-label', 'Close');
     x.textContent = '✕';
-    x.addEventListener('click', closeModal);
+    x.addEventListener('click', function () { window.JaysModal.requestClose(); });
     top.appendChild(x);
 
     wrapper.appendChild(top);
@@ -396,20 +341,7 @@
     return row;
   }
 
-  // ---- Deep-link routing for #player-<id-or-slug> ----
-
-  function tryOpenFromHash(state) {
-    const h = (window.location.hash || '').replace(/^#/, '');
-    const m = h.match(/^player-(.+)$/);
-    if (!m) return false;
-    const key = m[1];
-    const player = findPlayer(key, state);
-    if (player) {
-      openModal(player, player.__isHitter, state, null);
-      return true;
-    }
-    return false;
-  }
+  // ---- Player lookup (used by modal.js to resolve #player-<key>) ----
 
   function findPlayer(key, state) {
     const data = state.data || {};
@@ -451,21 +383,12 @@
       });
     });
 
-    // Try to open a modal from the URL hash (deep-link).
-    tryOpenFromHash(state);
-
-    // Listen for hash changes: open the modal when the hash matches a
-    // player anchor, OR close the open modal if the hash navigates away
-    // from #player- (covers the browser-back case — bug B4).
-    window.addEventListener('hashchange', function () {
-      const h = window.location.hash || '';
-      if (h.indexOf('#player-') === 0) {
-        tryOpenFromHash(state);
-      } else {
-        const scrim = document.getElementById('player-modal-scrim');
-        if (scrim && scrim.classList.contains('show')) closeModal();
-      }
-    }, { once: false });
+    // Delegate modal lifecycle (open / close / hashchange / focus) to
+    // JaysModal. It reads window.location.hash and mounts the correct
+    // modal content via the registered builder; we just hand it the
+    // state. Bug B4 (back button doesn't close modal) is now removed at
+    // the layer-boundary — hash is the source of truth.
+    window.JaysModal.render(state);
   }
 
   function eyebrowHead() {
@@ -502,5 +425,10 @@
     return grp;
   }
 
-  window.JaysPlayers = { render: render, openModal: openModal, closeModal: closeModal };
+  window.JaysPlayers = {
+    render: render,
+    // Surfaces used by JaysModal to resolve #player-<key> and mount content.
+    findPlayer: findPlayer,
+    buildModalContent: buildModalContent,
+  };
 })();
