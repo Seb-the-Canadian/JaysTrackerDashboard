@@ -1,14 +1,30 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project are documented in this file, grouped by milestone-or-wave within each release. Within each section, entries link to the PR (`#NN`) where one exists; very early commits predate the PR workflow and link by commit hash.
 
-This project does not yet have a tagged release. Everything below is **Unreleased** — the running record of merged work, organized chronologically by milestone. The next entry will be the v1.0 tag (see [`docs/roadmap.md`](docs/roadmap.md) for v1.0's gating criteria).
-
-The format groups changes by milestone-or-wave rather than by category. Within each section, entries link to the PR (`#NN`) where one exists; very early commits predate the PR workflow and link by commit hash.
+Work merged after the latest tag lives under `## Unreleased` until the next release cuts.
 
 ---
 
 ## Unreleased
+
+### v2 antifragile pass (2026-06-03)
+
+Re-does the prior v2 debug pass with root-cause discipline — each fix removes the *possibility* of the bug class rather than the instance, and lands a class-of-bug probe that asserts it stays structurally impossible. Lives at `index-v2.html`; v1 ships unchanged on `index.html`.
+
+**Added**
+- `v2(antifragile): layer-boundary discipline` ([#102](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/102)) — light + dark `--team-*-soft` / `--team-primary-ink` derived in CSS via `color-mix(in oklab, ...)`; `theme.js` shrinks to setting only the three identity tokens; `assets/dom.js:tabBody()` factory makes h2 structurally guaranteed; Stat School cards namespaced `ss-stat-<slug>`. Subsumes bug classes B1, B3, B5, B6.
+- `v2(antifragile): containment discipline` ([#102](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/102)) — universal `min-width: 0`, `overflow-x: clip` on html+body, `minmax(0, *fr)` on every grid template that hosts variable-width content. No horizontal scroll surface at any tested viewport (320/480/760/1100/1440/1920). Subsumes B7.
+- `v2(antifragile): async / loading-state discipline` ([#102](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/102)) — per-tab synchronous skeleton paint before fetch await; per-source error capture; retry panel on `data.json` failure so the dashboard never blanks. Subsumes B8.
+- `v2(antifragile): modal state from hash` ([#102](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/102)) — new `assets/modal.js` module with `modalState(hash)` discriminator + builder registry; click → `pushState` + synchronous `render(state)`; X / Esc / scrim / browser back / forward all flow through one path. Subsumes B4.
+- `v2(antifragile): formatter domain discipline` ([#102](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/102)) — JSDoc `@domain` on every formatter in `assets/format.js`; out-of-domain returns the canonical `DASH`; 33 `node:test` cases in `tests/format-spec.test.js` (pure stdlib, no Playwright). Subsumes M6, M7.
+- `v2(antifragile): probe suite into repo + CI` ([#102](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/102)) — three regression rounds + four class-of-bug probes move into `tests/probes/`; `docs/bug-hunt-2026-06-02.md` is the audit-trail artifact; new `.github/workflows/probes.yml` runs the full suite (format-spec + 7 probes) on every PR.
+
+---
+
+## v1.0.0 — 2026-06-03
+
+First tagged release. 26 consecutive daily refreshes between the v1-stable signal landing in README ([#101](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/101), 2026-06-02) and this tag, no regressions, no maintenance interventions. See the [v1.0.0 GitHub release](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/releases/tag/v1.0.0) for the published notes. Detailed entries below.
 
 ### Notes-staleness maintenance loop (2026-05-30 – 2026-06-01)
 
@@ -154,10 +170,10 @@ The seven-phase initial implementation, from empty repo to live dashboard.
 
 When a PR merges to `main`:
 
-1. Add a one-line entry to the most recent milestone section under the appropriate sub-heading (Added / Fixed / Docs / Workflow).
+1. Add a one-line entry under `## Unreleased`, in the most recent milestone section under the appropriate sub-heading (Added / Fixed / Docs / Workflow). Create a new milestone heading if the work doesn't fit an existing one.
 2. Format: `commit-style title (#PR, [closes #NN])` — match the commit prefix (`feat:`, `fix:`, `docs:`, etc.).
 3. Link the PR number and any closed issues.
 
 Daily-refresh commits (`Daily data refresh: YYYY-MM-DD`) do not appear here — they're machine-generated content, not changes worth a reader's time.
 
-When we tag v1.0, the entire "Unreleased" section becomes the v1.0 release notes; future work starts a fresh "Unreleased" section above the v1.0 heading.
+When we tag a release, rename `## Unreleased` to `## vX.Y.Z — YYYY-MM-DD` and add a fresh empty `## Unreleased` section above it.
