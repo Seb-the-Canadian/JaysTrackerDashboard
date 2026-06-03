@@ -1,0 +1,212 @@
+{
+  "_meta": {
+    "purpose": "Maintainer-authored stat reference. Drives the Stat School tab + the dotted-term deep-link targets across the dashboard.",
+    "schema_version": 1,
+    "see_also": "docs/free-text-fields.md, docs/authoring-notes.md"
+  },
+  "stats": {
+    "ops": {
+      "abbr": "OPS",
+      "name": "On-base Plus Slugging",
+      "group": "hitting",
+      "tier": "foundational",
+      "order": 1,
+      "definition_md": "Two skills in one number: how often a hitter reaches base (OBP) plus how much power they hit for (SLG). <b>The fastest one-glance read on a bat.</b>",
+      "scale_low_label": ".650 weak",
+      "scale_high_label": ".900 elite",
+      "direction": "higher_better",
+      "frame_line_md": "On this dashboard OPS always carries its <b>MLB rank</b>. Guerrero Jr.'s .963 reads as <b>3rd of 30</b> qualified 1B — elite, not just \"good.\"",
+      "in_team_ledger": true,
+      "team_ledger_order": 3
+    },
+    "obp": {
+      "abbr": "OBP",
+      "name": "On-base Percentage",
+      "group": "hitting",
+      "tier": "foundational",
+      "order": 2,
+      "definition_md": "How often a hitter reaches base via hit, walk, or hit-by-pitch. The most reliable single-number read on plate skill.",
+      "scale_low_label": ".290 weak",
+      "scale_high_label": ".380 elite",
+      "direction": "higher_better",
+      "in_team_ledger": true,
+      "team_ledger_order": 2
+    },
+    "avg": {
+      "abbr": "AVG",
+      "name": "Batting Average",
+      "group": "hitting",
+      "tier": "foundational",
+      "order": 3,
+      "definition_md": "Hits per at-bat. The oldest stat — easy to read, but blind to walks, power, and luck. We show it for orientation; OPS or xwOBA tells you more.",
+      "scale_low_label": ".220 weak",
+      "scale_high_label": ".300 elite",
+      "direction": "higher_better",
+      "in_team_ledger": true,
+      "team_ledger_order": 4
+    },
+    "slg": {
+      "abbr": "SLG",
+      "name": "Slugging Percentage",
+      "group": "hitting",
+      "tier": "foundational",
+      "order": 4,
+      "definition_md": "Total bases per at-bat. Captures power: a single is worth 1, a homer is worth 4. Reads as the power half of OPS.",
+      "scale_low_label": ".380 weak",
+      "scale_high_label": ".480 elite",
+      "direction": "higher_better",
+      "in_team_ledger": true,
+      "team_ledger_order": 5
+    },
+    "xwoba": {
+      "abbr": "xwOBA",
+      "name": "Expected Weighted On-Base Average",
+      "group": "hitting",
+      "tier": "advanced",
+      "statcast": true,
+      "order": 5,
+      "definition_md": "What a hitter <b>deserved</b> based on how hard and at what angle they hit the ball — stripping out luck, defense, and ballpark. Compare it to actual results to see who's due.",
+      "scale_low_label": ".290 weak",
+      "scale_high_label": ".400 elite",
+      "direction": "higher_better",
+      "frame_line_md": "Shown with its <b>MLB percentile</b> — the one Statcast frame this dashboard uses, because xwOBA is published with it.",
+      "formula_md": "xwOBA = f( exit velocity, launch angle ) → expected value of each batted ball, weighted like wOBA",
+      "why_md": "<b>Why it beats batting average:</b> AVG treats a 105-mph lineout and a bloop single as equal-but-opposite. xwOBA asks what <i>usually</i> happens on a ball hit that hard at that angle — so a hitter with bad luck and a great xwOBA is a buy-low, not a slump.",
+      "in_team_ledger": true,
+      "team_ledger_order": 6
+    },
+    "barrel_pct": {
+      "abbr": "Barrel%",
+      "name": "Barrel Rate",
+      "group": "hitting",
+      "tier": "advanced",
+      "statcast": true,
+      "order": 6,
+      "definition_md": "Percentage of batted balls hit at the optimal combination of exit velocity and launch angle to produce extra-base hits. The cleanest power signal Statcast publishes.",
+      "scale_low_label": "4% weak",
+      "scale_high_label": "14% elite",
+      "direction": "higher_better",
+      "in_team_ledger": true,
+      "team_ledger_order": 7
+    },
+    "era": {
+      "abbr": "ERA",
+      "name": "Earned Run Average",
+      "group": "pitching",
+      "tier": "foundational",
+      "order": 7,
+      "definition_md": "Average runs earned against a pitcher per nine innings. Excludes runs from defensive errors. The first stat anyone learns about pitching — and the one most affected by the defense behind them.",
+      "scale_low_label": "2.90 elite",
+      "scale_high_label": "5.00 weak",
+      "direction": "lower_better",
+      "frame_line_md": "ERA always carries its <b>MLB rank</b> here. A 3.21 starter ERA reads 7th of 30 — that's a top-of-rotation tier.",
+      "in_team_ledger": true,
+      "team_ledger_order": 1
+    },
+    "fip": {
+      "abbr": "FIP",
+      "name": "Fielding Independent Pitching",
+      "group": "pitching",
+      "tier": "advanced",
+      "order": 8,
+      "definition_md": "An ERA-style number built only from what a pitcher controls alone — strikeouts, walks, and home runs — ignoring the defense behind them.",
+      "scale_low_label": "2.90 elite",
+      "scale_high_label": "5.00 weak",
+      "direction": "lower_better",
+      "formula_md": "FIP = (13·HR + 3·(BB+HBP) − 2·K) / IP + constant",
+      "why_md": "<b>Why it's here:</b> if a pitcher's ERA and FIP disagree, the gap is usually defense or luck — and it tends to close. A low FIP behind a high ERA is a bounce-back signal.",
+      "in_team_ledger": true,
+      "team_ledger_order": 2
+    },
+    "whip": {
+      "abbr": "WHIP",
+      "name": "Walks + Hits per Inning Pitched",
+      "group": "pitching",
+      "tier": "foundational",
+      "order": 9,
+      "definition_md": "How many baserunners the pitcher allows per inning. Simple, durable, and a clean read on traffic.",
+      "scale_low_label": "1.00 elite",
+      "scale_high_label": "1.50 weak",
+      "direction": "lower_better",
+      "in_team_ledger": true,
+      "team_ledger_order": 3
+    },
+    "run_differential": {
+      "abbr": "Run diff",
+      "name": "Run Differential",
+      "group": "team",
+      "tier": "building",
+      "order": 10,
+      "definition_md": "Runs scored minus runs allowed across the season. The single best one-number read on team quality — better than record on short samples.",
+      "scale_low_label": "−100 poor",
+      "scale_high_label": "+150 elite",
+      "direction": "higher_better",
+      "frame_line_md": "Shown with its <b>MLB rank</b> on the Overview KPI card. Toronto's +28 reads 8th of 30 — quietly contender-level, even when the record looks middling."
+    },
+    "pythag": {
+      "abbr": "Pythag",
+      "name": "Pythagorean Expectation",
+      "group": "team",
+      "tier": "building",
+      "order": 11,
+      "definition_md": "The record a team's <b>run differential</b> says it should have. Teams that beat or trail it usually drift back toward it — so it hints where the season is really heading.",
+      "frame_line_md": "On the Overview, pace and Pythag sit side by side on purpose: <b>the gap is the regression to watch</b>, shown honestly rather than rounded away.",
+      "formula_md": "Win% ≈ RS^2 / (RS^2 + RA^2)  →  ×162 for a projected wins total"
+    }
+  },
+  "honesty": {
+    "title": "Beyond this dashboard",
+    "body_md": "You'll hear about <b>WAR</b> and <b>wRC+</b> — good stats, but this dashboard doesn't show them: there's no free, public feed that computes WAR, and inventing our own would be guessing. We'd rather show you nothing than show you a number we can't stand behind. For those, FanGraphs and Baseball Savant are the places to grow into next.",
+    "byline": "The maintainer · why we draw the line here"
+  },
+  "pitches": [
+    {
+      "slug": "four_seam",
+      "name": "Four-seam Fastball",
+      "abbr": "FF",
+      "velo_range": "93–97 mph",
+      "description_md": "Straightest, fastest pitch. Looks like it \"rises\" — it just drops less than the eye expects.",
+      "shape": "straight"
+    },
+    {
+      "slug": "sinker",
+      "name": "Two-seam Fastball / Sinker",
+      "abbr": "SI",
+      "velo_range": "91–95 mph",
+      "description_md": "Drops and runs toward the pitcher's arm side. Made to get ground balls.",
+      "shape": "arm_side"
+    },
+    {
+      "slug": "cutter",
+      "name": "Cutter",
+      "abbr": "FC",
+      "velo_range": "87–91 mph",
+      "description_md": "A fastball with a late, small glove-side cut. Jams hitters and breaks bats.",
+      "shape": "glove_side_small"
+    },
+    {
+      "slug": "slider",
+      "name": "Slider",
+      "abbr": "SL",
+      "velo_range": "84–88 mph",
+      "description_md": "Sweeps glove-side and down. The go-to swing-and-miss pitch.",
+      "shape": "glove_side"
+    },
+    {
+      "slug": "curveball",
+      "name": "Curveball",
+      "abbr": "CU",
+      "velo_range": "78–82 mph",
+      "description_md": "Big top-to-bottom drop. Slowest pitch — meant to freeze or fool timing.",
+      "shape": "drop"
+    },
+    {
+      "slug": "changeup",
+      "name": "Changeup",
+      "abbr": "CH",
+      "velo_range": "83–87 mph",
+      "description_md": "Looks like a fastball, arrives slow and fades arm-side. Beats a hitter's timing.",
+      "shape": "arm_side_dashed"
+    }
+  ]
+}

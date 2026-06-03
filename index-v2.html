@@ -1,0 +1,462 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Blue Jays 2026 Tracker — v2 (in development)</title>
+
+<!-- v2 design tokens (light + dark). External so a fork can swap teams
+     by editing config.json only; assets/theme.js overrides --team-*
+     tokens at boot. -->
+<link rel="stylesheet" href="tokens.css" />
+<!-- Per-tab styles. Tabs not yet wired share the panel kit fallback. -->
+<link rel="stylesheet" href="assets/overview.css" />
+<link rel="stylesheet" href="assets/players.css" />
+<link rel="stylesheet" href="assets/team-stats.css" />
+<link rel="stylesheet" href="assets/stat-school.css" />
+
+<!-- Hanken Grotesk via Google Fonts CDN; preconnect for first-paint. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+<style>
+/* ============================================================
+   PAGE BASELINE
+   ============================================================ */
+/* Containment discipline (antifragile pass, commit 2 — Class 2).
+   Universal `min-width: 0` forces flex/grid children to honor their
+   parent's track — by default they refuse to shrink below their content
+   size, which is how variable-width content escapes the viewport (B7
+   class). Pairs with `overflow-x: clip` on BOTH html and body. The
+   html-level clip is required because the viewport scroller lives on
+   html — clipping only on body lets html still scroll horizontally.
+   `clip` over `hidden` because it doesn't establish a new scroll
+   container or break scroll-restoration. */
+*, *::before, *::after { box-sizing: border-box; min-width: 0; min-height: 0; }
+html, body { margin: 0; max-width: 100vw; overflow-x: clip; }
+body {
+  font-family: var(--sans);
+  color: var(--ink);
+  background: var(--paper);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  min-height: 100vh;
+}
+button { font-family: inherit; }
+a { color: inherit; }
+
+/* Focus-visible — universal accessibility ring per handoff §5.
+   2px team-primary outline at 2px offset. */
+:focus-visible {
+  outline: 2px solid var(--team-primary);
+  outline-offset: 2px;
+}
+
+/* Screen-reader-only helper for accessible labels on glyph buttons. */
+.sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
+}
+
+/* ============================================================
+   PERSISTENT HEADER — record · IL · freshness · source key · theme
+   Load-bearing across all four tabs.
+   ============================================================ */
+.appbar {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: var(--s5); padding: 16px 26px 14px;
+}
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand .mark {
+  width: 40px; height: 40px; border-radius: 9px;
+  background: var(--team-primary);
+  display: grid; place-items: center;
+  box-shadow: var(--sh1);
+}
+.brand .mark span {
+  display: block; width: 16px; height: 16px;
+  background: var(--card);
+  transform: rotate(45deg); /* diamond bug */
+}
+.brand .wordmark h1,
+.brand .wordmark b {
+  font-weight: var(--w-display); font-size: 16px;
+  letter-spacing: .02em; display: block; line-height: 1.1;
+  margin: 0;
+}
+.brand .wordmark small {
+  font-size: 10.5px; color: var(--ink-3);
+  font-family: var(--mono); letter-spacing: .04em;
+  text-transform: uppercase;
+}
+.appbar-meta {
+  display: flex; align-items: center; gap: 16px;
+  flex-wrap: wrap; justify-content: flex-end;
+}
+.hdr-rec { display: flex; align-items: baseline; gap: 8px; white-space: nowrap; }
+.hdr-rec b {
+  font-weight: var(--w-display); font-size: 20px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em; white-space: nowrap;
+}
+.hdr-rec span { font-size: 12px; color: var(--ink-3); font-family: var(--mono); }
+.hdr-div { width: 1px; height: 30px; background: var(--line-2); }
+
+.freshness {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 11px; color: var(--ink-2);
+}
+.freshness .diamond {
+  /* Static — no pulse. Composure over urgency (handoff §0/§4). */
+  width: 8px; height: 8px; background: var(--pos);
+  transform: rotate(45deg); border-radius: 1px;
+}
+.freshness.amber .diamond { background: var(--q-warm); }
+.freshness.red .diamond { background: var(--neg); }
+.freshness small { display: block; color: var(--ink-3); font-size: 10px; }
+
+.il-chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11.5px; font-weight: var(--w-label); color: var(--ink-2);
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r-pill); padding: 5px 11px; cursor: pointer;
+  font-family: inherit;
+}
+.il-chip .ic {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--q-warm); color: #fff;
+  font-size: 10px; font-weight: 700;
+  display: grid; place-items: center;
+}
+.il-chip:hover { background: var(--card-2); }
+
+/* Three-layer source key — always present. */
+.srckey {
+  display: flex; align-items: center; gap: 14px;
+  background: var(--card); border: 1px solid var(--line);
+  border-radius: var(--r-pill); padding: 6px 14px;
+}
+.srckey .k {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 11px; color: var(--ink-2); font-weight: var(--w-label);
+}
+.srckey .glyph {
+  width: 14px; height: 14px;
+  display: grid; place-items: center; font-size: 10px;
+}
+.g-machine { color: var(--machine); }
+.g-analyst { color: var(--analyst); }
+.g-external { color: var(--external); }
+
+/* Theme toggle — small icon button next to source key. */
+.theme-toggle {
+  width: 32px; height: 32px;
+  border-radius: var(--r-pill);
+  background: var(--card); border: 1px solid var(--line);
+  color: var(--ink-2); cursor: pointer;
+  display: grid; place-items: center;
+  font-size: 14px;
+}
+.theme-toggle:hover { background: var(--card-2); color: var(--ink); }
+
+/* ============================================================
+   TABS (4-tab IA, fixed) — hash-routed
+   ============================================================ */
+.tabs {
+  display: flex; gap: 2px;
+  padding: 6px 26px 0;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;  /* mobile: scroll, never hide */
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  position: relative;
+  padding: 11px 18px 16px;
+  font-size: 14px; font-weight: var(--w-label);
+  color: var(--ink-2); cursor: pointer;
+  border: 0; background: none; font-family: inherit;
+  display: flex; align-items: center; gap: 7px;
+  text-decoration: none; white-space: nowrap;
+}
+.tab:hover { color: var(--ink); }
+.tab.active { color: var(--team-secondary); }
+.tab .sch-ic { font-size: 11px; opacity: .7; }
+[data-theme="dark"] .tab.active { color: #dbe4f1; }
+/* NOSTALGIA gesture: dashed-seam underline on active tab.
+   Pulled in step 7 if it fights legibility. */
+.tab.active::before {
+  content: "";
+  position: absolute; left: 10px; right: 10px; bottom: -1px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--seam) 60%, transparent 0) repeat-x;
+  background-size: 7px 2px;
+}
+
+/* ============================================================
+   TAB BODY — placeholder until per-tab content lands.
+   ============================================================ */
+.tab-body { padding: 22px 26px 24px; }
+.tab-body[hidden] { display: none; }
+.tab-stub {
+  max-width: 720px; margin: 24px auto;
+  text-align: center; padding: 60px 24px;
+  border: 1px dashed var(--line-2);
+  border-radius: var(--r3);
+  background: var(--card);
+  color: var(--ink-3);
+}
+.tab-stub h2 {
+  margin: 0 0 8px; font-size: var(--t-h2);
+  font-weight: var(--w-label); color: var(--ink);
+}
+.tab-stub p { margin: 0; font-size: var(--t-small); font-family: var(--mono); }
+
+/* ============================================================
+   PANEL KIT — every visible block uses this base.
+   Per handoff §7 step 5: panel-state pattern built BEFORE charts so
+   skeleton/empty/error inherit. Three source-treatment variants:
+   panel = machine default, panel.analyst = warm ochre tint with
+   left rule, panel.external = muted slate clipping.
+   ============================================================ */
+.panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r3);
+  box-shadow: var(--sh2);
+  position: relative;
+}
+.panel.analyst {
+  background: var(--analyst-tint);
+  border-color: #e4d8bd;
+  border-left: 3px solid var(--analyst);
+}
+[data-theme="dark"] .panel.analyst {
+  background: #221e16;
+  border-color: #36301f;
+  border-left-color: var(--analyst);
+}
+.panel.external {
+  /* External takes get the standard surface but a slate accent on the header. */
+}
+
+.panel-h {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 15px 18px 11px; gap: 12px;
+}
+.panel-h h3 {
+  margin: 0; font-size: var(--t-h2);
+  font-weight: 700; letter-spacing: -.01em;
+}
+.panel.analyst .panel-h h3 { color: var(--analyst-ink); }
+.panel-h .hint {
+  font-size: 11px; color: var(--ink-3); font-family: var(--mono);
+}
+
+/* Source tag on panel headers — chip variants per data layer. */
+.srctag {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 9.5px; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: 3px 8px; border-radius: var(--r-pill);
+}
+.srctag.machine { color: var(--machine); background: #eef0f3; }
+.srctag.analyst { color: var(--analyst-ink); background: var(--analyst-tint); }
+.srctag.external { color: var(--external-ink); background: var(--external-tint); }
+[data-theme="dark"] .srctag.machine { background: #262b34; }
+
+.panel-b { padding: 2px 18px 18px; }
+
+/* ---- SKELETON (loading) ---- */
+.panel-skeleton { padding: 16px 18px 18px; }
+.sk-line {
+  height: 11px; border-radius: 4px;
+  background: linear-gradient(90deg, var(--card-2) 25%, #efeadd 37%, var(--card-2) 63%);
+  background-size: 400% 100%;
+  animation: sk-shimmer 1.4s ease infinite;
+  margin-bottom: 8px;
+}
+[data-theme="dark"] .sk-line {
+  background: linear-gradient(90deg, var(--card-2) 25%, #2c333f 37%, var(--card-2) 63%);
+  background-size: 400% 100%;
+}
+@keyframes sk-shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
+/* ---- EMPTY (no data, no error — by-design absence) ---- */
+.panel-empty {
+  padding: 24px 18px;
+  text-align: center;
+  color: var(--ink-3);
+  font-size: var(--t-small);
+}
+
+/* ---- ERROR (fetch failed for this panel only) ---- */
+.panel-error {
+  padding: 16px 18px;
+  display: flex; align-items: center; gap: 12px;
+  font-size: var(--t-small);
+  color: var(--neg);
+  border-top: 1px dashed var(--neg);
+  margin-top: 6px;
+}
+.panel-error .msg { flex: 1; }
+.panel-retry {
+  border: 1px solid var(--neg);
+  background: transparent;
+  color: var(--neg);
+  border-radius: var(--r-pill);
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: var(--w-label);
+  cursor: pointer;
+  font-family: inherit;
+}
+.panel-retry:hover { background: var(--neg); color: #fff; }
+
+/* ============================================================
+   COLOPHON
+   ============================================================ */
+.colophon {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 16px; padding: 16px 26px 24px;
+  font-size: 10.5px; color: var(--ink-3); font-family: var(--mono);
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   RESPONSIVE (handoff §6 universals — per-tab rules in their CSS)
+   ============================================================ */
+@media (max-width: 760px) {
+  .appbar { padding: 12px 18px 10px; gap: var(--s4); }
+  .appbar-meta { gap: 10px; }
+  .hdr-div { display: none; }
+  .tabs { padding: 6px 18px 0; }
+  .tab-body { padding: 18px 18px 20px; }
+}
+@media (max-width: 480px) {
+  /* Source key collapses to glyphs only */
+  .srckey {
+    padding: 4px 8px;
+  }
+  .srckey .k { font-size: 0; gap: 0; }
+  .srckey .glyph { font-size: 12px; }
+}
+/* At narrow phone widths (≤360px iPhone SE class), allow header chrome
+   to wrap and trim padding. The viewport-clip is universal (see body
+   above) — this block only adjusts layout at the smallest breakpoint. */
+@media (max-width: 360px) {
+  .appbar {
+    flex-wrap: wrap;
+    padding: 10px 12px 8px;
+    gap: 10px;
+  }
+  .appbar-meta {
+    width: 100%;
+    justify-content: flex-start;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .hdr-rec { white-space: normal; }
+  .hdr-rec b { font-size: 17px; }
+  .freshness small { display: none; }
+  .il-chip { padding: 4px 8px; }
+  .tabs { padding: 4px 12px 0; }
+  .tab { padding: 9px 12px 14px; font-size: 13px; }
+  .tab-body { padding: 14px 12px 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     V2 DEVELOPMENT IN PROGRESS
+     This file is the v2 build, served alongside the live v1
+     (index.html). When v2 is complete, the cutover commit
+     deletes the old and renames this file. Plan:
+     /root/.claude/plans/redesign-v2.md
+     ============================================================ -->
+
+<header class="appbar">
+  <div class="brand">
+    <span class="mark"><span aria-hidden="true"></span></span>
+    <span class="wordmark">
+      <h1 id="brand-title">Loading…</h1>
+      <small id="brand-sub">v2 build</small>
+    </span>
+  </div>
+
+  <div class="appbar-meta">
+    <div class="hdr-rec" id="hdr-rec">
+      <b id="hdr-rec-line">—</b>
+      <span id="hdr-rec-detail"></span>
+    </div>
+    <span class="hdr-div"></span>
+    <button class="il-chip" id="il-chip" type="button" aria-label="Open injury list">
+      <span class="ic" id="il-count">0</span> Injured list
+    </button>
+    <span class="hdr-div"></span>
+    <div class="freshness" id="freshness">
+      <span class="diamond"></span>
+      <div>
+        <span id="freshness-label">—</span>
+        <small id="freshness-detail">Daily · 09:00 UTC</small>
+      </div>
+    </div>
+    <div class="srckey" aria-label="Data layer key">
+      <span class="k"><span class="glyph g-machine">◆</span>MLB data</span>
+      <span class="k"><span class="glyph g-analyst">✎</span>Analyst</span>
+      <span class="k"><span class="glyph g-external">↗</span>Voices</span>
+    </div>
+    <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Toggle dark mode">
+      <span id="theme-glyph">◐</span>
+    </button>
+  </div>
+</header>
+
+<nav class="tabs" role="tablist" aria-label="Sections">
+  <a class="tab" href="#overview" data-tab="overview" role="tab">Overview</a>
+  <a class="tab" href="#players" data-tab="players" role="tab">Players</a>
+  <a class="tab" href="#team-stats" data-tab="team-stats" role="tab">Team Stats</a>
+  <a class="tab" href="#stat-school" data-tab="stat-school" role="tab">
+    Stat School <span class="sch-ic">✦</span>
+  </a>
+</nav>
+
+<main>
+  <!-- Overview tab body — populated by assets/overview.js on boot. -->
+  <section class="tab-body" id="tab-overview" role="tabpanel" aria-labelledby="tab-overview"></section>
+
+  <!-- Players tab body — populated by assets/players.js on boot. -->
+  <section class="tab-body" id="tab-players" role="tabpanel" hidden></section>
+
+  <!-- Team Stats tab body — populated by assets/team-stats.js on boot. -->
+  <section class="tab-body" id="tab-team-stats" role="tabpanel" hidden></section>
+
+  <!-- Stat School tab body — populated by assets/stat-school.js on boot. -->
+  <section class="tab-body" id="tab-stat-school" role="tabpanel" hidden></section>
+</main>
+
+<footer class="colophon">
+  <span>Source: MLB Stats API + maintainer notes + configured RSS · refreshed daily 09:00 UTC</span>
+  <span>v2 build in progress · the live v1 dashboard is unchanged at index.html</span>
+</footer>
+
+<script src="assets/theme.js"></script>
+<script src="assets/format.js"></script>
+<script src="assets/dom.js"></script>
+<script src="assets/modal.js"></script>
+<script src="assets/overview.js"></script>
+<script src="assets/players.js"></script>
+<script src="assets/team-stats.js"></script>
+<script src="assets/stat-school.js"></script>
+<script src="assets/render.js"></script>
+
+</body>
+</html>

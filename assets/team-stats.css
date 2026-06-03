@@ -1,0 +1,244 @@
+/* ============================================================
+   Jays Tracker — Team Stats tab styles (v2)
+   ============================================================ */
+
+.ts-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.ts-head h2 {
+  margin: 0;
+  font-size: var(--t-h1);
+  font-weight: var(--w-display);
+  letter-spacing: -.02em;
+}
+.ts-head p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--ink-2);
+}
+.ts-controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Segmented control (Hitting / Pitching toggle) */
+.seg {
+  display: inline-flex;
+  background: var(--card-2);
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  padding: 3px;
+}
+.seg button {
+  border: 0;
+  background: none;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: var(--w-label);
+  color: var(--ink-2);
+  padding: 7px 18px;
+  border-radius: var(--r-pill);
+  cursor: pointer;
+}
+.seg button.on {
+  background: var(--team-secondary);
+  color: #fff;
+  box-shadow: var(--sh1);
+}
+[data-theme="dark"] .seg button.on { background: #324a6b; }
+.sort-hint {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--ink-3);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ============================================================
+   STRENGTHS & SOFT SPOTS panel (2-column inside one .panel)
+   ============================================================ */
+.sss {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 0;
+}
+.sss-col { padding: 16px 20px; }
+.sss-col + .sss-col { border-left: 1px solid var(--line); }
+.sss-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: var(--t-label);
+  font-weight: 700;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  margin-bottom: 13px;
+}
+.sss-tag .pip {
+  width: 9px; height: 9px; border-radius: 2px;
+}
+.sss-tag.good { color: var(--pos); }
+.sss-tag.good .pip { background: var(--pos); }
+.sss-tag.bad { color: var(--neg); }
+.sss-tag.bad .pip { background: var(--neg); }
+.sss-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 132px 44px;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 0;
+  border-bottom: 1px solid var(--line);
+}
+.sss-row:last-child { border-bottom: 0; }
+.sss-name {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+.sss-name small {
+  display: block;
+  font-size: 11px;
+  color: var(--ink-3);
+  font-weight: 500;
+  font-family: var(--mono);
+}
+.sss-row .rank-num {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 13px;
+  text-align: right;
+}
+.sss-row .rank-num.m1 { color: var(--pos); }
+.sss-row .rank-num.m2 { color: var(--pos-2); }
+.sss-row .rank-num.m3 { color: var(--ink-2); }
+.sss-row .rank-num.m4 { color: var(--q-warm); }
+.sss-row .rank-num.m5 { color: var(--neg); }
+
+/* Optional analyst note appended below soft-spots column */
+.sss-note {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-top: 10px;
+  background: var(--analyst-tint);
+  border-left: 2px solid var(--analyst);
+  border-radius: 0 var(--r1) var(--r1) 0;
+  padding: 8px 11px;
+}
+[data-theme="dark"] .sss-note { background: #221e16; }
+.sss-note .nib {
+  flex: none;
+  color: var(--analyst);
+  font-size: 11px;
+  margin-top: 1px;
+}
+.sss-note p {
+  margin: 0;
+  font-size: 11.5px;
+  line-height: 1.45;
+  color: var(--analyst-ink);
+}
+
+/* ============================================================
+   LEDGER TABLE (per-stat full line + rank strip)
+   ============================================================ */
+.tbl { width: 100%; }
+.tbl-head, .tbl-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.8fr) minmax(0, 2.2fr) minmax(0, 0.7fr);
+  align-items: center;
+  gap: 14px;
+  padding: 0 20px;
+}
+.tbl-head {
+  height: 36px;
+  border-bottom: 2px solid var(--line-2);
+}
+.tbl-head span {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+.tbl-head .c-val,
+.tbl-head .c-rank { text-align: right; }
+.tbl-head .c-strip {
+  display: flex;
+  justify-content: space-between;
+  color: var(--ink-4);
+}
+.tbl-row {
+  height: 46px;
+  border-bottom: 1px solid var(--line);
+}
+.tbl-row:last-child { border-bottom: 0; }
+.tbl-row:hover { background: var(--card-2); }
+.c-stat {
+  font-weight: 600;
+  font-size: 13.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.c-stat .term {
+  border-bottom: 1px dotted var(--ink-3);
+  cursor: help;
+}
+.c-stat .sc {
+  font-family: var(--mono);
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--external-ink);
+  background: var(--external-tint);
+  border-radius: 3px;
+  padding: 1px 5px;
+  text-transform: uppercase;
+}
+.c-val {
+  text-align: right;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+.c-rank {
+  text-align: right;
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 13px;
+}
+.c-rank small {
+  color: var(--ink-4);
+  font-weight: 500;
+  font-size: 10px;
+}
+.c-rank.m1 { color: var(--pos); }
+.c-rank.m2 { color: var(--pos-2); }
+.c-rank.m3 { color: var(--ink-2); }
+.c-rank.m4 { color: var(--q-warm); }
+.c-rank.m5 { color: var(--neg); }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 760px) {
+  .sss { grid-template-columns: minmax(0, 1fr); }
+  .sss-col + .sss-col {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  .tbl-head, .tbl-row {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.7fr) minmax(0, 1.6fr) minmax(0, 0.6fr);
+    gap: 8px;
+    padding: 0 12px;
+  }
+}
