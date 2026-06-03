@@ -153,18 +153,21 @@
   // ---- Click adapter for per-tab renderers ----
   //
   // Per-tab code calls openFromClick(player, triggerEl) on row clicks.
-  // We capture lastTrigger for focus-return, then push the hash —
-  // which fires hashchange → render() → open().
+  // We push the hash via history.pushState (no hashchange fires) and
+  // call render() synchronously. Two reasons:
+  //  1. Symmetric with closeViaUi() — both transitions are pushState +
+  //     explicit render(), no asynchronous hashchange round-trip.
+  //  2. Synchronous open means rapid click→Esc cycles can't race the
+  //     pending hashchange microtask. Browser back/forward still fire
+  //     hashchange (the listener below handles those).
   function openFromClick(player, triggerEl) {
     if (!player || player.id == null) return;
     lastTrigger = triggerEl || null;
     const newHash = '#player-' + player.id;
     if (window.location.hash !== newHash) {
-      window.location.hash = newHash;
-    } else if (cachedState) {
-      // Same hash → no hashchange fires; re-render explicitly.
-      render(cachedState);
+      history.pushState({}, '', newHash);
     }
+    if (cachedState) render(cachedState);
   }
 
   window.JaysModal = {

@@ -1,0 +1,78 @@
+name: UI probes
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: probes-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  probes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright + browser
+        # Pinned minor so a future major doesn't silently break probe
+        # behavior. Bump deliberately in a separate PR.
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --no-save playwright@1.49
+          npx playwright install --with-deps chromium
+
+      - name: Start static server
+        # Serve the repo root on :8000 so probes can hit index-v2.html.
+        # The next step polls until the server responds; no fragile sleep.
+        run: |
+          nohup python3 -m http.server 8000 >/tmp/http.log 2>&1 &
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            if curl -s -o /dev/null http://localhost:8000/index-v2.html; then
+              echo "server up"
+              exit 0
+            fi
+            sleep 0.5
+          done
+          echo "server did not start"
+          cat /tmp/http.log
+          exit 1
+
+      - name: Format spec (pure node:test, no Playwright)
+        run: node --test tests/format-spec.test.js
+
+      - name: Run class-of-bug probes
+        run: |
+          set -e
+          node tests/probes/layer-boundaries.js
+          node tests/probes/containment.js
+          node tests/probes/loading-states.js
+          node tests/probes/modal-state.js
+
+      - name: Run regression probes (rounds 1-3)
+        run: |
+          set -e
+          node tests/probes/round-1.js
+          node tests/probes/round-2.js
+          node tests/probes/round-3.js
+
+      - name: Upload probe artifacts on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: probe-screenshots
+          path: /tmp/v2-shots/
+          if-no-files-found: ignore
