@@ -410,7 +410,7 @@
 .pitch-sec .exp-h { padding-left: 0; padding-right: 0; }
 .pitch-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 .pitch {
@@ -471,7 +471,7 @@
    RESPONSIVE
    ============================================================ */
 @media (max-width: 860px) {
-  .ss-grid { grid-template-columns: 1fr; }
+  .ss-grid { grid-template-columns: minmax(0, 1fr); }
   .ss-index {
     position: static;
     flex-direction: row;
@@ -479,8 +479,8 @@
     gap: 6px;
   }
   .idx-grp { display: none; }
-  .pitch-grid { grid-template-columns: 1fr 1fr; }
+  .pitch-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
 }
 @media (max-width: 520px) {
-  .pitch-grid { grid-template-columns: 1fr; }
+  .pitch-grid { grid-template-columns: minmax(0, 1fr); }
 }

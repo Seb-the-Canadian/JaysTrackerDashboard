@@ -75,7 +75,7 @@
 /* Player card grid */
 .pcards {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 11px;
 }
 .pcard {
@@ -210,6 +210,10 @@
   display: flex;
   align-items: center;
   gap: 9px;
+  /* Defense-in-depth for absurd-length names: wrap at any boundary
+     rather than push the modal wide. Identity field — content is
+     user/MLB-controlled, not designer-controlled. */
+  overflow-wrap: anywhere;
 }
 .modal-id .meta {
   font-size: 12px;
@@ -430,15 +434,15 @@
    RESPONSIVE
    ============================================================ */
 @media (max-width: 980px) {
-  .pcards { grid-template-columns: repeat(3, 1fr); }
+  .pcards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 680px) {
-  .pcards { grid-template-columns: 1fr 1fr; }
+  .pcards { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .slash-big { gap: 12px; }
   .modal-form { margin-left: 0; width: 100%; }
 }
 @media (max-width: 460px) {
-  .pcards { grid-template-columns: 1fr; }
+  .pcards { grid-template-columns: minmax(0, 1fr); }
   .ctx-row {
     grid-template-columns: 96px 44px 1fr 34px;
     gap: 8px;

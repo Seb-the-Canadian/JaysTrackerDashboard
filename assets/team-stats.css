@@ -66,7 +66,7 @@
    ============================================================ */
 .sss {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 0;
 }
 .sss-col { padding: 16px 20px; }
@@ -90,7 +90,7 @@
 .sss-tag.bad .pip { background: var(--neg); }
 .sss-row {
   display: grid;
-  grid-template-columns: 1fr 132px 44px;
+  grid-template-columns: minmax(0, 1fr) 132px 44px;
   align-items: center;
   gap: 12px;
   padding: 9px 0;
@@ -151,7 +151,7 @@
 .tbl { width: 100%; }
 .tbl-head, .tbl-row {
   display: grid;
-  grid-template-columns: 1.5fr 0.8fr 2.2fr 0.7fr;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 0.8fr) minmax(0, 2.2fr) minmax(0, 0.7fr);
   align-items: center;
   gap: 14px;
   padding: 0 20px;
@@ -231,13 +231,13 @@
    RESPONSIVE
    ============================================================ */
 @media (max-width: 760px) {
-  .sss { grid-template-columns: 1fr; }
+  .sss { grid-template-columns: minmax(0, 1fr); }
   .sss-col + .sss-col {
     border-left: 0;
     border-top: 1px solid var(--line);
   }
   .tbl-head, .tbl-row {
-    grid-template-columns: 1.4fr 0.7fr 1.6fr 0.6fr;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 0.7fr) minmax(0, 1.6fr) minmax(0, 0.6fr);
     gap: 8px;
     padding: 0 12px;
   }
