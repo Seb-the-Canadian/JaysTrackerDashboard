@@ -545,30 +545,23 @@
   // ---- Main entry ----
 
   function render(state) {
-    const root = document.getElementById('tab-overview');
-    if (!root) return;
-    root.innerHTML = '';
+    window.JaysDom.tabBody('overview', 'Overview', function (root) {
+      root.appendChild(el('p', { class: 'ov-eyebrow' }, [
+        document.createTextNode('The season right now'),
+        el('span', { class: 'rule' }),
+      ]));
+      root.appendChild(renderKpis(state));
 
-    // Eyebrow + h2 (visually hidden — "Overview" is communicated by the
-    // active tab; the h2 exists for assistive tech and document outline).
-    // Bug B6: prior Overview had no h2; other tabs all had one.
-    root.appendChild(el('h2', { class: 'sr-only' }, 'Overview'));
-    root.appendChild(el('p', { class: 'ov-eyebrow' }, [
-      document.createTextNode('The season right now'),
-      el('span', { class: 'rule' }),
-    ]));
-    root.appendChild(renderKpis(state));
-
-    // 2-col main
-    const leftCol = el('div', { class: 'ov-col' });
-    const rightCol = el('div', { class: 'ov-col' });
-    [renderStateOfSeason(state), renderRunDiffChart(state), renderGames(state)].forEach(function (n) {
-      if (n) leftCol.appendChild(n);
+      const leftCol = el('div', { class: 'ov-col' });
+      const rightCol = el('div', { class: 'ov-col' });
+      [renderStateOfSeason(state), renderRunDiffChart(state), renderGames(state)].forEach(function (n) {
+        if (n) leftCol.appendChild(n);
+      });
+      [renderStandings(state), renderWildCard(state), renderVoices(state)].forEach(function (n) {
+        if (n) rightCol.appendChild(n);
+      });
+      root.appendChild(el('div', { class: 'ov-main' }, [leftCol, rightCol]));
     });
-    [renderStandings(state), renderWildCard(state), renderVoices(state)].forEach(function (n) {
-      if (n) rightCol.appendChild(n);
-    });
-    root.appendChild(el('div', { class: 'ov-main' }, [leftCol, rightCol]));
   }
 
   window.JaysOverview = { render: render };

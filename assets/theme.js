@@ -75,45 +75,21 @@
   const REF_ACCENT = '#E8291C';
 
   // applyTeamTheme overrides --team-* tokens on :root from cfg.
-  // cfg is the parsed config.json object. Backward-compatible with v1
-  // configs that only have primary_color + accent_color.
+  // cfg is the parsed config.json object. Sets ONLY the three identity
+  // tokens; every other token derives in tokens.css via color-mix().
+  // The antifragile pass removed soft-tint and ink derivations from JS
+  // to fix bug B1's class — JS overriding CSS tokens regardless of
+  // theme. Backward-compatible with v1 configs that lack secondary_color
+  // (derives from primary by darkening).
   function applyTeamTheme(cfg) {
     const root = document.documentElement;
     const primary = (cfg && cfg.primary_color) || REF_PRIMARY;
-    // secondary_color is new in v2; derive from primary if absent.
     const secondary = (cfg && cfg.secondary_color)
       || mixHex(primary, '#000000', 0.40);
     const accent = (cfg && cfg.accent_color) || REF_ACCENT;
-
-    // Identity tokens
     root.style.setProperty('--team-primary', primary);
     root.style.setProperty('--team-secondary', secondary);
     root.style.setProperty('--team-accent', accent);
-
-    // Derived soft tints. In light mode mix toward white (10% color, 90%
-    // white) for the near-white pastel the design specifies. In dark mode
-    // mix toward the dark card surface at 0.75 ratio — produces a subtle
-    // tinted-dark distinguishable from --card but not so dark it traps
-    // light text. Bug B1: previously mixed toward white regardless of
-    // theme; .pc-av text was 1.04:1.
-    const isDark = root.getAttribute('data-theme') === 'dark';
-    const cardBg = isDark ? '#1b1f27' : '#fffdf8';
-    if (isDark) {
-      root.style.setProperty('--team-primary-soft', mixHex(primary, cardBg, 0.75));
-      root.style.setProperty('--team-secondary-soft', mixHex(secondary, cardBg, 0.75));
-    } else {
-      root.style.setProperty('--team-primary-soft', mixHex(primary, '#ffffff', 0.90));
-      root.style.setProperty('--team-secondary-soft', mixHex(secondary, '#ffffff', 0.90));
-    }
-
-    // Team color used as text on --card must pass WCAG AA. For dark primaries
-    // (NYY #003087, NYM blue) the raw value passes on cream. For low-contrast
-    // edge cases, fall back to --ink.
-    const inkFallback = isDark ? '#eceef2' : '#1c2230';
-    root.style.setProperty(
-      '--team-primary-ink',
-      ensureContrastAA(primary, cardBg, inkFallback)
-    );
   }
 
   // ---- Dark mode: prefers-color-scheme default + localStorage override ----
@@ -143,27 +119,28 @@
     return document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
   }
 
-  // Apply the mode to <html> + re-run team-theme contrast eval against the
-  // new card surface. cfg passed-through so the contrast pass works on toggle.
-  function applyTheme(mode, cfg) {
+  // Apply the mode to <html>. CSS handles all theme-aware derivations
+  // via color-mix() in tokens.css's [data-theme="dark"] block — no JS
+  // re-derivation needed on toggle.
+  function applyTheme(mode) {
     if (mode === 'dark') {
       document.documentElement.setAttribute('data-theme', 'dark');
     } else {
       document.documentElement.removeAttribute('data-theme');
     }
-    if (cfg) applyTeamTheme(cfg);
   }
 
   function initTheme(cfg) {
+    if (cfg) applyTeamTheme(cfg);
     const stored = getStoredTheme();
     const mode = stored || (prefersDark() ? 'dark' : 'light');
-    applyTheme(mode, cfg);
+    applyTheme(mode);
   }
 
-  function toggleTheme(cfg) {
+  function toggleTheme() {
     const next = currentMode() === 'dark' ? 'light' : 'dark';
     setStoredTheme(next);
-    applyTheme(next, cfg);
+    applyTheme(next);
     return next;
   }
 

@@ -199,24 +199,19 @@
   let LEDGER_HOST = null;
 
   function render(state) {
-    const root = document.getElementById('tab-team-stats');
-    if (!root) return;
-    root.innerHTML = '';
+    window.JaysDom.tabBody('team-stats', 'Team Stats', function (root) {
+      root.appendChild(headerBlock());
+      root.appendChild(renderStrengthsSoftSpots(state));
 
-    // Eyebrow + header + group toggle
-    root.appendChild(headerBlock());
+      const host = document.createElement('div');
+      host.style.marginTop = '14px';
+      LEDGER_HOST = host;
+      host.appendChild(renderLedger(state, CURRENT_GROUP));
+      root.appendChild(host);
+    });
 
-    // Strengths/Soft spots panel
-    root.appendChild(renderStrengthsSoftSpots(state));
-
-    // Ledger host (updated when toggle flips)
-    const host = document.createElement('div');
-    host.style.marginTop = '14px';
-    LEDGER_HOST = host;
-    host.appendChild(renderLedger(state, CURRENT_GROUP));
-    root.appendChild(host);
-
-    // Wire toggle
+    // Wire Hitting/Pitching toggle. Selector is scoped to the seg
+    // control rendered inside headerBlock().
     document.querySelectorAll('.seg button').forEach(function (b) {
       b.addEventListener('click', function () {
         document.querySelectorAll('.seg button').forEach(function (x) { x.classList.remove('on'); });

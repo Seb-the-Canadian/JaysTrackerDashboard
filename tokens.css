@@ -10,15 +10,27 @@
 
 :root {
   /* ---- TEAM IDENTITY (forkable — populated from config.json) ----
-     Defaults are the Blue Jays reference; assets/theme.js overrides
-     these at boot from config.json's primary_color / secondary_color
-     / accent_color, then derives the *-soft tints and ink-on-card. */
+     Only these three tokens are set from JS at boot (assets/theme.js).
+     Everything else derives via color-mix() below — single source of
+     truth, no JS vs CSS contention. The antifragile pass moved derived
+     tokens here to remove the layer-boundary class of bug (B1).
+
+     Fork constraint: primary_color should pass WCAG AA on the light
+     card surface (#fffdf8). See docs/forking.md. */
   --team-primary: #134A8E;     /* royal */
   --team-secondary: #1D2D5C;   /* navy  */
   --team-accent: #E8291C;      /* red — identity only, NOT signal */
-  --team-primary-soft: #e8eef6;
-  --team-secondary-soft: #e6e8f0;
-  --team-primary-ink: #134A8E; /* team color when used as text */
+
+  /* DERIVED — never set from JS. 10% color on a near-white substrate
+     produces the subtle light-mode tint used for "me" highlights,
+     active sidebar items, and pcard avatars. */
+  --team-primary-soft: color-mix(in oklab, var(--team-primary) 10%, #ffffff);
+  --team-secondary-soft: color-mix(in oklab, var(--team-secondary) 10%, #ffffff);
+
+  /* Team color as text on --card. In light mode the raw value passes
+     AA for most palettes (validated at fork time). Dark mode lifts
+     it below. */
+  --team-primary-ink: var(--team-primary);
 
   /* ---- NEUTRAL INK SCALE ---- */
   --ink: #1c2230;
@@ -120,10 +132,17 @@
   --line: #2b313c;
   --line-2: #3a4250;
 
-  /* TEAM TINTS on dark — soft tints flip toward dark, primary-ink lifts */
-  --team-primary-soft: #1d2a3d;
-  --team-secondary-soft: #222a3a;
-  --team-primary-ink: #7ea7d8;   /* lifted; assets/theme.js may override per palette */
+  /* TEAM TINTS on dark — derived via color-mix. Soft tints flip from
+     mixing with white (light) to mixing with the dark card surface
+     (dark); the resulting hue is subtle and tracks the team palette
+     automatically. primary-ink lifts to a perceptual mid so contrast
+     against the dark card stays AA without runtime ensureContrast.
+     Per-fork: forks with very dark primaries (NYY #003087) get a
+     readable lift from this mix; very light primaries get desaturated
+     enough to remain legible. */
+  --team-primary-soft: color-mix(in oklab, var(--team-primary) 25%, var(--card));
+  --team-secondary-soft: color-mix(in oklab, var(--team-secondary) 25%, var(--card));
+  --team-primary-ink: color-mix(in oklab, var(--team-primary) 50%, #ffffff);
 
   /* SIGNALS — lift the dark end of the q-scale for legibility on dark cards */
   --q-cold: #4f7da5;

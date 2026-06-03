@@ -133,7 +133,7 @@
     }
     updateGlyph();
     btn.addEventListener('click', function () {
-      window.JaysTheme.toggleTheme(state.config);
+      window.JaysTheme.toggleTheme();
       updateGlyph();
     });
   }

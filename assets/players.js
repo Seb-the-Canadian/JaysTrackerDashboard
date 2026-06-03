@@ -439,20 +439,16 @@
   // ---- Main entry ----
 
   function render(state) {
-    const root = document.getElementById('tab-players');
-    if (!root) return;
-    root.innerHTML = '';
     const data = state.data || {};
     const roster = data.roster || {};
 
-    // Eyebrow + page-head + pill legend
-    root.appendChild(eyebrowHead());
-
-    // Pitchers first (Rotation/Bullpen), then hitters by position group.
-    const groups = groupPitchers(roster.pitchers || []).concat(groupHitters(roster.hitters || []));
-    groups.forEach(function (g) {
-      const isHitter = !(g.rows[0] && g.rows[0].era);
-      root.appendChild(renderRoleGroup(g.name, g.rows, isHitter, state));
+    window.JaysDom.tabBody('players', 'Players', function (root) {
+      root.appendChild(eyebrowHead());
+      const groups = groupPitchers(roster.pitchers || []).concat(groupHitters(roster.hitters || []));
+      groups.forEach(function (g) {
+        const isHitter = !(g.rows[0] && g.rows[0].era);
+        root.appendChild(renderRoleGroup(g.name, g.rows, isHitter, state));
+      });
     });
 
     // Try to open a modal from the URL hash (deep-link).

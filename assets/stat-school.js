@@ -115,7 +115,10 @@
   function renderKeystone() {
     const wrap = document.createElement('div');
     wrap.className = 'keystone';
-    wrap.id = 'stat-mlb_rank';
+    // Structural ID, distinct from the ss-stat-<slug> per-stat namespace.
+    // Prevents bug B3's class — JSON contributor adding a "mlb_rank" stat
+    // can no longer collide.
+    wrap.id = 'stat-school-keystone';
     wrap.innerHTML = ''
       + '<h3>How to read every stat here</h3>'
       + '<p>This dashboard never shows a number alone. Each stat appears with its <b style="color:#fff">MLB rank</b> — where the team or player sits among all 30 clubs (or all qualified players). 1st is best, 30th is worst. That frame turns a bare number into "is this good?" without you having to memorise league averages.</p>'
@@ -137,7 +140,11 @@
   function renderStatCard(slug, s) {
     const wrap = document.createElement('div');
     wrap.className = 'exp';
-    wrap.id = 'stat-' + slug;
+    // Namespaced ID — `ss-stat-` prefix prevents collision with the
+    // structural Stat School IDs (keystone, honesty, pitches). User-
+    // facing deep-link URLs stay as `#stat-<slug>`; scrollToStat()
+    // does the lookup.
+    wrap.id = 'ss-stat-' + slug;
 
     const head = document.createElement('div');
     head.className = 'exp-h';
@@ -226,7 +233,7 @@
     if (!h.body_md) return null;
     const wrap = document.createElement('div');
     wrap.className = 'honest';
-    wrap.id = 'stat-beyond';
+    wrap.id = 'stat-school-honesty';
     wrap.innerHTML = ''
       + '<h3>' + (h.title || 'Beyond this dashboard') + '</h3>'
       + '<p>' + h.body_md + '</p>'
@@ -245,7 +252,7 @@
 
     const sec = document.createElement('div');
     sec.className = 'pitch-sec';
-    sec.id = 'stat-pitch-types';
+    sec.id = 'stat-school-pitches';
 
     const head = document.createElement('div');
     head.className = 'exp-h';
@@ -336,8 +343,26 @@
     });
   }
 
+  // User-facing slug → element ID. Per-stat slugs live under the
+  // ss-stat- namespace; the structural sections (keystone, honesty,
+  // pitches) have their own semantic IDs. SPECIAL_SLUGS lets URLs
+  // like #stat-beyond and #stat-pitch-types keep working.
+  const SPECIAL_SLUGS = {
+    'mlb_rank':    'stat-school-keystone',
+    'mlb-rank':    'stat-school-keystone',
+    'beyond':      'stat-school-honesty',
+    'pitch-types': 'stat-school-pitches',
+  };
+
+  function elementForSlug(slug) {
+    if (SPECIAL_SLUGS[slug]) {
+      return document.getElementById(SPECIAL_SLUGS[slug]);
+    }
+    return document.getElementById('ss-stat-' + slug);
+  }
+
   function scrollToStat(slug) {
-    const el = document.getElementById('stat-' + slug);
+    const el = elementForSlug(slug);
     if (!el) return;
     el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     el.classList.add('highlight');
@@ -378,60 +403,58 @@
   function render(state) {
     const root = document.getElementById('tab-stat-school');
     if (!root) return Promise.resolve();
-    // Render the skeleton synchronously so the tab body isn't empty if
-    // the user lands on / clicks Stat School during the JSON load.
-    renderSkeleton(root);
+
+    // Synchronous skeleton + sr-only h2 so the tab body isn't empty if
+    // the user activates Stat School during the JSON load. Bug B8.
+    window.JaysDom.tabBody('stat-school', 'Stat School', function (host) {
+      host.appendChild(window.JaysDom.skeleton({
+        widths: ['35%', '60%', '90%', '75%', '55%'],
+      }));
+    });
+
     return loadSchool().then(function () {
-      root.innerHTML = '';
+      window.JaysDom.tabBody('stat-school', 'Stat School', function (host) {
+        host.appendChild(introBlock());
 
-      // Eyebrow + intro
-      root.appendChild(introBlock());
+        const grid = document.createElement('div');
+        grid.className = 'ss-grid';
 
-      // Two-col grid
-      const grid = document.createElement('div');
-      grid.className = 'ss-grid';
+        const idx = renderIndex();
+        grid.appendChild(idx);
 
-      const idx = renderIndex();
-      grid.appendChild(idx);
+        const col = document.createElement('div');
+        col.className = 'ss-col';
 
-      const col = document.createElement('div');
-      col.className = 'ss-col';
+        col.appendChild(renderKeystone());
 
-      // Keystone first
-      col.appendChild(renderKeystone());
-
-      // Per-stat cards in group order
-      const stats = SS_DATA.stats || {};
-      const order = ['hitting', 'pitching', 'team', 'reference'];
-      order.forEach(function (g) {
-        const slugs = Object.keys(stats)
-          .filter(function (s) { return stats[s].group === g; })
-          .sort(function (a, b) { return (stats[a].order || 99) - (stats[b].order || 99); });
-        slugs.forEach(function (slug) {
-          col.appendChild(renderStatCard(slug, stats[slug]));
+        const stats = SS_DATA.stats || {};
+        const order = ['hitting', 'pitching', 'team', 'reference'];
+        order.forEach(function (g) {
+          const slugs = Object.keys(stats)
+            .filter(function (s) { return stats[s].group === g; })
+            .sort(function (a, b) { return (stats[a].order || 99) - (stats[b].order || 99); });
+          slugs.forEach(function (slug) {
+            col.appendChild(renderStatCard(slug, stats[slug]));
+          });
         });
+
+        const honesty = renderHonesty();
+        if (honesty) col.appendChild(honesty);
+
+        const pitches = renderPitchTypes(state);
+        if (pitches) col.appendChild(pitches);
+
+        grid.appendChild(col);
+        host.appendChild(grid);
+
+        hookIndex(idx);
+
+        // If we arrived here via #stat-<slug>, scroll to it.
+        setTimeout(function () {
+          const h = (window.location.hash || '').replace(/^#/, '');
+          if (h.indexOf('stat-') === 0) scrollToStat(h.slice(5));
+        }, 50);
       });
-
-      // Honesty card
-      const honesty = renderHonesty();
-      if (honesty) col.appendChild(honesty);
-
-      // Pitch types
-      const pitches = renderPitchTypes(state);
-      if (pitches) col.appendChild(pitches);
-
-      grid.appendChild(col);
-      root.appendChild(grid);
-
-      hookIndex(idx);
-
-      // If we arrived here via #stat-<slug>, scroll to it.
-      setTimeout(function () {
-        const h = (window.location.hash || '').replace(/^#/, '');
-        if (h.indexOf('stat-') === 0) {
-          scrollToStat(h.slice(5));
-        }
-      }, 50);
 
       // Wire global #stat-* navigation from other tabs.
       window.addEventListener('hashchange', tryOpenFromHash);
