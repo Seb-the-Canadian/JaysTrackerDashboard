@@ -1,14 +1,20 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project are documented in this file, grouped by milestone-or-wave within each release. Within each section, entries link to the PR (`#NN`) where one exists; very early commits predate the PR workflow and link by commit hash.
 
-This project does not yet have a tagged release. Everything below is **Unreleased** — the running record of merged work, organized chronologically by milestone. The next entry will be the v1.0 tag (see [`docs/roadmap.md`](docs/roadmap.md) for v1.0's gating criteria).
-
-The format groups changes by milestone-or-wave rather than by category. Within each section, entries link to the PR (`#NN`) where one exists; very early commits predate the PR workflow and link by commit hash.
+Work merged after the latest tag lives under `## Unreleased` until the next release cuts.
 
 ---
 
 ## Unreleased
+
+_Nothing yet — open for work that lands after v1.0.0._
+
+---
+
+## v1.0.0 — 2026-06-03
+
+First tagged release. 26 consecutive daily refreshes between the v1-stable signal landing in README ([#101](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/101), 2026-06-02) and this tag, no regressions, no maintenance interventions. See the [v1.0.0 GitHub release](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/releases/tag/v1.0.0) for the published notes. Detailed entries below.
 
 ### Notes-staleness maintenance loop (2026-05-30 – 2026-06-01)
 
@@ -154,10 +160,10 @@ The seven-phase initial implementation, from empty repo to live dashboard.
 
 When a PR merges to `main`:
 
-1. Add a one-line entry to the most recent milestone section under the appropriate sub-heading (Added / Fixed / Docs / Workflow).
+1. Add a one-line entry under `## Unreleased`, in the most recent milestone section under the appropriate sub-heading (Added / Fixed / Docs / Workflow). Create a new milestone heading if the work doesn't fit an existing one.
 2. Format: `commit-style title (#PR, [closes #NN])` — match the commit prefix (`feat:`, `fix:`, `docs:`, etc.).
 3. Link the PR number and any closed issues.
 
 Daily-refresh commits (`Daily data refresh: YYYY-MM-DD`) do not appear here — they're machine-generated content, not changes worth a reader's time.
 
-When we tag v1.0, the entire "Unreleased" section becomes the v1.0 release notes; future work starts a fresh "Unreleased" section above the v1.0 heading.
+When we tag a release, rename `## Unreleased` to `## vX.Y.Z — YYYY-MM-DD` and add a fresh empty `## Unreleased` section above it.
