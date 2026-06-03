@@ -8,7 +8,17 @@ Work merged after the latest tag lives under `## Unreleased` until the next rele
 
 ## Unreleased
 
-_Nothing yet — open for work that lands after v1.0.0._
+### v2 antifragile pass (2026-06-03)
+
+Re-does the prior v2 debug pass with root-cause discipline — each fix removes the *possibility* of the bug class rather than the instance, and lands a class-of-bug probe that asserts it stays structurally impossible. Lives at `index-v2.html`; v1 ships unchanged on `index.html`.
+
+**Added**
+- `v2(antifragile): layer-boundary discipline` ([#102](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/102)) — light + dark `--team-*-soft` / `--team-primary-ink` derived in CSS via `color-mix(in oklab, ...)`; `theme.js` shrinks to setting only the three identity tokens; `assets/dom.js:tabBody()` factory makes h2 structurally guaranteed; Stat School cards namespaced `ss-stat-<slug>`. Subsumes bug classes B1, B3, B5, B6.
+- `v2(antifragile): containment discipline` ([#102](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/102)) — universal `min-width: 0`, `overflow-x: clip` on html+body, `minmax(0, *fr)` on every grid template that hosts variable-width content. No horizontal scroll surface at any tested viewport (320/480/760/1100/1440/1920). Subsumes B7.
+- `v2(antifragile): async / loading-state discipline` ([#102](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/102)) — per-tab synchronous skeleton paint before fetch await; per-source error capture; retry panel on `data.json` failure so the dashboard never blanks. Subsumes B8.
+- `v2(antifragile): modal state from hash` ([#102](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/102)) — new `assets/modal.js` module with `modalState(hash)` discriminator + builder registry; click → `pushState` + synchronous `render(state)`; X / Esc / scrim / browser back / forward all flow through one path. Subsumes B4.
+- `v2(antifragile): formatter domain discipline` ([#102](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/102)) — JSDoc `@domain` on every formatter in `assets/format.js`; out-of-domain returns the canonical `DASH`; 33 `node:test` cases in `tests/format-spec.test.js` (pure stdlib, no Playwright). Subsumes M6, M7.
+- `v2(antifragile): probe suite into repo + CI` ([#102](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/pull/102)) — three regression rounds + four class-of-bug probes move into `tests/probes/`; `docs/bug-hunt-2026-06-02.md` is the audit-trail artifact; new `.github/workflows/probes.yml` runs the full suite (format-spec + 7 probes) on every PR.
 
 ---
 
