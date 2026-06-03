@@ -58,8 +58,52 @@
     return wrap;
   }
 
+  // ---- Tab-shape-aware skeleton ----
+  //
+  // Each tab gets a placeholder roughly matching its eventual layout so
+  // the dashboard never appears blank during async load (B8 class). The
+  // shape is approximate — the antifragile principle is "non-blank
+  // synchronous paint", not "pixel-perfect preview".
+  function skeletonForTab(tabId) {
+    const SHAPES = {
+      overview: ['40%', '92%', '85%', '70%', '95%', '60%', '88%', '50%'],
+      players:  ['30%', '70%', '70%', '70%', '70%', '70%', '70%', '70%', '70%'],
+      'team-stats': ['28%', '90%', '80%', '85%', '78%', '92%', '70%', '85%'],
+      'stat-school': ['22%', '88%', '75%', '92%', '60%', '85%', '70%'],
+    };
+    return skeleton({ widths: SHAPES[tabId] || SHAPES.overview });
+  }
+
+  // ---- Error panel with retry ----
+  //
+  // Shown in place of a tab's content when its required data is
+  // unavailable. The retry button re-runs the supplied function (which
+  // is expected to re-fetch and re-render). Bug class: a fetch failure
+  // for one source must not blank the dashboard or leave the user with
+  // no recovery path.
+  function errorPanel(opts) {
+    opts = opts || {};
+    const wrap = document.createElement('div');
+    wrap.className = 'panel-error';
+    const msg = document.createElement('span');
+    msg.className = 'msg';
+    msg.textContent = opts.message || 'Could not load this section.';
+    wrap.appendChild(msg);
+    if (typeof opts.retry === 'function') {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'panel-retry';
+      btn.textContent = 'Retry';
+      btn.addEventListener('click', opts.retry);
+      wrap.appendChild(btn);
+    }
+    return wrap;
+  }
+
   window.JaysDom = {
     tabBody: tabBody,
     skeleton: skeleton,
+    skeletonForTab: skeletonForTab,
+    errorPanel: errorPanel,
   };
 })();
