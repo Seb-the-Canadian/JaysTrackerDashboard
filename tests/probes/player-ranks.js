@@ -37,6 +37,11 @@ async function loadWithSyntheticRanks(browser, opts = {}) {
     // the PLAYER_HITTING_STATS / PLAYER_PITCHING_STATS the fetcher emits
     // and the players.js modal rows read (OPS/HR/RBI/SB; ERA/WHIP/K9/BB9/IP).
     body.player_ranks = body.player_ranks || {};
+    // The committed data.json fixture may predate later EXPECTED_KEYS
+    // additions (e.g. opponent_pitchers, G3). Ensure the key exists so the
+    // schema-drift banner — which these tests assert on — isn't tripped by
+    // an unrelated missing key. The fetcher always emits it post-run.
+    body.opponent_pitchers = body.opponent_pitchers || {};
     const roster = (body.roster || {});
     let i = 1;
     for (const h of (roster.hitters || [])) {

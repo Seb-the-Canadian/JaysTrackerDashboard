@@ -438,6 +438,14 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* G3: opposing-pitcher modal — season-line framing note in the body. */
+.oppp-note {
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.5;
+  margin: 2px 0 0;
+}
+
 /* External profile links (Savant + MLB.com) — modal header identity block.
    Same provenance palette as the .sc Statcast chip; rendered as anchors. */
 .ext-row {
