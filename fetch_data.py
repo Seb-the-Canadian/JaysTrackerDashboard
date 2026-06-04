@@ -1162,6 +1162,13 @@ def transform_roster(roster_entries, cfg):
                 "ip": stat.get("inningsPitched", "0.0"),
                 "era": stat.get("era", "-.--"),
                 "whip": stat.get("whip", "-.--"),
+                # Rate stats kept as their own fields (not derived in the
+                # renderer): IP uses baseball notation (.1 = ⅓ inning), so
+                # k*9/ip in JS would be wrong. The API already supplies the
+                # correctly-computed rates — carry them through. Read by the
+                # players.js modal "Where they rank" K/9 + BB/9 rows.
+                "k_per_9": stat.get("strikeoutsPer9Inn", "-.--"),
+                "bb_per_9": stat.get("walksPer9Inn", "-.--"),
                 "k": stat.get("strikeOuts", 0),
                 "bb": stat.get("baseOnBalls", 0),
                 "w": stat.get("wins", 0),
@@ -1255,6 +1262,35 @@ PITCHING_STATS = [
 # Pitching: lower is better on ERA/WHIP/BB9, higher is better on K/9.
 # Every hitting stat we surface is higher-is-better.
 PITCHING_HIGHER_IS_BETTER = {"k9"}
+
+# --- Player-rank stat sets ---------------------------------------------------
+# Deliberately separate from the team HITTING_STATS / PITCHING_STATS above.
+# Two reasons:
+#   1. The player modal surfaces a different cut than the team ledger — RBI /
+#      SB read well as per-player league bars, and the pitcher rate slugs must
+#      match the keys players.js reads (`k_per_9` / `bb_per_9`, not the team
+#      `k9` / `bb9`).
+#   2. Renaming the shared team slugs would break Stat School analyst notes
+#      (notes.json keys `pitching.k9` / `pitching.bb9`) and the v1 index.html
+#      table — both join on those exact strings. Decoupling lets the player
+#      axis carry renderer-aligned slugs while the team axis stays stable.
+# Every slug here is read by buildHitterRankRows / buildPitcherRankRows.
+PLAYER_HITTING_STATS = [
+    ("ops", "ops"),
+    ("hr", "homeRuns"),
+    ("rbi", "rbi"),
+    ("sb", "stolenBases"),
+]
+PLAYER_PITCHING_STATS = [
+    ("era", "era"),
+    ("whip", "whip"),
+    ("k_per_9", "strikeoutsPer9Inn"),
+    ("bb_per_9", "walksPer9Inn"),
+    ("ip", "inningsPitched"),
+]
+# Pitcher player axis: higher is better on K/9 and innings (durability);
+# lower is better on ERA / WHIP / BB9.
+PLAYER_PITCHING_HIGHER_IS_BETTER = {"k_per_9", "ip"}
 
 
 def _our_team_split(group, cfg):
@@ -1430,8 +1466,11 @@ def fetch_league_player_rankings(cfg, roster):
 
     Returns: {<player_id_str>: {<stat_slug>: int | None, ...}, ...}.
 
-    Stats included match HITTING_STATS / PITCHING_STATS so the player
-    rank set aligns with the team rank set — same stats on both axes.
+    Stats included are PLAYER_HITTING_STATS / PLAYER_PITCHING_STATS —
+    the renderer-aligned player cut (OPS/HR/RBI/SB for hitters;
+    ERA/WHIP/K9/BB9/IP for pitchers), intentionally distinct from the
+    team HITTING_STATS / PITCHING_STATS so the player slugs can match
+    what players.js reads without disturbing the team axis.
     Players outside their group's qualified pool (bench bats, relievers
     short of 1 IP per team game, callups) return None for every slug.
     Per decision D1: percentile within MLB-qualified set per stat.
@@ -1459,7 +1498,7 @@ def fetch_league_player_rankings(cfg, roster):
         if pid is None:
             continue
         ranks[str(pid)] = {}
-        for slug, api_field in HITTING_STATS:
+        for slug, api_field in PLAYER_HITTING_STATS:
             ranks[str(pid)][slug] = _player_rank_for_stat(
                 hitting_splits, pid, api_field, higher_is_better=True)
     for pitcher in roster.get("pitchers") or []:
@@ -1467,8 +1506,8 @@ def fetch_league_player_rankings(cfg, roster):
         if pid is None:
             continue
         ranks[str(pid)] = {}
-        for slug, api_field in PITCHING_STATS:
-            higher_better = slug in PITCHING_HIGHER_IS_BETTER
+        for slug, api_field in PLAYER_PITCHING_STATS:
+            higher_better = slug in PLAYER_PITCHING_HIGHER_IS_BETTER
             ranks[str(pid)][slug] = _player_rank_for_stat(
                 pitching_splits, pid, api_field, higher_is_better=higher_better)
     return ranks

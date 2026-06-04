@@ -14,13 +14,14 @@
    player_ranks block, then asserting the rank ordinal appears in
    the DOM.
 
-   Run from repo root with a static server up at :8001:
-     python3 -m http.server 8001 &
+   Run from repo root with a static server up at :8000 (the probe-suite
+   convention shared with the other probes):
+     python3 -m http.server 8000 &
      NODE_PATH=/opt/node22/lib/node_modules node tests/probes/player-ranks.js
    ============================================================ */
 const { chromium } = require('playwright');
 
-const BASE = process.env.JT_BASE || 'http://localhost:8001/index-v2.html';
+const BASE = process.env.JT_BASE || 'http://localhost:8000/index-v2.html';
 const findings = [];
 const report = (level, name, detail) => {
   findings.push({ level, name, detail });
@@ -32,21 +33,31 @@ async function loadWithSyntheticRanks(browser, opts = {}) {
   await ctx.route('**/data.json', async (route) => {
     const res = await route.fetch();
     const body = await res.json();
-    // Inject synthetic player_ranks for every roster member.
+    // Inject synthetic player_ranks for every roster member. Slugs match
+    // the PLAYER_HITTING_STATS / PLAYER_PITCHING_STATS the fetcher emits
+    // and the players.js modal rows read (OPS/HR/RBI/SB; ERA/WHIP/K9/BB9/IP).
     body.player_ranks = body.player_ranks || {};
     const roster = (body.roster || {});
     let i = 1;
     for (const h of (roster.hitters || [])) {
-      body.player_ranks[String(h.id)] = {
-        ops: i, avg: i, obp: i, slg: i, runs: i, hr: i,
-      };
+      body.player_ranks[String(h.id)] = { ops: i, hr: i, rbi: i, sb: i };
+      // The committed data.json may carry placeholder Statcast values;
+      // inject real ones so the value-only Statcast line renders.
+      if (!h.xwoba || h.xwoba === '.---') h.xwoba = '.350';
+      if (!h.barrel_pct || h.barrel_pct === '---') h.barrel_pct = '9.2%';
+      if (!h.hardhit_pct || h.hardhit_pct === '---') h.hardhit_pct = '48%';
       i++;
     }
     let j = 1;
     for (const p of (roster.pitchers || [])) {
       body.player_ranks[String(p.id)] = {
-        era: j, whip: j, k9: j, bb9: j,
+        era: j, whip: j, k_per_9: j, bb_per_9: j, ip: j,
       };
+      // The committed data.json predates the k_per_9 / bb_per_9 roster
+      // fields (added with the player-rank realignment); inject values so
+      // the K/9 + BB/9 modal rows aren't filtered out as value-less.
+      if (!p.k_per_9 || p.k_per_9 === '-.--') p.k_per_9 = '9.50';
+      if (!p.bb_per_9 || p.bb_per_9 === '-.--') p.bb_per_9 = '2.30';
       j++;
     }
     if (opts.mutateRanks) opts.mutateRanks(body.player_ranks);
@@ -180,6 +191,108 @@ async function loadWithSyntheticRanks(browser, opts = {}) {
     report(ok ? 'PASS' : 'FAIL',
       'R5: deleting player_ranks fires the schema-drift banner',
       banner ? `hidden=${banner.hidden} text="${banner.text.slice(0, 80)}"` : 'no banner');
+    await ctx.close();
+  }
+
+  // ----- R6: rank strips render the heat gradient + a positioned marker -----
+  //
+  // The audit's "heat-map shows nothing" was three faults: null ranks, slug
+  // mismatches, and a flat gray rail. R1-R5 cover the data; R6 covers the
+  // visual — the strip must carry a CSS gradient (not a flat fill) and a
+  // marker dot positioned by rank.
+  {
+    const { ctx, page } = await loadWithSyntheticRanks(browser);
+    await page.evaluate(() => { window.location.hash = 'players'; });
+    await page.waitForTimeout(400);
+    const playerId = await page.evaluate(() => {
+      const card = document.querySelector('.pcard');
+      return card ? card.dataset.playerId : null;
+    });
+    await page.evaluate((pid) => { window.location.hash = 'player-' + pid; }, playerId);
+    await page.waitForTimeout(400);
+    const strip = await page.evaluate(() => {
+      const scrim = document.querySelector('#player-modal-scrim.show');
+      if (!scrim) return null;
+      const s = scrim.querySelector('.ctx-row .strip');
+      if (!s) return null;
+      const bg = getComputedStyle(s).backgroundImage;
+      const mk = s.querySelector('.mk');
+      return {
+        hasGradient: /gradient/.test(bg),
+        hasMarker: !!mk,
+        markerLeft: mk ? mk.style.left : null,
+      };
+    });
+    report(strip && strip.hasGradient ? 'PASS' : 'FAIL',
+      'R6: rank strip renders a heat gradient (not a flat rail)',
+      strip ? `gradient=${strip.hasGradient}` : 'no strip');
+    report(strip && strip.hasMarker && strip.markerLeft ? 'PASS' : 'FAIL',
+      'R6: rank strip has a rank-positioned marker',
+      strip ? `marker=${strip.hasMarker} left=${strip.markerLeft}` : 'no strip');
+    await ctx.close();
+  }
+
+  // ----- R7: pitcher K/9 row renders now that values are carried -----
+  //
+  // Pre-fix, buildPitcherRankRows hardcoded null for K/9 + BB/9, so the rows
+  // were filtered out as value-less. Now the roster row carries k_per_9 /
+  // bb_per_9 and the rows render with markers. Scan cards for a K/9 row.
+  {
+    const { ctx, page } = await loadWithSyntheticRanks(browser);
+    await page.evaluate(() => { window.location.hash = 'players'; });
+    await page.waitForTimeout(400);
+    const ids = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('.pcard')).map(c => c.dataset.playerId));
+    let found = null;
+    for (const id of ids) {
+      await page.evaluate((pid) => { window.location.hash = 'player-' + pid; }, id);
+      await page.waitForTimeout(100);
+      const row = await page.evaluate(() => {
+        const scrim = document.querySelector('#player-modal-scrim.show');
+        if (!scrim) return null;
+        const rows = Array.from(scrim.querySelectorAll('.ctx-row'));
+        const k9 = rows.find(r => /K\/9/.test(r.textContent));
+        if (!k9) return null;
+        return { hasMarker: !!k9.querySelector('.strip .mk') };
+      });
+      if (row) { found = row; break; }
+    }
+    report(found && found.hasMarker ? 'PASS' : 'FAIL',
+      'R7: pitcher K/9 row renders with a marker',
+      found ? `marker=${found.hasMarker}` : 'no K/9 row found');
+    await ctx.close();
+  }
+
+  // ----- R8: hitter modal shows the value-only Statcast line -----
+  //
+  // Statcast metrics can't be league-ranked (team-scoped fetch), so they
+  // moved out of the rank rows into a value-only line. Assert it renders
+  // with its provenance label and at least one metric.
+  {
+    const { ctx, page } = await loadWithSyntheticRanks(browser);
+    await page.evaluate(() => { window.location.hash = 'players'; });
+    await page.waitForTimeout(400);
+    const ids = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('.pcard')).map(c => c.dataset.playerId));
+    let sc = null;
+    for (const id of ids) {
+      await page.evaluate((pid) => { window.location.hash = 'player-' + pid; }, id);
+      await page.waitForTimeout(100);
+      sc = await page.evaluate(() => {
+        const scrim = document.querySelector('#player-modal-scrim.show');
+        if (!scrim) return null;
+        const line = scrim.querySelector('.modal-statcast');
+        if (!line) return null;
+        return {
+          hasLabel: /Statcast/.test(line.textContent),
+          metrics: line.querySelectorAll('.ms-metric').length,
+        };
+      });
+      if (sc) break;
+    }
+    report(sc && sc.hasLabel && sc.metrics > 0 ? 'PASS' : 'FAIL',
+      'R8: hitter modal renders the Statcast value line',
+      sc ? `label=${sc.hasLabel} metrics=${sc.metrics}` : 'no statcast line found');
     await ctx.close();
   }
 

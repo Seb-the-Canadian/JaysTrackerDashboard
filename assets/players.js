@@ -265,6 +265,11 @@
         slash.appendChild(cell);
       });
       wrapper.appendChild(slash);
+      // Statcast values sit just under the slash line — value-only, since
+      // they can't be league-ranked (team-scoped Savant pull). See
+      // buildStatcastLine.
+      const scLine = buildStatcastLine(player);
+      if (scLine) wrapper.appendChild(scLine);
     } else {
       // Pitcher: ERA / WHIP / K / W-L compact line
       const line = document.createElement('div');
@@ -324,31 +329,60 @@
     return wrapper;
   }
 
+  // The rank-strip rows only carry stats we can honestly rank league-wide:
+  // traditional season stats from the statsapi qualified pool. Statcast
+  // metrics (xwOBA / Barrel% / Hard-hit%) are team-scoped in the fetcher —
+  // there's no MLB-wide Savant pull — so a rank strip for them would be a
+  // fabricated position. They render value-only via buildStatcastLine below.
   function buildHitterRankRows(player, myRanks) {
     const defs = [
       ['OPS', player.ops, myRanks.ops, false],
-      ['xwOBA', player.xwoba, myRanks.xwoba, true],
-      ['Hard-hit%', player.hardhit_pct, myRanks.hardhit_pct, true],
-      ['Barrel%', player.barrel_pct, myRanks.barrel_pct, true],
       ['Home runs', player.hr, myRanks.hr, false],
-      ['Walk%', null, myRanks.bb_pct, false],   // PA-relative; deferred
-      ['Strikeout%', null, myRanks.k_pct, false],
+      ['RBI', player.rbi, myRanks.rbi, false],
+      ['Stolen bases', player.sb, myRanks.sb, false],
     ];
     return defs
       .filter(function (d) { return d[1] != null && d[1] !== '—' && d[1] !== '.---' && d[1] !== '---'; })
       .map(function (d) { return ctxRow(d[0], d[1], d[2], d[3]); });
   }
 
+  // Statcast value strip for hitters. Renders xwOBA / Barrel% / Hard-hit%
+  // as plain values with a Statcast provenance chip — no rank rail, because
+  // these are team-scoped in the fetcher and have no honest league position.
+  // Returns null when every metric is a placeholder (sub-threshold hitter),
+  // so the modal omits the line entirely rather than showing three dashes.
+  const STATCAST_PLACEHOLDERS = { '': 1, '—': 1, '.---': 1, '---': 1, 'null': 1 };
+  function buildStatcastLine(player) {
+    const metrics = [
+      ['xwOBA', player.xwoba],
+      ['Barrel%', player.barrel_pct],
+      ['Hard-hit%', player.hardhit_pct],
+    ].filter(function (m) {
+      return m[1] != null && !STATCAST_PLACEHOLDERS[String(m[1]).trim()];
+    });
+    if (metrics.length === 0) return null;
+
+    const line = document.createElement('div');
+    line.className = 'modal-statcast';
+    let html = '<span class="ms-label">Statcast</span>';
+    metrics.forEach(function (m) {
+      html += '<span class="ms-metric"><b>' + escapeHtml(m[1]) + '</b> '
+        + escapeHtml(m[0]) + '</span>';
+    });
+    line.innerHTML = html;
+    return line;
+  }
+
   function buildPitcherRankRows(player, myRanks) {
     const defs = [
       ['ERA', player.era, myRanks.era, false],
       ['WHIP', player.whip, myRanks.whip, false],
-      ['K/9', null, myRanks.k_per_9, false],
-      ['BB/9', null, myRanks.bb_per_9, false],
+      ['K/9', player.k_per_9, myRanks.k_per_9, false],
+      ['BB/9', player.bb_per_9, myRanks.bb_per_9, false],
       ['IP', player.ip, myRanks.ip, false],
     ];
     return defs
-      .filter(function (d) { return d[1] != null && d[1] !== '—'; })
+      .filter(function (d) { return d[1] != null && d[1] !== '—' && d[1] !== '-.--'; })
       .map(function (d) { return ctxRow(d[0], d[1], d[2], d[3]); });
   }
 
