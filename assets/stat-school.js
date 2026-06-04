@@ -18,6 +18,13 @@
 
   let SS_DATA = null;   // loaded stat_school.json
   let SS_LOAD_PROMISE = null;
+  // PR-B (audit H7): the error-panel Retry path calls init() again,
+  // which re-runs Stat School's render() and previously rebound a fresh
+  // hashchange listener every time. After enough retries the
+  // listener count climbed and tryOpenFromHash fired N times per
+  // navigation. Module-level flag matches the install pattern used by
+  // modal.js, render.js theme-toggle, and visibility-refresh.
+  let _hashchangeInstalled = false;
 
   function loadSchool() {
     if (SS_LOAD_PROMISE) return SS_LOAD_PROMISE;
@@ -456,8 +463,12 @@
         }, 50);
       }, { headingProvided: true });
 
-      // Wire global #stat-* navigation from other tabs.
-      window.addEventListener('hashchange', tryOpenFromHash);
+      // Wire global #stat-* navigation from other tabs. Idempotent —
+      // re-invocations from the Retry path won't double-bind (PR-B).
+      if (!_hashchangeInstalled) {
+        _hashchangeInstalled = true;
+        window.addEventListener('hashchange', tryOpenFromHash);
+      }
     });
   }
 
