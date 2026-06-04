@@ -1,7 +1,7 @@
 {
-  "as_of": "2026-06-04T20:26:18.146464+00:00",
+  "as_of": "2026-06-04T22:43:02.023180+00:00",
   "notes_meta": {
-    "last_updated_iso": "2026-06-04T20:25:22Z"
+    "last_updated_iso": "2026-06-04T22:42:08Z"
   },
   "config": {
     "team_id": 141,
@@ -392,8 +392,8 @@
       "opp": "Baltimore Orioles",
       "opp_team_id": 110,
       "opp_team_abbrev": "BAL",
-      "probable_pitcher_us": "",
-      "probable_pitcher_us_id": null,
+      "probable_pitcher_us": "Trey Yesavage",
+      "probable_pitcher_us_id": 702056,
       "probable_pitcher_them": "Brandon Young",
       "probable_pitcher_them_id": 687064,
       "status": "Scheduled",
@@ -442,8 +442,8 @@
       "opp": "Baltimore Orioles",
       "opp_team_id": 110,
       "opp_team_abbrev": "BAL",
-      "probable_pitcher_us": "",
-      "probable_pitcher_us_id": null,
+      "probable_pitcher_us": "Kevin Gausman",
+      "probable_pitcher_us_id": 592332,
       "probable_pitcher_them": "Shane Baz",
       "probable_pitcher_them_id": 669358,
       "status": "Scheduled",
@@ -1144,17 +1144,17 @@
         "val": ".244",
         "rank": 12
       },
-      "slg": {
-        "val": ".380",
-        "rank": 23
-      },
-      "runs": {
-        "val": 250,
-        "rank": 23
-      },
       "ops": {
         "val": ".690",
         "rank": 26
+      },
+      "runs": {
+        "val": 250,
+        "rank": 24
+      },
+      "slg": {
+        "val": ".380",
+        "rank": 23
       },
       "hr": {
         "val": 59,
@@ -1166,10 +1166,6 @@
         "val": "1.28",
         "rank": 17
       },
-      "bb9": {
-        "val": "3.27",
-        "rank": 10
-      },
       "k9": {
         "val": "9.01",
         "rank": 6
@@ -1177,6 +1173,10 @@
       "era": {
         "val": "3.96",
         "rank": 11
+      },
+      "bb9": {
+        "val": "3.27",
+        "rank": 10
       }
     }
   },
@@ -1209,7 +1209,7 @@
       "ops": 70,
       "hr": 115,
       "rbi": 125,
-      "sb": 92
+      "sb": 93
     },
     "543807": {
       "ops": null,
@@ -1227,7 +1227,7 @@
       "ops": 84,
       "hr": 29,
       "rbi": 41,
-      "sb": 157
+      "sb": 158
     },
     "664702": {
       "ops": null,
@@ -1250,7 +1250,7 @@
     "665489": {
       "ops": 73,
       "hr": 140,
-      "rbi": 109,
+      "rbi": 111,
       "sb": 57
     },
     "682818": {
@@ -1352,7 +1352,7 @@
     }
   },
   "player_rank_pool": {
-    "hitting": 165,
+    "hitting": 166,
     "pitching": 70
   },
   "injuries": [
@@ -1651,20 +1651,52 @@
   ],
   "news": [
     {
-      "title": "Sandy Alcantara Could Be the Trade Deadline Arm the Blue Jays Have Been Waiting For - Sports Illustrated",
-      "summary": "Sandy Alcantara Could Be the Trade Deadline Arm the Blue Jays Have Been Waiting For&nbsp;&nbsp;Sports Illustrated",
+      "title": "Blue Jays Call Up Reliever and Announce Two Additional Roster Moves - Sports Illustrated",
+      "summary": "Blue Jays Call Up Reliever and Announce Two Additional Roster Moves&nbsp;&nbsp;Sports Illustrated",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMipgFBVV95cUxOUUdjRWlpS2kwSkw5RENfZ19ETmJLcmxwQXNXMVI1STFhV3VrY183dmxGSTFjeld1OEpMMFU3MThfbHJ4ejF2cVZ4bWxGWWg5NjlGWUxkRzROSTA3TGk5TktCXzZEZHlwc2c3NkJPVnhsUUdEa1ZPeW5WZzJSX3lZcXB1QmJNQXF3VHZENTZteXBZQnBPX2wzWVFKWmxvT3JmLWxOcTlR?oc=5",
-      "published": "2026-06-04T20:00:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNU21MbjMwa3FLamd5bUdPczB4ZXppdXVCOElEVkY5VkVZOGlnS201blV5TGc0VlNWcS1vOGlqZUZnSVZMMzlRaERkNkN3ajl5d3hjb010d1VRNDgtS3hQa1BoWjl5SXpYUUd0M0FRSnlQZGgxeFZtbDlqTnowLTc4V2pCOGdfbHdRRjZvSFpILVh4TmFOeWE5bTFLd2Y5cVJ6WGc?oc=5",
+      "published": "2026-06-04T21:30:00+00:00"
     },
     {
-      "title": "Why Mason Fluharty is Blue Jays' starting pitcher today, and who is bulk guy to follow - Yahoo Sports Canada",
-      "summary": "Why Mason Fluharty is Blue Jays' starting pitcher today, and who is bulk guy to follow&nbsp;&nbsp;Yahoo Sports Canada",
+      "title": "Seojun Moon is quickly validating the Blue Jays investment - Jays Journal",
+      "summary": "Seojun Moon is quickly validating the Blue Jays investment&nbsp;&nbsp;Jays Journal",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxNNXJuUWxTUlNEc2YwdF9zeXM1d2RBOTlUS002ZVllcUNEanFadk11Y2pNQzJGeTY1MWV6eWxGb3FzdjE4Mk1CcUItSEVDVnViVEYyeE9xazJPajM0QmJfYVlEUUkwOWZJREQ5bTdJeGdfRzBvVUZPYXZWUFZXSUl6WVR3?oc=5",
-      "published": "2026-06-04T19:28:24+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNVVJ1bnQwSm8wYzNPc2RrbDhvbHk0bXkwd3J4Z0xiY0pHMTlpeldQMnBtcFlPdG0wUmFabTQwLWtTMGZWenVoMlA1NFJ4VWVXZGhxUy1PTktHZVE3S283UWcxUzFvRjZSRDRmc1d3UmJUWDEzeklZazNjOEtiTE5GdS1jeUgxS0t2QXc?oc=5",
+      "published": "2026-06-04T21:00:00+00:00"
+    },
+    {
+      "title": "Toronto Blue Jays Announce George Springer Decision Before Braves Series Finale - heavy.com",
+      "summary": "Toronto Blue Jays Announce George Springer Decision Before Braves Series Finale&nbsp;&nbsp;heavy.comBlue Jays' Mason Fluharty to start Thursday vs. Braves&nbsp;&nbsp;Sportsnet.caHa-Seong Kim back out of lineup for Blue Jays finale&nbsp;&nbsp;Yahoo Sports",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPWTZFa01oQmFTYlh3QjJ4SFR3ckV0RDJEVkZvVTdfalJxaThJNDU0MEpTR20tbUNwNnVwWGdYRjY4MG1nVVVDb0JiV1pFMkdhRmlWXzl2QmZ4ZzV2RW1iVHZ5TUtRNEluM3lDTlRKMW1mZUpSYnhNYzNLUXdCNldoLVlXeHBzbFB5NWl6N3NhUC1oeDA?oc=5",
+      "published": "2026-06-04T20:24:55+00:00"
+    },
+    {
+      "title": "Blue Jays call up Dallas, option Juenger to Triple-A - TSN",
+      "summary": "Blue Jays call up Dallas, option Juenger to Triple-A&nbsp;&nbsp;TSN",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOOTRFUWJZa1U2VmlXbXFCRFNSUmsyZnEtd1hsbFFGQ2h0Vlk5TFNDNVQ3MWNtaC1UTllySUttT3NsTi1Pdm5BaVptYmZLMUwySjQxS0U1UkxxV0p5OU43WUFKaVZOMVM0Q1dxN1ZuMGlDc2FTS3NGTVhkck5Tc1d5c21tUGN2SEc3WDRN?oc=5",
+      "published": "2026-06-04T20:08:06+00:00"
+    },
+    {
+      "title": "Here's What to Know About Toronto Blue Jays Latest Call Up - Yahoo Sports",
+      "summary": "Here's What to Know About Toronto Blue Jays Latest Call Up&nbsp;&nbsp;Yahoo Sports",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOaDN1ZmEzT0V6cTNqRnhvQUxtS2VkYmxCellUSHRGLTFnMG1CeW9oaFkzTjhUZ1lOTlZEZzg2ejY3X09yZUpBT0YtSnpoRXc3bld0bnc0eUxoOFRpOUwxOXdNQTd4RFVNdzJmN2VvT1hPT2xiUHlYY01sbWF4d29NMTBGSQ?oc=5",
+      "published": "2026-06-04T20:05:57+00:00"
+    },
+    {
+      "title": "Blue Jays call up RHP Chad Dallas, option Hayden Juenger to triple-A - Sportsnet.ca",
+      "summary": "Blue Jays call up RHP Chad Dallas, option Hayden Juenger to triple-A&nbsp;&nbsp;Sportsnet.ca",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNTDN2Q3ctSjl0UnltSE5Xc1F6b2xURlJwcks3V25vVkc2Mm43RU5BRGRLWUtXSC1HQjZpcUc4OFNzTk5FSDhrUlgtYW12Qkd2ZHphVnZXUFJGVU1iZGRFS09pWHJUSW9sb1JrcnVhZERWMFppT2wyRHFaN21sQkpjVXllNTBRVjlzZ00wVWFOYUxYZDVyTHhFb0RTY3g5c0czM3RsemVxdGc?oc=5",
+      "published": "2026-06-04T20:00:00+00:00"
     },
     {
       "title": "Blue Jays linked to former Yankees pitching prospect as trade deadline target - sportingnews.com",
@@ -1675,12 +1707,60 @@
       "published": "2026-06-04T19:20:20+00:00"
     },
     {
+      "title": "How to watch Blue Jays vs. Braves: TV channel and streaming options for June 4 - The New York Times",
+      "summary": "How to watch Blue Jays vs. Braves: TV channel and streaming options for June 4&nbsp;&nbsp;The New York Times",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQc0VFbG1XWGUyY3JJN25lLWNDLU5ZQWxwOGVpM3ppSU9tcHdJbjkteUxxaEVIZnJ4M0hURkRjVXVQMU5kTUtOeDk4dXF1ci1ka01veUhoaVZhcTVUNjFGY3JRY2FXdlBNVFBvTUx5bEFKZWhoRzdMR0V0V2NNSTVjbUcyd1Q1dDdmbDd1N2xvT01jWVZEWXprS09kczVXVWFTZXktMU9yU1RFLU5hc0VTSmVOczk5MHRtc0ZEbHdqeTM1Q1B6bjhoNg?oc=5",
+      "published": "2026-06-04T19:13:40+00:00"
+    },
+    {
       "title": "Hitting Coaches?",
       "summary": "I often wonder about the value of hitting coaches. I mean, I understand they have a value, and even when things are going poorly, I get that hitters need someone to talk to about their craft. And, nowadays, I feel that they pretty much tell guys the same thing. They, of course, all have their [&#8230;]",
       "source": "Bluebird Banter",
       "author": "tom dakers",
       "url": "https://www.bluebirdbanter.com/toronto-blue-jays-analysis/62264/hitting-coaches",
       "published": "2026-06-04T19:12:45+00:00"
+    },
+    {
+      "title": "Blue Jays could trade for Cy Young starter who might be a better fit than Tarik Skubal - Yahoo Sports Canada",
+      "summary": "Blue Jays could trade for Cy Young starter who might be a better fit than Tarik Skubal&nbsp;&nbsp;Yahoo Sports Canada",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE91M3dQWml2VjRyVWlXN1dQRWQwLVVOVDF6WUUtSVB6NVJRTzBiclA0SVVTeTVMdVg2RExSYWMxaWpFZzFHRTdSQ3duTXVDXzZVOVJYcGV1cXlvSHJ2NVAwZEQwUXo1a1JZb0V0eWV5NnZWbG81ekJ5RlhhTE8?oc=5",
+      "published": "2026-06-04T17:10:37+00:00"
+    },
+    {
+      "title": "Home of Blue Jays star sells at $430K loss in Toronto - INsauga",
+      "summary": "Home of Blue Jays star sells at $430K loss in Toronto&nbsp;&nbsp;INsauga",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNbm9nbXA1MWctWUtfR1BteTdRUUNRZzQyLVQza0dfZFFEMUhnd3VPSW1TanF3RW9mSDNxUG41RkRCWVFzU0RjZDJ1dExlWkI2cTBNNlVzX3FBdkxzS1liNnM2d04tdEgzc1djc1FKRHF3c254X1pfSF9JN0JKMURVZVgwNA?oc=5",
+      "published": "2026-06-04T17:07:32+00:00"
+    },
+    {
+      "title": "Blue Jays under increasing pressure after fourth straight loss - Sportsnet.ca",
+      "summary": "Blue Jays under increasing pressure after fourth straight loss&nbsp;&nbsp;Sportsnet.ca",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQTEVZd2VjMjJWX2huVjJiel9mSWNJWmppX1QwVE1NelhBM2p3MWdRRWxSTnJLZC1ZUU1QUnZEeUZnNi1jeDlzQ2hFRmRuUTdwLWxfaFpxVlBsUHNvQTN6aGhxOUIxRFhmVWh1aWQ5dHJqQmFycHVobnF1LUhtb0s1aDVLUVdSZUVBSG5oRU1iUDVzLW5vVm1oLV9EeUlNMnB6Vnc?oc=5",
+      "published": "2026-06-04T17:05:00+00:00"
+    },
+    {
+      "title": "Blue Jays Could Trade $23 Million Ace if Struggles Continue - heavy.com",
+      "summary": "Blue Jays Could Trade $23 Million Ace if Struggles Continue&nbsp;&nbsp;heavy.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMihAFBVV95cUxPUzVIeS1GdXhvZi10STZod0VCaXFIRnQwRjlnS05rMjlpTjNfSTlGVmo4WEtQM2Z3U21zTzJINWdNUUxkV2hOcHBmU1lCbHlHUWw1VnF2UG9ub1JGNWpoNUFyMnlrWWdtY2RXbDBubmFOVkI2dXJyNUFqcUItczcxdHgweEk?oc=5",
+      "published": "2026-06-04T16:24:56+00:00"
+    },
+    {
+      "title": "Toronto Blue Jays Trade Prediction Lands Angels 7-Year MLB Outfielder in Latest Rumor - heavy.com",
+      "summary": "Toronto Blue Jays Trade Prediction Lands Angels 7-Year MLB Outfielder in Latest Rumor&nbsp;&nbsp;heavy.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxOMzBUQ2VJeEZQRmd6YXVBSkR5Vkt0eFNtVW40REdPdlJ5SmxKaS1rNWUtNTE1RkZDbC1JSzBwNU82Q3lmUG1OeHAySjBnMFRpVWhTdERFT1lHZ0F1LVNkVlVrbW1NazF6Z2hzUUJ0eldWX1BHemZnVXBoaDRnejZuSjlJdzhjLUVJeWpFMjNYQ3dUTHY0amxZZWZrdG9FMmg4dHFnMzlPY1NYbGc?oc=5",
+      "published": "2026-06-04T15:21:49+00:00"
     },
     {
       "title": "Today In Jays History: Jays Come Back From 10-0 To Beat Red Sox",
@@ -1692,7 +1772,7 @@
     },
     {
       "title": "Blue Jays acquire RHP Simeon Woods Richardson - Sportsnet.ca",
-      "summary": "Blue Jays acquire RHP Simeon Woods Richardson&nbsp;&nbsp;Sportsnet.caBlue Jays get RHP Simeon Woods Richardson from Twins for cash&nbsp;&nbsp;ESPNIs New Trade Acquisition a Long-Term Option For Toronto Blue Jays?&nbsp;&nbsp;Yahoo Sports Canada",
+      "summary": "Blue Jays acquire RHP Simeon Woods Richardson&nbsp;&nbsp;Sportsnet.ca",
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxNeWV1QlRiaG5BVFZveC1xa1lNSk9oUnJmdEYzX3R5OW9BRUhsc29lalVuRWpDSzEzX3JOQ2UwVHJ3RWktMmFqc0NhM3ViaExJS244MkFsME1EX0tsLXBkNFg4ZjFCanFzMVdvbll0MFk4SnIwbkVBdV9idm02bUJqTlZPTVVHLWx0dGJxR3NvWQ?oc=5",
@@ -1707,108 +1787,28 @@
       "published": "2026-06-04T15:00:10+00:00"
     },
     {
-      "title": "Gregor Chisholm: Help is on the way for the Blue Jays \u2014 not a moment too soon - Toronto Star",
-      "summary": "Gregor Chisholm: Help is on the way for the Blue Jays \u2014 not a moment too soon&nbsp;&nbsp;Toronto Star",
+      "title": "Blue Jays Transfer Veteran Pitcher to 60-Day IL - heavy.com",
+      "summary": "Blue Jays Transfer Veteran Pitcher to 60-Day IL&nbsp;&nbsp;heavy.com",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQWVcwVUNucHBpbUpxQlFYZ09xYWgxX0ZhMWN3Z0t2aExIMmRGaHBKS29xVVc1dGhBXzVFRkNqTHFQdUVnZDdvZXBsem9JM2E0REVJQmxOajhtcXV4WTRKanZ1eUxQbG9CaE5RanNMaklRSUFiUThjcnZ1ZS1xUHdPaTducVgtYWphakZQbDRZY1VhOUx6QmRESGk1NDU4UUhTMUFvb1NleTc3eVlNSWFFMEpjRmNYYVVZWjhmSndzUERCMHg5bU44MDEzbDVCTnBwODE0NHp5a21BczJyLUY2R0M5VUQ?oc=5",
-      "published": "2026-06-04T09:01:53+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNWnZNdXhEb1BLSHU4RTdieGR1U0hWZ0t5bFRRYzg0RzUzMlM2OHFHWGFqckktZ3F4WDJ6OUU1RmZLMktMcjV2YmJ5NjBlTUdmTjZFNm9ZV2ZXWVk0bHB4VDNPQ0lpUndVS3p3OWpiaXFYcWdYMHl1OWxHek90RExrLUpxTVJLa3BhMHc?oc=5",
+      "published": "2026-06-04T13:58:11+00:00"
     },
     {
-      "title": "Blue Jays vs. Braves: Toronto looks to avoid sweep after night to forget in Atlanta - Toronto Star",
-      "summary": "Blue Jays vs. Braves: Toronto looks to avoid sweep after night to forget in Atlanta&nbsp;&nbsp;Toronto StarBlue Jays' Mason Fluharty to start Thursday vs. Braves&nbsp;&nbsp;Sportsnet.caBraves turn to ace Chris Sale seeking Blue Jays sweep&nbsp;&nbsp;Yahoo Sports",
+      "title": "Instant Reaction: Blue Jays losing streak hits four games with 7-3 loss to Braves - Blue Jays Nation",
+      "summary": "Instant Reaction: Blue Jays losing streak hits four games with 7-3 loss to Braves&nbsp;&nbsp;Blue Jays Nation",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxPYXVTTkIxeTdPU2c1bGVnbzBDRUlsaXFFaDdjWGRjTDV5MVRPWEl5Q1pSWFpEdEJOZUNiYTdoV1E5VHgyT2pUMnFBcUhYZkM5bWZ3T0VuVzlhSWRzdnJraXUzMHBDcVNHQmNmdWZPNEdMSW1KU0RSekc5OVRzemo5ckFGM2pTQjBuZXNtYm9waWZweHlDMjI0bkRYVDFQdDNLck1wS0xlVkhGT1otUWVrT0dIUTRySmVteUcyeVB2LTFndU0xa2l1Y3ByRWpKc0c1NXB1UllJcU50V1FPWU81Z1hveVotRUVpcC1SMWw4MFJXbl9HRU1VZWxSbU9jVzI3bkE?oc=5",
-      "published": "2026-06-04T02:45:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiqwFBVV95cUxNekhZQVdOWm4xMW5iWEhrR3ZvOThUaXlhT3FzM09TVUN5c2RYSjJMTnI2cGFlWWY5STZhbGp3bEZGdm5iOWN4eGhWT2xRZ1FUeHFKMHBUaEFTY2NEYzV6NnUzdU1lRjl6SHAxYy0wenFGQXEwaHpoQWJmMkZTZ3J5UGxzZGFwb1hKY1lWajVCaVE0ZWdnQ0NRS2lvMXBGbDUwY013Qk5Fa2lKVkU?oc=5",
+      "published": "2026-06-04T11:00:00+00:00"
     },
     {
-      "title": "Jays Trade For Simeon Woods Richardson",
-      "summary": "It is a the second coming of Simeon Woods Richardson. You will likely remember that the Jays picked him (along with Anthony Kay) up from the Mets for Marcus Stroman back in 2019. I remember it mostly because I was in Toronto at the time and was at a game with Matt W and we [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/news/62255/jays-trade-for-simeon-woods-richardson",
-      "published": "2026-06-04T02:28:08+00:00"
-    },
-    {
-      "title": "Jays Score More Than Two Runs, Still Lose",
-      "summary": "Blue Jays 3 Braves 7 We got more than 2 runs!!!! They should have scored a few runs in the first inning. It started single (Nathan Lukes), single (Yohendrick Pi\u00f1ango) and walk (Vladimir Guerrero). The walk included Vlad challenging a called strike, which, the review showed, was easily a strike. I hate blowing a challenge [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-scores/62252/jays-score-more-than-two-runs-still-lose",
-      "published": "2026-06-04T02:01:09+00:00"
-    },
-    {
-      "title": "Beloved former Toronto Blue Jays player making money off his legendary catchphrase - blogTO",
-      "summary": "Beloved former Toronto Blue Jays player making money off his legendary catchphrase&nbsp;&nbsp;blogTO",
+      "title": "Where to watch Toronto Blue Jays vs Atlanta Braves: TV channel, start time, streaming for June 4 - USA Today",
+      "summary": "Where to watch Toronto Blue Jays vs Atlanta Braves: TV channel, start time, streaming for June 4&nbsp;&nbsp;USA Today",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQeUpZQkY1dEdWVWNkd1VfeE5hQ0dfTlNWWjJzU245U1gxcGdRYjhZTFZMWGd5N1RzVkxObnpCeUNVZ2djYWszZjNtdDVTZXcxdDZXQWpPMHFaTW9pTzJaWkFHaEhBbnRjcWQxTWZQSWVxMlpvakNGWHh3WklERE9TM0VvekxmUFVOSENpSjI4UmgycU9kQXE5Rw?oc=5",
-      "published": "2026-06-03T23:20:00+00:00"
-    },
-    {
-      "title": "Blue Jays vs. Braves Game Thread",
-      "summary": "Game two of the series with the Braves. More scoring would be nice today. The team says that Chad Dallas is up with the team, in case they need an extra arm tomorrow. I suppose that depends on how deep Patrick Corbin can go in tonight\u2019s game. The cool thing about the rule that you [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jay-discussion/62247/blue-jays-vs-braves-game-thread",
-      "published": "2026-06-03T22:32:20+00:00"
-    },
-    {
-      "title": "Blue Jays fans may relate to Cubs fans relishing in Kyle Tucker \"red flags\" comment - Jays Journal",
-      "summary": "Blue Jays fans may relate to Cubs fans relishing in Kyle Tucker \"red flags\" comment&nbsp;&nbsp;Jays Journal",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxOZ2xReGplR19UQlJwQWE4U1hRV1FyZC1JYmZnYWlOUzVrMnVnTlZsdlJoY001eENTZDNHSFhfYkZsR3RMMFBJSklmYzdrNzJQN1RpQVh4WjB5Y3p0V0p6anVRV3BFOEc0QkIzRDNxc01Ja2RhamJPcTZEd3FPc19LZ2dDbVlCX3RnVmY1VVVoZXlvRVNlNUZ4THRhcnFLSmdxN2dEY0toWjg?oc=5",
-      "published": "2026-06-03T21:18:08+00:00"
-    },
-    {
-      "title": "Will The Jays Next 100 Games Be Better Than The Last 60?",
-      "summary": "I always say it is hardest to blog about a middling team. A bad team, lots to talk about. A good team, lots to talk about. One in the middle? I think the Jays will get better. I think getting Alejandro Kirk back will help a lot. I think getting, you know, five actual starting [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-analysis/62239/will-the-jays-next-100-game-be-better-than-the-last-60",
-      "published": "2026-06-03T19:45:03+00:00"
-    },
-    {
-      "title": "Happy Birthday Kawasaki, Molina, Liriano",
-      "summary": "Today marks Munenori Kawasaki&#8217;s 45th birthday. Kawasaki spent two full seasons and part of a third with the Blue Jays, appearing in 201 games and posting a .242/.326/.301 slash line with a 1.6 bWAR. He also spent time with the Mariners and Cubs, and, of course, enjoyed 12 seasons in Japan\u2019s Pacific League. But what [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/blue-jay-history/62235/happy-birthday-kawasaki-molina-liriano",
-      "published": "2026-06-03T15:53:27+00:00"
-    },
-    {
-      "title": "Jays Lose Another, This Time To The Braves",
-      "summary": "Blue Jays 3 Braves 4 That wasn\u2019t Kevin Gausman\u2019s best game. 6 innings, 5 hits, 4 earned, 2 walks, 8 strikeouts and a home run. Of course, when you get 18 outs and 8 of them are strikeouts, it seems like it should be a good game. But, he gave up 2 in the first [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-scores/62232/jays-lose-another-this-time-to-the-braves",
-      "published": "2026-06-03T03:37:44+00:00"
-    },
-    {
-      "title": "Blue Jays-Mets Trade Idea Lands 2X MLB All-Star in Toronto - heavy.com",
-      "summary": "Blue Jays-Mets Trade Idea Lands 2X MLB All-Star in Toronto&nbsp;&nbsp;heavy.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOQ2hpTXRQVFo2TS1xd2hQMlplSlU5WmVQMWFuU0c4NkxLVUowY1dsT3VwRDg3ek9GVDJwa2pWcFUxUl9fbmQyZFpVaWdvdHNlTXM5RGlzOUVROWNDR2kxaFVWbXVXM2RnSUhYYUhZUXdQVEtsUHVSdmktQkV1WFBQLTRiUDN5SjdkUHI3TklDTDhwRTRRakR0TlBDUWJLMThGQW4xMERUbU1kQUYySUd1UA?oc=5",
-      "published": "2026-06-02T22:55:53+00:00"
-    },
-    {
-      "title": "Blue Jays vs. Braves Game Thread",
-      "summary": "Game one of three in Atlanta. There is some rain in the forecast, but it sounds like the game should happen.The Braves have been through several ballparks, in the last few years, none with a roof. But it sounds like the game should happen. There is hockey tonight too, which may make my decision to [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-gamethreads/62229/blue-jays-vs-braves-game-thread",
-      "published": "2026-06-02T22:52:00+00:00"
-    },
-    {
-      "title": "Blue Jays News: Dylan Cease Rehab Start Saturday",
-      "summary": "The Jays shared some injury news today: Apparently it is raining in Atlanta. I\u2019m hoping the game will happen, because I\u2019ve planed to watch at the bar with a friend, and, if the game doesn\u2019t happen, we\u2019ll have to talk or something. Tonight\u2019s lineup: Today&#8217;s Lineups BLUE JAYS BRAVES George Springer &#8211; DH Ronald Acuna [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/news/62225/blue-jays-news-dylan-cease-rehab-start-saturday",
-      "published": "2026-06-02T21:56:07+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQUXRUdmNaSTY3bmN5M1lTSVdsRG0ta2NNY1FFUk9rZHFodGtUUS1OT0tJTG5DOEJXOVlvN2dzY0w0dGZ3c0Rkd1h2QlVrRDJuS2FjNldoV2RycG5EazV3SFF5ajF3V1ctWWxZSnZtWV9Jb1FoRHhnV3BjbWN0ZjdZTjRIeTQwZWg1OHZZNEJKLU9CWkpoaUJUcjJrczJyTF9Bcmg1LWhOWGN4YkxLS1NuN0pGTzR2dmxCUDUtYkV6TmFzU0F2eHFaUWd0WQ?oc=5",
+      "published": "2026-06-04T10:37:00+00:00"
     }
   ],
   "run_diff_last_10": [
