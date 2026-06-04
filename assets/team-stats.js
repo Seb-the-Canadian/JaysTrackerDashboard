@@ -8,7 +8,11 @@
 
    Stat label/order map lives inline until stat_school.json lands
    (commit 8). Optional analyst notes come from
-   notes.json.team.strengths_note + softspots_note (handoff §T1).
+   notes.json.team.strengths[0] + softspots[0] — PR-C / decision D8
+   (audit H14): the original handoff named `*_note` keys, but the
+   actual notes.json schema uses `strengths` / `softspots` (arrays of
+   bullet strings). Code now reads from those arrays directly so the
+   analyst commentary actually renders.
    ============================================================ */
 
 (function () {
@@ -83,9 +87,13 @@
     const softs = combined.slice(-3).reverse();   // worst first within the column
 
     // Analyst notes — handoff §T1
+    // PR-C / D8: read from notes.team.strengths / softspots arrays
+    // (was: *_note keys that don't exist in the actual schema).
     const notes = (state.notes && state.notes.team) || {};
-    const strengthNote = notes.strengths_note || null;
-    const softspotsNote = notes.softspots_note || null;
+    const strengthArr = Array.isArray(notes.strengths) ? notes.strengths : [];
+    const softspotsArr = Array.isArray(notes.softspots) ? notes.softspots : [];
+    const strengthNote = strengthArr.length > 0 ? strengthArr[0] : null;
+    const softspotsNote = softspotsArr.length > 0 ? softspotsArr[0] : null;
 
     // Build the 2-col panel
     const panel = document.createElement('div');
@@ -208,7 +216,7 @@
       LEDGER_HOST = host;
       host.appendChild(renderLedger(state, CURRENT_GROUP));
       root.appendChild(host);
-    });
+    }, { headingProvided: true });
 
     // Wire Hitting/Pitching toggle. Selector is scoped to the seg
     // control rendered inside headerBlock().

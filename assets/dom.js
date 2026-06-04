@@ -10,28 +10,40 @@
 
   // ---- Tab body factory ----
   //
-  // Every tab body opens with a screen-reader-only <h2> that names the
-  // tab (Overview / Players / Team Stats / Stat School). The h1 is
-  // the brand title in the page header (one per page). With this
-  // factory:
+  // Every tab body opens with a heading element (an <h2>) that names
+  // the tab. The h1 is the brand title in the page header (one per
+  // page). The factory ensures:
   //  - new tabs literally cannot forget their h2
   //  - the h2 is always the first child, so heading order stays
   //    deterministic regardless of what contentFn appends
   //  - the existing root.innerHTML reset is centralized
   //
+  // Per PR-C (COG-359, audit H5): when a tab supplies its OWN visible
+  // <h2> in contentFn, pass `{ headingProvided: true }` so we skip the
+  // sr-only injection. The previous version always added the sr-only
+  // h2 — which created a duplicate-h2 condition on Players / Team
+  // Stats / Stat School (both an sr-only and a visible heading,
+  // reading the same text). The Ch 16 "don't use ARIA if you can use
+  // semantic HTML" guidance applies: when a visible heading exists,
+  // that IS the heading; no shadow accessibility node needed.
+  //
   // Usage:
   //   tabBody('overview', 'Overview', function (root) {
-  //     root.appendChild(buildKpis(state));
-  //     ...
+  //     root.appendChild(buildKpis(state));  // no visible h2 here
   //   });
-  function tabBody(tabId, h2Text, contentFn) {
+  //   tabBody('players', 'Players', function (root) {
+  //     root.appendChild(eyebrowHead());  // contains its own <h2>
+  //   }, { headingProvided: true });
+  function tabBody(tabId, h2Text, contentFn, opts) {
     const root = document.getElementById('tab-' + tabId);
     if (!root) return null;
     root.innerHTML = '';
-    const h2 = document.createElement('h2');
-    h2.className = 'sr-only';
-    h2.textContent = h2Text;
-    root.appendChild(h2);
+    if (!(opts && opts.headingProvided)) {
+      const h2 = document.createElement('h2');
+      h2.className = 'sr-only';
+      h2.textContent = h2Text;
+      root.appendChild(h2);
+    }
     if (typeof contentFn === 'function') contentFn(root);
     return root;
   }

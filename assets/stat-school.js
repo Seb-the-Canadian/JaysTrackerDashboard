@@ -454,7 +454,7 @@
           const h = (window.location.hash || '').replace(/^#/, '');
           if (h.indexOf('stat-') === 0) scrollToStat(h.slice(5));
         }, 50);
-      });
+      }, { headingProvided: true });
 
       // Wire global #stat-* navigation from other tabs.
       window.addEventListener('hashchange', tryOpenFromHash);
