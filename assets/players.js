@@ -358,15 +358,9 @@
   }
 
   // ---- Escape user-provided strings before innerHTML insertion ----
-  function escapeHtml(s) {
-    if (s == null) return '';
-    return String(s)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#39;');
-  }
+  // Shared helper now lives in JaysFormat (PR-D / COG-360). Aliased
+  // here so existing call sites read the same as before.
+  const escapeHtml = window.JaysFormat.escapeHtml;
 
   // ---- Main entry ----
 
