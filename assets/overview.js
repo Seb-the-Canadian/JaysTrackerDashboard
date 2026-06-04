@@ -403,21 +403,58 @@
     ]);
   }
 
+  // Opponent context one-liner from the denormalized standings block:
+  // "30-30, 3rd AL East". Empty string when the join missed (renderer then
+  // shows the date alone, no gap).
+  function oppContextStr(ctx) {
+    if (!ctx) return '';
+    const rec = (ctx.w != null && ctx.l != null) ? ctx.w + '-' + ctx.l : '';
+    const place = ctx.division_rank
+      ? F.ordinal(ctx.division_rank) + ' ' + (ctx.division_name || '')
+      : '';
+    return [rec, place].filter(Boolean).join(', ');
+  }
+
+  function lastName(full) {
+    return full ? full.split(' ').slice(-1)[0] : '';
+  }
+
   function renderUpcomingGame(g) {
-    const opp = abbreviate(g.opp);
+    const opp = g.opp_team_abbrev || abbreviate(g.opp);
     const date = F.shortMonthDay(g.date);
-    const sub = date
-      + (g.probable_pitcher_us ? ' · ' + g.probable_pitcher_us.split(' ').slice(-1)[0] : '');
+    const ctxStr = oppContextStr(g.opp_context);
+    const sub = ctxStr ? date + ' · ' + ctxStr : date;
+
+    // 3rd column: the opposing probable pitcher, clickable into the
+    // #oppp-<id> modal when we carried an id (the fetcher adds an
+    // opponent_pitchers entry for every probable id, so id present ⇒
+    // modal resolvable). Falls back to a muted "TBD" when unannounced.
+    const themName = lastName(g.probable_pitcher_them);
+    const themId = g.probable_pitcher_them_id;
+    let matchup;
+    if (themName && themId != null) {
+      const btn = el('button', {
+        class: 'opp-sp', type: 'button',
+        'aria-label': 'Opposing pitcher ' + g.probable_pitcher_them + ' — open details',
+      }, themName);
+      btn.addEventListener('click', function () {
+        window.JaysModal.openWithRoute('#oppp-' + themId, btn);
+      });
+      matchup = el('span', { class: 'wp matchup' }, [btn, el('small', null, 'opp SP')]);
+    } else {
+      matchup = el('span', { class: 'wp matchup' }, [
+        el('span', { class: 'v muted' }, themName || 'TBD'),
+        el('small', null, 'opp SP'),
+      ]);
+    }
+
     return el('div', { class: 'game' }, [
       el('span', { class: 'opp' }, (g.home ? '' : '@') + opp),
       el('span', { class: 'meta' }, [
         document.createTextNode((g.home ? 'vs ' : 'at ') + opp),
         el('small', null, sub),
       ]),
-      el('span', { class: 'wp' }, [
-        el('span', { class: 'v' }, '—'),    // win prob deferred to v2.x
-        el('small', null, 'win prob'),
-      ]),
+      matchup,
     ]);
   }
 

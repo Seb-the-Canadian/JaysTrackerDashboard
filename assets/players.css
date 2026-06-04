@@ -365,11 +365,19 @@
 .ctx-rank.m4 { color: var(--q-warm); }
 .ctx-rank.m5 { color: var(--neg); }
 
-/* The rank strip — reusable: Players modal + Team Stats ledger */
+/* The rank strip — reusable: Players modal + Team Stats ledger.
+   Heat gradient mirrors Stat School's .scale-track so the surfaces read as
+   one design language. Orientation is rank-axis, not value-axis: the
+   fetcher already direction-corrects each rank (ERA rank 1 = lowest ERA =
+   best), so rank 1 is universally "best", sits at left:0%, and gets a green
+   tier dot. The gradient therefore runs green→red (good→bad, left→right)
+   for every stat — no per-stat reversal needed, unlike the value-axis
+   .scale-track. */
 .strip {
   position: relative;
-  height: 9px;
-  background: var(--card-2);
+  height: 10px;
+  background: linear-gradient(90deg, var(--pos) 0%, #cdb89a 50%, var(--neg) 100%);
+  opacity: .9;
   border: 1px solid var(--line);
   border-radius: var(--r-pill);
 }
@@ -377,9 +385,11 @@
   position: absolute;
   top: -2px; bottom: -2px;
   left: 50%;
-  width: 1px;
-  background: var(--ink-3);
-  opacity: .4;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--card);
+  opacity: .7;
+  border-radius: 1px;
 }
 .strip .mk {
   position: absolute;
@@ -395,6 +405,73 @@
 .strip .mk.m3 { background: var(--q-mid); }
 .strip .mk.m4 { background: var(--q-warm); }
 .strip .mk.m5 { background: var(--neg); }
+
+/* Statcast value line — under the slash line, value-only (no rank rail).
+   Same provenance-chip aesthetic as the .ctx-name .sc badge. */
+.modal-statcast {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  margin: 6px 0 2px;
+}
+.modal-statcast .ms-label {
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 700;
+  color: var(--external-ink);
+  background: var(--external-tint);
+  border-radius: 3px;
+  padding: 2px 5px;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+.modal-statcast .ms-metric {
+  font-size: 11px;
+  color: var(--ink-3);
+}
+.modal-statcast .ms-metric b {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 12.5px;
+  color: var(--ink-1);
+  font-variant-numeric: tabular-nums;
+}
+
+/* G3: opposing-pitcher modal — season-line framing note in the body. */
+.oppp-note {
+  font-size: 12px;
+  color: var(--ink-3);
+  line-height: 1.5;
+  margin: 2px 0 0;
+}
+
+/* External profile links (Savant + MLB.com) — modal header identity block.
+   Same provenance palette as the .sc Statcast chip; rendered as anchors. */
+.ext-row {
+  display: inline-flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.ext-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--external-ink);
+  background: var(--external-tint);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 3px 7px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: border-color .12s ease;
+}
+.ext-pill:hover { border-color: var(--external-ink); }
+.ext-pill:focus-visible {
+  outline: 2px solid var(--external-ink);
+  outline-offset: 1px;
+}
 
 /* Analyst note inside modal */
 .modal-note {

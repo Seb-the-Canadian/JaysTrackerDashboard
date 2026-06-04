@@ -178,6 +178,8 @@
 .pill.hot { background: var(--q-hot); color: #fff; }
 .pill.cold { background: var(--q-cold); color: #fff; }
 .pill.new { background: var(--ink); color: var(--paper); }
+/* G3: opposing-pitcher modal provenance tag (external palette). */
+.pill.oppp-tag { background: var(--external-tint); color: var(--external-ink); }
 
 /* ============================================================
    RUN-DIFFERENTIAL CHART (last 10)
@@ -278,6 +280,27 @@
   letter-spacing: .08em;
   text-transform: uppercase;
 }
+/* G3: opposing probable pitcher — clickable into the #oppp-<id> modal. */
+.opp-sp {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--team-primary-ink);
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 2px;
+}
+.opp-sp:hover { text-decoration-style: solid; }
+.opp-sp:focus-visible {
+  outline: 2px solid var(--team-primary-ink);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+.wp .v.muted { color: var(--ink-4); }
 
 /* ============================================================
    STANDINGS (AL East)

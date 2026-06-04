@@ -187,18 +187,20 @@ def test_fetch_league_player_rankings_assigns_rank_per_qualified_player(mocker, 
     The rostered player gets ranked by each hitting stat; non-roster
     players still appear in the pool but their ranks are not surfaced."""
     hitting_splits = [
-        {"player": {"id": 665489}, "stat": {"ops": ".950", "avg": ".310", "obp": ".410",
-                                            "slg": ".540", "runs": 60, "homeRuns": 25}},
-        {"player": {"id": 100001}, "stat": {"ops": ".700", "avg": ".250", "obp": ".320",
-                                            "slg": ".380", "runs": 40, "homeRuns": 12}},
-        {"player": {"id": 100002}, "stat": {"ops": ".600", "avg": ".220", "obp": ".290",
-                                            "slg": ".310", "runs": 20, "homeRuns": 5}},
+        {"player": {"id": 665489}, "stat": {"ops": ".950", "homeRuns": 25,
+                                            "rbi": 80, "stolenBases": 15}},
+        {"player": {"id": 100001}, "stat": {"ops": ".700", "homeRuns": 12,
+                                            "rbi": 50, "stolenBases": 8}},
+        {"player": {"id": 100002}, "stat": {"ops": ".600", "homeRuns": 5,
+                                            "rbi": 20, "stolenBases": 3}},
     ]
     pitching_splits = [
         {"player": {"id": 592332}, "stat": {"era": "2.50", "whip": "1.05",
-                                            "strikeoutsPer9Inn": "10.0", "walksPer9Inn": "2.0"}},
+                                            "strikeoutsPer9Inn": "10.0", "walksPer9Inn": "2.0",
+                                            "inningsPitched": "90.0"}},
         {"player": {"id": 200001}, "stat": {"era": "4.00", "whip": "1.30",
-                                            "strikeoutsPer9Inn": "8.0", "walksPer9Inn": "3.0"}},
+                                            "strikeoutsPer9Inn": "8.0", "walksPer9Inn": "3.0",
+                                            "inningsPitched": "70.0"}},
     ]
 
     def api_dispatch(endpoint, params):
@@ -217,12 +219,14 @@ def test_fetch_league_player_rankings_assigns_rank_per_qualified_player(mocker, 
 
     assert "665489" in ranks
     assert ranks["665489"]["ops"] == 1  # highest in pool
-    assert ranks["665489"]["avg"] == 1
-    assert ranks["665489"]["runs"] == 1
+    assert ranks["665489"]["hr"] == 1
+    assert ranks["665489"]["rbi"] == 1
+    assert ranks["665489"]["sb"] == 1
     assert "592332" in ranks
-    assert ranks["592332"]["era"] == 1  # lowest = best
-    assert ranks["592332"]["k9"] == 1   # highest = best
-    assert ranks["592332"]["bb9"] == 1  # lowest = best
+    assert ranks["592332"]["era"] == 1       # lowest = best
+    assert ranks["592332"]["k_per_9"] == 1   # highest = best
+    assert ranks["592332"]["bb_per_9"] == 1  # lowest = best
+    assert ranks["592332"]["ip"] == 1        # most innings = best
 
 
 def test_fetch_league_player_rankings_non_qualified_player_returns_none(mocker, cfg):
@@ -249,7 +253,7 @@ def test_fetch_league_player_rankings_non_qualified_player_returns_none(mocker, 
     ranks = fetch_data.fetch_league_player_rankings(cfg, roster)
 
     assert "999999" in ranks
-    for slug in ("ops", "avg", "obp", "slg", "runs", "hr"):
+    for slug in ("ops", "hr", "rbi", "sb"):
         assert ranks["999999"][slug] is None, f"expected None for {slug}"
 
 
@@ -311,8 +315,9 @@ def test_fetch_league_player_rankings_missing_field_sinks_to_bottom(mocker, cfg)
     ranks = fetch_data.fetch_league_player_rankings(cfg, roster)
     # OPS rank for 100001 should be 3 (last) since OPS is missing.
     assert ranks["100001"]["ops"] == 3
-    # Other stats (which are present) place at their natural rank.
-    assert ranks["100001"]["avg"] == 2
+    # Other stats (which are present) place at their natural rank: HR 15 is
+    # the middle of {20, 15, 13} → 2nd.
+    assert ranks["100001"]["hr"] == 2
 
 
 def test_fetch_league_player_rankings_uses_qualified_player_pool(mocker, cfg):
@@ -405,3 +410,93 @@ def test_fetch_player_bio_skips_missing_currentAge(mocker):
     bio = fetch_data.fetch_player_bio(100001)
     assert bio.get("bats") == "R"
     assert "age" not in bio
+
+
+# --- fetch_all_standings (G3) -------------------------------------------------
+
+def test_fetch_all_standings_keys_by_team_id_across_divisions(mocker, cfg):
+    """League-wide standings flatten every division's teamRecords into a
+    {team_id_str: {...}} map so interleague opponents resolve too."""
+    response = {
+        "records": [
+            {"division": {"id": 201}, "teamRecords": [
+                {"team": {"id": 141, "name": "Blue Jays"}, "wins": 40, "losses": 20,
+                 "winningPercentage": ".667", "gamesBack": "-",
+                 "streak": {"streakCode": "W3"}, "divisionRank": "1",
+                 "records": {"splitRecords": [{"type": "lastTen", "wins": 7, "losses": 3}]}},
+                {"team": {"id": 110, "name": "Orioles"}, "wins": 30, "losses": 30,
+                 "winningPercentage": ".500", "gamesBack": "10.0",
+                 "streak": {"streakCode": "L2"}, "divisionRank": "3",
+                 "records": {"splitRecords": [{"type": "lastTen", "wins": 4, "losses": 6}]}},
+            ]},
+            {"division": {"id": 204}, "teamRecords": [  # NL East — interleague
+                {"team": {"id": 144, "name": "Braves"}, "wins": 35, "losses": 25,
+                 "winningPercentage": ".583", "gamesBack": "-",
+                 "streak": {"streakCode": "W1"}, "divisionRank": "1",
+                 "records": {"splitRecords": [{"type": "lastTen", "wins": 6, "losses": 4}]}},
+            ]},
+        ]
+    }
+    mocker.patch("fetch_data.api", return_value=response)
+    out = fetch_data.fetch_all_standings(
+        cfg,
+        team_names={141: "Toronto Blue Jays", 110: "Baltimore Orioles", 144: "Atlanta Braves"},
+        division_names={201: "AL East", 204: "NL East"})
+    assert set(out.keys()) == {"141", "110", "144"}
+    # Interleague opponent resolves with full name + division.
+    assert out["144"]["team"] == "Atlanta Braves"
+    assert out["144"]["division_name"] == "NL East"
+    # Per-team context carried through.
+    assert out["110"]["last10"] == "4-6"
+    assert out["110"]["streak"] == "L2"
+    assert out["110"]["gb"] == "10.0"
+    assert out["141"]["division_rank"] == "1"
+
+
+def test_fetch_all_standings_requests_both_leagues(mocker, cfg):
+    captured = []
+    mocker.patch("fetch_data.api",
+                 side_effect=lambda e, p: captured.append(dict(p)) or {"records": []})
+    fetch_data.fetch_all_standings(cfg)
+    assert captured and captured[0].get("leagueId") == "103,104"
+
+
+def test_fetch_all_standings_failure_returns_empty(mocker, cfg):
+    mocker.patch("fetch_data.api", side_effect=RuntimeError("boom"))
+    assert fetch_data.fetch_all_standings(cfg) == {}
+
+
+# --- fetch_opposing_pitcher_lines (G3) ---------------------------------------
+
+def test_fetch_opposing_pitcher_lines_dedupes_and_keys_by_id(mocker, cfg):
+    mocker.patch("fetch_data.fetch_player_bio",
+                 side_effect=lambda pid: {"throws": "R", "age": 30})
+    mocker.patch("fetch_data.fetch_player_season_stats",
+                 side_effect=lambda pid, group, season: {
+                     "era": "3.10", "whip": "1.05", "inningsPitched": "70.0",
+                     "strikeOuts": 80, "gamesStarted": 12})
+    upcoming = [
+        {"probable_pitcher_them_id": 700, "probable_pitcher_them": "Chris Bassitt"},
+        {"probable_pitcher_them_id": 700, "probable_pitcher_them": "Chris Bassitt"},  # dup
+        {"probable_pitcher_them_id": None, "probable_pitcher_them": ""},              # skip
+        {"probable_pitcher_them_id": 701, "probable_pitcher_them": "Grayson Rodriguez"},
+    ]
+    out = fetch_data.fetch_opposing_pitcher_lines(cfg, upcoming)
+    assert set(out.keys()) == {"700", "701"}
+    assert out["700"]["throws"] == "R"
+    assert out["700"]["era"] == "3.10"
+    assert out["700"]["name"] == "Chris Bassitt"
+    assert out["701"]["gs"] == 12
+
+
+def test_fetch_opposing_pitcher_lines_tolerates_empty_fetch(mocker, cfg):
+    """When bio/stats come back empty (their own failure handling), the
+    pitcher still gets an entry with placeholders — modal shows name+link."""
+    mocker.patch("fetch_data.fetch_player_bio", side_effect=lambda pid: {})
+    mocker.patch("fetch_data.fetch_player_season_stats",
+                 side_effect=lambda pid, group, season: {})
+    upcoming = [{"probable_pitcher_them_id": 700, "probable_pitcher_them": "X"}]
+    out = fetch_data.fetch_opposing_pitcher_lines(cfg, upcoming)
+    assert out["700"]["era"] == "-.--"
+    assert out["700"]["throws"] is None
+    assert out["700"]["name"] == "X"

@@ -278,17 +278,21 @@ def _upcoming(*, game_pk: int = 200, date: str = "2026-05-28",
               our_pp: str | None = "Patrick Corbin",
               their_pp: str | None = "Chris Bassitt",
               is_home: bool = False, opp_name: str = "Baltimore Orioles",
-              detailed: str = "Scheduled") -> dict:
+              opp_abbrev: str = "BAL", detailed: str = "Scheduled") -> dict:
     home_id, away_id = (141, 110) if is_home else (110, 141)
     home_name = "Toronto Blue Jays" if is_home else opp_name
     away_name = opp_name if is_home else "Toronto Blue Jays"
+    home_abbrev = "TOR" if is_home else opp_abbrev
+    away_abbrev = opp_abbrev if is_home else "TOR"
     home_pp, away_pp = (our_pp, their_pp) if is_home else (their_pp, our_pp)
-    home_team = {"team": {"id": home_id, "name": home_name}}
-    away_team = {"team": {"id": away_id, "name": away_name}}
+    # Probable ids track the names: our probable id 600, theirs 700.
+    home_pp_id, away_pp_id = (600, 700) if is_home else (700, 600)
+    home_team = {"team": {"id": home_id, "name": home_name, "abbreviation": home_abbrev}}
+    away_team = {"team": {"id": away_id, "name": away_name, "abbreviation": away_abbrev}}
     if home_pp is not None:
-        home_team["probablePitcher"] = {"fullName": home_pp}
+        home_team["probablePitcher"] = {"id": home_pp_id, "fullName": home_pp}
     if away_pp is not None:
-        away_team["probablePitcher"] = {"fullName": away_pp}
+        away_team["probablePitcher"] = {"id": away_pp_id, "fullName": away_pp}
     return {
         "gamePk": game_pk,
         "gameDate": f"{date}T23:05:00Z",
@@ -330,6 +334,31 @@ def test_transform_upcoming_game_status_passthrough_from_detailed_state(cfg):
 def test_transform_upcoming_game_opponent_name_correctly_set(cfg):
     row = fetch_data.transform_upcoming_game(_upcoming(opp_name="Baltimore Orioles"), cfg)
     assert row["opp"] == "Baltimore Orioles"
+
+
+# --- G3: id-carry on upcoming games ---------------------------------------
+
+def test_transform_upcoming_game_carries_opponent_team_id_and_abbrev(cfg):
+    # Away game: opponent is the home side (id 110).
+    away = fetch_data.transform_upcoming_game(_upcoming(is_home=False), cfg)
+    assert away["opp_team_id"] == 110
+    assert away["opp_team_abbrev"] == "BAL"
+    # Home game: opponent is the away side (still id 110).
+    home = fetch_data.transform_upcoming_game(_upcoming(is_home=True), cfg)
+    assert home["opp_team_id"] == 110
+    assert home["opp_team_abbrev"] == "BAL"
+
+
+def test_transform_upcoming_game_carries_probable_pitcher_ids(cfg):
+    row = fetch_data.transform_upcoming_game(_upcoming(is_home=False), cfg)
+    assert row["probable_pitcher_us_id"] == 600
+    assert row["probable_pitcher_them_id"] == 700
+
+
+def test_transform_upcoming_game_missing_probable_yields_none_id(cfg):
+    row = fetch_data.transform_upcoming_game(_upcoming(their_pp=None), cfg)
+    assert row["probable_pitcher_them"] == ""
+    assert row["probable_pitcher_them_id"] is None
 
 
 # --- build_upcoming_games (REGRESSION GUARD for #62) ---------------------

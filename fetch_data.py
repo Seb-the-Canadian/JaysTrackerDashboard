@@ -434,6 +434,53 @@ def _fmt_gb(games):
     return "-" if games == 0 else f"{games:.1f}"
 
 
+def fetch_all_standings(cfg, team_names=None, division_names=None):
+    """League-wide standings keyed by team-id string, for opponent context.
+
+    division[] in the output is our division only (AL East); upcoming
+    opponents come from every division and the other league (interleague),
+    so a join against division[] would miss ~2/3 of opponents. Fetch both
+    leagues (AL=103, NL=104 by default) and return a flat
+    {team_id_str: {w, l, pct, gb, streak, last10, division_rank,
+    division_name, ...}} map the renderer can look up by opp_team_id.
+
+    Non-fatal: on failure returns {} and the renderer omits the opponent
+    context line rather than the dashboard dying over a nicety.
+    """
+    team_names = team_names or {}
+    division_names = division_names or {}
+    league_ids = cfg.get("all_league_ids", "103,104")
+    try:
+        response = api("standings", {
+            "leagueId": league_ids,
+            "season": cfg["season"],
+        })
+    except Exception as e:
+        log(f"warning: league-wide standings fetch failed: {e}")
+        return {}
+    out = {}
+    for rec in response.get("records", []):
+        div = rec.get("division") or {}
+        div_name = division_names.get(div.get("id")) or div.get("name") or ""
+        for tr in rec.get("teamRecords", []):
+            tid = (tr.get("team") or {}).get("id")
+            if tid is None:
+                continue
+            out[str(tid)] = {
+                "team_id": tid,
+                "team": team_names.get(tid) or (tr.get("team") or {}).get("name", ""),
+                "w": tr.get("wins", 0),
+                "l": tr.get("losses", 0),
+                "pct": tr.get("winningPercentage", ""),
+                "gb": tr.get("gamesBack", "-"),
+                "streak": (tr.get("streak") or {}).get("streakCode", ""),
+                "last10": last10_from_records(tr.get("records", {})),
+                "division_rank": tr.get("divisionRank"),
+                "division_name": div_name,
+            }
+    return out
+
+
 # --- Schedule and games -----------------------------------------------------
 
 def fetch_schedule(cfg, start_offset_days, end_offset_days):
@@ -521,8 +568,17 @@ def transform_upcoming_game(game, cfg):
         "date": (game.get("gameDate") or "")[:10],
         "home": is_home,
         "opp": them.get("team", {}).get("name", ""),
+        # G3: carry the ids we used to drop. opp_team_id joins to league-wide
+        # standings for opponent context; the probable pitcher ids open the
+        # opposing-pitcher modal (#oppp-<id>) and link our own probable to
+        # their roster modal (#player-<id>). opp_team_abbrev is best-effort —
+        # the renderer falls back to its name→abbrev map when it's absent.
+        "opp_team_id": (them.get("team") or {}).get("id"),
+        "opp_team_abbrev": (them.get("team") or {}).get("abbreviation", ""),
         "probable_pitcher_us": (us.get("probablePitcher") or {}).get("fullName", ""),
+        "probable_pitcher_us_id": (us.get("probablePitcher") or {}).get("id"),
         "probable_pitcher_them": (them.get("probablePitcher") or {}).get("fullName", ""),
+        "probable_pitcher_them_id": (them.get("probablePitcher") or {}).get("id"),
         "status": game.get("status", {}).get("detailedState", ""),
     }
 
@@ -741,6 +797,42 @@ def fetch_player_bio(person_id):
         bio["weight"] = p.get("weight")
     _BIO_CACHE[person_id] = bio
     return bio
+
+
+def fetch_opposing_pitcher_lines(cfg, upcoming_games):
+    """Bio + season line for each distinct opposing probable pitcher.
+
+    Keyed by person-id string (mirrors player_ranks / the renderer lookup),
+    so the opposing-pitcher modal (#oppp-<id>) resolves a non-roster pitcher
+    the same way the player modal resolves a roster one. Deduped across the
+    upcoming window — a team's ace can be the probable in multiple games.
+
+    Each entry carries enough for a "lite" modal: handedness + age (bio),
+    ERA / WHIP / IP / K / GS (season). Per-pitcher failure is non-fatal —
+    a warning is logged and that pitcher still gets an entry with placeholder
+    stats so the modal renders a name + link rather than vanishing.
+    """
+    out = {}
+    seen = set()
+    for g in upcoming_games:
+        pid = g.get("probable_pitcher_them_id")
+        if not pid or pid in seen:
+            continue
+        seen.add(pid)
+        bio = fetch_player_bio(pid)
+        stat = fetch_player_season_stats(pid, "pitching", cfg["season"])
+        out[str(pid)] = {
+            "id": pid,
+            "name": g.get("probable_pitcher_them", ""),
+            "throws": bio.get("throws"),
+            "age": bio.get("age"),
+            "era": stat.get("era", "-.--"),
+            "whip": stat.get("whip", "-.--"),
+            "ip": stat.get("inningsPitched", "0.0"),
+            "k": stat.get("strikeOuts", 0),
+            "gs": stat.get("gamesStarted", 0),
+        }
+    return out
 
 
 # --- Statcast via Baseball Savant CSV (#29 Phase B) -------------------------
@@ -1162,6 +1254,13 @@ def transform_roster(roster_entries, cfg):
                 "ip": stat.get("inningsPitched", "0.0"),
                 "era": stat.get("era", "-.--"),
                 "whip": stat.get("whip", "-.--"),
+                # Rate stats kept as their own fields (not derived in the
+                # renderer): IP uses baseball notation (.1 = ⅓ inning), so
+                # k*9/ip in JS would be wrong. The API already supplies the
+                # correctly-computed rates — carry them through. Read by the
+                # players.js modal "Where they rank" K/9 + BB/9 rows.
+                "k_per_9": stat.get("strikeoutsPer9Inn", "-.--"),
+                "bb_per_9": stat.get("walksPer9Inn", "-.--"),
                 "k": stat.get("strikeOuts", 0),
                 "bb": stat.get("baseOnBalls", 0),
                 "w": stat.get("wins", 0),
@@ -1255,6 +1354,35 @@ PITCHING_STATS = [
 # Pitching: lower is better on ERA/WHIP/BB9, higher is better on K/9.
 # Every hitting stat we surface is higher-is-better.
 PITCHING_HIGHER_IS_BETTER = {"k9"}
+
+# --- Player-rank stat sets ---------------------------------------------------
+# Deliberately separate from the team HITTING_STATS / PITCHING_STATS above.
+# Two reasons:
+#   1. The player modal surfaces a different cut than the team ledger — RBI /
+#      SB read well as per-player league bars, and the pitcher rate slugs must
+#      match the keys players.js reads (`k_per_9` / `bb_per_9`, not the team
+#      `k9` / `bb9`).
+#   2. Renaming the shared team slugs would break Stat School analyst notes
+#      (notes.json keys `pitching.k9` / `pitching.bb9`) and the v1 index.html
+#      table — both join on those exact strings. Decoupling lets the player
+#      axis carry renderer-aligned slugs while the team axis stays stable.
+# Every slug here is read by buildHitterRankRows / buildPitcherRankRows.
+PLAYER_HITTING_STATS = [
+    ("ops", "ops"),
+    ("hr", "homeRuns"),
+    ("rbi", "rbi"),
+    ("sb", "stolenBases"),
+]
+PLAYER_PITCHING_STATS = [
+    ("era", "era"),
+    ("whip", "whip"),
+    ("k_per_9", "strikeoutsPer9Inn"),
+    ("bb_per_9", "walksPer9Inn"),
+    ("ip", "inningsPitched"),
+]
+# Pitcher player axis: higher is better on K/9 and innings (durability);
+# lower is better on ERA / WHIP / BB9.
+PLAYER_PITCHING_HIGHER_IS_BETTER = {"k_per_9", "ip"}
 
 
 def _our_team_split(group, cfg):
@@ -1430,8 +1558,11 @@ def fetch_league_player_rankings(cfg, roster):
 
     Returns: {<player_id_str>: {<stat_slug>: int | None, ...}, ...}.
 
-    Stats included match HITTING_STATS / PITCHING_STATS so the player
-    rank set aligns with the team rank set — same stats on both axes.
+    Stats included are PLAYER_HITTING_STATS / PLAYER_PITCHING_STATS —
+    the renderer-aligned player cut (OPS/HR/RBI/SB for hitters;
+    ERA/WHIP/K9/BB9/IP for pitchers), intentionally distinct from the
+    team HITTING_STATS / PITCHING_STATS so the player slugs can match
+    what players.js reads without disturbing the team axis.
     Players outside their group's qualified pool (bench bats, relievers
     short of 1 IP per team game, callups) return None for every slug.
     Per decision D1: percentile within MLB-qualified set per stat.
@@ -1459,7 +1590,7 @@ def fetch_league_player_rankings(cfg, roster):
         if pid is None:
             continue
         ranks[str(pid)] = {}
-        for slug, api_field in HITTING_STATS:
+        for slug, api_field in PLAYER_HITTING_STATS:
             ranks[str(pid)][slug] = _player_rank_for_stat(
                 hitting_splits, pid, api_field, higher_is_better=True)
     for pitcher in roster.get("pitchers") or []:
@@ -1467,8 +1598,8 @@ def fetch_league_player_rankings(cfg, roster):
         if pid is None:
             continue
         ranks[str(pid)] = {}
-        for slug, api_field in PITCHING_STATS:
-            higher_better = slug in PITCHING_HIGHER_IS_BETTER
+        for slug, api_field in PLAYER_PITCHING_STATS:
+            higher_better = slug in PLAYER_PITCHING_HIGHER_IS_BETTER
             ranks[str(pid)][slug] = _player_rank_for_stat(
                 pitching_splits, pid, api_field, higher_is_better=higher_better)
     return ranks
@@ -1938,6 +2069,18 @@ def assert_invariants(output, cfg):
                     continue
                 if not isinstance(rank, int) or rank < 1:
                     die(f"player_ranks[{pid!r}].{slug}={rank!r} is not a positive int or None")
+    # opponent_pitchers (G3). Shape: {<id_str>: {id, name, ...}}. Soft —
+    # the fetcher tolerates upstream failure by returning {} (renderer falls
+    # back to a name + link), so don't require non-emptiness; just shape.
+    op = output.get("opponent_pitchers")
+    if op is not None:
+        if not isinstance(op, dict):
+            die(f"opponent_pitchers must be a dict, got {type(op).__name__}")
+        for pid, entry in op.items():
+            if not isinstance(entry, dict):
+                die(f"opponent_pitchers[{pid!r}] is not a dict")
+            if entry.get("id") is None or not entry.get("name"):
+                die(f"opponent_pitchers[{pid!r}] missing id/name")
 
 
 # --- Write ------------------------------------------------------------------
@@ -1967,6 +2110,14 @@ def main():
     completed = [g for g in past_games if g.get("result")]
     recent_games = completed[-RECENT_GAME_COUNT:]
     upcoming_games = build_upcoming_games(future_schedule, cfg)
+    # G3: opponent context. Denormalize each opponent's league-wide standing
+    # onto its upcoming game so the renderer needs no join (and never hits a
+    # missing-team gap for interleague / non-AL-East opponents). Opposing
+    # probable-pitcher lines feed the #oppp-<id> modal.
+    standings_by_team = fetch_all_standings(cfg, team_names, division_names)
+    for g in upcoming_games:
+        g["opp_context"] = standings_by_team.get(str(g.get("opp_team_id")))
+    opponent_pitchers = fetch_opposing_pitcher_lines(cfg, upcoming_games)
 
     roster_entries = fetch_active_roster(cfg)
     roster = transform_roster(roster_entries, cfg)
@@ -2050,6 +2201,7 @@ def main():
         "wild_card": wild_card,
         "recent_games": recent_games,
         "upcoming_games": upcoming_games,
+        "opponent_pitchers": opponent_pitchers,
         "roster": roster,
         "team_stats": team_stats,
         "player_ranks": player_ranks,

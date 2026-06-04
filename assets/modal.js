@@ -44,9 +44,24 @@
   // lifecycle code below is type-agnostic.
   function modalState(hash) {
     const h = (hash || '').replace(/^#/, '');
-    const m = h.match(/^player-(.+)$/);
+    let m = h.match(/^player-(.+)$/);
     if (m) return { type: 'player', target: m[1] };
+    // G3: opposing-pitcher modal. Separate route (not #player-) so a
+    // non-roster pitcher never flows through the roster lookup/return path.
+    m = h.match(/^oppp-(.+)$/);
+    if (m) return { type: 'opponent_pitcher', target: m[1] };
     return { type: null, target: null };
+  }
+
+  // Which tab a UI-originated close should revert to, derived from the hash
+  // (the source of truth). Each modal route opens from a different tab —
+  // player from Players, opponent-pitcher from Overview — so a single
+  // hardcoded parent would bounce the user to the wrong place.
+  function parentTabForHash() {
+    const h = window.location.hash || '';
+    if (h.indexOf('#oppp-') === 0) return '#overview';
+    if (h.indexOf('#player-') === 0) return '#players';
+    return null;
   }
 
   // ---- Scrim (one per page, lazily created) ----
@@ -155,8 +170,9 @@
   // stays clean. Close paths that originate in the hash (back button,
   // direct nav away) call close() directly — hash is already correct.
   function closeViaUi() {
-    if (window.location.hash.indexOf('#player-') === 0) {
-      history.pushState({}, '', '#players');
+    const parent = parentTabForHash();
+    if (parent) {
+      history.pushState({}, '', parent);
       // pushState doesn't fire hashchange — call render to actually close.
       if (cachedState) render(cachedState);
     } else {
@@ -177,6 +193,16 @@
       const content = window.JaysPlayers.buildModalContent(
         player, !!player.__isHitter, state);
       return { content: content, openId: player.id };
+    },
+    // G3: opposing pitcher resolved from state.data.opponent_pitchers, a
+    // pool separate from the roster. openId is namespaced so it can't
+    // collide with a roster player's numeric id in the dedupe check.
+    opponent_pitcher: function (target, state) {
+      if (!window.JaysOpponentPitcher || !window.JaysOpponentPitcher.find) return null;
+      const p = window.JaysOpponentPitcher.find(target, state);
+      if (!p) return null;
+      const content = window.JaysOpponentPitcher.buildModalContent(p, state);
+      return { content: content, openId: 'oppp-' + p.id };
     },
   };
 
@@ -222,10 +248,17 @@
   //     hashchange (the listener below handles those).
   function openFromClick(player, triggerEl) {
     if (!player || player.id == null) return;
+    openWithRoute('#player-' + player.id, triggerEl);
+  }
+
+  // Generic open: any registered route hash + the element to restore focus
+  // to on close. Per-tab code that isn't the roster (e.g. Overview's
+  // opposing-pitcher chip) routes through here instead of forging a hash.
+  function openWithRoute(hash, triggerEl) {
+    if (!hash) return;
     lastTrigger = triggerEl || null;
-    const newHash = '#player-' + player.id;
-    if (window.location.hash !== newHash) {
-      history.pushState({}, '', newHash);
+    if (window.location.hash !== hash) {
+      history.pushState({}, '', hash);
     }
     if (cachedState) render(cachedState);
   }
@@ -233,6 +266,7 @@
   window.JaysModal = {
     render: render,
     openFromClick: openFromClick,
+    openWithRoute: openWithRoute,
     // UI-originated close (X button, custom dismiss controls). Reverts
     // the hash so back-button history stays clean. Esc and scrim click
     // are wired internally; this is for controls inside builder content.
