@@ -25,11 +25,12 @@
   //
   // F1 added 'player_ranks' (audit H1 — the per-player rank cluster).
   // G3 added 'opponent_pitchers' (opposing-pitcher modal source).
+  // player_rank_pool (percentile fix) carries the qualified-pool sizes.
   const EXPECTED_KEYS = [
     'as_of', 'team', 'division', 'wild_card', 'recent_games',
     'upcoming_games', 'opponent_pitchers', 'roster', 'injuries',
     'other_unavailable', 'transactions', 'news', 'run_diff_last_10',
-    'team_stats', 'player_ranks', 'config', 'notes_meta',
+    'team_stats', 'player_ranks', 'player_rank_pool', 'config', 'notes_meta',
   ];
 
   // ---- Auto-refresh state (survivorship T21) ----
