@@ -438,6 +438,33 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* External profile links (Savant + MLB.com) — modal header identity block.
+   Same provenance palette as the .sc Statcast chip; rendered as anchors. */
+.ext-row {
+  display: inline-flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+.ext-pill {
+  font-family: var(--mono);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: .04em;
+  color: var(--external-ink);
+  background: var(--external-tint);
+  border: 1px solid transparent;
+  border-radius: 4px;
+  padding: 3px 7px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: border-color .12s ease;
+}
+.ext-pill:hover { border-color: var(--external-ink); }
+.ext-pill:focus-visible {
+  outline: 2px solid var(--external-ink);
+  outline-offset: 1px;
+}
+
 /* Analyst note inside modal */
 .modal-note {
   display: flex;

@@ -198,6 +198,10 @@
     }
     meta.textContent = metaParts.join(' · ');
     id.appendChild(meta);
+    // External profile links (Savant + MLB.com). Sits under the meta line as
+    // part of the player's identity block. Roster players always have an id.
+    const extRow = window.JaysLinks.iconRow(player.id, player.name);
+    if (extRow) id.appendChild(extRow);
     top.appendChild(id);
 
     // Action cluster — theme toggle + close. The theme toggle inside
