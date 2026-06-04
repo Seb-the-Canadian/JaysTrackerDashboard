@@ -1,6 +1,16 @@
 # data.json schema reference
 
-The canonical contract between `fetch_data.py` (writer) and `index.html` (reader).
+The canonical contract between `fetch_data.py` (writer) and the renderer (reader).
+
+> **v1 → v2 note:** the "Consumed by" references below cite the v1 `index.html`
+> reader with line numbers. The live reader is now the v2 renderer
+> (`assets/*.js` behind `index-v2.html`): top-level keys are validated against
+> `EXPECTED_KEYS` in `assets/render.js`, and per-tab modules
+> (`overview.js` / `players.js` / `team-stats.js` / `stat-school.js`) consume
+> the fields. The **shapes and field tables here remain authoritative** — a
+> full consumer-reference sweep to v2 is tracked separately. The contract
+> lint (`tests/test_data_contract.py`) checks this doc's key coverage against
+> the fetcher so the two can't silently drift.
 
 Every key the dashboard renders comes from here. Every field the fetcher emits is documented here. When these get out of sync, the schema-drift banner fires; when the doc gets out of sync with reality, fix the doc.
 
@@ -18,7 +28,7 @@ This file is generated at the end of each daily refresh and committed to `main`.
 - **Self-validating.** Before write, `assert_invariants` (`fetch_data.py:1189`) checks size + type constraints on every required key and `die()`s on a violation. A run that fails invariants leaves the previous `data.json` in place — the dashboard goes stale, but it never goes wrong.
 - **Schema-drift-checked.** The renderer compares `data.json`'s top-level keys to `EXPECTED_KEYS` (`index.html:261`). Missing keys raise a visible banner. New keys are silently ignored — but if the renderer needs them, you'll see it in the next consumer.
 
-### Top-level keys (16)
+### Top-level keys (18)
 
 | Key | Type | Section |
 |---|---|---|
@@ -31,9 +41,11 @@ This file is generated at the end of each daily refresh and committed to `main`.
 | `wild_card` | `array<object>` | [Standings](#wild_card) |
 | `recent_games` | `array<object>` | [Games](#recent_games) |
 | `upcoming_games` | `array<object>` | [Games](#upcoming_games) |
+| `opponent_pitchers` | `object` | [Games](#opponent_pitchers) |
 | `run_diff_last_10` | `array<object>` | [Games](#run_diff_last_10) |
 | `roster` | `object` | [Roster](#roster) |
 | `player_ranks` | `object` | [Roster](#player_ranks) |
+| `player_rank_pool` | `object` | [Roster](#player_rank_pool) |
 | `injuries` | `array<object>` | [People status](#injuries) |
 | `other_unavailable` | `array<object>` | [People status](#other_unavailable) |
 | `transactions` | `array<object>` | [People status](#transactions) |
@@ -405,16 +417,25 @@ Scheduled games from today through `SCHEDULE_FUTURE_DAYS = 7` days out, excludin
   "game_pk": 824834,
   "date": "2026-05-28",
   "home": false,
-  "opp": "Baltimore Orioles",
+  "opp": "Atlanta Braves",
+  "opp_team_id": 144,
+  "opp_team_abbrev": "ATL",
   "probable_pitcher_us": "Patrick Corbin",
-  "probable_pitcher_them": "Chris Bassitt",
-  "status": "Scheduled"
+  "probable_pitcher_us_id": 571578,
+  "probable_pitcher_them": "Chris Sale",
+  "probable_pitcher_them_id": 519242,
+  "status": "Scheduled",
+  "opp_context": {
+    "team_id": 144, "team": "Atlanta Braves", "w": 42, "l": 20,
+    "pct": ".677", "gb": "-", "streak": "W2", "last10": "6-4",
+    "division_rank": "1", "division_name": "NL East"
+  }
 }
 ```
 
-**Source:** `transform_upcoming_game(game, cfg)` (`fetch_data.py:460`) for each game in the future-window schedule, filtered to non-Final games. Upstream endpoint: `/schedule` with `hydrate=probablePitcher,team` (same call as `recent_games`).
+**Source:** `transform_upcoming_game(game, cfg)` for each game in the future-window schedule, filtered to non-Final games. Upstream endpoint: `/schedule` with `hydrate=linescore,probablePitcher,team,decisions`. `opp_context` is denormalized in `main()` from `fetch_all_standings` (G3) — keyed by `opp_team_id`, so interleague / non-AL-East opponents resolve (the `division[]` array is our division only).
 
-**Consumed by:** `renderUpcomingTable(DATA.upcoming_games || [])` called from `renderOverview` (`index.html:688`). `renderSinceYesterday` also peeks at the first entry for the "today" slot.
+**Consumed by (v2):** `renderUpcomingGame` in `assets/overview.js` — opponent context one-liner + the clickable opposing-SP chip (`#oppp-<id>` modal via `probable_pitcher_them_id`).
 
 **Fields:**
 
@@ -424,11 +445,59 @@ Scheduled games from today through `SCHEDULE_FUTURE_DAYS = 7` days out, excludin
 | `date` | `str` | Game date as `"YYYY-MM-DD"`. |
 | `home` | `bool` | `true` if our team is home. |
 | `opp` | `str` | Opponent's full team name. |
+| `opp_team_id` | `int \| None` | Opponent's MLB team id (G3). Join key to `opp_context` / standings. |
+| `opp_team_abbrev` | `str` | Opponent's 3-letter abbreviation from the `team` hydrate (G3). Empty → renderer falls back to its name→abbrev map. |
 | `probable_pitcher_us` | `str` | Our probable starter's `fullName`. Often empty for non-imminent games. |
+| `probable_pitcher_us_id` | `int \| None` | Our probable's person id (G3) — links to the roster modal. |
 | `probable_pitcher_them` | `str` | Opponent's probable starter's `fullName`. Often empty. |
+| `probable_pitcher_them_id` | `int \| None` | Opponent probable's person id (G3) — opens the `#oppp-<id>` modal; key into `opponent_pitchers`. |
 | `status` | `str` | MLB `detailedState`, typically `"Scheduled"`. |
+| `opp_context` | `object \| None` | Denormalized opponent standing (G3): `w, l, pct, gb, streak, last10, division_rank, division_name, team, team_id`. `None` if the standings join missed. |
 
-> **History:** Pre-PR #62, `upcoming_games` started at offset `+1` day, dropping today's not-yet-played game. Now starts at offset `0` and filters out `Final` games to avoid double-counting against `recent_games`.
+> **History:** Pre-PR #62, `upcoming_games` started at offset `+1` day, dropping today's not-yet-played game. Now starts at offset `0` and filters out `Final` games. G3 added the id-carry (`opp_team_id`, probable ids) + `opp_context`.
+
+---
+
+### `opponent_pitchers`
+
+Bio + season line for each distinct opposing probable pitcher in the upcoming
+window, keyed by person-id string. Source for the opposing-pitcher modal
+(`#oppp-<id>`) — a non-roster pitcher, so it lives outside `roster`.
+
+**Shape:** `object{id_str: {id, name, throws, age, era, whip, ip, k, gs}}`.
+
+**Real example:**
+
+```json
+{
+  "519242": {
+    "id": 519242, "name": "Chris Sale", "throws": "L", "age": 37,
+    "era": "2.01", "whip": "0.94", "ip": "67.0", "k": 80, "gs": 11
+  }
+}
+```
+
+**Source:** `fetch_opposing_pitcher_lines(cfg, upcoming_games)` (G3) — deduped across the window; one `fetch_player_bio` + one `fetch_player_season_stats` per distinct `probable_pitcher_them_id`. Per-pitcher failure is non-fatal: the entry still carries `id` + `name` (stats fall back to placeholders) so the modal renders a name + links. The whole fetch is non-fatal → `{}` on failure.
+
+**Consumed by (v2):** `assets/opponent-pitcher.js` `find()` + `buildModalContent()`, mounted by `modal.js` on the `#oppp-<id>` route.
+
+**Fields per entry:**
+
+| Field | Type | Meaning |
+|---|---|---|
+| `id` | `int` | MLB `personId`. |
+| `name` | `str` | Full name. |
+| `throws` | `"R" \| "L" \| None` | Throwing handedness (bio). |
+| `age` | `int \| None` | Age in years (bio). |
+| `era` | `str` | Season ERA, `"N.NN"` or `"-.--"`. |
+| `whip` | `str` | Season WHIP. |
+| `ip` | `str` | Innings pitched, `"NN.X"`. |
+| `k` | `int` | Strikeouts. |
+| `gs` | `int` | Games started. |
+
+> **Invariant:** if present, must be a dict; each entry needs a non-None `id` and a non-empty `name` (`assert_invariants`).
+>
+> **History:** Added in G3 (opposing-pitcher modal).
 
 ---
 
@@ -576,18 +645,17 @@ Shape:
 {
   "665489": {                  // string-keyed (matches roster[].id stringified)
     "ops": 27,                 // int 1..N (N = qualified-hitter pool size) — or null
-    "avg": 84,
-    "obp": 12,
-    "slg": 41,
     "hr": 89,
-    "runs": 14
+    "rbi": 41,
+    "sb": 120
   },
-  "672386": { "ops": null, "avg": null, ... },  // non-qualified bench bat → all null
+  "672386": { "ops": null, "hr": null, "rbi": null, "sb": null },  // non-qualified → all null
   "592332": {                  // pitcher
     "era": 18,
     "whip": 25,
-    "k9": 6,
-    "bb9": 22
+    "k_per_9": 6,
+    "bb_per_9": 22,
+    "ip": 9
   }
 }
 ```
@@ -595,14 +663,41 @@ Shape:
 | Field shape | Meaning |
 |---|---|
 | `<id_str>` (key) | `roster.hitters[].id` or `roster.pitchers[].id`, stringified |
-| inner key | stat slug — matches `team_stats.hitting.*` / `pitching.*` |
+| inner key | stat slug — `PLAYER_HITTING_STATS` (`ops, hr, rbi, sb`) or `PLAYER_PITCHING_STATS` (`era, whip, k_per_9, bb_per_9, ip`) |
 | value | 1-based rank within the MLB-qualified pool for that stat, or `null` |
 
-**Definition (per decision D1):** rank = position within the MLB-qualified pool for that stat (3.1 PA/team-game for hitters; 1.0 IP/team-game for pitchers). Bench bats and bullpen pitchers who don't meet the qualification threshold return `null` for every slug. Lower-rank-is-better is signaled separately — see `PITCHING_HIGHER_IS_BETTER` in `fetch_data.py` (currently `{k9}`).
+**Slug set is the player cut, not the team cut.** Deliberately separate from `team_stats` slugs: the player axis surfaces RBI/SB and uses `k_per_9`/`bb_per_9` (not the team `k9`/`bb9`) so renaming the team slugs can't break Stat School notes (`notes.json` `pitching.k9`) or the v1 table. Defined by `PLAYER_HITTING_STATS` / `PLAYER_PITCHING_STATS` in `fetch_data.py`; `PLAYER_PITCHING_HIGHER_IS_BETTER = {k_per_9, ip}`.
 
-**Failure mode:** if the MLB API call fails, `fetch_league_player_rankings` logs a warning and returns `{}` — the renderer falls back to the legacy `"—"` display. Soft fail, no daily-refresh abort.
+**Definition:** rank = 1-based position within the MLB-qualified pool for that stat (3.1 PA/team-game for hitters; 1.0 IP/team-game for pitchers), already direction-corrected (rank 1 = best, including ERA/WHIP where low is good). Non-qualified players return `null` for every slug.
 
-> **History:** Added in F1 (Linear COG-363, audit H1) — pre-F1, `players.js` read `state.data.player_ranks[player.id]` but the fetcher never produced the key. Every pcard displayed `—` for rank, and modal "Where he ranks" rows for OPS/ERA rendered with empty rank cells. The survivorship audit's schema-completeness probe (P10) added the runtime guard for missing top-level keys at the same time.
+**Rendering = percentile, not raw rank.** The pool is large (N≈150), so the renderer converts `(rank, pool)` → percentile (`rankPercentile` in `format.js`) for the heat-bar marker position, tier color, and "<n>th %ile" label. Pool sizes come from [`player_rank_pool`](#player_rank_pool). Rendering raw pool ranks through the 1-30 team helpers (`ordinal`/`rankTier`) was the G1.1 bug: every rank >30 showed `"—"` with a pinned colorless marker.
+
+**Failure mode:** if the MLB API call fails, `fetch_league_player_rankings` returns `({}, {"hitting":0,"pitching":0})` — the renderer falls back to `"—"`. Soft fail, no daily-refresh abort.
+
+> **History:** Added in F1 (COG-363, audit H1). G1 realigned the slug set (added RBI/SB/IP, renamed K9/BB9 → `k_per_9`/`bb_per_9`). G1.1 added percentile rendering + `player_rank_pool` after real data exposed the pool-rank-vs-1-30 scale bug.
+
+---
+
+### `player_rank_pool`
+
+Qualified-pool sizes per group — the denominator the renderer needs to turn a
+pool-relative [`player_ranks`](#player_ranks) value (1..N) into a percentile.
+
+**Shape:** `object{ "hitting": int, "pitching": int }`.
+
+**Real example:**
+
+```json
+{ "hitting": 158, "pitching": 92 }
+```
+
+**Source:** returned alongside `ranks` by `fetch_league_player_rankings` (the second tuple element) — `len()` of each group's qualified-splits list. `0` for a group whose fetch failed.
+
+**Consumed by (v2):** `assets/players.js` — `F.rankPercentile(rank, pool)` / `F.percentileLeftPercent` / `F.percentileTier` for the pcard badge and modal rank rows. `pool[isHitter ? 'hitting' : 'pitching']`.
+
+> **Invariant:** if present, a dict of non-negative ints (`assert_invariants`).
+>
+> **History:** Added in G1.1 to fix the percentile rendering bug.
 
 ---
 
@@ -944,9 +1039,10 @@ Per-player injury detail and ETA, keyed by `person_id`.
 
 When a new top-level key lands in `data.json`:
 
-1. **Update `EXPECTED_KEYS` in `index.html:261`** so the schema-drift banner protects the new key (see `docs/agent-dispatch.md` → "Lessons learned in production" → "`EXPECTED_KEYS` drift").
-2. **Update `assert_invariants` in `fetch_data.py:1189`** with whatever shape constraints the new key must satisfy. Bare presence is not enough — encode the rule you actually depend on.
-3. **Add a section to this doc** following the pattern: purpose, shape, real example, source, consumed by, field table. Land it in the same PR as the schema change.
+1. **Update `EXPECTED_KEYS` in `assets/render.js`** (v2) so the schema-drift banner protects the new key (see `docs/agent-dispatch.md` → "Lessons learned in production" → "`EXPECTED_KEYS` drift").
+2. **Update `assert_invariants` in `fetch_data.py`** with whatever shape constraints the new key must satisfy. Bare presence is not enough — encode the rule you actually depend on.
+3. **Add the key to the contract** (`schema/data_contract.json`) so the contract-drift check (`tests/test_data_contract.py`) keeps the fetcher, `EXPECTED_KEYS`, and this doc in agreement. The lint fails CI if a key is emitted but undocumented (or vice versa).
+4. **Add a section to this doc** following the pattern: purpose, shape, real example, source, consumed by, field table. Land it in the same PR as the schema change.
 
 When a field on an existing key changes (added, renamed, type change):
 

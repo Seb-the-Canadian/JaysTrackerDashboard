@@ -54,6 +54,14 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: python fetch_data.py
 
+      - name: Check data completeness (hard contract keys + warn-only survivorship scan)
+        # HARD-fails the refresh if the freshly-written data.json is missing a
+        # contract key the renderer requires (so a forgotten emit can't ship a
+        # live schema-drift banner — the previous good data.json stays). Also
+        # WARN-logs silent degradation (player_ranks all-null, Statcast
+        # placeholders, empty opponent_pitchers) without failing the build.
+        run: python3 tools/check_data_completeness.py
+
       - name: Scan notes for drift (warn-only)
         # Runs the notes-drift scanner against the just-written data.json.
         # WARN-only mode: never fails the build, findings go to the log.

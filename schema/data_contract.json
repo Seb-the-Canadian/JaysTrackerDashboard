@@ -1,0 +1,28 @@
+{
+  "_comment": "Machine-readable contract for data.json. The single source the contract-drift check (tests/test_data_contract.py) holds the fetcher, the renderer's EXPECTED_KEYS, and docs/data-schema.md against. Update this in the same PR as any schema change (see data-schema.md > Maintenance).",
+  "top_level_keys": [
+    "as_of",
+    "notes_meta",
+    "config",
+    "team",
+    "team_stats",
+    "division",
+    "wild_card",
+    "recent_games",
+    "upcoming_games",
+    "opponent_pitchers",
+    "run_diff_last_10",
+    "roster",
+    "player_ranks",
+    "player_rank_pool",
+    "injuries",
+    "other_unavailable",
+    "transactions",
+    "news"
+  ],
+  "player_rank_stats": {
+    "_comment": "Slugs emitted in player_ranks[id] per group. The renderer's myRanks.<slug> reads MUST be a subset of these — a read with no emit is the G1 blank-rail bug.",
+    "hitting": ["ops", "hr", "rbi", "sb"],
+    "pitching": ["era", "whip", "k_per_9", "bb_per_9", "ip"]
+  }
+}
