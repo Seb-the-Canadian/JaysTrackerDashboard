@@ -127,6 +127,70 @@
     return ((r - 1) / 29) * 100;
   }
 
+  // ---- Player-rank percentile helpers (pool-relative) ----
+  //
+  // Player ranks span the whole MLB-qualified pool (1..N, N can be ~150),
+  // unlike the 1-30 team-rank space the helpers above assume. Rendering a
+  // pool rank with `ordinal`/`rankTier`/`rankLeftPercent` mis-fires for
+  // every rank past 30 (DASH label, no tier color, marker pinned at 100%).
+  // These convert (rank, pool) → percentile so the heat bar reads right.
+
+  /**
+   * Percentile for a 1..pool rank: rank 1 → ~100 (best), rank pool → 0.
+   * @domain rank in [1, pool]; pool >= 2.
+   * @returns integer 0..100, or null if out-of-domain (caller shows "—").
+   */
+  function rankPercentile(rank, pool) {
+    if (!isFiniteNumber(rank) || !isFiniteNumber(pool)) return null;
+    var r = Number(rank), n = Number(pool);
+    if (n < 2 || r < 1 || r > n) return null;
+    return Math.round(((n - r) / (n - 1)) * 100);
+  }
+
+  /**
+   * Tier class from a percentile, mirroring rankTier's bands but on the
+   * 0-100 percentile axis (top ~17% = m1 … bottom ~17% = m5).
+   * @returns "m1".."m5", or "" for out-of-domain.
+   */
+  function percentileTier(pct) {
+    if (!isFiniteNumber(pct)) return '';
+    var p = Number(pct);
+    if (p >= 83) return 'm1';
+    if (p >= 67) return 'm2';
+    if (p >= 33) return 'm3';
+    if (p >= 17) return 'm4';
+    return 'm5';
+  }
+
+  /**
+   * Marker position on the rank rail from a 1..pool rank: best (rank 1) at
+   * left 0%, worst at 100% — matching the green→red gradient (left = good).
+   * @returns percent in [0, 100]; 50 for out-of-domain (neutral).
+   */
+  function percentileLeftPercent(rank, pool) {
+    if (!isFiniteNumber(rank) || !isFiniteNumber(pool)) return 50;
+    var n = Number(pool);
+    if (n < 2) return 50;
+    var r = Math.max(1, Math.min(n, Number(rank)));
+    return ((r - 1) / (n - 1)) * 100;
+  }
+
+  /**
+   * General ordinal for any non-negative integer ("54th", "121st"). Unlike
+   * `ordinal`, which is domain-locked to [1, 30] for the team-rank space,
+   * this serves percentile labels.
+   * @returns "<n><suffix>", or "" for out-of-domain.
+   */
+  function ordinalNum(n) {
+    if (!isFiniteNumber(n)) return '';
+    var v = Math.round(Number(n));
+    if (v < 0) return '';
+    var rem100 = v % 100;
+    if (rem100 >= 11 && rem100 <= 13) return v + 'th';
+    var suffix = { 1: 'st', 2: 'nd', 3: 'rd' }[v % 10] || 'th';
+    return v + suffix;
+  }
+
   // ---- Date helpers ----
 
   function parseIso(iso) {
@@ -260,8 +324,12 @@
     signed: signed,
     winPct: winPct,
     ordinal: ordinal,
+    ordinalNum: ordinalNum,
     rankTier: rankTier,
     rankLeftPercent: rankLeftPercent,
+    rankPercentile: rankPercentile,
+    percentileTier: percentileTier,
+    percentileLeftPercent: percentileLeftPercent,
     shortMonthDay: shortMonthDay,
     slashDate: slashDate,
     relativeAge: relativeAge,

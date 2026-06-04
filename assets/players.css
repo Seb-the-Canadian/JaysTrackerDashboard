@@ -312,7 +312,7 @@
 /* "Where he ranks" rows — shared rank strip pattern */
 .ctx-row {
   display: grid;
-  grid-template-columns: 140px 46px 1fr 40px;
+  grid-template-columns: 128px 44px 1fr 68px;
   align-items: center;
   gap: 11px;
   padding: 7px 0;
@@ -353,11 +353,15 @@
   font-weight: 700;
   font-size: 12px;
   text-align: right;
+  white-space: nowrap;
 }
 .ctx-rank small {
   color: var(--ink-4);
   font-weight: 500;
   font-size: 9px;
+}
+.ctx-rank .pctl {
+  letter-spacing: -.02em;
 }
 .ctx-rank.m1 { color: var(--pos); }
 .ctx-rank.m2 { color: var(--pos-2); }
@@ -540,7 +544,7 @@
 @media (max-width: 460px) {
   .pcards { grid-template-columns: minmax(0, 1fr); }
   .ctx-row {
-    grid-template-columns: 96px 44px 1fr 34px;
+    grid-template-columns: 84px 40px 1fr 62px;
     gap: 8px;
   }
 }

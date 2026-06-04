@@ -42,10 +42,17 @@ async function loadWithSyntheticRanks(browser, opts = {}) {
     // schema-drift banner — which these tests assert on — isn't tripped by
     // an unrelated missing key. The fetcher always emits it post-run.
     body.opponent_pitchers = body.opponent_pitchers || {};
+    // Pool sizes for the percentile fix. Deliberately LARGE so injected
+    // ranks land well past 30 — the case the old fixture (ranks 1..26)
+    // never exercised, which is exactly why the pool-rank-vs-1-30-scale bug
+    // shipped. Now ranks must render as percentiles, not "—".
+    body.player_rank_pool = { hitting: 160, pitching: 90 };
     const roster = (body.roster || {});
     let i = 1;
     for (const h of (roster.hitters || [])) {
-      body.player_ranks[String(h.id)] = { ops: i, hr: i, rbi: i, sb: i };
+      // i*6 spreads ranks across 6..~150 so most are >30.
+      const r = i * 6;
+      body.player_ranks[String(h.id)] = { ops: r, hr: r, rbi: r, sb: r };
       // The committed data.json may carry placeholder Statcast values;
       // inject real ones so the value-only Statcast line renders.
       if (!h.xwoba || h.xwoba === '.---') h.xwoba = '.350';
@@ -55,8 +62,9 @@ async function loadWithSyntheticRanks(browser, opts = {}) {
     }
     let j = 1;
     for (const p of (roster.pitchers || [])) {
+      const r = j * 3;
       body.player_ranks[String(p.id)] = {
-        era: j, whip: j, k_per_9: j, bb_per_9: j, ip: j,
+        era: r, whip: r, k_per_9: r, bb_per_9: r, ip: r,
       };
       // The committed data.json predates the k_per_9 / bb_per_9 roster
       // fields (added with the player-rank realignment); inject values so
@@ -94,9 +102,10 @@ async function loadWithSyntheticRanks(browser, opts = {}) {
       const i = card.querySelector('.pc-right i');
       return i ? i.textContent.trim() : null;
     });
-    const ordinalRegex = /^(1st|2nd|3rd|\d+th)$/;
-    report(firstCardRank && ordinalRegex.test(firstCardRank) ? 'PASS' : 'FAIL',
-      'R1: first pcard renders a rank ordinal',
+    // Label is now a percentile ("97th %ile"), not a 1-30 ordinal.
+    const pctileRegex = /\d+(st|nd|rd|th)\s*%ile/;
+    report(firstCardRank && pctileRegex.test(firstCardRank) ? 'PASS' : 'FAIL',
+      'R1: first pcard renders a percentile label',
       `text="${firstCardRank}"`);
     await ctx.close();
   }
@@ -298,6 +307,48 @@ async function loadWithSyntheticRanks(browser, opts = {}) {
     report(sc && sc.hasLabel && sc.metrics > 0 ? 'PASS' : 'FAIL',
       'R8: hitter modal renders the Statcast value line',
       sc ? `label=${sc.hasLabel} metrics=${sc.metrics}` : 'no statcast line found');
+    await ctx.close();
+  }
+
+  // ----- R9: a rank >30 renders as a percentile, not "—" (THE bug) -----
+  //
+  // Regression guard for the pool-rank-vs-1-30-scale bug: real player ranks
+  // span 1..~150, but ordinal/rankTier/rankLeftPercent assumed 1-30, so
+  // every rank past 30 rendered "—" with a colorless marker pinned at 100%.
+  // Injected ranks here are all >30 (i*6, j*3), so every ranked row must
+  // show a percentile label + a marker positioned strictly inside the rail.
+  {
+    const { ctx, page } = await loadWithSyntheticRanks(browser);
+    await page.evaluate(() => { window.location.hash = 'players'; });
+    await page.waitForTimeout(400);
+    const ids = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('.pcard')).map(c => c.dataset.playerId));
+    let worst = null;
+    for (const id of ids) {
+      await page.evaluate((pid) => { window.location.hash = 'player-' + pid; }, id);
+      await page.waitForTimeout(80);
+      const row = await page.evaluate(() => {
+        const scrim = document.querySelector('#player-modal-scrim.show');
+        if (!scrim) return null;
+        const r = scrim.querySelector('.ctx-row');
+        if (!r) return null;
+        const rankCell = r.querySelector('.ctx-rank');
+        const mk = r.querySelector('.strip .mk');
+        const left = mk ? parseFloat(mk.style.left) : null;
+        return {
+          label: rankCell ? rankCell.textContent.trim() : '',
+          isDash: rankCell ? rankCell.textContent.trim() === '—' : true,
+          hasMarker: !!mk,
+          left: left,
+        };
+      });
+      if (row && row.label) { worst = row; break; }
+    }
+    const ok = worst && !worst.isDash && /%ile/.test(worst.label)
+      && worst.hasMarker && worst.left != null && worst.left >= 0 && worst.left <= 100;
+    report(ok ? 'PASS' : 'FAIL',
+      'R9: a >30 pool rank renders a percentile + in-rail marker (not "—")',
+      worst ? `label="${worst.label}" left=${worst.left}` : 'no ranked row found');
     await ctx.close();
   }
 

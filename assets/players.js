@@ -57,6 +57,8 @@
   function pcard(player, group, state, isHitter) {
     const ranks = (state.data && state.data.player_ranks) || {};
     const myRanks = ranks[player.id] || {};
+    const pools = (state.data && state.data.player_rank_pool) || {};
+    const pool = pools[isHitter ? 'hitting' : 'pitching'];
 
     // Headline stat & rank
     let primaryVal, primaryLabel, rank;
@@ -93,13 +95,14 @@
     }
     const subtitle = subParts.join(' · ');
 
-    // Rank tier indicator (e.g. "7th" colored by tier)
-    const rankBadge = rank
-      ? '<i class="' + rankClassForTier(F.rankTier(rank)) + '">'
-        + F.ordinal(rank) + '</i>'
-      : (player.recent === 'new'
-          ? '<i class="muted">—</i>'
-          : '<i class="muted">—</i>');
+    // Rank badge — percentile within the qualified pool (e.g. "55th %ile"),
+    // colored by percentile tier. Player ranks are pool-relative (1..~150),
+    // so we render a percentile, not a raw 1-30 ordinal.
+    const pct = F.rankPercentile(rank, pool);
+    const rankBadge = (pct != null)
+      ? '<i class="' + rankClassForTier(F.percentileTier(pct)) + '">'
+        + F.ordinalNum(pct) + '<small> %ile</small></i>'
+      : '<i class="muted">—</i>';
 
     const card = document.createElement('button');
     card.className = 'pcard' + (player.recent === 'cold' ? ' struggle' : '');
@@ -149,6 +152,8 @@
   function buildModalContent(player, isHitter, state) {
     const ranks = (state.data && state.data.player_ranks) || {};
     const myRanks = ranks[player.id] || {};
+    const pools = (state.data && state.data.player_rank_pool) || {};
+    const pool = pools[isHitter ? 'hitting' : 'pitching'];
     const notes = (state.notes && state.notes.players) || {};
     const note = notes[String(player.id)] || null;
 
@@ -261,9 +266,9 @@
         b.textContent = player[entry[0]] || '—';
         cell.appendChild(b);
         const small = document.createElement('small');
-        const opsRank = myRanks.ops;
-        small.textContent = entry[2] && opsRank
-          ? entry[1] + ' · ' + F.ordinal(opsRank)
+        const opsPct = F.rankPercentile(myRanks.ops, pool);
+        small.textContent = entry[2] && opsPct != null
+          ? entry[1] + ' · ' + F.ordinalNum(opsPct) + ' %ile'
           : entry[1];
         cell.appendChild(small);
         slash.appendChild(cell);
@@ -308,7 +313,7 @@
     const body = document.createElement('div');
     body.className = 'modal-b';
 
-    const rankRows = isHitter ? buildHitterRankRows(player, myRanks) : buildPitcherRankRows(player, myRanks);
+    const rankRows = isHitter ? buildHitterRankRows(player, myRanks, pool) : buildPitcherRankRows(player, myRanks, pool);
     if (rankRows.length > 0) {
       const label = document.createElement('p');
       label.className = 'mb-label';
@@ -338,7 +343,7 @@
   // metrics (xwOBA / Barrel% / Hard-hit%) are team-scoped in the fetcher —
   // there's no MLB-wide Savant pull — so a rank strip for them would be a
   // fabricated position. They render value-only via buildStatcastLine below.
-  function buildHitterRankRows(player, myRanks) {
+  function buildHitterRankRows(player, myRanks, pool) {
     const defs = [
       ['OPS', player.ops, myRanks.ops, false],
       ['Home runs', player.hr, myRanks.hr, false],
@@ -347,7 +352,7 @@
     ];
     return defs
       .filter(function (d) { return d[1] != null && d[1] !== '—' && d[1] !== '.---' && d[1] !== '---'; })
-      .map(function (d) { return ctxRow(d[0], d[1], d[2], d[3]); });
+      .map(function (d) { return ctxRow(d[0], d[1], d[2], d[3], pool); });
   }
 
   // Statcast value strip for hitters. Renders xwOBA / Barrel% / Hard-hit%
@@ -377,7 +382,7 @@
     return line;
   }
 
-  function buildPitcherRankRows(player, myRanks) {
+  function buildPitcherRankRows(player, myRanks, pool) {
     const defs = [
       ['ERA', player.era, myRanks.era, false],
       ['WHIP', player.whip, myRanks.whip, false],
@@ -387,14 +392,22 @@
     ];
     return defs
       .filter(function (d) { return d[1] != null && d[1] !== '—' && d[1] !== '-.--'; })
-      .map(function (d) { return ctxRow(d[0], d[1], d[2], d[3]); });
+      .map(function (d) { return ctxRow(d[0], d[1], d[2], d[3], pool); });
   }
 
-  function ctxRow(name, val, rank, isStatcast) {
+  function ctxRow(name, val, rank, isStatcast, pool) {
     const row = document.createElement('div');
     row.className = 'ctx-row';
-    const tier = rank ? F.rankTier(rank) : '';
-    const left = rank ? F.rankLeftPercent(rank).toFixed(0) : 50;
+    // Percentile within the qualified pool — pool-relative rank converted so
+    // the marker position, color, and label all agree (the bug where a
+    // rank-72-of-158 hitter showed "—" with a marker pinned at the far end).
+    const pct = F.rankPercentile(rank, pool);
+    const tier = pct != null ? F.percentileTier(pct) : '';
+    const left = pct != null ? F.percentileLeftPercent(rank, pool).toFixed(0) : 50;
+    const label = pct != null
+      ? F.ordinalNum(pct).replace(/(st|nd|rd|th)$/, '<small>$1</small>')
+        + '<small class="pctl"> %ile</small>'
+      : '<span style="color:var(--ink-4)">—</span>';
 
     row.innerHTML = ''
       + '<div class="ctx-name">'
@@ -404,11 +417,9 @@
       + '<div class="ctx-val">' + (val == null ? '—' : val) + '</div>'
       + '<div class="strip">'
       +   '<span class="avg"></span>'
-      +   (rank ? '<span class="mk ' + tier + '" style="left:' + left + '%"></span>' : '')
+      +   (pct != null ? '<span class="mk ' + tier + '" style="left:' + left + '%"></span>' : '')
       + '</div>'
-      + '<div class="ctx-rank ' + tier + '">'
-      +   (rank ? F.ordinal(rank).replace(/(st|nd|rd|th)$/, '<small>$1</small>') : '<span style="color:var(--ink-4)">—</span>')
-      + '</div>';
+      + '<div class="ctx-rank ' + tier + '">' + label + '</div>';
     return row;
   }
 

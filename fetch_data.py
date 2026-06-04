@@ -1556,7 +1556,10 @@ def fetch_league_player_rankings(cfg, roster):
     keyed by player id; v1 had no producer and the rank UI silently
     degraded to "—" on every pcard + modal rank-row).
 
-    Returns: {<player_id_str>: {<stat_slug>: int | None, ...}, ...}.
+    Returns a (ranks, pools) tuple:
+      ranks  {<player_id_str>: {<stat_slug>: int | None, ...}, ...}
+      pools  {"hitting": <int>, "pitching": <int>}  qualified-pool sizes,
+             so the renderer can turn a 1..N rank into a percentile.
 
     Stats included are PLAYER_HITTING_STATS / PLAYER_PITCHING_STATS —
     the renderer-aligned player cut (OPS/HR/RBI/SB for hitters;
@@ -1581,8 +1584,13 @@ def fetch_league_player_rankings(cfg, roster):
     except Exception as e:
         log(f"warning: player ranks pitching fetch failed: {e}")
         pitching_splits = []
+    # Pool sizes per group — the count of qualified players each rank is
+    # measured against. The renderer needs this to convert a pool-relative
+    # rank (1..N, where N can be ~150) into a percentile for the heat bar;
+    # without it the 1-30 team-rank helpers mis-render every rank past 30.
+    pools = {"hitting": len(hitting_splits), "pitching": len(pitching_splits)}
     if not hitting_splits and not pitching_splits:
-        return {}
+        return {}, pools
 
     ranks = {}
     for hitter in roster.get("hitters") or []:
@@ -1602,7 +1610,7 @@ def fetch_league_player_rankings(cfg, roster):
             higher_better = slug in PLAYER_PITCHING_HIGHER_IS_BETTER
             ranks[str(pid)][slug] = _player_rank_for_stat(
                 pitching_splits, pid, api_field, higher_is_better=higher_better)
-    return ranks
+    return ranks, pools
 
 
 def combine_team_stats(values, ranks):
@@ -2069,6 +2077,15 @@ def assert_invariants(output, cfg):
                     continue
                 if not isinstance(rank, int) or rank < 1:
                     die(f"player_ranks[{pid!r}].{slug}={rank!r} is not a positive int or None")
+    # player_rank_pool (percentile fix). Soft: dict if present; values are
+    # non-negative ints (0 on upstream failure → renderer skips percentile).
+    prp = output.get("player_rank_pool")
+    if prp is not None:
+        if not isinstance(prp, dict):
+            die(f"player_rank_pool must be a dict, got {type(prp).__name__}")
+        for grp, n in prp.items():
+            if not isinstance(n, int) or n < 0:
+                die(f"player_rank_pool[{grp!r}]={n!r} is not a non-negative int")
     # opponent_pitchers (G3). Shape: {<id_str>: {id, name, ...}}. Soft —
     # the fetcher tolerates upstream failure by returning {} (renderer falls
     # back to a name + link), so don't require non-emptiness; just shape.
@@ -2142,7 +2159,7 @@ def main():
     # player_id-as-string, mirroring how the renderer looks them up.
     # Non-qualified players (bench bats, relievers under 1 IP/game)
     # return None values; the renderer falls back to "—" gracefully.
-    player_ranks = fetch_league_player_rankings(cfg, roster)
+    player_ranks, player_rank_pool = fetch_league_player_rankings(cfg, roster)
     injury_report = fetch_injury_report(cfg)
     injuries = injury_report["injuries"]
     other_unavailable = injury_report["other_unavailable"]
@@ -2205,6 +2222,7 @@ def main():
         "roster": roster,
         "team_stats": team_stats,
         "player_ranks": player_ranks,
+        "player_rank_pool": player_rank_pool,
         "injuries": injuries,
         "other_unavailable": other_unavailable,
         "transactions": transactions,

@@ -215,7 +215,7 @@ def test_fetch_league_player_rankings_assigns_rank_per_qualified_player(mocker, 
         "hitters": [{"id": 665489, "name": "Vladimir Guerrero Jr."}],
         "pitchers": [{"id": 592332, "name": "Kevin Gausman"}],
     }
-    ranks = fetch_data.fetch_league_player_rankings(cfg, roster)
+    ranks, _pools = fetch_data.fetch_league_player_rankings(cfg, roster)
 
     assert "665489" in ranks
     assert ranks["665489"]["ops"] == 1  # highest in pool
@@ -250,7 +250,7 @@ def test_fetch_league_player_rankings_non_qualified_player_returns_none(mocker, 
         "hitters": [{"id": 999999, "name": "Bench Bat"}],
         "pitchers": [],
     }
-    ranks = fetch_data.fetch_league_player_rankings(cfg, roster)
+    ranks, _pools = fetch_data.fetch_league_player_rankings(cfg, roster)
 
     assert "999999" in ranks
     for slug in ("ops", "hr", "rbi", "sb"):
@@ -265,7 +265,9 @@ def test_fetch_league_player_rankings_returns_empty_on_api_failure(mocker, cfg):
         "hitters": [{"id": 665489, "name": "X"}],
         "pitchers": [{"id": 592332, "name": "Y"}],
     }
-    assert fetch_data.fetch_league_player_rankings(cfg, roster) == {}
+    ranks, pools = fetch_data.fetch_league_player_rankings(cfg, roster)
+    assert ranks == {}
+    assert pools == {"hitting": 0, "pitching": 0}
 
 
 def test_fetch_league_player_rankings_handles_partial_failure(mocker, cfg):
@@ -288,7 +290,7 @@ def test_fetch_league_player_rankings_handles_partial_failure(mocker, cfg):
         "hitters": [{"id": 665489, "name": "Hitter"}],
         "pitchers": [{"id": 592332, "name": "Pitcher"}],
     }
-    ranks = fetch_data.fetch_league_player_rankings(cfg, roster)
+    ranks, _pools = fetch_data.fetch_league_player_rankings(cfg, roster)
     assert ranks["665489"]["ops"] == 1
     assert ranks["592332"]["era"] is None  # pool was empty due to fail
 
@@ -312,7 +314,7 @@ def test_fetch_league_player_rankings_missing_field_sinks_to_bottom(mocker, cfg)
                  if p.get("group") == "hitting"
                  else {"stats": []})
     roster = {"hitters": [{"id": 100001, "name": "Missing"}], "pitchers": []}
-    ranks = fetch_data.fetch_league_player_rankings(cfg, roster)
+    ranks, _pools = fetch_data.fetch_league_player_rankings(cfg, roster)
     # OPS rank for 100001 should be 3 (last) since OPS is missing.
     assert ranks["100001"]["ops"] == 3
     # Other stats (which are present) place at their natural rank: HR 15 is
