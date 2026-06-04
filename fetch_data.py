@@ -948,6 +948,17 @@ def fetch_savant_barrels(team_abbrev, season):
             "barrel_pct": _fmt_pct(_first_present(row, _BARREL_COL_ALIASES)),
             "hardhit_pct": _fmt_pct(_first_present(row, _HARDHIT_COL_ALIASES)),
         }
+    # #29 diagnostic: Savant rotated the leaderboard id column — barrels come
+    # back but join by MLBAM id matches zero roster hitters. baseballsavant is
+    # unreachable from the dev container, so log the real CSV schema here to
+    # name the current id column (and the values in the columns we currently
+    # try) without guessing — the next refresh's log drives the precise fix.
+    if rows:
+        first = rows[0]
+        log("INFO: savant barrels schema — matched %d/%d rows; columns=%s; "
+            "player_id=%r xMLBAMID=%r"
+            % (len(out), len(rows), list(first.keys()),
+               first.get("player_id"), first.get("xMLBAMID")))
     return out
 
 
