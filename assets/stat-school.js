@@ -144,7 +144,41 @@
 
   // ---- Per-stat card ----
 
-  function renderStatCard(slug, s) {
+  // PR-G (audit H2 — the load-bearing renderer gap): each stat card now
+  // shows the team's live value + ordinal rank when available, and the
+  // analyst's team-context note from notes.team.ctx. Previously every
+  // card was pure reference text and the dashboard's "every number
+  // carries its MLB rank" promise broke on the very tab that explains
+  // it.
+  //
+  // Three lookup paths:
+  //  1. data.team_stats[group][slug] → {val, rank}  — most stats
+  //  2. data.team.{pythag_w, pythag_l, run_diff}    — team-level slugs
+  //  3. (none)                                       — Statcast slugs
+  //     not yet hydrated (xwoba, barrel_pct, fip)
+  function lookupTeamStat(slug, group, data) {
+    const ts = data && data.team_stats;
+    if (ts && ts[group] && ts[group][slug]) return ts[group][slug];
+    // Special-case slugs that live on data.team rather than team_stats.
+    const team = (data && data.team) || {};
+    if (slug === 'run_differential' && team.run_diff !== undefined) {
+      const v = Number(team.run_diff);
+      return { val: (v >= 0 ? '+' : '') + v, rank: null };
+    }
+    if (slug === 'pythag' && team.pythag_w !== undefined) {
+      return { val: team.pythag_w + '-' + team.pythag_l, rank: null };
+    }
+    return null;
+  }
+
+  function renderStatCard(slug, s, state) {
+    const F = window.JaysFormat;
+    const data = (state && state.data) || {};
+    const notes = (state && state.notes) || {};
+    const teamStat = lookupTeamStat(slug, s.group, data);
+    const ctxKey = s.group + '.' + slug;
+    const ctxNote = (notes.team && notes.team.ctx && notes.team.ctx[ctxKey]) || null;
+
     const wrap = document.createElement('div');
     wrap.className = 'exp';
     // Namespaced ID — `ss-stat-` prefix prevents collision with the
@@ -153,6 +187,21 @@
     // does the lookup.
     wrap.id = 'ss-stat-' + slug;
 
+    // PR-G: optional value+rank pill, sits beside the tier badge so the
+    // identity row reads "ABBR · Name | Tier | <live value+rank>".
+    let valuePill = '';
+    if (teamStat) {
+      const valHtml = '<span class="ss-stat-val-num">'
+        + (teamStat.val == null ? F.DASH : teamStat.val)
+        + '</span>';
+      const rankHtml = (teamStat.rank != null && Number.isFinite(Number(teamStat.rank)))
+        ? '<span class="ss-stat-val-rank ' + F.rankTier(teamStat.rank) + '">'
+            + F.ordinal(teamStat.rank).replace(/(st|nd|rd|th)$/, '<small>$1</small>')
+          + '</span>'
+        : '';
+      valuePill = '<span class="ss-stat-val">' + valHtml + rankHtml + '</span>';
+    }
+
     const head = document.createElement('div');
     head.className = 'exp-h';
     head.innerHTML = ''
@@ -160,6 +209,7 @@
       +   '<span class="exp-abbr">' + s.abbr + '</span>'
       +   '<span class="exp-name">' + s.name + '<small>' + groupLabel(s.group) + (s.statcast ? ' · Statcast' : '') + '</small></span>'
       + '</div>'
+      + valuePill
       + '<span class="tier ' + tierClass(s.tier) + '"><span class="d"></span>' + tierLabel(s.tier) + '</span>';
     wrap.appendChild(head);
 
@@ -180,14 +230,36 @@
       sc.className = 'scale-read';
       const rev = s.direction === 'lower_better' ? ' rev' : '';
       const dirLabel = s.direction === 'higher_better' ? '▲ Higher is better' : '▼ Lower is better';
+      // PR-G: percentile tick on the scale rail when we have a rank.
+      // Position derives from rankLeftPercent (rank 1 → 0%, rank 30 →
+      // 100% on the un-reversed rail). The `.rev` class flips the
+      // visual direction in CSS, so we don't recompute left here.
+      let tickHtml = '';
+      if (teamStat && teamStat.rank != null && Number.isFinite(Number(teamStat.rank))) {
+        const leftPct = F.rankLeftPercent(teamStat.rank).toFixed(1);
+        const tier = F.rankTier(teamStat.rank);
+        tickHtml = '<span class="ss-rank-tick ' + tier + '" style="left:' + leftPct + '%"></span>';
+      }
       sc.innerHTML = ''
-        + '<div class="scale-track' + rev + '"><span class="avg"></span></div>'
+        + '<div class="scale-track' + rev + '"><span class="avg"></span>' + tickHtml + '</div>'
         + '<div class="scale-cap">'
         +   '<span>' + (s.scale_low_label || '') + '</span>'
         +   '<span class="dir-chip">' + dirLabel + '</span>'
         +   '<span>' + (s.scale_high_label || '') + '</span>'
         + '</div>';
       body.appendChild(sc);
+    }
+
+    // PR-G: Team context note from notes.team.ctx. Renders as an
+    // analyst-tinted callout above the frame_line_md — when the analyst
+    // has authored a take on this stat for this team, it lives here.
+    if (ctxNote) {
+      const ctx = document.createElement('div');
+      ctx.className = 'ss-ctx';
+      ctx.innerHTML = ''
+        + '<span class="nib">✎</span>'
+        + '<div><span class="lbl">Team context</span><p>' + ctxNote + '</p></div>';
+      body.appendChild(ctx);
     }
 
     // Frame line
@@ -441,7 +513,7 @@
             .filter(function (s) { return stats[s].group === g; })
             .sort(function (a, b) { return (stats[a].order || 99) - (stats[b].order || 99); });
           slugs.forEach(function (slug) {
-            col.appendChild(renderStatCard(slug, stats[slug]));
+            col.appendChild(renderStatCard(slug, stats[slug], state));
           });
         });
 

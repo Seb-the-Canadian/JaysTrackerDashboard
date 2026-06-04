@@ -15,7 +15,7 @@
       "scale_low_label": ".650 weak",
       "scale_high_label": ".900 elite",
       "direction": "higher_better",
-      "frame_line_md": "On this dashboard OPS always carries its <b>MLB rank</b>. Guerrero Jr.'s .963 reads as <b>3rd of 30</b> qualified 1B — elite, not just \"good.\"",
+      "frame_line_md": "On this dashboard OPS always carries its <b>MLB rank</b>. The frame is the rank — top-third is contender territory, middle is league-average, bottom-third means the offense is dragging.",
       "in_team_ledger": true,
       "team_ledger_order": 3
     },
@@ -69,7 +69,7 @@
       "scale_low_label": ".290 weak",
       "scale_high_label": ".400 elite",
       "direction": "higher_better",
-      "frame_line_md": "Shown with its <b>MLB percentile</b> — the one Statcast frame this dashboard uses, because xwOBA is published with it.",
+      "frame_line_md": "Shown with its <b>MLB percentile</b> — the one Statcast frame this dashboard uses, because xwOBA is published with it. Higher percentile = better expected contact quality.",
       "formula_md": "xwOBA = f( exit velocity, launch angle ) → expected value of each batted ball, weighted like wOBA",
       "why_md": "<b>Why it beats batting average:</b> AVG treats a 105-mph lineout and a bloop single as equal-but-opposite. xwOBA asks what <i>usually</i> happens on a ball hit that hard at that angle — so a hitter with bad luck and a great xwOBA is a buy-low, not a slump.",
       "in_team_ledger": true,
@@ -99,7 +99,7 @@
       "scale_low_label": "2.90 elite",
       "scale_high_label": "5.00 weak",
       "direction": "lower_better",
-      "frame_line_md": "ERA always carries its <b>MLB rank</b> here. A 3.21 starter ERA reads 7th of 30 — that's a top-of-rotation tier.",
+      "frame_line_md": "ERA always carries its <b>MLB rank</b> here. Top-10 reads as a true rotation strength; 11-20 is league-average; 21+ means the pitching is the trouble spot.",
       "in_team_ledger": true,
       "team_ledger_order": 1
     },
@@ -141,7 +141,7 @@
       "scale_low_label": "−100 poor",
       "scale_high_label": "+150 elite",
       "direction": "higher_better",
-      "frame_line_md": "Shown with its <b>MLB rank</b> on the Overview KPI card. Toronto's +28 reads 8th of 30 — quietly contender-level, even when the record looks middling."
+      "frame_line_md": "Shown with its <b>MLB rank</b> on the Overview KPI card. The rank often diverges from the record — a positive run differential with a losing record is a Pythag-regression story."
     },
     "pythag": {
       "abbr": "Pythag",
