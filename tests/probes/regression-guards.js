@@ -75,8 +75,18 @@ async function loadPage(browser, { dataMutator, notesMutator } = {}) {
   }
 
   // ----- T1b: banner stays hidden when all expected keys present -----
+  //
+  // F1 added `player_ranks` to EXPECTED_KEYS. The committed data.json
+  // on main may lag the next daily-refresh, so we inject an empty
+  // player_ranks object via the route interceptor — that simulates
+  // the post-F1 steady state where the fetcher produces the key on
+  // every refresh.
   {
-    const { ctx, page } = await loadPage(browser);
+    const { ctx, page } = await loadPage(browser, {
+      dataMutator: (d) => {
+        if (!('player_ranks' in d)) d.player_ranks = {};
+      },
+    });
     const visible = await page.evaluate(() => {
       const el = document.getElementById('schemaBanner');
       return el && !el.hidden;

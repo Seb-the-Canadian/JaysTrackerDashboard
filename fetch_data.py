@@ -1284,6 +1284,111 @@ def fetch_league_team_rankings(cfg):
     return ranks
 
 
+def _league_player_splits(cfg, group):
+    """Fetch every QUALIFIED player's season split for `group`.
+
+    Mirrors `_league_splits_for_group` but on the /stats endpoint with
+    playerPool=Qualified, returning player-level splits instead of team
+    splits. The qualified pool is the standard MLB qualification rule
+    (3.1 PA per team game for hitters; 1.0 IP per team game for
+    pitchers) — non-qualified rostered players (bench bats, relievers,
+    minor-league call-ups) won't appear, and their rank surfaces as
+    None to the renderer.
+    """
+    response = api("stats", {
+        "stats": "season",
+        "group": group,
+        "season": cfg["season"],
+        "sportIds": MLB_SPORT_ID,
+        "playerPool": "Qualified",
+        "limit": 1000,  # well above the typical qualified pool size
+    })
+    splits = []
+    for entry in response.get("stats", []):
+        if (entry.get("group") or {}).get("displayName") != group:
+            continue
+        for split in entry.get("splits") or []:
+            if (split.get("player") or {}).get("id") is not None:
+                splits.append(split)
+    return splits
+
+
+def _player_rank_for_stat(splits, player_id, api_field, higher_is_better=True):
+    """Sort splits by `api_field`; return 1-based rank of player_id, or None.
+
+    Mirrors `_rank_for_stat`. Players with missing/unparseable values
+    sort to the bottom; ties resolve by the API's original ordering.
+    The 1-based rank corresponds to the player's position within the
+    sorted qualified pool — not the overall MLB ordinal, which makes
+    the rank consistent with team_stats.{group}.{slug}.rank.
+    """
+    def key(s):
+        v = (s.get("stat") or {}).get(api_field)
+        f = parse_float(v, default=None)
+        if f is None:
+            return (1, 0.0)
+        return (0, -f if higher_is_better else f)
+
+    ordered = sorted(splits, key=key)
+    for idx, s in enumerate(ordered):
+        if (s.get("player") or {}).get("id") == player_id:
+            return idx + 1
+    return None
+
+
+def fetch_league_player_rankings(cfg, roster):
+    """Compute MLB rank for every player on our roster, per stat.
+
+    Closes audit H1 (the players.js renderer expects state.data.player_ranks
+    keyed by player id; v1 had no producer and the rank UI silently
+    degraded to "—" on every pcard + modal rank-row).
+
+    Returns: {<player_id_str>: {<stat_slug>: int | None, ...}, ...}.
+
+    Stats included match HITTING_STATS / PITCHING_STATS so the player
+    rank set aligns with the team rank set — same stats on both axes.
+    Players outside their group's qualified pool (bench bats, relievers
+    short of 1 IP per team game, callups) return None for every slug.
+    Per decision D1: percentile within MLB-qualified set per stat.
+
+    Failure is non-fatal — logs a warning and returns {} so downstream
+    renderers fall back to the legacy "—" display. Two API calls
+    (one per group); roster lookup is in-memory.
+    """
+    try:
+        hitting_splits = _league_player_splits(cfg, "hitting")
+    except Exception as e:
+        log(f"warning: player ranks hitting fetch failed: {e}")
+        hitting_splits = []
+    try:
+        pitching_splits = _league_player_splits(cfg, "pitching")
+    except Exception as e:
+        log(f"warning: player ranks pitching fetch failed: {e}")
+        pitching_splits = []
+    if not hitting_splits and not pitching_splits:
+        return {}
+
+    ranks = {}
+    for hitter in roster.get("hitters") or []:
+        pid = hitter.get("id")
+        if pid is None:
+            continue
+        ranks[str(pid)] = {}
+        for slug, api_field in HITTING_STATS:
+            ranks[str(pid)][slug] = _player_rank_for_stat(
+                hitting_splits, pid, api_field, higher_is_better=True)
+    for pitcher in roster.get("pitchers") or []:
+        pid = pitcher.get("id")
+        if pid is None:
+            continue
+        ranks[str(pid)] = {}
+        for slug, api_field in PITCHING_STATS:
+            higher_better = slug in PITCHING_HIGHER_IS_BETTER
+            ranks[str(pid)][slug] = _player_rank_for_stat(
+                pitching_splits, pid, api_field, higher_is_better=higher_better)
+    return ranks
+
+
 def combine_team_stats(values, ranks):
     """Merge {group: {key: val}} + {group: {key: rank}} into the issue-#24 shape.
 
@@ -1731,6 +1836,23 @@ def assert_invariants(output, cfg):
         for field in ("xwoba", "barrel_pct", "hardhit_pct"):
             if not isinstance(h.get(field), str):
                 die(f"roster.hitters[{h.get('id')!r}].{field} is not a str ({h.get(field)!r})")
+    # player_ranks (F1 — audit H1). Shape: {<id_str>: {<slug>: int | None}}.
+    # Soft validation: must be a dict if present; entry values must be
+    # int|None. The fetcher tolerates upstream failure by returning {} —
+    # acceptable (renderer falls back to "—"), so don't require
+    # non-emptiness.
+    pr = output.get("player_ranks")
+    if pr is not None:
+        if not isinstance(pr, dict):
+            die(f"player_ranks must be a dict, got {type(pr).__name__}")
+        for pid, ranks in pr.items():
+            if not isinstance(ranks, dict):
+                die(f"player_ranks[{pid!r}] is not a dict")
+            for slug, rank in ranks.items():
+                if rank is None:
+                    continue
+                if not isinstance(rank, int) or rank < 1:
+                    die(f"player_ranks[{pid!r}].{slug}={rank!r} is not a positive int or None")
 
 
 # --- Write ------------------------------------------------------------------
@@ -1780,6 +1902,11 @@ def main():
         if oaa is not None:
             team_stat_values["defense"] = {"oaa": oaa}
     team_stats = combine_team_stats(team_stat_values, team_stat_ranks)
+    # Per-player MLB ranks (audit H1 / F1 / decision D1) — keyed by
+    # player_id-as-string, mirroring how the renderer looks them up.
+    # Non-qualified players (bench bats, relievers under 1 IP/game)
+    # return None values; the renderer falls back to "—" gracefully.
+    player_ranks = fetch_league_player_rankings(cfg, roster)
     injury_report = fetch_injury_report(cfg)
     injuries = injury_report["injuries"]
     other_unavailable = injury_report["other_unavailable"]
@@ -1831,6 +1958,7 @@ def main():
         "upcoming_games": upcoming_games,
         "roster": roster,
         "team_stats": team_stats,
+        "player_ranks": player_ranks,
         "injuries": injuries,
         "other_unavailable": other_unavailable,
         "transactions": transactions,

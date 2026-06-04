@@ -23,12 +23,12 @@
   // panels with no operator-visible signal. validateSchema() restores
   // the v1 banner.
   //
-  // When F1 (player_ranks backend) ships, append 'player_ranks' here too.
+  // F1 added 'player_ranks' (audit H1 — the per-player rank cluster).
   const EXPECTED_KEYS = [
     'as_of', 'team', 'division', 'wild_card', 'recent_games',
     'upcoming_games', 'roster', 'injuries', 'other_unavailable',
     'transactions', 'news', 'run_diff_last_10', 'team_stats',
-    'config', 'notes_meta',
+    'player_ranks', 'config', 'notes_meta',
   ];
 
   // ---- Auto-refresh state (survivorship T21) ----

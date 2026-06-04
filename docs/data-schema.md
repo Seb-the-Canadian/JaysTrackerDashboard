@@ -18,7 +18,7 @@ This file is generated at the end of each daily refresh and committed to `main`.
 - **Self-validating.** Before write, `assert_invariants` (`fetch_data.py:1189`) checks size + type constraints on every required key and `die()`s on a violation. A run that fails invariants leaves the previous `data.json` in place — the dashboard goes stale, but it never goes wrong.
 - **Schema-drift-checked.** The renderer compares `data.json`'s top-level keys to `EXPECTED_KEYS` (`index.html:261`). Missing keys raise a visible banner. New keys are silently ignored — but if the renderer needs them, you'll see it in the next consumer.
 
-### Top-level keys (15)
+### Top-level keys (16)
 
 | Key | Type | Section |
 |---|---|---|
@@ -33,6 +33,7 @@ This file is generated at the end of each daily refresh and committed to `main`.
 | `upcoming_games` | `array<object>` | [Games](#upcoming_games) |
 | `run_diff_last_10` | `array<object>` | [Games](#run_diff_last_10) |
 | `roster` | `object` | [Roster](#roster) |
+| `player_ranks` | `object` | [Roster](#player_ranks) |
 | `injuries` | `array<object>` | [People status](#injuries) |
 | `other_unavailable` | `array<object>` | [People status](#other_unavailable) |
 | `transactions` | `array<object>` | [People status](#transactions) |
@@ -546,6 +547,44 @@ The active 26-man roster split into hitters and pitchers, each row carrying seas
 | `recent` | `"hot"`, `"cold"`, `"new"`, or `null` | Same as hitters but compared against season ERA. Lower recent ERA is "hot." |
 
 > **History:** `gs` on pitchers was added in PR #58 — before that, all pitchers fell into Bullpen because `gs` was missing. The hot/cold/new pill (`recent` field) shipped in PR #51 (issue #25); the routing bug that left it null for everyone was fixed in PR #63 (issue #59). The gameLog cache speeds up subsequent refreshes (PR #67, issue #52).
+
+### `player_ranks`
+
+Per-player MLB rank within the qualified pool, keyed by player id as a string.
+
+Shape:
+
+```jsonc
+{
+  "665489": {                  // string-keyed (matches roster[].id stringified)
+    "ops": 27,                 // int 1..N (N = qualified-hitter pool size) — or null
+    "avg": 84,
+    "obp": 12,
+    "slg": 41,
+    "hr": 89,
+    "runs": 14
+  },
+  "672386": { "ops": null, "avg": null, ... },  // non-qualified bench bat → all null
+  "592332": {                  // pitcher
+    "era": 18,
+    "whip": 25,
+    "k9": 6,
+    "bb9": 22
+  }
+}
+```
+
+| Field shape | Meaning |
+|---|---|
+| `<id_str>` (key) | `roster.hitters[].id` or `roster.pitchers[].id`, stringified |
+| inner key | stat slug — matches `team_stats.hitting.*` / `pitching.*` |
+| value | 1-based rank within the MLB-qualified pool for that stat, or `null` |
+
+**Definition (per decision D1):** rank = position within the MLB-qualified pool for that stat (3.1 PA/team-game for hitters; 1.0 IP/team-game for pitchers). Bench bats and bullpen pitchers who don't meet the qualification threshold return `null` for every slug. Lower-rank-is-better is signaled separately — see `PITCHING_HIGHER_IS_BETTER` in `fetch_data.py` (currently `{k9}`).
+
+**Failure mode:** if the MLB API call fails, `fetch_league_player_rankings` logs a warning and returns `{}` — the renderer falls back to the legacy `"—"` display. Soft fail, no daily-refresh abort.
+
+> **History:** Added in F1 (Linear COG-363, audit H1) — pre-F1, `players.js` read `state.data.player_ranks[player.id]` but the fetcher never produced the key. Every pcard displayed `—` for rank, and modal "Where he ranks" rows for OPS/ERA rendered with empty rank cells. The survivorship audit's schema-completeness probe (P10) added the runtime guard for missing top-level keys at the same time.
 
 ---
 
