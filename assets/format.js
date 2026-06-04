@@ -213,6 +213,48 @@
       .replace(/^-+|-+$/g, '');
   }
 
+  // ---- Security helpers ----
+
+  /**
+   * Escape HTML special characters so the value can be safely
+   * interpolated into innerHTML / template strings without enabling
+   * markup injection. Promoted from per-module copies to a shared
+   * helper as part of PR-D (COG-360) — consistent escaping across
+   * the per-tab renderers, single contract for tests.
+   * @domain s: any value; non-strings coerce via String().
+   * @returns escaped string; empty string for null/undefined.
+   */
+  function escapeHtml(s) {
+    if (s == null) return '';
+    return String(s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  /**
+   * Protocol allowlist for URLs that flow into anchor `href`. The news
+   * layer (RSS) is v2's canonical *external/untrusted* boundary —
+   * audit H3 confirmed a feed item with `url: "javascript:alert(1)"`
+   * renders as a clickable JS-protocol anchor. safeHref gates the
+   * value to `http:`, `https:`, `mailto:` only; everything else
+   * collapses to the inert `'#'`. The caller should additionally
+   * suppress rendering when the URL is invalid — `'#'` returns are
+   * also a signal to skip.
+   * @domain url: any value.
+   * @returns the original URL if its protocol is allowed; '#' otherwise.
+   *   See docs/security.md for the trust-layer model.
+   */
+  function safeHref(url) {
+    if (typeof url !== 'string') return '#';
+    // Trim leading whitespace — some RSS sources pad URLs.
+    const trimmed = url.replace(/^\s+/, '');
+    if (/^(https?:|mailto:)/i.test(trimmed)) return trimmed;
+    return '#';
+  }
+
   window.JaysFormat = {
     baseballDecimal: baseballDecimal,
     signed: signed,
@@ -225,6 +267,8 @@
     relativeAge: relativeAge,
     initials: initials,
     slugify: slugify,
+    escapeHtml: escapeHtml,
+    safeHref: safeHref,
     // Exported for the test suite / runbook so the canonical DASH lives
     // in exactly one place.
     DASH: DASH,

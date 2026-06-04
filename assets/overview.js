@@ -498,14 +498,22 @@
 
   function renderVoices(state) {
     const news = (state.data && state.data.news) || [];
-    if (news.length === 0) {
+    // PR-D (audit H3): RSS is the external/untrusted boundary. A feed
+    // item with `url: "javascript:alert(1)"` would render as a live
+    // anchor. F.safeHref enforces a protocol allowlist; items whose
+    // URL falls back to '#' get dropped here rather than mounted as
+    // inert-but-clickable cards. See docs/security.md.
+    const usable = news.filter(function (n) {
+      return n && F.safeHref(n.url) !== '#';
+    });
+    if (usable.length === 0) {
       return panel('external', 'Voices around', '↗ RSS', [
         el('div', { class: 'panel-empty' }, 'No items today.'),
       ]);
     }
-    const top = news.slice(0, 4);
+    const top = usable.slice(0, 4);
     return panel('external', 'Voices around', '↗ RSS', top.map(function (n) {
-      return el('a', { class: 'voice', href: n.url || '#', target: '_blank', rel: 'noopener' }, [
+      return el('a', { class: 'voice', href: F.safeHref(n.url), target: '_blank', rel: 'noopener' }, [
         el('div', { class: 'voice-top' }, [
           el('span', { class: 'src-chip' }, n.source || '?'),
           el('span', { class: 'time' }, F.relativeAge(n.published)),
