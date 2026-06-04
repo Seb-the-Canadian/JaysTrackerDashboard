@@ -16,6 +16,32 @@
   const TABS = ['overview', 'players', 'team-stats', 'stat-school'];
   const DEFAULT_TAB = 'overview';
 
+  // Top-level keys the renderer expects in data.json. Ported from v1
+  // (`index.html` EXPECTED_KEYS) — survivorship audit T1 found this guard
+  // had been silently dropped in the v2 redesign. When the fetcher omits
+  // a key the renderer expects, the dashboard silently renders empty
+  // panels with no operator-visible signal. validateSchema() restores
+  // the v1 banner.
+  //
+  // When F1 (player_ranks backend) ships, append 'player_ranks' here too.
+  const EXPECTED_KEYS = [
+    'as_of', 'team', 'division', 'wild_card', 'recent_games',
+    'upcoming_games', 'roster', 'injuries', 'other_unavailable',
+    'transactions', 'news', 'run_diff_last_10', 'team_stats',
+    'config', 'notes_meta',
+  ];
+
+  // ---- Auto-refresh state (survivorship T21) ----
+  //
+  // The bootstrap fetches once at init; before this PR, a tab left open
+  // across the daily refresh silently rendered yesterday's data. We
+  // re-fetch on visibilitychange after a 5-minute cooldown so a reader
+  // returning to a backgrounded tab sees today's data — without thrashing
+  // for rapid focus toggles.
+  let lastFetchAt = 0;
+  const REFETCH_COOLDOWN_MS = 5 * 60 * 1000;
+  let _visListenerInstalled = false;
+
   function parseTabFromHash() {
     const h = (window.location.hash || '').replace(/^#/, '');
     // Exact tab match wins.
@@ -57,8 +83,16 @@
     setText('brand-sub', 'Day ' + getSeasonDay(data.as_of, cfg.season));
 
     // Record (e.g. "31–22") + detail (".585 · 2nd AL East").
-    if (rec.w !== undefined && rec.l !== undefined) {
-      setText('hdr-rec-line', rec.w + '–' + rec.l);
+    // Defensive Number() coercion (survivorship T9) — if MLB Stats API ever
+    // returns string-typed w/l, downstream arithmetic silently coerces in
+    // surprising ways (e.g. `("29" + 32) > 0` evaluates string concat,
+    // yielding "2932" and a win-% of .010).
+    const wRaw = rec.w, lRaw = rec.l;
+    if (wRaw !== undefined && lRaw !== undefined) {
+      const w = Number(wRaw);
+      const l = Number(lRaw);
+      const wOk = Number.isFinite(w), lOk = Number.isFinite(l);
+      setText('hdr-rec-line', (wOk ? w : wRaw) + '–' + (lOk ? l : lRaw));
       setText('hdr-rec-detail', formatRecDetail(team));
     } else {
       setText('hdr-rec-line', '—');
@@ -71,6 +105,10 @@
 
     // Freshness badge — green <24h, amber 24-48h, red >48h since as_of.
     renderFreshness(data.as_of);
+    // Notes-staleness badge — ported from v1's applyNotesStaleness
+    // (survivorship T18). Separate cadence from data freshness because
+    // analyst voice ages on a weekly+, not daily, schedule.
+    applyNotesStaleness(data.notes_meta);
   }
 
   function renderFreshness(asOfIso) {
@@ -98,9 +136,13 @@
 
   function formatRecDetail(team) {
     const parts = [];
-    const w = team.record && team.record.w;
-    const l = team.record && team.record.l;
-    if (w !== undefined && (w + l) > 0) {
+    // Defensive Number() coercion (survivorship T9 — string-typed w/l
+    // would compute `("29" + "32") > 0` (string concat → "2932") and
+    // produce a wrong win-% like ".010".
+    const wRaw = team.record && team.record.w;
+    const lRaw = team.record && team.record.l;
+    const w = Number(wRaw), l = Number(lRaw);
+    if (Number.isFinite(w) && Number.isFinite(l) && (w + l) > 0) {
       const pct = (w / (w + l)).toFixed(3).replace(/^0/, '');
       parts.push(pct);
     }
@@ -110,12 +152,102 @@
 
   function getSeasonDay(asOfIso, season) {
     // Rough season-day count from Mar 27 of the configured season.
+    // Survivorship T2: opening day (March 27) IS day 1 of the season —
+    // the prior `days > 0` predicate rendered "Day —" on the dashboard's
+    // single biggest-traffic day. `days >= 0 ? days + 1 : '—'` reads
+    // "Day 1" on opening day; "Day 2" the day after; "—" only for
+    // pre-season / invalid input.
     if (!season) return '—';
     const asOf = asOfIso ? new Date(asOfIso) : new Date();
     if (isNaN(asOf.getTime())) return '—';
     const openingDay = new Date(season + '-03-27T00:00:00Z');
     const days = Math.floor((asOf - openingDay) / 86400000);
-    return days > 0 ? String(days) : '—';
+    return days >= 0 ? String(days + 1) : '—';
+  }
+
+  // ---- Schema-drift banner (survivorship T1, ported from v1) ----
+  //
+  // The fetcher and the renderer drift over time. If a future fetcher
+  // change drops a top-level key the renderer expects (or someone
+  // hand-edits data.json), the dashboard silently renders empty panels.
+  // The banner surfaces this so the operator can react before readers
+  // hit the broken state.
+  function validateSchema(data) {
+    const banner = document.getElementById('schemaBanner');
+    if (!banner || !data || typeof data !== 'object') return;
+    const missing = EXPECTED_KEYS.filter(function (k) { return !(k in data); });
+    if (missing.length === 0) {
+      banner.hidden = true;
+      banner.textContent = '';
+      return;
+    }
+    if (typeof console !== 'undefined' && console.warn) {
+      console.warn('data.json schema drift — missing top-level keys:', missing);
+    }
+    banner.textContent = 'Data schema warning: missing fields — '
+      + missing.join(', ')
+      + '. Dashboard may render incompletely.';
+    banner.hidden = false;
+  }
+
+  // ---- Notes-staleness chip (survivorship T18, ported from v1) ----
+  //
+  // The analyst voice has its own cadence (notes.json is hand-authored,
+  // not daily-fetched). v1 surfaced its age in the header so a reader
+  // could tell apart "today's read" from "30 days old commentary." v2
+  // initially dropped this; T18 restored it with the same green / amber
+  // (>7d) / red (>14d) thresholds. The `tools/check_notes_freshness.py`
+  // CI step warns at the same thresholds.
+  function applyNotesStaleness(notesMeta) {
+    const el = document.getElementById('notesStale');
+    if (!el) return;
+    const iso = notesMeta && notesMeta.last_updated_iso;
+    if (!iso) {
+      el.hidden = true;
+      el.textContent = '';
+      el.className = 'notes-stale-chip';
+      return;
+    }
+    const updated = new Date(iso);
+    if (isNaN(updated.getTime())) {
+      el.hidden = true;
+      el.textContent = '';
+      el.className = 'notes-stale-chip';
+      return;
+    }
+    const ageDays = Math.floor((Date.now() - updated.getTime()) / 86400000);
+    let cls = 'notes-stale-chip';
+    if (ageDays > 14) cls += ' red';
+    else if (ageDays > 7) cls += ' amber';
+    else cls += ' green';
+    let label;
+    if (ageDays <= 0) label = 'Analyst voice: refreshed today';
+    else if (ageDays === 1) label = 'Analyst voice: 1d old';
+    else label = 'Analyst voice: ' + ageDays + 'd old';
+    el.className = cls;
+    el.textContent = label;
+    el.hidden = false;
+  }
+
+  // ---- Auto-refresh on visibility (survivorship T21) ----
+  //
+  // A tab left open across the 09:00 UTC daily refresh silently shows
+  // yesterday's data. visibilitychange + a 5-min cooldown is the lowest-
+  // intervention fix — no polling, no timer, no battery drain. When the
+  // user returns to the tab and enough time has elapsed for fresh data
+  // to exist, we re-fetch.
+  //
+  // PR-B will fold this into a unified idempotent-install pattern; the
+  // module-level flag here is deliberately compatible with that future
+  // refactor.
+  function installVisibilityRefresh() {
+    if (_visListenerInstalled) return;
+    _visListenerInstalled = true;
+    document.addEventListener('visibilitychange', function () {
+      if (document.visibilityState !== 'visible') return;
+      if (Date.now() - lastFetchAt < REFETCH_COOLDOWN_MS) return;
+      loadAll().then(renderFromState);
+    });
   }
 
   function setText(id, text) {
@@ -210,6 +342,9 @@
     // Theme mode was set synchronously at init (skeleton time); only the
     // team-identity tokens need re-applying now that config has arrived.
     window.JaysTheme.applyTeamTheme(state.config);
+    // Schema-drift guard (T1) — surface missing top-level keys before
+    // any per-tab renderer trips over them.
+    validateSchema(state.data);
     renderHeader(state);
 
     // Per-tab dispatch. If a tab's required data is unavailable, render
@@ -233,6 +368,9 @@
     renderOrError('team-stats', window.JaysTeamStats && window.JaysTeamStats.render);
     renderOrError('stat-school', window.JaysStatSchool && window.JaysStatSchool.render);
 
+    // Mark when the last data write happened — drives the
+    // visibilitychange re-fetch cooldown (T21).
+    lastFetchAt = Date.now();
     // Expose for later commits + console debugging.
     window.JT_STATE = state;
   }
@@ -250,6 +388,10 @@
     hookThemeToggle({});
     hookIlChip({});
     hookTabRouting();
+    // Install the visibility-driven auto-refresh (T21). Idempotent —
+    // calling init() again (from the error-panel Retry path) won't
+    // double-bind. PR-B folds this into the unified hook pattern.
+    installVisibilityRefresh();
     // 4. Await fetches, then replace skeletons with real content.
     loadAll().then(renderFromState);
   }
