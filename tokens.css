@@ -144,8 +144,11 @@
   --team-secondary-soft: color-mix(in oklab, var(--team-secondary) 25%, var(--card));
   --team-primary-ink: color-mix(in oklab, var(--team-primary) 50%, #ffffff);
 
-  /* SIGNALS — lift the dark end of the q-scale for legibility on dark cards */
-  --q-cold: #4f7da5;
+  /* SIGNALS — lift the dark end of the q-scale for legibility on dark cards.
+     PR-F: --q-cold deepened from #4f7da5 to #3e6a92 so the Cold pill
+     (white text on this background) lifts from 4.37:1 to ~5.7:1, passing
+     WCAG AA for normal body text on the .pill.cold use. */
+  --q-cold: #3e6a92;
   --q-cool: #6f9bc0;
   --q-mid: #7a7468;
   --pos: #3c9466;
@@ -160,6 +163,16 @@
   --external-ink: #9fb0d0;
   --external: #7488ad;
 }
+
+/* ============================================================
+   PR-F — dark-mode chart axis legibility
+   Overview run-diff chart (assets/overview.js) sets SVG text fill
+   to var(--ink-4) inline. In dark mode, --ink-4 (#4a5260) on the
+   panel substrate (--card #1b1f27) is ~1.5:1 — axis numbers and
+   date labels become invisible. CSS fill: overrides the inline
+   presentation attribute per spec. var(--ink-3) gives ~3.86:1.
+   ============================================================ */
+[data-theme="dark"] svg.rd-chart text { fill: var(--ink-3); }
 
 /* ============================================================
    Reduced-motion preference — disable transitions & animations.

@@ -231,9 +231,14 @@
 .tier.build .d { background: var(--q-warm); }
 .tier.adv    { color: #7a3a26; background: #f3e2da; }
 .tier.adv .d { background: var(--q-hot); }
-[data-theme="dark"] .tier.found  { background: #1c2a22; }
-[data-theme="dark"] .tier.build  { background: #2a2418; }
-[data-theme="dark"] .tier.adv    { background: #2c1f1a; }
+/* PR-F: dark-mode tier badges — prior version overrode only the
+   background, leaving the dark light-mode ink on a dark substrate:
+   .tier.found 2.13:1, .tier.build 2.62:1, .tier.adv 1.87:1. Lift the
+   ink to a lighter hue in the same family so each label hits ≥4.5:1
+   on its own dark substrate. */
+[data-theme="dark"] .tier.found  { color: #8fbfa3; background: #1c2a22; }
+[data-theme="dark"] .tier.build  { color: #d4a76a; background: #2a2418; }
+[data-theme="dark"] .tier.adv    { color: #d9907a; background: #2c1f1a; }
 
 .exp-b { padding: 0 18px 16px; }
 .exp-what {
