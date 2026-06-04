@@ -166,17 +166,21 @@
 
     const id = document.createElement('div');
     id.className = 'modal-id';
+    // PR-E (audit H11 / Players M1): h3 carries an id so the modal scrim
+    // can reference it via aria-labelledby. The recent-form pill used
+    // to be a child of h3 — that polluted textContent with "Hot" /
+    // "Cold" / "New" and prevented the eventual labelledby from
+    // reading cleanly. Now it sits as a sibling.
     const h3 = document.createElement('h3');
+    h3.id = 'player-modal-title';
     h3.textContent = player.name || '—';
-    h3.style.flexWrap = 'wrap';
-    // Optional hot/cold pill inline with the name
+    id.appendChild(h3);
     if (player.recent === 'hot' || player.recent === 'cold' || player.recent === 'new') {
       const pill = document.createElement('span');
       pill.className = 'pill ' + player.recent;
       pill.textContent = player.recent.charAt(0).toUpperCase() + player.recent.slice(1);
-      h3.appendChild(pill);
+      id.appendChild(pill);
     }
-    id.appendChild(h3);
 
     const meta = document.createElement('div');
     meta.className = 'meta';
@@ -196,13 +200,39 @@
     id.appendChild(meta);
     top.appendChild(id);
 
+    // Action cluster — theme toggle + close. The theme toggle inside
+    // the modal closes audit A1 (decision D3): when the modal scrim
+    // is shown, the page-level #theme-toggle is unreachable (scrim
+    // intercepts pointer events). Mirroring the toggle into the modal
+    // header lets a user flip themes without first dismissing the
+    // dialog.
+    const actions = document.createElement('div');
+    actions.className = 'modal-actions';
+
+    const themeBtn = document.createElement('button');
+    themeBtn.className = 'modal-theme';
+    themeBtn.type = 'button';
+    themeBtn.setAttribute('aria-label', 'Toggle dark mode');
+    function updateThemeGlyph() {
+      themeBtn.textContent = window.JaysTheme.currentMode() === 'dark' ? '☀' : '☾';
+    }
+    updateThemeGlyph();
+    themeBtn.addEventListener('click', function (e) {
+      e.stopPropagation();  // don't bubble to scrim click → close
+      window.JaysTheme.toggleTheme();
+      updateThemeGlyph();
+    });
+    actions.appendChild(themeBtn);
+
     const x = document.createElement('button');
     x.className = 'modal-x';
     x.type = 'button';
-    x.setAttribute('aria-label', 'Close');
+    x.setAttribute('aria-label', 'Close player details');
     x.textContent = '✕';
     x.addEventListener('click', function () { window.JaysModal.requestClose(); });
-    top.appendChild(x);
+    actions.appendChild(x);
+
+    top.appendChild(actions);
 
     wrapper.appendChild(top);
 
