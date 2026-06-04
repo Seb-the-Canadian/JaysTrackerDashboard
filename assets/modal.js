@@ -23,6 +23,19 @@
   let listenerInstalled = false;
   let lastTrigger = null;
   let escHandler = null;
+  // PR-E: focus-trap state. We install a single keydown handler at scrim
+  // level on open(); it intercepts Tab and Shift+Tab to keep the user
+  // inside the dialog until they Esc / X / scrim-click out. W3C ARIA
+  // dialog-modal pattern: <https://www.w3.org/WAI/ARIA/apg/patterns/dialog-modal/>
+  let trapHandler = null;
+  const FOCUSABLE_SEL = [
+    'a[href]',
+    'button:not([disabled])',
+    'input:not([disabled])',
+    'select:not([disabled])',
+    'textarea:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])',
+  ].join(',');
 
   // ---- Discriminator: hash → modal intent ----
   //
@@ -54,6 +67,17 @@
   }
 
   // ---- Open / close primitives ----
+  //
+  // PR-E (audit H11/H12 + A1): the scrim now carries `aria-labelledby`
+  // pointing at the modal's <h3 id="player-modal-title">, so screen
+  // readers announce "Vladimir Guerrero Jr., dialog" instead of an
+  // anonymous dialog. Tab/Shift+Tab wrap inside the dialog via the
+  // trapHandler.
+
+  function getFocusable(scrim) {
+    return Array.prototype.slice.call(scrim.querySelectorAll(FOCUSABLE_SEL))
+      .filter(function (el) { return el.offsetParent !== null; });
+  }
 
   function open(content, openId) {
     const scrim = ensureScrim();
@@ -62,11 +86,41 @@
     scrim.classList.add('show');
     scrim.dataset.openId = String(openId || '');
     document.body.style.overflow = 'hidden';
+
+    // Wire aria-labelledby to the just-mounted h3 (if present).
+    const title = scrim.querySelector('#player-modal-title');
+    if (title) {
+      scrim.setAttribute('aria-labelledby', 'player-modal-title');
+    } else {
+      // Fallback: name the dialog generically rather than leave it
+      // nameless (worse than no aria-modal for a screen reader).
+      scrim.setAttribute('aria-label', 'Player details');
+    }
+
     if (!escHandler) {
       escHandler = function (e) {
         if (e.key === 'Escape') closeViaUi();
       };
       document.addEventListener('keydown', escHandler);
+    }
+    if (!trapHandler) {
+      trapHandler = function (e) {
+        if (e.key !== 'Tab') return;
+        const focusable = getFocusable(scrim);
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        const active = document.activeElement;
+        if (e.shiftKey && active === first) {
+          e.preventDefault();
+          last.focus();
+        } else if (!e.shiftKey && active === last) {
+          e.preventDefault();
+          first.focus();
+        }
+        // For everything in between, native Tab order handles it.
+      };
+      scrim.addEventListener('keydown', trapHandler);
     }
     const x = scrim.querySelector('.modal-x');
     if (x) x.focus();
@@ -78,6 +132,12 @@
       scrim.classList.remove('show');
       scrim.innerHTML = '';
       scrim.dataset.openId = '';
+      scrim.removeAttribute('aria-labelledby');
+      scrim.removeAttribute('aria-label');
+      if (trapHandler) {
+        scrim.removeEventListener('keydown', trapHandler);
+        trapHandler = null;
+      }
     }
     document.body.style.overflow = '';
     if (escHandler) {

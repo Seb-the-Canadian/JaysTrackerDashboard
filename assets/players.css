@@ -201,29 +201,47 @@
   font-size: 17px;
   flex: none;
 }
-.modal-id { min-width: 0; flex: 1; }
+.modal-id {
+  min-width: 0;
+  flex: 1;
+  /* PR-E: recent-form pill is now a sibling of <h3> (was a child).
+     Flex layout keeps the pill on its own line below the name when
+     space is tight. */
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 9px;
+}
 .modal-id h3 {
   margin: 0;
   font-size: 22px;
   font-weight: var(--w-display);
   letter-spacing: -.02em;
-  display: flex;
-  align-items: center;
-  gap: 9px;
   /* Defense-in-depth for absurd-length names: wrap at any boundary
      rather than push the modal wide. Identity field — content is
      user/MLB-controlled, not designer-controlled. */
   overflow-wrap: anywhere;
 }
 .modal-id .meta {
+  width: 100%;
   font-size: 12px;
   color: var(--ink-3);
   font-family: var(--mono);
   margin-top: 3px;
 }
-.modal-x {
+
+/* PR-E: action cluster — theme toggle next to close. The theme
+   toggle is reachable while the modal is open (audit A1). Both
+   share the same chip shape and live in the top-right corner via
+   position:absolute so they don't shift the identity column. */
+.modal-actions {
   position: absolute;
   top: 14px; right: 14px;
+  display: flex;
+  gap: 6px;
+}
+.modal-theme,
+.modal-x {
   width: 28px; height: 28px;
   border-radius: 8px;
   border: 1px solid var(--line);
@@ -234,7 +252,8 @@
   cursor: pointer;
   font-family: inherit;
 }
-.modal-x:hover { background: var(--line); }
+.modal-theme:hover,
+.modal-x:hover { background: var(--line); color: var(--ink); }
 
 .slash-big {
   display: flex;
