@@ -29,11 +29,14 @@
       // 1B/2B/3B/SS/IF/UT and any other non-OF non-C non-DH → infield bucket
       else IF.push(h);
     });
+    // PR-C: explicit `kind` per group (audit H15). Was: caller used
+    // `!(g.rows[0] && g.rows[0].era)` — a single stray `era` field on
+    // a hitter row flipped the whole group's render path to pitcher.
     return [
-      { name: 'Catchers',           rows: C },
-      { name: 'Infield',            rows: IF },
-      { name: 'Outfield',           rows: OF },
-      { name: 'Designated hitter',  rows: DH },
+      { name: 'Catchers',           rows: C,  kind: 'hitter' },
+      { name: 'Infield',            rows: IF, kind: 'hitter' },
+      { name: 'Outfield',           rows: OF, kind: 'hitter' },
+      { name: 'Designated hitter',  rows: DH, kind: 'hitter' },
     ].filter(function (g) { return g.rows.length > 0; });
   }
 
@@ -44,8 +47,8 @@
       else BP.push(p);
     });
     return [
-      { name: 'Starting rotation',  rows: SP },
-      { name: 'Bullpen',            rows: BP },
+      { name: 'Starting rotation',  rows: SP, kind: 'pitcher' },
+      { name: 'Bullpen',            rows: BP, kind: 'pitcher' },
     ].filter(function (g) { return g.rows.length > 0; });
   }
 
@@ -370,12 +373,17 @@
 
     window.JaysDom.tabBody('players', 'Players', function (root) {
       root.appendChild(eyebrowHead());
-      const groups = groupPitchers(roster.pitchers || []).concat(groupHitters(roster.hitters || []));
+      // PR-C: pass `kind` through groupHitters / groupPitchers so the
+      // template choice is data-driven, not derived from whether the
+      // first row carries an `era` field. Old heuristic flipped to
+      // pitcher template if any hitter row had a stray era key (audit
+      // H15). New: each group carries its own kind label.
+      const groups = groupPitchers(roster.pitchers || [])
+        .concat(groupHitters(roster.hitters || []));
       groups.forEach(function (g) {
-        const isHitter = !(g.rows[0] && g.rows[0].era);
-        root.appendChild(renderRoleGroup(g.name, g.rows, isHitter, state));
+        root.appendChild(renderRoleGroup(g.name, g.rows, g.kind === 'hitter', state));
       });
-    });
+    }, { headingProvided: true });
 
     // Delegate modal lifecycle (open / close / hashchange / focus) to
     // JaysModal. It reads window.location.hash and mounts the correct

@@ -459,11 +459,16 @@ a { color: inherit; }
   </div>
 </header>
 
+<!-- PR-C: each tab anchor carries an explicit id; the matching tabpanel
+     references it via aria-labelledby. Previously: only the Overview
+     panel had an aria-labelledby — pointing at itself (self-reference,
+     audit H6). Other panels had nothing. Screen readers couldn't pair
+     tab ↔ tabpanel. -->
 <nav class="tabs" role="tablist" aria-label="Sections">
-  <a class="tab" href="#overview" data-tab="overview" role="tab">Overview</a>
-  <a class="tab" href="#players" data-tab="players" role="tab">Players</a>
-  <a class="tab" href="#team-stats" data-tab="team-stats" role="tab">Team Stats</a>
-  <a class="tab" href="#stat-school" data-tab="stat-school" role="tab">
+  <a class="tab" id="tab-overview-anchor"   href="#overview"    data-tab="overview"    role="tab">Overview</a>
+  <a class="tab" id="tab-players-anchor"    href="#players"     data-tab="players"     role="tab">Players</a>
+  <a class="tab" id="tab-team-stats-anchor" href="#team-stats"  data-tab="team-stats"  role="tab">Team Stats</a>
+  <a class="tab" id="tab-stat-school-anchor" href="#stat-school" data-tab="stat-school" role="tab">
     Stat School <span class="sch-ic">✦</span>
   </a>
 </nav>
@@ -477,16 +482,16 @@ a { color: inherit; }
   <div id="schemaBanner" class="schema-banner" hidden></div>
 
   <!-- Overview tab body — populated by assets/overview.js on boot. -->
-  <section class="tab-body" id="tab-overview" role="tabpanel" aria-labelledby="tab-overview"></section>
+  <section class="tab-body" id="tab-overview" role="tabpanel" aria-labelledby="tab-overview-anchor"></section>
 
   <!-- Players tab body — populated by assets/players.js on boot. -->
-  <section class="tab-body" id="tab-players" role="tabpanel" hidden></section>
+  <section class="tab-body" id="tab-players" role="tabpanel" aria-labelledby="tab-players-anchor" hidden></section>
 
   <!-- Team Stats tab body — populated by assets/team-stats.js on boot. -->
-  <section class="tab-body" id="tab-team-stats" role="tabpanel" hidden></section>
+  <section class="tab-body" id="tab-team-stats" role="tabpanel" aria-labelledby="tab-team-stats-anchor" hidden></section>
 
   <!-- Stat School tab body — populated by assets/stat-school.js on boot. -->
-  <section class="tab-body" id="tab-stat-school" role="tabpanel" hidden></section>
+  <section class="tab-body" id="tab-stat-school" role="tabpanel" aria-labelledby="tab-stat-school-anchor" hidden></section>
 </main>
 
 <footer class="colophon">
