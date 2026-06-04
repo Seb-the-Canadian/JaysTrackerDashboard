@@ -47,9 +47,14 @@ button { font-family: inherit; }
 a { color: inherit; }
 
 /* Focus-visible — universal accessibility ring per handoff §5.
-   2px team-primary outline at 2px offset. */
+   2px outline at 2px offset.
+   PR-F: ring uses --team-primary-ink (not --team-primary). In dark mode
+   --team-primary-ink is color-mix(50% primary, 50% white), so dark
+   primaries (NYY #003087, TOR #134A8E) lift above the 3:1 non-text
+   contrast floor on dark paper. Without this, NYY dark focus ring is
+   1.53:1 — effectively invisible. */
 :focus-visible {
-  outline: 2px solid var(--team-primary);
+  outline: 2px solid var(--team-primary-ink);
   outline-offset: 2px;
 }
 
@@ -79,7 +84,12 @@ a { color: inherit; }
 }
 .brand .mark span {
   display: block; width: 16px; height: 16px;
-  background: var(--card);
+  /* Iconography — theme-neutral white diamond.
+     PR-F (decision D4): was `var(--card)`, which becomes #1b1f27 in
+     dark mode and disappears against dark-blue primaries (TOR dark
+     1.89:1, NYY dark 1.39:1 — fails AA non-text 3:1). The diamond IS
+     a brand mark, not a themed surface — neutrality is correct. */
+  background: #ffffff;
   transform: rotate(45deg); /* diamond bug */
 }
 .brand .wordmark h1,
