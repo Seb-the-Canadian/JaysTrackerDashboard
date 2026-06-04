@@ -129,6 +129,34 @@ a { color: inherit; }
 .freshness.red .diamond { background: var(--neg); }
 .freshness small { display: block; color: var(--ink-3); font-size: 10px; }
 
+/* Notes-staleness chip (T18 — ported from v1). Mirrors freshness palette
+   but on a longer cadence: green ≤7d, amber 8-14d, red >14d. The chip
+   shares the same right-aligned slot as #freshness-detail. */
+.notes-stale-chip {
+  display: block; font-style: italic; font-size: 10px;
+  color: var(--ink-3); margin-top: 2px;
+}
+.notes-stale-chip.amber { color: var(--q-warm); font-style: normal; font-weight: 600; }
+.notes-stale-chip.red   { color: var(--neg);    font-style: normal; font-weight: 700; }
+
+/* Schema-drift banner (T1 — ported from v1). Top-of-main warning when
+   data.json is missing top-level keys the renderer reads. Hidden by
+   default; render.js validateSchema() flips `hidden` off when missing
+   keys are detected. */
+.schema-banner {
+  background: rgba(176, 80, 61, 0.12);
+  border: 1px solid rgba(176, 80, 61, 0.4);
+  color: var(--neg);
+  padding: 10px 14px;
+  border-radius: var(--r2);
+  margin: 0 26px 12px;
+  font-size: 13px; font-weight: 600;
+}
+[data-theme="dark"] .schema-banner {
+  background: rgba(192, 100, 79, 0.15);
+  border-color: rgba(192, 100, 79, 0.5);
+}
+
 .il-chip {
   display: inline-flex; align-items: center; gap: 7px;
   font-size: 11.5px; font-weight: var(--w-label); color: var(--ink-2);
@@ -417,6 +445,7 @@ a { color: inherit; }
       <div>
         <span id="freshness-label">—</span>
         <small id="freshness-detail">Daily · 09:00 UTC</small>
+        <small id="notesStale" class="notes-stale-chip" hidden></small>
       </div>
     </div>
     <div class="srckey" aria-label="Data layer key">
@@ -440,6 +469,13 @@ a { color: inherit; }
 </nav>
 
 <main>
+  <!-- Schema-drift banner. The renderer (assets/render.js validateSchema)
+       compares data.json's top-level keys against EXPECTED_KEYS on every
+       load; if any are missing it surfaces them here. Ported from v1
+       (index.html line 247) — survivorship audit T1 found this guard
+       had been silently dropped during the v2 redesign. -->
+  <div id="schemaBanner" class="schema-banner" hidden></div>
+
   <!-- Overview tab body — populated by assets/overview.js on boot. -->
   <section class="tab-body" id="tab-overview" role="tabpanel" aria-labelledby="tab-overview"></section>
 
