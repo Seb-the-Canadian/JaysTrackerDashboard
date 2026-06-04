@@ -686,6 +686,63 @@ def is_pitcher(entry):
     return pos.get("abbreviation") in ("P", "SP", "RP", "CL") or pos.get("type") == "Pitcher"
 
 
+# F2 (COG-366): bio-field hydrate. The plain /people endpoint surfaces
+# batSide / pitchHand / currentAge etc. without needing the stats
+# hydrate — quick lookup, used by transform_roster to fill the
+# modal meta line ("Bats R · Age 27 · 212 AB"). Pre-F2 the renderer
+# rendered "1B · 212 AB" because these fields didn't exist.
+_BIO_CACHE = {}
+
+
+def fetch_player_bio(person_id):
+    """Return {bats, throws, age, height, weight} for a player, or {} on failure.
+
+    Lookup is per-person; cached in-process so multiple roster scans
+    within the same `python fetch_data.py` run don't refetch. The fields
+    map from the /people endpoint as follows:
+
+        batSide.code        → bats     ('R' | 'L' | 'S')
+        pitchHand.code      → throws   ('R' | 'L')
+        currentAge          → age      int years
+        height              → height   string "6' 1\""
+        weight              → weight   int lbs
+
+    Failure is non-fatal — the caller treats absent fields as None,
+    and the renderer renders the meta line conditionally on each
+    field's presence. (Audit cross-cutting M6: pre-F2 every roster
+    entry had these fields as None → modal meta compressed to just
+    pos + AB.)
+    """
+    if person_id in _BIO_CACHE:
+        return _BIO_CACHE[person_id]
+    try:
+        response = statsapi.get("person", {"personId": person_id})
+    except Exception as e:
+        log(f"warning: bio fetch for {person_id} failed: {e}")
+        _BIO_CACHE[person_id] = {}
+        return {}
+    people = response.get("people") or []
+    if not people:
+        _BIO_CACHE[person_id] = {}
+        return {}
+    p = people[0]
+    bio = {}
+    bat_side = p.get("batSide") or {}
+    if bat_side.get("code"):
+        bio["bats"] = bat_side.get("code")
+    pitch_hand = p.get("pitchHand") or {}
+    if pitch_hand.get("code"):
+        bio["throws"] = pitch_hand.get("code")
+    if p.get("currentAge") is not None:
+        bio["age"] = p.get("currentAge")
+    if p.get("height"):
+        bio["height"] = p.get("height")
+    if p.get("weight") is not None:
+        bio["weight"] = p.get("weight")
+    _BIO_CACHE[person_id] = bio
+    return bio
+
+
 # --- Statcast via Baseball Savant CSV (#29 Phase B) -------------------------
 #
 # Stdlib only. urllib.request fetches the leaderboard CSV; csv.DictReader
@@ -1071,6 +1128,7 @@ def transform_roster(roster_entries, cfg):
     barrels_map = {}
     if cfg.get("statcast_enabled", True):
         barrels_map = fetch_savant_barrels(cfg.get("team_abbrev", ""), cfg["season"])
+    savant_join_hits = 0
     for entry in roster_entries:
         person = entry.get("person", {})
         pid = person.get("id")
@@ -1078,6 +1136,10 @@ def transform_roster(roster_entries, cfg):
             continue
         name = person.get("fullName", "")
         pos = entry.get("position", {}).get("abbreviation", "")
+        # F2 (COG-366): hydrate batSide / pitchHand / age / height /
+        # weight via the /people endpoint. Renders into the modal meta
+        # line; safe to None per field — the renderer guards.
+        bio = fetch_player_bio(pid)
         if is_pitcher(entry):
             stat = fetch_player_season_stats(pid, "pitching", cfg["season"])
             # Skip the gameLog call if the player has no IP this season —
@@ -1093,6 +1155,10 @@ def transform_roster(roster_entries, cfg):
                 "id": pid,
                 "name": name,
                 "role": pos,
+                "throws": bio.get("throws"),
+                "age": bio.get("age"),
+                "height": bio.get("height"),
+                "weight": bio.get("weight"),
                 "ip": stat.get("inningsPitched", "0.0"),
                 "era": stat.get("era", "-.--"),
                 "whip": stat.get("whip", "-.--"),
@@ -1126,10 +1192,16 @@ def transform_roster(roster_entries, cfg):
             # Sub-threshold-PA hitters won't appear in the leaderboard;
             # fall back to '---' placeholders.
             savant = barrels_map.get(pid, {})
+            if savant:
+                savant_join_hits += 1
             hitters.append({
                 "id": pid,
                 "name": name,
                 "pos": pos,
+                "bats": bio.get("bats"),
+                "age": bio.get("age"),
+                "height": bio.get("height"),
+                "weight": bio.get("weight"),
                 "ab": stat.get("atBats", 0),
                 "avg": stat.get("avg", ".---"),
                 "obp": stat.get("obp", ".---"),
@@ -1143,6 +1215,19 @@ def transform_roster(roster_entries, cfg):
                 "sb": stat.get("stolenBases", 0),
                 "recent": recent,
             })
+    # F2 (COG-366): Savant join diagnostic. If Savant returned non-empty
+    # data but ZERO hitters matched, the leaderboard's id column has
+    # rotated again — high-signal failure mode worth surfacing in the
+    # daily-refresh log. Audit cross-cutting M7 originally said "every
+    # hitter has '---' placeholders"; without this log there's no way
+    # to tell "Savant fetch failed entirely" apart from "Savant fetch
+    # succeeded but no id matched a roster member".
+    if barrels_map and hitters and savant_join_hits == 0:
+        log(
+            f"warning: savant barrels returned {len(barrels_map)} rows but "
+            f"zero matched any of the {len(hitters)} roster hitters — "
+            f"id column may have rotated (was player_id / xMLBAMID)."
+        )
     return {"hitters": hitters, "pitchers": pitchers}
 
 
@@ -1929,9 +2014,18 @@ def main():
     )
     rank_str = ordinal(us_record.get("divisionRank"))
     place = f"{rank_str} in {div_name}" if rank_str else f"in {div_name}"
+    # F2 (COG-366): denormalize gb onto team. Was only on division[]
+    # entries — the Overview Record KPI silently dropped the "8.5 GB"
+    # footer because team.gb didn't exist.
+    our_division_entry = next(
+        (d for d in division if d.get("is_us")), None
+    )
+    team_gb = our_division_entry.get("gb") if our_division_entry else None
+
     team_summary = {
         "record": {"w": w, "l": l},
         "place": place,
+        "gb": team_gb,
         "last10": last10_from_records(us_record.get("records", {})),
         "streak": us_record.get("streak", {}).get("streakCode", ""),
         "runs_scored": rs,

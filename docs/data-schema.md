@@ -131,6 +131,7 @@ Team-level season summary: record, place in division, run differential, pythagor
 {
   "record": { "w": 27, "l": 29 },
   "place": "3rd in AL East",
+  "gb": 8.5,
   "last10": "6-4",
   "streak": "W2",
   "runs_scored": 226,
@@ -141,7 +142,7 @@ Team-level season summary: record, place in division, run differential, pythagor
 }
 ```
 
-**Source:** Built in `main()` from `find_us_team_record(div_record, cfg)`. Pythagorean expected wins/losses computed by `pythag(rs, ra, games_played)` (`fetch_data.py`, around line 1058). Upstream endpoint: `/standings` (`leagueId`, `season`).
+**Source:** Built in `main()` from `find_us_team_record(div_record, cfg)`. Pythagorean expected wins/losses computed by `pythag(rs, ra, games_played)` (`fetch_data.py`, around line 1058). `gb` is denormalized off the `division[]` entry where `is_us == True` (F2 / COG-366 — Overview Record KPI footer needs it without traversing into `division`). Upstream endpoint: `/standings` (`leagueId`, `season`).
 
 **Consumed by:** `renderOverview` (`index.html:647`) — KPI cards row across the top of the Overview tab. Also `renderTeam` (`index.html:1087`).
 
@@ -152,6 +153,7 @@ Team-level season summary: record, place in division, run differential, pythagor
 | `record.w` | `int` | Wins. |
 | `record.l` | `int` | Losses. |
 | `place` | `str` | Rank phrase, e.g. `"3rd in AL East"`. |
+| `gb` | `float \| str \| None` | Games back from the division leader. `0` or `"-"` for the leader; `None` if upstream omitted it. Denormalized from `division[is_us].gb`. |
 | `last10` | `str` | Last 10 games as `"W-L"`, e.g. `"6-4"`. |
 | `streak` | `str` | Current win/loss streak, e.g. `"W2"` or `"L3"`. |
 | `runs_scored` | `int` | Season runs scored. |
@@ -473,6 +475,10 @@ The active 26-man roster split into hitters and pitchers, each row carrying seas
       "id": 665926,
       "name": "Andrés Giménez",
       "pos": "SS",
+      "bats": "L",
+      "age": 27,
+      "height": "5' 11\"",
+      "weight": 161,
       "ab": 180,
       "avg": ".222",
       "obp": ".260",
@@ -489,6 +495,10 @@ The active 26-man roster split into hitters and pitchers, each row carrying seas
       "id": 671936,
       "name": "Adam Macko",
       "role": "P",
+      "throws": "L",
+      "age": 25,
+      "height": "6' 0\"",
+      "weight": 195,
       "ip": "4.1",
       "era": "0.00",
       "whip": "0.92",
@@ -504,7 +514,7 @@ The active 26-man roster split into hitters and pitchers, each row carrying seas
 }
 ```
 
-**Source:** `transform_roster(roster_entries, cfg)` (`fetch_data.py:796`). For each player on the active roster, calls `fetch_player_season_stats(person_id, group, season)` (`fetch_data.py:535`) for season counters and `derive_recent_form(person_id, group, season, season_rate_str, stat_signature=...)` for the `recent` tag. Upstream endpoints: `/teams/{teamId}/roster?rosterType=active` for the list, then `/people/{personId}?hydrate=stats(group=X,type=season,...)` and `...type=gameLog,...` per player.
+**Source:** `transform_roster(roster_entries, cfg)` (`fetch_data.py:796`). For each player on the active roster, calls `fetch_player_season_stats(person_id, group, season)` (`fetch_data.py:535`) for season counters, `derive_recent_form(person_id, group, season, season_rate_str, stat_signature=...)` for the `recent` tag, and `fetch_player_bio(person_id)` (F2 / COG-366) for bats/throws/age/height/weight. Upstream endpoints: `/teams/{teamId}/roster?rosterType=active` for the list, then `/people/{personId}?hydrate=stats(group=X,type=season,...)` and `...type=gameLog,...` per player, plus the unhydrated `/people/{personId}` for bio fields.
 
 **Consumed by:** `renderPlayers` (`index.html:863`) — groups players into Starting Rotation (`gs >= 3`), Bullpen (others), Lineup Regulars (top hitters by AB), Bench / Depth (rest). Also `renderOverview` peeks at counts.
 
@@ -515,6 +525,10 @@ The active 26-man roster split into hitters and pitchers, each row carrying seas
 | `id` | `int` | MLB `personId`. Also the key used by `notes.json.players`. |
 | `name` | `str` | Full name (`fullName`). |
 | `pos` | `str` | Position abbreviation, e.g. `"SS"`, `"C"`, `"OF"`. |
+| `bats` | `"R" \| "L" \| "S" \| None` | Batting handedness (F2). `None` if MLB didn't surface `batSide.code`. Renders the "Bats R" segment of the modal meta line. |
+| `age` | `int \| None` | Player age in years (F2, `currentAge`). `None` skips the segment. |
+| `height` | `str \| None` | Display height, e.g. `"6' 2\""` (F2). |
+| `weight` | `int \| None` | Display weight in pounds (F2). |
 | `ab` | `int` | At-bats (season). |
 | `avg` | `str` | Batting average, pre-formatted `".XXX"`. |
 | `obp` | `str` | On-base percentage. |
@@ -535,6 +549,10 @@ The active 26-man roster split into hitters and pitchers, each row carrying seas
 | `id` | `int` | MLB `personId`. |
 | `name` | `str` | Full name. |
 | `role` | `str` | Position abbreviation, typically `"P"` (the dashboard splits SP/RP downstream based on `gs`). |
+| `throws` | `"R" \| "L" \| None` | Throwing handedness (F2). `None` if MLB didn't surface `pitchHand.code`. Renders the "Throws L" segment of the modal meta line. |
+| `age` | `int \| None` | Player age in years (F2). `None` skips the segment. |
+| `height` | `str \| None` | Display height (F2). |
+| `weight` | `int \| None` | Display weight in pounds (F2). |
 | `ip` | `str` | Innings pitched, pre-formatted `"NN.X"` (X is 0, 1, or 2 — third-of-an-inning notation). |
 | `era` | `str` | ERA, pre-formatted `"N.NN"` or `"-.--"`. |
 | `whip` | `str` | Walks + hits per inning pitched. |
