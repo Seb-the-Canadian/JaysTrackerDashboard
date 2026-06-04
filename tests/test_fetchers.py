@@ -329,3 +329,79 @@ def test_fetch_league_player_rankings_uses_qualified_player_pool(mocker, cfg):
     assert any(p[1].get("playerPool") == "Qualified" for p in captured_params)
     assert any(p[1].get("group") == "hitting" for p in captured_params)
     assert any(p[1].get("group") == "pitching" for p in captured_params)
+
+
+# --- fetch_player_bio (F2 — COG-366) -----------------------------------------
+
+def test_fetch_player_bio_extracts_batSide_pitchHand_age(mocker):
+    fetch_data._BIO_CACHE.clear()
+    mocker.patch("fetch_data.statsapi.get", return_value={
+        "people": [{
+            "id": 665489,
+            "fullName": "Vladimir Guerrero Jr.",
+            "batSide": {"code": "R", "description": "Right"},
+            "pitchHand": {"code": "R", "description": "Right"},
+            "currentAge": 27,
+            "height": "6' 2\"",
+            "weight": 250,
+        }],
+    })
+    bio = fetch_data.fetch_player_bio(665489)
+    assert bio == {
+        "bats": "R", "throws": "R", "age": 27,
+        "height": "6' 2\"", "weight": 250,
+    }
+
+
+def test_fetch_player_bio_handles_lefthanded_pitcher():
+    fetch_data._BIO_CACHE.clear()
+    # Build the response inline; pitchHand=L, no bats field on a pitcher.
+    import unittest.mock as mock
+    with mock.patch("fetch_data.statsapi.get", return_value={
+        "people": [{
+            "id": 592332,
+            "pitchHand": {"code": "L"},
+            "currentAge": 35,
+        }],
+    }):
+        bio = fetch_data.fetch_player_bio(592332)
+    assert bio.get("throws") == "L"
+    assert bio.get("age") == 35
+    assert "bats" not in bio  # absent — pitcher with no batSide field
+
+
+def test_fetch_player_bio_returns_empty_on_api_failure(mocker):
+    fetch_data._BIO_CACHE.clear()
+    mocker.patch("fetch_data.statsapi.get", side_effect=RuntimeError("statsapi down"))
+    assert fetch_data.fetch_player_bio(999999) == {}
+
+
+def test_fetch_player_bio_returns_empty_when_no_people_in_response(mocker):
+    fetch_data._BIO_CACHE.clear()
+    mocker.patch("fetch_data.statsapi.get", return_value={"people": []})
+    assert fetch_data.fetch_player_bio(123456) == {}
+
+
+def test_fetch_player_bio_caches_lookups(mocker):
+    """The in-process cache means multiple roster scans within one
+    fetch_data run don't refetch the same player."""
+    fetch_data._BIO_CACHE.clear()
+    api = mocker.patch("fetch_data.statsapi.get", return_value={
+        "people": [{"id": 665489, "currentAge": 27}],
+    })
+    fetch_data.fetch_player_bio(665489)
+    fetch_data.fetch_player_bio(665489)
+    fetch_data.fetch_player_bio(665489)
+    assert api.call_count == 1
+
+
+def test_fetch_player_bio_skips_missing_currentAge(mocker):
+    """If MLB doesn't surface currentAge for a callup, the field is
+    omitted entirely (rather than rendering as 0 or None in the modal)."""
+    fetch_data._BIO_CACHE.clear()
+    mocker.patch("fetch_data.statsapi.get", return_value={
+        "people": [{"id": 100001, "batSide": {"code": "R"}}],
+    })
+    bio = fetch_data.fetch_player_bio(100001)
+    assert bio.get("bats") == "R"
+    assert "age" not in bio
