@@ -106,14 +106,21 @@ async function withDelay(ctx, delayMs, route) {
     await ctx.close();
   }
 
-  // ----- T3: data.json failure → tab shows error panel + retry button -----
+  // ----- T3: data.json failure → data-gated tabs show error panel + retry -----
+  //
+  // Stat School is data-INDEPENDENT (PR-B / audit H8) — it depends on
+  // stat_school.json, not data.json — so the error panel must NOT
+  // mount on the stat-school tab when only data.json fails. The other
+  // three tabs (overview / players / team-stats) still gate on data
+  // availability.
   {
     const ctx = await browser.newContext({ viewport: { width: 1100, height: 900 } });
     await ctx.route('**/data.json', (req) => req.abort());
     const page = await ctx.newPage();
     await page.goto(BASE);
     await page.waitForTimeout(900);
-    for (const tab of TABS) {
+    const DATA_GATED = ['overview', 'players', 'team-stats'];
+    for (const tab of DATA_GATED) {
       await page.evaluate((t) => { window.location.hash = t; }, tab);
       await page.waitForTimeout(180);
       const has = await page.evaluate((tabId) => {
@@ -128,6 +135,21 @@ async function withDelay(ctx, delayMs, route) {
         `T3: data.json fail → #tab-${tab} shows error+retry`,
         `err=${has.err} retry=${has.retry}`);
     }
+    // Stat School: positive assertion that error panel is ABSENT.
+    await page.evaluate(() => { window.location.hash = 'stat-school'; });
+    await page.waitForTimeout(400);
+    const ssState = await page.evaluate(() => {
+      const r = document.getElementById('tab-stat-school');
+      if (!r) return { err: true, content: false };
+      return {
+        err: !!r.querySelector('.panel-error'),
+        content: !!document.getElementById('stat-school-keystone')
+              || !!r.querySelector('.exp[id^="ss-stat-"]'),
+      };
+    });
+    report(!ssState.err && ssState.content ? 'PASS' : 'FAIL',
+      'T3: data.json fail → #tab-stat-school renders (data-independent)',
+      `err=${ssState.err} content=${ssState.content}`);
     await ctx.close();
   }
 

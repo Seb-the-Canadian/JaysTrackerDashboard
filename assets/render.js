@@ -237,9 +237,10 @@
   // user returns to the tab and enough time has elapsed for fresh data
   // to exist, we re-fetch.
   //
-  // PR-B will fold this into a unified idempotent-install pattern; the
-  // module-level flag here is deliberately compatible with that future
-  // refactor.
+  // Idempotent install — calling init() again (from the error-panel
+  // Retry path) won't double-bind. PR-B aligned the rest of the hooks
+  // (hookThemeToggle, hookTabRouting, stat-school's hashchange listener)
+  // to the same pattern.
   function installVisibilityRefresh() {
     if (_visListenerInstalled) return;
     _visListenerInstalled = true;
@@ -256,8 +257,16 @@
   }
 
   // ---- Theme toggle hookup ----
+  //
+  // PR-B (audit H7): the error-panel Retry calls init() again, which
+  // would re-bind every listener and produce duplicate handlers per
+  // event. The module-level `_themeHooked` flag mirrors the pattern
+  // used by `installVisibilityRefresh` and modal.js.
 
+  let _themeHooked = false;
   function hookThemeToggle(state) {
+    if (_themeHooked) return;
+    _themeHooked = true;
     const btn = document.getElementById('theme-toggle');
     const glyph = document.getElementById('theme-glyph');
     function updateGlyph() {
@@ -276,9 +285,14 @@
     void state;
   }
 
+  let _tabsHooked = false;
   function hookTabRouting() {
-    // Initial render from hash.
+    // Initial render from hash always runs — that's idempotent on the
+    // DOM (showTab toggles classes; running twice is fine).
     showTab(parseTabFromHash());
+    // Listener install is once-only.
+    if (_tabsHooked) return;
+    _tabsHooked = true;
     window.addEventListener('hashchange', function () {
       showTab(parseTabFromHash());
     });
@@ -350,9 +364,16 @@
     // Per-tab dispatch. If a tab's required data is unavailable, render
     // the error panel so the user sees the failure (and a retry path)
     // rather than a stale skeleton or a blank section.
+    //
+    // PR-B (audit H8): Stat School is excluded from the data.json gate.
+    // Its content comes from stat_school.json — a separate, independent
+    // source — and its renderer manages its own loading state. Letting
+    // it render keeps the reference layer available even when the
+    // daily-refresh fetcher is having a bad day.
     const dataMissing = state.errors && state.errors.data;
-    const renderOrError = function (tabId, renderer) {
-      if (dataMissing) {
+    const renderOrError = function (tabId, renderer, opts) {
+      const requiresData = !(opts && opts.dataIndependent);
+      if (dataMissing && requiresData) {
         window.JaysDom.tabBody(tabId, TAB_TITLES[tabId] || tabId, function (root) {
           root.appendChild(window.JaysDom.errorPanel({
             message: 'Live data unavailable. Refresh may be in progress.',
@@ -366,7 +387,9 @@
     renderOrError('overview', window.JaysOverview && window.JaysOverview.render);
     renderOrError('players', window.JaysPlayers && window.JaysPlayers.render);
     renderOrError('team-stats', window.JaysTeamStats && window.JaysTeamStats.render);
-    renderOrError('stat-school', window.JaysStatSchool && window.JaysStatSchool.render);
+    renderOrError('stat-school',
+      window.JaysStatSchool && window.JaysStatSchool.render,
+      { dataIndependent: true });
 
     // Mark when the last data write happened — drives the
     // visibilitychange re-fetch cooldown (T21).
@@ -388,9 +411,10 @@
     hookThemeToggle({});
     hookIlChip({});
     hookTabRouting();
-    // Install the visibility-driven auto-refresh (T21). Idempotent —
-    // calling init() again (from the error-panel Retry path) won't
-    // double-bind. PR-B folds this into the unified hook pattern.
+    // Install the visibility-driven auto-refresh (T21). All hookers
+    // are idempotent (PR-B): calling init() again from the error-panel
+    // Retry path no longer double-binds theme-toggle / hashchange /
+    // visibilitychange listeners.
     installVisibilityRefresh();
     // 4. Await fetches, then replace skeletons with real content.
     loadAll().then(renderFromState);
