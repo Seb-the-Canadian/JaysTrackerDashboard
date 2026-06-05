@@ -948,17 +948,19 @@ def fetch_savant_barrels(team_abbrev, season):
             "barrel_pct": _fmt_pct(_first_present(row, _BARREL_COL_ALIASES)),
             "hardhit_pct": _fmt_pct(_first_present(row, _HARDHIT_COL_ALIASES)),
         }
-    # #29 diagnostic: Savant rotated the leaderboard id column — barrels come
-    # back but join by MLBAM id matches zero roster hitters. baseballsavant is
-    # unreachable from the dev container, so log the real CSV schema here to
-    # name the current id column (and the values in the columns we currently
-    # try) without guessing — the next refresh's log drives the precise fix.
+    # #29 diagnostic v2: the first version's "matched N/N" was misleading —
+    # it counted parsed rows, not roster matches (the actual signal). The
+    # first refresh confirmed `xMLBAMID` isn't in the CSV at all and
+    # `player_id` carries a tiny non-MLBAM int (e.g. '215'). Dump the full
+    # first row so the next refresh names exactly who '215' is — once we
+    # know, we either swap to a Savant endpoint that carries MLBAM or
+    # add a name-based fallback. baseballsavant is unreachable from the
+    # dev container, so this in-band diagnostic is the only way to see it.
     if rows:
         first = rows[0]
-        log("INFO: savant barrels schema — matched %d/%d rows; columns=%s; "
-            "player_id=%r xMLBAMID=%r"
-            % (len(out), len(rows), list(first.keys()),
-               first.get("player_id"), first.get("xMLBAMID")))
+        log("INFO: savant barrels schema — %d rows; columns=%s"
+            % (len(rows), list(first.keys())))
+        log("INFO: savant barrels first row=%r" % first)
     return out
 
 
