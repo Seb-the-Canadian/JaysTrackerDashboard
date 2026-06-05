@@ -744,6 +744,19 @@ def fetch_player_xstats(person_id, season):
                 for e in stats_entries
             ]
             log(f"INFO: xstats #117 — person_id={person_id}: stats entries={summary}")
+            # v2 follow-on: previous diag confirmed type+group+1 split — so
+            # the filter is matching. Now dump the actual split.stat dict so
+            # we can see which key xwOBA is published under (callers read
+            # xWoba / xwoba — those may have rotated). One more refresh
+            # names the right field, then we patch the lookup.
+            for e in stats_entries:
+                if (e.get("type") or {}).get("displayName") == "expectedStatistics" \
+                        and (e.get("group") or {}).get("displayName") == "hitting":
+                    sp = (e.get("splits") or [])
+                    if sp:
+                        log(f"INFO: xstats #117 — split.stat keys={list((sp[0].get('stat') or {}).keys())}")
+                        log(f"INFO: xstats #117 — split.stat={sp[0].get('stat')}")
+                    break
     people = response.get("people") or []
     if not people:
         return {}
