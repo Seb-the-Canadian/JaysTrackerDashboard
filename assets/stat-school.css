@@ -319,11 +319,11 @@
   position: relative;
   height: 12px;
   border-radius: var(--r-pill);
-  background: linear-gradient(90deg, var(--neg) 0%, #cdb89a 50%, var(--pos) 100%);
+  background: linear-gradient(90deg, var(--neg) 0%, var(--heat-neutral) 50%, var(--pos) 100%);
   opacity: .92;
 }
 .scale-track.rev {
-  background: linear-gradient(90deg, var(--pos) 0%, #cdb89a 50%, var(--neg) 100%);
+  background: linear-gradient(90deg, var(--pos) 0%, var(--heat-neutral) 50%, var(--neg) 100%);
 }
 .scale-track .avg {
   position: absolute;
@@ -461,15 +461,11 @@
 /* Honesty card */
 .honest {
   background: var(--analyst-tint);
-  border: 1px solid #e4d8bd;
+  border: 1px solid var(--analyst-edge);
   border-left: 3px solid var(--analyst);
   border-radius: var(--r3);
   box-shadow: var(--sh2);
   padding: 16px 18px;
-}
-[data-theme="dark"] .honest {
-  background: #221e16;
-  border-color: #36301f;
 }
 .honest h3 {
   margin: 0 0 7px;
@@ -481,10 +477,9 @@
   margin: 0;
   font-size: 13.5px;
   line-height: 1.55;
-  color: #4a4332;
+  color: var(--analyst-ink-body);
   max-width: 64ch;
 }
-[data-theme="dark"] .honest p { color: #cabfa6; }
 .honest .by {
   margin-top: 11px;
   font-family: var(--mono);

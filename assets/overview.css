@@ -143,10 +143,9 @@
 .analyst-body {
   font-size: 14.5px;
   line-height: 1.6;
-  color: #4a4332;
+  color: var(--analyst-ink-body);
   margin: 0 0 14px;
 }
-[data-theme="dark"] .analyst-body { color: #cabfa6; }
 .analyst-body .term { border-bottom-color: var(--analyst); }
 
 .byline {
