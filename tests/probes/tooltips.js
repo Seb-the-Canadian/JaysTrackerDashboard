@@ -320,6 +320,66 @@ async function openHitterModal(page) {
     await ctx.close();
   }
 
+  // ----- T10: Phase 3 — Overview .opp tiles carry data-team -----
+  //
+  // Recent + upcoming game cards on the Overview tab wrap their .opp tile
+  // with data-team="ABBR". Verifies the wiring; doesn't require resolution
+  // (T11 covers that).
+  {
+    const { ctx, page } = await loadPage(browser);
+    await page.evaluate(() => { window.location.hash = 'overview'; });
+    await page.waitForTimeout(400);
+    const counts = await page.evaluate(() => ({
+      oppTiles: document.querySelectorAll('.game .opp').length,
+      wired: document.querySelectorAll('.game .opp[data-team]').length,
+      stRows: document.querySelectorAll('.st-row .abbr').length,
+      stWired: document.querySelectorAll('.st-row .abbr[data-team]').length,
+    }));
+    const ok = counts.oppTiles > 0 && counts.oppTiles === counts.wired
+      && counts.stRows > 0 && counts.stRows === counts.stWired;
+    report(ok ? 'PASS' : 'FAIL',
+      'T10: every Overview .opp tile + .abbr row carries data-team',
+      `opp=${counts.wired}/${counts.oppTiles} abbr=${counts.stWired}/${counts.stRows}`);
+    await ctx.close();
+  }
+
+  // ----- T11: Phase 3 — clicking a team trigger opens a team tooltip -----
+  //
+  // The tooltip uses the same singleton bubble + a11y wiring, but content
+  // is team-shaped: head (abbr + full name) + division line. Verifies the
+  // dispatch path through JaysTeamRegistry.
+  {
+    const { ctx, page } = await loadPage(browser);
+    await page.evaluate(() => { window.location.hash = 'overview'; });
+    await page.waitForTimeout(400);
+    // dispatch click via evaluate so we don't fight pointer events; the
+    // delegation path is identical either way.
+    const result = await page.evaluate(() => {
+      const t = document.querySelector('.st-row .abbr[data-team]') ||
+        document.querySelector('.game .opp[data-team]');
+      if (!t) return { found: false };
+      t.click();
+      const tip = document.getElementById('jays-tooltip');
+      if (!tip || tip.hidden) return { found: true, opened: false };
+      return {
+        found: true,
+        opened: true,
+        team: t.getAttribute('data-team'),
+        hasAbbr: !!tip.querySelector('.tip-abbr'),
+        hasName: !!tip.querySelector('.tip-name'),
+        hasMeta: !!tip.querySelector('.tip-team-meta'),
+        // Stat-only "Read more" link should NOT appear on team tooltips.
+        noStatLink: !tip.querySelector('.tip-more'),
+      };
+    });
+    const ok = result.opened && result.hasAbbr && result.hasName
+      && result.hasMeta && result.noStatLink;
+    report(ok ? 'PASS' : 'FAIL',
+      'T11: team trigger opens a team tooltip (head + division)',
+      JSON.stringify(result));
+    await ctx.close();
+  }
+
   const fails = findings.filter((f) => f.level === 'FAIL');
   console.log(`\ntooltips: ${findings.length - fails.length}/${findings.length} pass`);
   await browser.close();

@@ -65,11 +65,20 @@
 
   // ---- Content -------------------------------------------------------------
 
-  // Build tooltip HTML for a stat slug. Returns '' when the registry has
-  // no entry (caller no-ops). The "Read more" link points at the existing
-  // Stat School deep-link route, so a click navigates without us needing
-  // to reach into stat-school.js.
-  function buildContent(slug) {
+  // Build tooltip HTML for a trigger element. Returns '' when no subject
+  // resolves (caller no-ops). Dispatches on which `data-*` attribute the
+  // trigger carries: data-stat → JaysStatRegistry; data-team →
+  // JaysTeamRegistry. The split keeps each subject's render concerns
+  // separate while sharing the singleton bubble + a11y wiring.
+  function buildContent(trigger) {
+    const stat = trigger.getAttribute('data-stat');
+    if (stat) return buildStatContent(stat);
+    const team = trigger.getAttribute('data-team');
+    if (team) return buildTeamContent(team);
+    return '';
+  }
+
+  function buildStatContent(slug) {
     const stat = window.JaysStatRegistry.get(slug);
     if (!stat) return '';
     const escapeHtml = window.JaysFormat.escapeHtml;
@@ -103,6 +112,18 @@
     html += '<a class="tip-more" href="#stat-' + targetSlug + '">'
       + 'Read more in Stat School →</a>';
     return html;
+  }
+
+  function buildTeamContent(abbrev) {
+    if (!window.JaysTeamRegistry) return '';
+    const team = window.JaysTeamRegistry.get(abbrev);
+    if (!team) return '';
+    const escapeHtml = window.JaysFormat.escapeHtml;
+    return '<div class="tip-head">'
+      +   '<span class="tip-abbr">' + escapeHtml(String(abbrev).toUpperCase()) + '</span>'
+      +   ' <span class="tip-name">' + escapeHtml(team.name) + '</span>'
+      + '</div>'
+      + '<p class="tip-team-meta">' + escapeHtml(team.division) + '</p>';
   }
 
   // ---- Positioning ---------------------------------------------------------
@@ -141,10 +162,8 @@
   // ---- Open / close --------------------------------------------------------
 
   function openOn(trigger, source) {
-    const slug = trigger.getAttribute('data-stat');
-    if (!slug) return;
-    const html = buildContent(slug);
-    if (!html) return;                       // unknown slug → silent no-op
+    const html = buildContent(trigger);
+    if (!html) return;                       // unknown subject → silent no-op
     const t = ensureTip();
     t.innerHTML = html;
     t.hidden = false;
@@ -196,10 +215,16 @@
 
   // ---- Trigger lookup ------------------------------------------------------
 
+  // A tooltip trigger is any element carrying either data-stat or
+  // data-team. The pre-Phase-3 selector required class="term" for stats;
+  // we keep that for stat surfaces (the dotted-underline visual lives on
+  // .term), but team triggers use whatever container the surface already
+  // had — .opp tiles, .abbr spans — so we don't have to restyle each.
+  const TRIGGER_SELECTOR = '.term[data-stat],[data-team]';
   function triggerFromEvent(e) {
     const el = e.target;
     if (!el || !el.closest) return null;
-    return el.closest('.term[data-stat]');
+    return el.closest(TRIGGER_SELECTOR);
   }
 
   // ---- Event delegation ----------------------------------------------------
@@ -299,7 +324,7 @@
     // Make every existing `.term[data-stat]` keyboard-focusable. A MutationObserver
     // keeps later renders covered without each module having to call us.
     function makeFocusable(root) {
-      const nodes = (root || document).querySelectorAll('.term[data-stat]');
+      const nodes = (root || document).querySelectorAll(TRIGGER_SELECTOR);
       for (let i = 0; i < nodes.length; i++) {
         if (!nodes[i].hasAttribute('tabindex')) nodes[i].setAttribute('tabindex', '0');
       }

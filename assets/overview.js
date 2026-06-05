@@ -389,7 +389,10 @@
       + (g.winning_pitcher ? ' · ' + g.winning_pitcher.split(' ').slice(-1)[0] : '');
     const cls = g.result === 'W' ? 'w' : 'l';
     return el('div', { class: 'game' }, [
-      el('span', { class: 'opp' }, (g.home ? '' : '@') + opp),
+      // data-team carries just the abbrev (without '@'), so the tooltip
+      // resolves cleanly via JaysTeamRegistry — see #114 Phase 3.
+      el('span', { class: 'opp', 'data-team': opp,
+        'aria-label': 'Opponent ' + opp }, (g.home ? '' : '@') + opp),
       el('span', { class: 'meta' }, [
         // Bug M4: dropped the redundant '@ ' prefix; the .opp tile
         // already carries the home/away indicator.
@@ -449,7 +452,8 @@
     }
 
     return el('div', { class: 'game' }, [
-      el('span', { class: 'opp' }, (g.home ? '' : '@') + opp),
+      el('span', { class: 'opp', 'data-team': opp,
+        'aria-label': 'Opponent ' + opp }, (g.home ? '' : '@') + opp),
       el('span', { class: 'meta' }, [
         document.createTextNode((g.home ? 'vs ' : 'at ') + opp),
         el('small', null, sub),
@@ -474,8 +478,10 @@
         const right = t.is_us && t.gb && t.gb !== '-'
           ? el('span', { class: 'gb-tag' }, t.gb + ' GB')
           : el('span', { class: 'rec' }, w + '–' + (t.l || 0));
+        const abbr = abbreviate(t.team);
         return el('div', { class: 'st-row' + (t.is_us ? ' me' : '') }, [
-          el('span', { class: 'abbr' }, abbreviate(t.team)),
+          el('span', { class: 'abbr', 'data-team': abbr,
+            'aria-label': 'Team ' + abbr }, abbr),
           el('span', { class: 'st-bar' }, el('i', { style: 'width:' + pct.toFixed(1) + '%' })),
           right,
         ]);
@@ -505,9 +511,11 @@
     inSeeds.forEach(function (t) {
       const seedMatch = (t.note || '').match(/(\d+)/);
       const seed = seedMatch ? 'WC' + seedMatch[1] : '';
+      const abbr = abbreviate(t.team);
       body.push(el('div', { class: 'wc-row' + (t.is_us ? ' me' : '') }, [
         el('span', { class: 'seed' }, seed),
-        el('span', { class: 'abbr' }, abbreviate(t.team)),
+        el('span', { class: 'abbr', 'data-team': abbr,
+          'aria-label': 'Team ' + abbr }, abbr),
         el('span', { class: 'rc' }, (t.w || 0) + '–' + (t.l || 0)),
         el('span', { class: 'gb' }, t.gb || '—'),
       ]));
@@ -520,9 +528,11 @@
     ]));
     // Show only first 4 of out to keep panel compact
     out.slice(0, 4).forEach(function (t) {
+      const abbr = abbreviate(t.team);
       body.push(el('div', { class: 'wc-row' + (t.is_us ? ' me' : '') }, [
         el('span', { class: 'seed' }, ' '),
-        el('span', { class: 'abbr' }, abbreviate(t.team)),
+        el('span', { class: 'abbr', 'data-team': abbr,
+          'aria-label': 'Team ' + abbr }, abbr),
         el('span', { class: 'rc' }, (t.w || 0) + '–' + (t.l || 0)),
         el('span', { class: 'gb' }, t.gb || '—'),
       ]));

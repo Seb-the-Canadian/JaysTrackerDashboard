@@ -92,11 +92,23 @@
   border-radius: 2px;
 }
 
+/* Team tooltip body — single division line under the head (Phase 3). */
+.tip .tip-team-meta {
+  margin: 0;
+  font-size: 12px;
+  color: var(--ink-3);
+}
+
 /* Match the dashed-term affordance so the tooltip's focus ring sits on the
    correct trigger element. The .term styles already exist per-tab; this
    only ensures the visible ring for keyboard users. */
-.term[data-stat]:focus-visible {
+.term[data-stat]:focus-visible,
+[data-team]:focus-visible {
   outline: 2px solid var(--team-primary-ink);
   outline-offset: 2px;
   border-radius: 2px;
 }
+/* Team triggers carry their own surface styling (.opp tile, .abbr badge);
+   the only addition Phase 3 needs is the help cursor so the affordance is
+   visible. Per-surface CSS keeps owning shape/color. */
+[data-team] { cursor: help; }
