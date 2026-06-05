@@ -33,6 +33,17 @@
     return e;
   }
 
+  // Wrap a label as a tooltip-aware .term span only when the slug has an
+  // entry in stat_school.json. Otherwise return a plain text node so the
+  // affordance (dotted underline + cursor:help) doesn't surface a dead
+  // click target (issue #125). render.js awaits JaysStatRegistry.load()
+  // before this runs, so the check is truthful at emit time.
+  function termOrText(label, slug) {
+    const hasTip = slug && window.JaysStatRegistry && window.JaysStatRegistry.has(slug);
+    if (!hasTip) return document.createTextNode(label);
+    return el('span', { class: 'term', 'data-stat': slug }, label);
+  }
+
   function abbreviate(teamName, fallback) {
     // Heuristic 3-letter abbr from a team name. Used for opponent tiles
     // when MLB Stats API hasn't given us the abbr directly.
@@ -112,7 +123,7 @@
       runDiffKpi(team),
       // ----- Pythag card
       el('div', { class: 'kpi' }, [
-        el('p', { class: 'kl' }, [el('span', { class: 'term', 'data-stat': 'pythag' }, 'Pythag'), document.createTextNode(' projection')]),
+        el('p', { class: 'kl' }, [termOrText('Pythag', 'pythag'), document.createTextNode(' projection')]),
         kpiSimple(pythag162, 'W'),
         el('p', { class: 'kf' }, [
           document.createTextNode('Expected from run diff.'),
@@ -168,7 +179,7 @@
     const raPct = (ra / max) * 100;
 
     return el('div', { class: 'kpi' }, [
-      el('p', { class: 'kl' }, [document.createTextNode('Run '), el('span', { class: 'term', 'data-stat': 'run-differential' }, 'differential')]),
+      el('p', { class: 'kl' }, [document.createTextNode('Run '), termOrText('differential', 'run-differential')]),
       kpiSimple(F.signed(diff), null),
       el('div', { class: 'diffmini' }, [
         el('div', { class: 'row' }, [

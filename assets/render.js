@@ -419,7 +419,15 @@
     // visibilitychange listeners.
     installVisibilityRefresh();
     // 4. Await fetches, then replace skeletons with real content.
-    loadAll().then(renderFromState);
+    //    Stat registry joins the gate (issue #125): renderers gate the
+    //    `.term[data-stat]` affordance on JaysStatRegistry.has(slug), so
+    //    the registry must be in memory before any tab renders. Without
+    //    this await, the gate would read empty on first paint and every
+    //    documented stat would lose its tooltip until a re-render.
+    Promise.all([
+      loadAll(),
+      window.JaysStatRegistry ? window.JaysStatRegistry.load() : Promise.resolve(),
+    ]).then(function (parts) { renderFromState(parts[0]); });
   }
 
   if (document.readyState === 'loading') {

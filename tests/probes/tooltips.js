@@ -14,6 +14,11 @@
      T6  REGRESSION GUARD — no .term[data-stat] exists without working
          tooltip wiring (no dead cursor:help affordance)
      T7  a11y — open tooltip wires aria-describedby; close removes it
+   T12 issue #125 — rank-row stats without stat_school.json entries do
+       NOT carry the .term/data-stat affordance (no dead cursor:help)
+   T13 issue #125 acceptance — every visible .term[data-stat] resolves
+       to a non-empty tooltip (no slug ever surfaces the affordance
+       without a registry-backed tooltip)
 
    Run from repo root with a static server up at :8000:
      python3 -m http.server 8000 &
@@ -377,6 +382,116 @@ async function openHitterModal(page) {
     report(ok ? 'PASS' : 'FAIL',
       'T11: team trigger opens a team tooltip (head + division)',
       JSON.stringify(result));
+    await ctx.close();
+  }
+
+  // ----- T12: issue #125 — unbacked rank-row slugs lose .term affordance -----
+  //
+  // Slugs without a stat_school.json entry (hr/rbi/sb/k9/bb9/ip/hardhit_pct
+  // at time of writing) used to render the dotted underline + cursor:help
+  // but click silently no-opened. The fix gates the .term wrap on
+  // JaysStatRegistry.has(). Verify those rank-row labels render as plain
+  // text (no .term wrapper) while ops/era/whip — which ARE backed — keep
+  // the affordance.
+  {
+    const { ctx, page } = await loadPage(browser);
+    // Walk both a hitter and a pitcher modal to cover both rank-row lists.
+    await page.evaluate(() => { window.location.hash = 'players'; });
+    await page.waitForTimeout(400);
+    const ids = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('.pcard')).map(c => c.dataset.playerId));
+    const seen = { hitter: false, pitcher: false };
+    const labels = {};   // { slug-or-name: { hasTermClass: bool } }
+    for (const id of ids) {
+      if (seen.hitter && seen.pitcher) break;
+      await page.evaluate((pid) => { window.location.hash = 'player-' + pid; }, id);
+      await page.waitForTimeout(180);
+      const modalState = await page.evaluate(() => {
+        const scrim = document.querySelector('#player-modal-scrim.show');
+        if (!scrim) return null;
+        const isHitter = !!scrim.querySelector('.modal-statcast');
+        const rows = Array.from(scrim.querySelectorAll('.ctx-row .ctx-name'));
+        const out = rows.map((nameCell) => {
+          // The label is either a .term span (affordance present) or a
+          // bare text node (no affordance). Look at the first child to tell.
+          const termEl = nameCell.querySelector('.term[data-stat]');
+          if (termEl) return { slug: termEl.getAttribute('data-stat'), termed: true };
+          const txt = (nameCell.textContent || '').trim().split(/\s+/)[0];
+          return { slug: txt.toLowerCase(), termed: false };
+        });
+        return { isHitter, out };
+      });
+      if (!modalState) continue;
+      const role = modalState.isHitter ? 'hitter' : 'pitcher';
+      if (seen[role]) continue;
+      seen[role] = true;
+      modalState.out.forEach((r) => { labels[role + ':' + r.slug] = r.termed; });
+    }
+    // Backed slugs (in registry) must keep .term affordance.
+    const backedExpect = {
+      'hitter:ops': true,
+      'pitcher:era': true,
+      'pitcher:whip': true,
+    };
+    // Unbacked slugs (not in registry) must NOT carry .term.
+    // Note: when a slug renders as plain text, its row label appears as
+    // "Home", "Stolen", "RBI", "K/9", "BB/9", "IP" — match those forms.
+    const unbackedExpect = {
+      'hitter:home': false,   // "Home runs" -> first word
+      'hitter:rbi': false,
+      'hitter:stolen': false, // "Stolen bases"
+      'pitcher:k/9': false,
+      'pitcher:bb/9': false,
+      'pitcher:ip': false,
+    };
+    const issues = [];
+    for (const k in backedExpect) {
+      if (labels[k] !== true) issues.push(k + '=expected termed, got ' + labels[k]);
+    }
+    for (const k in unbackedExpect) {
+      // Tolerate missing (rank row may have dropped if value was null);
+      // only fail when the row IS present AND carries the .term affordance.
+      if (labels[k] === true) issues.push(k + '=expected plain, got termed');
+    }
+    report(issues.length === 0 ? 'PASS' : 'FAIL',
+      'T12: issue #125 — unbacked slugs lose .term affordance, backed slugs keep it',
+      issues.length === 0
+        ? `hitter=${seen.hitter} pitcher=${seen.pitcher} labels=${JSON.stringify(labels)}`
+        : issues.join(' / '));
+    await ctx.close();
+  }
+
+  // ----- T13: issue #125 acceptance — every visible .term[data-stat] opens -----
+  //
+  // Walk every tab + every modal that produces .term[data-stat], collect
+  // distinct slugs, and verify each opens a non-empty tooltip via the
+  // synchronous JaysStatRegistry.get() path. Failure here means a slug
+  // leaked through the affordance gate.
+  {
+    const { ctx, page } = await loadPage(browser);
+    for (const h of ['overview', 'players', 'team-stats', 'stat-school']) {
+      await page.evaluate((hh) => { window.location.hash = hh; }, h);
+      await page.waitForTimeout(250);
+    }
+    // Sample a few modal opens too, to cover the rank-row terms.
+    const ids = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('.pcard')).map(c => c.dataset.playerId).slice(0, 3));
+    for (const id of ids) {
+      await page.evaluate((pid) => { window.location.hash = 'player-' + pid; }, id);
+      await page.waitForTimeout(180);
+    }
+    const result = await page.evaluate(() => {
+      const slugs = Array.from(new Set(
+        Array.from(document.querySelectorAll('.term[data-stat]'))
+          .map((n) => n.getAttribute('data-stat'))
+      ));
+      const unresolved = slugs.filter((s) =>
+        !window.JaysStatRegistry || !window.JaysStatRegistry.has(s));
+      return { slugs, unresolved };
+    });
+    report(result.unresolved.length === 0 ? 'PASS' : 'FAIL',
+      'T13: issue #125 acceptance — every .term[data-stat] resolves in registry',
+      `slugs=${result.slugs.length} unresolved=${result.unresolved.join(',') || 'none'}`);
     await ctx.close();
   }
 

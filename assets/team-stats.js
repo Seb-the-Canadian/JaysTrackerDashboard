@@ -181,9 +181,17 @@
 
       const row = document.createElement('div');
       row.className = 'tbl-row';
+      // Suppress the dotted-underline affordance when stat_school.json has
+      // no entry for this slug (issue #125). Without the gate, ledger rows
+      // for hr/k9/bb9/runs/hardhit_pct etc. carry cursor:help but click
+      // opens nothing.
+      const hasTip = window.JaysStatRegistry && window.JaysStatRegistry.has(slug);
+      const labelHtml = hasTip
+        ? '<span class="term" data-stat="' + slug + '">' + (def.label || slug) + '</span>'
+        : (def.label || slug);
       row.innerHTML = ''
         + '<div class="c-stat">'
-        +   '<span class="term" data-stat="' + slug + '">' + (def.label || slug) + '</span>'
+        +   labelHtml
         +   (def.statcast ? ' <span class="sc">Statcast</span>' : '')
         + '</div>'
         + '<div class="c-val">' + (s.val == null ? '—' : s.val) + '</div>'

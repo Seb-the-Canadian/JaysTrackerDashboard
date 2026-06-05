@@ -112,7 +112,11 @@
       b.textContent = (v == null || v === '' || v === '-.--') ? '—' : v;
       cell.appendChild(b);
       const small = document.createElement('small');
-      if (entry[3]) {
+      // Gate the .term affordance on stat_school.json having an entry
+      // (issue #125). Tightens the original `if (entry[3])` guard from
+      // "slug present" to "slug present AND documented".
+      const hasTip = entry[3] && window.JaysStatRegistry && window.JaysStatRegistry.has(entry[3]);
+      if (hasTip) {
         const labelSpan = document.createElement('span');
         labelSpan.className = 'term';
         labelSpan.setAttribute('data-stat', entry[3]);

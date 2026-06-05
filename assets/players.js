@@ -268,12 +268,20 @@
         // Wrap label in .term[data-stat] so the tooltip module picks it up.
         // The OPS lead cell carries a percentile suffix; render it as a
         // sibling text node so the tooltip trigger stays a tight token.
+        // Gate the affordance on JaysStatRegistry.has() — without it, a
+        // slug not yet in stat_school.json would still surface a dotted
+        // underline + cursor:help that opens nothing (issue #125).
         const small = document.createElement('small');
-        const labelSpan = document.createElement('span');
-        labelSpan.className = 'term';
-        labelSpan.setAttribute('data-stat', entry[0]);
-        labelSpan.textContent = entry[1];
-        small.appendChild(labelSpan);
+        const hasTip = window.JaysStatRegistry && window.JaysStatRegistry.has(entry[0]);
+        if (hasTip) {
+          const labelSpan = document.createElement('span');
+          labelSpan.className = 'term';
+          labelSpan.setAttribute('data-stat', entry[0]);
+          labelSpan.textContent = entry[1];
+          small.appendChild(labelSpan);
+        } else {
+          small.appendChild(document.createTextNode(entry[1]));
+        }
         const opsPct = F.rankPercentile(myRanks.ops, pool);
         if (entry[2] && opsPct != null) {
           small.appendChild(document.createTextNode(
@@ -316,7 +324,12 @@
           : (player[entry[0]] || '—');
         cell.appendChild(b);
         const small = document.createElement('small');
-        if (entry[3]) {
+        // Same registry gate as the hitter slash line — emit .term only
+        // when stat_school.json documents the slug (issue #125). The
+        // existing entry[3] guard already kept K and W-L plain; the
+        // registry check tightens the contract to "documented or plain".
+        const hasTip = entry[3] && window.JaysStatRegistry && window.JaysStatRegistry.has(entry[3]);
+        if (hasTip) {
           const labelSpan = document.createElement('span');
           labelSpan.className = 'term';
           labelSpan.setAttribute('data-stat', entry[3]);
@@ -387,13 +400,15 @@
   // so the modal omits the line entirely rather than showing three dashes.
   const STATCAST_PLACEHOLDERS = { '': 1, '—': 1, '.---': 1, '---': 1, 'null': 1 };
   function buildStatcastLine(player) {
-    // Tuple: [label, value, slug]. slug enables the tooltip when
-    // stat_school.json documents the stat; hardhit_pct isn't there yet so
-    // its label stays a plain text token (no false affordance).
+    // Tuple: [label, value, slug]. The slug threads to the tooltip when
+    // stat_school.json documents the stat; the affordance gate further
+    // down (JaysStatRegistry.has) keeps the dotted underline off unbacked
+    // slugs (issue #125). Always pass the slug so the affordance appears
+    // automatically once a maintainer authors the entry.
     const metrics = [
       ['xwOBA', player.xwoba, 'xwoba'],
       ['Barrel%', player.barrel_pct, 'barrel_pct'],
-      ['Hard-hit%', player.hardhit_pct, null],
+      ['Hard-hit%', player.hardhit_pct, 'hardhit_pct'],
     ].filter(function (m) {
       return m[1] != null && !STATCAST_PLACEHOLDERS[String(m[1]).trim()];
     });
@@ -403,7 +418,13 @@
     line.className = 'modal-statcast';
     let html = '<span class="ms-label">Statcast</span>';
     metrics.forEach(function (m) {
-      const labelHtml = m[2]
+      // Affordance gate (issue #125): wrap with .term[data-stat] only when
+      // both a slug exists AND the registry has an entry. The old code
+      // gated on slug presence alone, which left hardhit_pct as a deliberate
+      // null but still allowed any future slug-without-entry to leak the
+      // dead affordance.
+      const hasTip = m[2] && window.JaysStatRegistry && window.JaysStatRegistry.has(m[2]);
+      const labelHtml = hasTip
         ? '<span class="term" data-stat="' + escapeHtml(m[2]) + '">'
           + escapeHtml(m[0]) + '</span>'
         : escapeHtml(m[0]);
@@ -445,13 +466,19 @@
         + '<small class="pctl"> %ile</small>'
       : '<span style="color:var(--ink-4)">—</span>';
 
-    // data-stat is the JaysTooltip / stat-registry join key. Always emit
-    // when we have a slug — the registry resolves to stat_school.json or
-    // no-ops if the slug isn't documented yet.
-    const slugAttr = slug ? ' data-stat="' + escapeHtml(slug) + '"' : '';
+    // Gate the dotted-underline affordance (.term + data-stat) on whether
+    // stat_school.json actually documents this slug — without the gate, slugs
+    // like hr/rbi/sb/k9/bb9/ip render the dotted underline + cursor:help
+    // but the tooltip silently no-ops (issue #125). Renderers must run after
+    // the registry loads; render.js awaits JaysStatRegistry.load() before
+    // dispatching tab renders, so by emit time has() is truthful.
+    const hasTip = slug && window.JaysStatRegistry && window.JaysStatRegistry.has(slug);
+    const labelHtml = hasTip
+      ? '<span class="term" data-stat="' + escapeHtml(slug) + '">' + name + '</span>'
+      : name;
     row.innerHTML = ''
       + '<div class="ctx-name">'
-      +   '<span class="term"' + slugAttr + '>' + name + '</span>'
+      +   labelHtml
       +   (isStatcast ? ' <span class="sc">Statcast</span>' : '')
       + '</div>'
       + '<div class="ctx-val">' + (val == null ? '—' : val) + '</div>'
