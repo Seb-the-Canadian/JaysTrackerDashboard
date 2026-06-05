@@ -75,7 +75,11 @@ async function load(browser) {
       const small = game ? game.querySelector('.meta small') : null;
       return small ? small.textContent : null;
     });
-    const ok = ctxText && /30-30/.test(ctxText) && /AL East/.test(ctxText);
+    // En-dash (U+2013) is the typographic convention for the W–L record
+    // separator; renderer normalizes the ASCII hyphen MLB ships (V15 audit
+    // fix). Accept either glyph so the probe doesn't pin a single
+    // representation of the same data.
+    const ok = ctxText && /30[-–]30/.test(ctxText) && /AL East/.test(ctxText);
     report(ok ? 'PASS' : 'FAIL', 'O1: upcoming card shows opponent record + place',
       `text="${ctxText}"`);
     await ctx.close();
