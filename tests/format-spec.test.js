@@ -55,9 +55,11 @@ test('baseballDecimal: out-of-domain inputs → DASH', () => {
 
 // ---- signed ----
 
-test('signed: positive gets +, negative keeps -, zero is "0"', () => {
+test('signed: positive gets +, negative gets U+2212 minus, zero is "0"', () => {
   assert.strictEqual(F.signed(5), '+5');
-  assert.strictEqual(F.signed(-3), '-3');
+  // U+2212 MINUS SIGN — sits at typographic midline, aligns with "+";
+  // see V10 audit finding: ASCII hyphen-minus rendered low at display sizes.
+  assert.strictEqual(F.signed(-3), '−3');
   assert.strictEqual(F.signed(0), '0');
 });
 test('signed: out-of-domain → DASH', () => {

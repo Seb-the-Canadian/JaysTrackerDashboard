@@ -51,7 +51,11 @@
   }
 
   /**
-   * Signed value display: "+5", "-3", "0".
+   * Signed value display: "+5", "−3", "0".
+   * Uses U+2212 MINUS SIGN for the negative branch — sits at the typographic
+   * midline and aligns visually with the "+", unlike U+002D HYPHEN-MINUS
+   * which renders low at large display sizes (V10 audit finding: the 46px
+   * run-differential KPI tile read as "underscore-7" with ASCII -).
    * @domain any finite number.
    * @returns formatted string, or DASH if out-of-domain.
    */
@@ -59,7 +63,8 @@
     if (!isFiniteNumber(value)) return DASH;
     var n = Number(value);
     if (n === 0) return '0';
-    return (n > 0 ? '+' : '') + n;
+    if (n > 0) return '+' + n;
+    return '−' + Math.abs(n);
   }
 
   /**

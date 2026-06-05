@@ -154,17 +154,65 @@ opposing-pitcher modal.
 
 ### Filed as issues (non-trivial)
 
-| # | Issue | Why deferred |
-|---|---|---|
-| V6 | Radius-scale gap — 34 `border-radius` literals; `3px` used 10× with no `--r*` token equivalent. | Same — needs decision on `--r-chip` or similar. |
+(All previously-filed issues from this matrix have been resolved — see section below.)
 
 ### Resolved in later passes
 
 | # | Finding | Resolution |
 |---|---|---|
-| V5 | Type-scale gaps — 117 `font-size` literals; 51 of them are the four sizes `11/12/13/10px` (each used 10–19 times) but no token covers that range. | Added four intermediate type tokens to `tokens.css` (`--t-row: 13px`, `--t-secondary: 12px`, `--t-meta: 11px`, `--t-micro: 10px`) using the existing role-based naming pattern. Replaced 72 literals across `overview.css` / `players.css` / `team-stats.css` / `stat-school.css` / `tooltip.css` — the four target sizes (53 sites) plus existing-token-match drift on `10.5px` → `--t-label` (6), `12.5px` → `--t-small` (7), `14px` → `--t-body` (6). PR #127 / issue #123. |
+| V5 | Type-scale gaps — 117 `font-size` literals; 51 of them are the four sizes `11/12/13/10px` (each used 10–19 times) but no token covers that range. | Added four intermediate type tokens to `tokens.css` (`--t-row: 13px`, `--t-secondary: 12px`, `--t-meta: 11px`, `--t-micro: 10px`) using the existing role-based naming pattern. Replaced 72 literals across `overview.css` / `players.css` / `team-stats.css` / `stat-school.css` / `tooltip.css` — the four target sizes (53 sites) plus existing-token-match drift on `10.5px` → `--t-label` (6), `12.5px` → `--t-small` (7), `14px` → `--t-body` (6). PR #128 / issue #123. |
+| V6 | Radius-scale gap — 34 `border-radius` literals; `3px` used 10× with no `--r*` token equivalent. | Added `--r-pip: 2px` (7 sites) + `--r-chip: 3px` (10 sites) to `tokens.css`. Scale now reads `pip → chip → r1 → r2 → r3 → pill` in ascending order. 17 literals replaced across `overview.css` / `players.css` / `team-stats.css` / `stat-school.css` / `tooltip.css`. Focus-ring corners (`:focus-visible { border-radius: 2px }`) folded under `--r-pip` to avoid a single-use token. PR #127 / issue #124. |
 
-## Not yet covered (next audit pass)
+## Findings (second audit pass — 2026-06-05)
+
+Visual sweep at 3× DPR triggered by the report "font size / alignment causes
+dashes to look like underscores". Probe-driven catalogue of every visible
+dash-or-placeholder text node across Overview, Players grid, hitter modal,
+pitcher modal, Team Stats, Stat School.
+
+### Visual / behavioral (fixed in this pass)
+
+| # | Finding | Resolution |
+|---|---|---|
+| V7 | The em-dash glyph (U+2014) sits at the font's typographic midline, which lands visually low next to all-caps + tabular-numeric text at 10–13px (the size band used across every tabular surface). On Braydon Fisher's player card, the placeholder em-dash next to "ERA" reads as an underscore. | Added `.ph` utility in `tokens.css` (`display: inline-block; vertical-align: 0.12em; line-height: 1`) — lifts the glyph back to the perceived line center without altering any value rendering. Applied at every renderer-emitted em-dash placeholder: `players.js` pcard rank badge, `players.js` ctxRow value + rank, `overview.js` wc-row gb, `team-stats.js` sss-row + ledger row. Probe sweep confirms zero literal-`-` placeholders remain. |
+| V8 | `.wc-row .gb` rendered MLB's literal `"-"` (hyphen-minus) for wild-card leaders — the standings code at `overview.js:489` already normalized this, but the wild-card render at `:531`/`:548` did not. At 11px mono with `vertical-align: baseline`, a lone hyphen sits low and reads as a stray underline. | New `gbSpan(gb)` helper in `overview.js` normalizes `-` to the project's canonical em-dash and wraps in `.ph`. Both wc-row emit sites use it. |
+| B3 | Player modal's "Where they rank" rows for unranked players (RPs below the qualifying threshold) rendered the full green→red heat gradient with no marker — the bar provides no signal without a position, but its presence reads as broken UI. Visible on Braydon Fisher (5/5 unmarked strips). | Added `.strip.strip-empty` state in `players.css` (dim `--card-2` track, no gradient, faded `.avg` line). `ctxRow` in `players.js` emits the empty class when `pct == null`. Qualified players (Gausman: 5/5 markers) unaffected. |
+| V9 | Player card right-side cluster (`.pc-stat`) packed value + label + rank badge into a single inline line, e.g. "3.36 ERA 61st %ile". Long names ("Kevin Gausman", "Andrés Giménez") truncated to a single token because the right cluster's width consumed the name column. Visual hierarchy was muddy — bold value (14px) and bold name (13.5px) competed; the rank badge (12px bold) sat at the same weight as the label. | Restructured `.pc-stat` to a flex column: value+label top row, rank badge bottom row. Value bumped to 16px (clearer primary). Label boxed in `.pc-stat-lbl` (10px uppercase, letter-spaced). Badge ringed down to 9px regular-weight. Probe confirms 0/26 names truncate (was 4/26 at the old width). Empty placeholder `<i class="muted ph">—</i>` carries the same `.ph` lift. |
+
+## Findings (third audit pass — 2026-06-05)
+
+Surface-by-surface walk dispatched after pass 2 revealed obvious bugs (the
+"underscore-7" KPI, the missing heat-map markers) that pass 1 had missed.
+Pass 3 covers every row of the surface table at 25 probe runs across 14
+audit scripts, both themes, light + dark + responsive widths (375 / 480 /
+760 / 1024 / 1280). Full findings doc at `docs/v2-audit-pass3-findings.md`.
+
+### Visual (fixed in this pass)
+
+| # | Finding | Resolution |
+|---|---|---|
+| V10 | The 46px run-differential KPI rendered `-7` with U+002D HYPHEN-MINUS — the glyph sits at the typographic midline, so at display size it parses as "underscore-7" rather than "minus seven". Same helper feeds the Last-10 frame line and the Stat School value pill. | `F.signed()` in `assets/format.js:62` now returns U+2212 MINUS SIGN for the negative branch. Single point of change; every signed-negative on the dashboard inherits the fix (KPI, frame line, Stat School). `tests/format-spec.test.js` assertion updated. |
+| V11 | Recent-game `.res` scores (`7-2`, `3-7`) ship from MLB Stats API as ASCII hyphen — same low-glyph problem at 13px mono. | Renderer-side normalization in `overview.js:424`: `g.score.replace('-', '–')` swaps to en-dash (U+2013), the typographic convention between two related numbers. |
+| V12 | Stat School `run_differential` value pill rendered `-7` (ASCII), Pythag pill `31-32` (ASCII record). | `stat-school.js:166-170` now defers to `F.signed(team.run_diff)` (inherits V10's U+2212) and uses en-dash for the Pythag W–L record. |
+| V13 | Run-diff chart worst-game annotation "2-8 vs MIA" used ASCII hyphen. | `overview.js:337` same `.replace('-', '–')` normalization as V11. |
+| V14 | Opposing-pitcher modal slash cells used `b.textContent = '—'` for null/empty values — 25px font-weight 800, no `.ph` lift; the em-dash sat well below visual center, reading as a thick underline above the labels. | `opponent-pitcher.js:112` now appends a `<span class="ph" aria-label="No value">—</span>` instead of setting raw textContent. Inherits the same lift used everywhere else. |
+| V15 | `opp_context` line "30-33, 3rd AL East" in upcoming game cards used ASCII hyphen. | `overview.js:434` `oppContextStr` now joins record with en-dash, consistent with the header, AL East standings, and WC rows. |
+
+### Behavioral / A11y (fixed in this pass)
+
+| # | Finding | Resolution |
+|---|---|---|
+| B4 | Modal-internal theme toggle flipped the document and updated its own glyph, but left the page-level `#theme-glyph` stale. After closing the modal, the header glyph showed the wrong direction relative to the actual mode. | Event-based propagation: `JaysTheme.toggleTheme()` now dispatches a `jt-theme-change` CustomEvent on `window`. `render.js` `hookThemeToggle` subscribes to it and re-runs `updateGlyph`. Modal-internal toggles are unchanged (they still call `JaysTheme.toggleTheme()`) but the page-level glyph now stays in sync automatically. Verified: light → modal-toggle to dark → close → page glyph correctly shows ☀. |
+| B6 | Team Stats segmented control (`.seg button`) had no `role`, `aria-pressed`, or `aria-label` — screen readers couldn't tell which group was selected or that they were mutually exclusive. | `team-stats.js:252-255` adds `role="group" aria-label="Ledger view"` to the wrapper and `aria-pressed` + `aria-label` to each button. Click handler at `:231-239` toggles `aria-pressed` along with the `.on` class. |
+
+### Filed as follow-ups (non-trivial)
+
+| # | Finding | Why deferred |
+|---|---|---|
+| V16 | Player card names truncate widely at 1024px (iPad landscape) and 760px: 21 of 26 names ellipsize. V9's stacked layout opened ~60px at 1280px, but the grid keeps trying to fit 4 cards down to 980px. | Needs grid-system breakpoint rework + per-width rank-badge label compression. Filed for a follow-up PR; not a regression (V9 didn't introduce truncation at narrower widths). |
+| B5 | `#il-chip` is keyboard-focusable with `aria-label="Open injury list"` but `hookIlChip` is a no-op (`void state`) — false affordance. | Two-path resolution: ship the popover (the planned feature), or remove the affordance until then. Either path is a behavior change worth its own review. |
+
+### Not yet covered (next audit pass)
 
 - **Behavioral deep-walk**: keyboard-only tab from page top, listing every focusable element + aria-label + focus-ring visibility (vs the current spot-check via probes).
 - **Edge-case fixtures**: sub-threshold hitter (no Statcast, no ranks), pre-Opening-Day (no recent_games), missing analyst note, stale `as_of` 24h+/48h+, missing `opp_context` on an upcoming game, empty Voices feed.

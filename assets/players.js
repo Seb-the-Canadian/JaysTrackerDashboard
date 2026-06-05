@@ -102,7 +102,7 @@
     const rankBadge = (pct != null)
       ? '<i class="' + rankClassForTier(F.percentileTier(pct)) + '">'
         + F.ordinalNum(pct) + '<small> %ile</small></i>'
-      : '<i class="muted">—</i>';
+      : '<i class="muted ph" aria-label="Not yet ranked">—</i>';
 
     const card = document.createElement('button');
     card.className = 'pcard' + (player.recent === 'cold' ? ' struggle' : '');
@@ -118,7 +118,11 @@
       + '<span class="pc-right">'
       +   (pill ? '<span class="pill ' + pill.cls + '">' + pill.txt + '</span>' : '')
       +   '<span class="pc-stat">'
-      +     '<b>' + escapeHtml(primaryVal) + '</b> ' + primaryLabel + ' ' + rankBadge
+      +     '<span class="pc-stat-main">'
+      +       '<b>' + escapeHtml(primaryVal) + '</b>'
+      +       '<span class="pc-stat-lbl">' + primaryLabel + '</span>'
+      +     '</span>'
+      +     rankBadge
       +   '</span>'
       + '</span>';
 
@@ -464,7 +468,7 @@
     const label = pct != null
       ? F.ordinalNum(pct).replace(/(st|nd|rd|th)$/, '<small>$1</small>')
         + '<small class="pctl"> %ile</small>'
-      : '<span style="color:var(--ink-4)">—</span>';
+      : '<span class="ph" style="color:var(--ink-4)" aria-label="Not yet ranked">—</span>';
 
     // Gate the dotted-underline affordance (.term + data-stat) on whether
     // stat_school.json actually documents this slug — without the gate, slugs
@@ -476,13 +480,17 @@
     const labelHtml = hasTip
       ? '<span class="term" data-stat="' + escapeHtml(slug) + '">' + name + '</span>'
       : name;
+    const valHtml = (val == null)
+      ? '<span class="ph" aria-label="No value">—</span>'
+      : val;
+    const stripClass = pct != null ? 'strip' : 'strip strip-empty';
     row.innerHTML = ''
       + '<div class="ctx-name">'
       +   labelHtml
       +   (isStatcast ? ' <span class="sc">Statcast</span>' : '')
       + '</div>'
-      + '<div class="ctx-val">' + (val == null ? '—' : val) + '</div>'
-      + '<div class="strip">'
+      + '<div class="ctx-val">' + valHtml + '</div>'
+      + '<div class="' + stripClass + '">'
       +   '<span class="avg"></span>'
       +   (pct != null ? '<span class="mk ' + tier + '" style="left:' + left + '%"></span>' : '')
       + '</div>'

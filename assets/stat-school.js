@@ -162,11 +162,14 @@
     // Special-case slugs that live on data.team rather than team_stats.
     const team = (data && data.team) || {};
     if (slug === 'run_differential' && team.run_diff !== undefined) {
-      const v = Number(team.run_diff);
-      return { val: (v >= 0 ? '+' : '') + v, rank: null };
+      // Defer to F.signed — uses U+2212 MINUS SIGN for the negative
+      // branch (V10 fix). Keeps the value pill aligned with the KPI tile
+      // and the Last-10 frame line.
+      return { val: window.JaysFormat.signed(team.run_diff), rank: null };
     }
     if (slug === 'pythag' && team.pythag_w !== undefined) {
-      return { val: team.pythag_w + '-' + team.pythag_l, rank: null };
+      // En-dash for the W–L record separator.
+      return { val: team.pythag_w + '–' + team.pythag_l, rank: null };
     }
     return null;
   }

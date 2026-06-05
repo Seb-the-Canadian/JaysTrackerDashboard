@@ -277,8 +277,14 @@
     updateGlyph();
     btn.addEventListener('click', function () {
       window.JaysTheme.toggleTheme();
-      updateGlyph();
+      // updateGlyph runs again via the jt-theme-change event listener
+      // below; the click is the canonical trigger but the event is what
+      // any other glyph subscribes to (B4 fix).
     });
+    // Subscribe to theme changes initiated anywhere (modal-internal
+    // toggle included). Keeps the page-level glyph in sync after the
+    // modal flips and closes.
+    window.addEventListener('jt-theme-change', updateGlyph);
   }
 
   function hookIlChip(state) {

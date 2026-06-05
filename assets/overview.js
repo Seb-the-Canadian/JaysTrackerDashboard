@@ -44,6 +44,15 @@
     return el('span', { class: 'term', 'data-stat': slug }, label);
   }
 
+  // MLB Stats API returns gb="-" for the leader of a standings group. That
+  // hyphen at small mono font sits visually low and reads as an underscore;
+  // normalize to the project's canonical em-dash placeholder, rendered with
+  // the .ph wrapper so the glyph sits at visual midline against caps.
+  function gbSpan(gb) {
+    if (gb && gb !== '-') return el('span', { class: 'gb' }, gb);
+    return el('span', { class: 'gb' }, el('span', { class: 'ph', 'aria-label': 'No games back' }, '—'));
+  }
+
   function abbreviate(teamName, fallback) {
     // Heuristic 3-letter abbr from a team name. Used for opponent tiles
     // when MLB Stats API hasn't given us the abbr directly.
@@ -325,7 +334,7 @@
       const labelY = H - M_BOT + 25;
       addLine(svg, wx, wy + 8, wx, labelY - 7, 'var(--ink-3)', 1, null);
       const annoText = worstGame
-        ? worstGame.score + ' ' + (worstGame.home ? 'vs ' : '@ ') + abbreviate(worstGame.opp)
+        ? (worstGame.score || '').replace('-', '–') + ' ' + (worstGame.home ? 'vs ' : '@ ') + abbreviate(worstGame.opp)
         : 'worst game';
       addText(svg, wx, labelY, annoText, 10.5,
         'var(--ink-2)', 'middle', 'var(--sans)');
@@ -412,7 +421,9 @@
       ]),
       el('span', { class: 'res' }, [
         el('span', { class: 'wl ' + cls }, g.result),
-        document.createTextNode(g.score || ''),
+        // En-dash (U+2013) for the score separator — MLB API ships "7-2"
+        // with ASCII hyphen-minus which sits low at 13px mono.
+        document.createTextNode((g.score || '').replace('-', '–')),
       ]),
     ]);
   }
@@ -422,7 +433,9 @@
   // shows the date alone, no gap).
   function oppContextStr(ctx) {
     if (!ctx) return '';
-    const rec = (ctx.w != null && ctx.l != null) ? ctx.w + '-' + ctx.l : '';
+    // En-dash for the W–L record — consistent with header, AL East,
+    // WC rows; ASCII hyphen here renders low at 10–11px mono.
+    const rec = (ctx.w != null && ctx.l != null) ? ctx.w + '–' + ctx.l : '';
     const place = ctx.division_rank
       ? F.ordinal(ctx.division_rank) + ' ' + (ctx.division_name || '')
       : '';
@@ -528,7 +541,7 @@
         el('span', { class: 'abbr', 'data-team': abbr,
           'aria-label': 'Team ' + abbr }, abbr),
         el('span', { class: 'rc' }, (t.w || 0) + '–' + (t.l || 0)),
-        el('span', { class: 'gb' }, t.gb || '—'),
+        gbSpan(t.gb),
       ]));
     });
     body.push(el('div', { class: 'cutline' }, [
@@ -545,7 +558,7 @@
         el('span', { class: 'abbr', 'data-team': abbr,
           'aria-label': 'Team ' + abbr }, abbr),
         el('span', { class: 'rc' }, (t.w || 0) + '–' + (t.l || 0)),
-        el('span', { class: 'gb' }, t.gb || '—'),
+        gbSpan(t.gb),
       ]));
     });
 
