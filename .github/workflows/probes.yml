@@ -65,6 +65,7 @@ jobs:
           node tests/probes/player-links.js
           node tests/probes/opponent-pitcher.js
           node tests/probes/real-data.js
+          node tests/probes/tooltips.js
 
       - name: Run regression probes (rounds 1-3)
         run: |
