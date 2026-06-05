@@ -82,7 +82,7 @@
   margin-bottom: 13px;
 }
 .sss-tag .pip {
-  width: 9px; height: 9px; border-radius: 2px;
+  width: 9px; height: 9px; border-radius: var(--r-pip);
 }
 .sss-tag.good { color: var(--pos); }
 .sss-tag.good .pip { background: var(--pos); }
@@ -198,7 +198,7 @@
   letter-spacing: .04em;
   color: var(--external-ink);
   background: var(--external-tint);
-  border-radius: 3px;
+  border-radius: var(--r-chip);
   padding: 1px 5px;
   text-transform: uppercase;
 }

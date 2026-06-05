@@ -337,7 +337,7 @@
   font-weight: 700;
   color: var(--external-ink);
   background: var(--external-tint);
-  border-radius: 3px;
+  border-radius: var(--r-chip);
   padding: 1px 4px;
   text-transform: uppercase;
 }
@@ -425,7 +425,7 @@
   font-weight: 700;
   color: var(--external-ink);
   background: var(--external-tint);
-  border-radius: 3px;
+  border-radius: var(--r-chip);
   padding: 2px 5px;
   text-transform: uppercase;
   letter-spacing: .04em;

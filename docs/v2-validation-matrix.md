@@ -22,7 +22,7 @@ duplication waiting for a future redesign to forget one.
 | `font-size: 13px` | 11 | spread | Adopt `--t-row: 13px` (between `--t-small: 12.5` and `--t-body: 14`). |
 | `font-size: 12px` | 11 | spread | Could collapse to `--t-small: 12.5px` (minor visual shift) or add `--t-meta-2: 12px`. |
 | `font-size: 10px` | 10 | spread | Adopt `--t-micro: 10px` for chip-level UI (pills, micro-labels). |
-| `border-radius: 3px` | 10 | spread | Adopt `--r-chip: 3px` for inline pills + provenance chips. |
+| `border-radius: 3px` | 10 | spread | Resolved (#124): `--r-chip: 3px` added, all 10 sites replaced. Also extracted `--r-pip: 2px` for the 7 sub-r1 pip/marker/focus-corner literals. |
 | `#cdb89a` (heat-bar midpoint) | 3 | players, stat-school × 2 | Extract `--heat-neutral`. Same hex repeated for the same purpose across 3 files. |
 | `#4a4332` (analyst dim ink) | 3 | overview, players, stat-school | Extract `--analyst-ink-dim` or use existing `--analyst-ink`. |
 | `#cabfa6` (analyst dark text) | 3 | same | Extract token. |

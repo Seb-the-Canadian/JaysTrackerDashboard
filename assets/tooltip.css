@@ -49,7 +49,7 @@
   letter-spacing: .04em;
   color: var(--external-ink);
   background: var(--external-tint);
-  border-radius: 3px;
+  border-radius: var(--r-chip);
   padding: 1px 4px;
   text-transform: uppercase;
 }
@@ -89,7 +89,7 @@
 .tip .tip-more:focus-visible {
   outline: 2px solid var(--team-primary-ink);
   outline-offset: 2px;
-  border-radius: 2px;
+  border-radius: var(--r-pip);
 }
 
 /* Team tooltip body — single division line under the head (Phase 3). */
@@ -106,7 +106,7 @@
 [data-team]:focus-visible {
   outline: 2px solid var(--team-primary-ink);
   outline-offset: 2px;
-  border-radius: 2px;
+  border-radius: var(--r-pip);
 }
 /* Team triggers carry their own surface styling (.opp tile, .abbr badge);
    the only addition Phase 3 needs is the help cursor so the affordance is
