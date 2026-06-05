@@ -18,7 +18,7 @@
 }
 .ts-head p {
   margin: 4px 0 0;
-  font-size: 13px;
+  font-size: var(--t-row);
   color: var(--ink-2);
 }
 .ts-controls {
@@ -39,7 +39,7 @@
   border: 0;
   background: none;
   font-family: inherit;
-  font-size: 13px;
+  font-size: var(--t-row);
   font-weight: var(--w-label);
   color: var(--ink-2);
   padding: 7px 18px;
@@ -54,7 +54,7 @@
 [data-theme="dark"] .seg button.on { background: #324a6b; }
 .sort-hint {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--t-meta);
   color: var(--ink-3);
   display: flex;
   align-items: center;
@@ -103,7 +103,7 @@
 }
 .sss-name small {
   display: block;
-  font-size: 11px;
+  font-size: var(--t-meta);
   color: var(--ink-3);
   font-weight: 500;
   font-family: var(--mono);
@@ -111,7 +111,7 @@
 .sss-row .rank-num {
   font-family: var(--mono);
   font-weight: 700;
-  font-size: 13px;
+  font-size: var(--t-row);
   text-align: right;
 }
 .sss-row .rank-num.m1 { color: var(--pos); }
@@ -134,7 +134,7 @@
 .sss-note .nib {
   flex: none;
   color: var(--analyst);
-  font-size: 11px;
+  font-size: var(--t-meta);
   margin-top: 1px;
 }
 .sss-note p {
@@ -206,7 +206,7 @@
   text-align: right;
   font-family: var(--mono);
   font-weight: 700;
-  font-size: 14px;
+  font-size: var(--t-body);
   font-variant-numeric: tabular-nums;
 }
 .c-rank {
@@ -219,12 +219,12 @@
      bar. --q-warm (.c-rank.m4) is still 2.68:1 — token-level fix
      deferred to v2.0.1 since deepening --q-warm cascades to the IL
      chip + freshness amber states. */
-  font-size: 14px;
+  font-size: var(--t-body);
 }
 .c-rank small {
   color: var(--ink-4);
   font-weight: 500;
-  font-size: 10px;
+  font-size: var(--t-micro);
 }
 .c-rank.m1 { color: var(--pos); }
 .c-rank.m2 { color: var(--pos-2); }

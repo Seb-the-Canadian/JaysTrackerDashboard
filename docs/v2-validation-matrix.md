@@ -150,14 +150,19 @@ opposing-pitcher modal.
 | # | Finding | Resolution |
 |---|---|---|
 | B1 | "WHERE HE RANK" missing trailing "s" in hitter modal subhead. Subject-verb agreement: "he ranks" / "they rank" — only the hitter side was wrong. | Fixed in `players.js`: `'Where ' + (isHitter ? 'he ranks' : 'they rank')`. |
+| B2 | Rank-row terms for stats without `stat_school.json` entries (`k9`, `bb9`, `ip`, `hr`, `rbi`, `sb`, `hardhit_pct`) show dotted-underline + cursor:help but tooltip silently no-ops. | Resolved as issue #125 (frontend suppression). Added `JaysStatRegistry.has(slug)` sync helper, made `render.js` await registry load before dispatch, gated every `.term[data-stat]` emit site (`players.js`, `team-stats.js`, `overview.js`, `opponent-pitcher.js`) on `has()`. Slugs without backing now render as plain text — no dead affordance. Editorial path (Option A from #125) is unblocked: authoring a `stat_school.json` entry restores the affordance automatically. Regression guard in `tests/probes/tooltips.js` (T12/T13). |
 
 ### Filed as issues (non-trivial)
 
 | # | Issue | Why deferred |
 |---|---|---|
-| V5 | Type-scale gaps — 117 `font-size` literals; 51 of them are the four sizes `11/12/13/10px` (each used 10–19 times) but no token covers that range. | Cascading visual impact; needs design-system pass + per-surface review. |
-| ~~V6~~ | ~~Radius-scale gap — 34 `border-radius` literals; `3px` used 10× with no `--r*` token equivalent.~~ Resolved (#124): added `--r-chip: 3px` (10 sites) and `--r-pip: 2px` (7 sites — pips, micro-bars, focus-ring corners). Remaining literals (1/4/5/8/9/12 px) are 1–2× one-offs and stay literal. | ~~Same — needs decision on `--r-chip` or similar.~~ |
-| B2 | Rank-row terms for stats without `stat_school.json` entries (`k9`, `bb9`, `ip`, `hr`, `rbi`, `sb`, `hardhit_pct`) show dotted-underline + cursor:help but tooltip silently no-ops. | Editorial work — content for these stats belongs to the maintainer's voice (`stat_school.json`), not to a code change. |
+| V6 | Radius-scale gap — 34 `border-radius` literals; `3px` used 10× with no `--r*` token equivalent. | Same — needs decision on `--r-chip` or similar. |
+
+### Resolved in later passes
+
+| # | Finding | Resolution |
+|---|---|---|
+| V5 | Type-scale gaps — 117 `font-size` literals; 51 of them are the four sizes `11/12/13/10px` (each used 10–19 times) but no token covers that range. | Added four intermediate type tokens to `tokens.css` (`--t-row: 13px`, `--t-secondary: 12px`, `--t-meta: 11px`, `--t-micro: 10px`) using the existing role-based naming pattern. Replaced 72 literals across `overview.css` / `players.css` / `team-stats.css` / `stat-school.css` / `tooltip.css` — the four target sizes (53 sites) plus existing-token-match drift on `10.5px` → `--t-label` (6), `12.5px` → `--t-small` (7), `14px` → `--t-body` (6). PR #127 / issue #123. |
 
 ## Not yet covered (next audit pass)
 

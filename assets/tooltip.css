@@ -16,7 +16,7 @@
   border-radius: var(--r2);
   padding: 12px 14px;
   box-shadow: var(--sh2);
-  font-size: 12.5px;
+  font-size: var(--t-small);
   line-height: 1.5;
   text-align: left;
   font-weight: 400;
@@ -35,11 +35,11 @@
 .tip .tip-abbr {
   font-family: var(--mono);
   font-weight: 700;
-  font-size: 13px;
+  font-size: var(--t-row);
   color: var(--team-primary-ink);
 }
 .tip .tip-name {
-  font-size: 12px;
+  font-size: var(--t-secondary);
   color: var(--ink-3);
 }
 .tip .tip-sc {
@@ -65,7 +65,7 @@
   align-items: center;
   gap: 8px;
   margin: 0 0 10px;
-  font-size: 11px;
+  font-size: var(--t-meta);
   color: var(--ink-3);
 }
 .tip .tip-scale span { white-space: nowrap; }
@@ -95,7 +95,7 @@
 /* Team tooltip body — single division line under the head (Phase 3). */
 .tip .tip-team-meta {
   margin: 0;
-  font-size: 12px;
+  font-size: var(--t-secondary);
   color: var(--ink-3);
 }
 

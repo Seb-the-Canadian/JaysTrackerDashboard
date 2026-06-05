@@ -18,7 +18,7 @@
 }
 .pl-head p {
   margin: 4px 0 0;
-  font-size: 13px;
+  font-size: var(--t-row);
   color: var(--ink-2);
 }
 
@@ -53,13 +53,13 @@
 }
 .role-h h3 {
   margin: 0;
-  font-size: 14px;
+  font-size: var(--t-body);
   font-weight: 700;
   letter-spacing: .02em;
 }
 .role-h .cnt {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--t-meta);
   color: var(--ink-3);
   background: var(--card-2);
   border: 1px solid var(--line);
@@ -108,7 +108,7 @@
   display: grid; place-items: center;
   font-family: var(--mono);
   font-weight: 700;
-  font-size: 12px;
+  font-size: var(--t-secondary);
   color: var(--team-primary-ink);
 }
 .pc-id { min-width: 0; }
@@ -121,7 +121,7 @@
   text-overflow: ellipsis;
 }
 .pc-id small {
-  font-size: 10.5px;
+  font-size: var(--t-label);
   color: var(--ink-3);
   font-family: var(--mono);
 }
@@ -133,13 +133,13 @@
 }
 .pc-stat {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--t-secondary);
   color: var(--ink-3);
   white-space: nowrap;
 }
 .pc-stat b {
   font-weight: 700;
-  font-size: 14px;
+  font-size: var(--t-body);
   color: var(--ink);
 }
 .pc-stat i {
@@ -224,7 +224,7 @@
 }
 .modal-id .meta {
   width: 100%;
-  font-size: 12px;
+  font-size: var(--t-secondary);
   color: var(--ink-3);
   font-family: var(--mono);
   margin-top: 3px;
@@ -320,7 +320,7 @@
 }
 .ctx-row:last-child { border-bottom: 0; }
 .ctx-name {
-  font-size: 12.5px;
+  font-size: var(--t-small);
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -344,14 +344,14 @@
 .ctx-val {
   font-family: var(--mono);
   font-weight: 700;
-  font-size: 13px;
+  font-size: var(--t-row);
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 .ctx-rank {
   font-family: var(--mono);
   font-weight: 700;
-  font-size: 12px;
+  font-size: var(--t-secondary);
   text-align: right;
   white-space: nowrap;
 }
@@ -431,20 +431,20 @@
   letter-spacing: .04em;
 }
 .modal-statcast .ms-metric {
-  font-size: 11px;
+  font-size: var(--t-meta);
   color: var(--ink-3);
 }
 .modal-statcast .ms-metric b {
   font-family: var(--mono);
   font-weight: 700;
-  font-size: 12.5px;
+  font-size: var(--t-small);
   color: var(--ink-1);
   font-variant-numeric: tabular-nums;
 }
 
 /* G3: opposing-pitcher modal — season-line framing note in the body. */
 .oppp-note {
-  font-size: 12px;
+  font-size: var(--t-secondary);
   color: var(--ink-3);
   line-height: 1.5;
   margin: 2px 0 0;
@@ -500,12 +500,12 @@
   background: var(--analyst);
   color: #fff;
   display: grid; place-items: center;
-  font-size: 11px;
+  font-size: var(--t-meta);
   margin-top: 1px;
 }
 .modal-note p {
   margin: 0;
-  font-size: 12.5px;
+  font-size: var(--t-small);
   line-height: 1.5;
   color: var(--analyst-ink-body);
 }
@@ -513,7 +513,7 @@
   display: block;
   margin-top: 5px;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: var(--t-micro);
   color: var(--analyst-ink);
 }
 .modal-foot {
@@ -525,7 +525,7 @@
   padding-top: 12px;
   border-top: 1px dashed var(--line-2);
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--t-meta);
   color: var(--ink-3);
 }
 

@@ -79,7 +79,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  font-size: 12.5px;
+  font-size: var(--t-small);
   font-weight: 500;
   color: var(--ink-2);
   text-decoration: none;
@@ -161,7 +161,7 @@
   display: flex;
   justify-content: space-between;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: var(--t-micro);
   color: #9fb0cf;
   margin-top: 6px;
 }
@@ -204,7 +204,7 @@
   font-variant-numeric: tabular-nums;
 }
 .ss-stat-val-rank {
-  font-size: 14px;
+  font-size: var(--t-body);
   font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
@@ -237,7 +237,7 @@
 .ss-ctx .lbl {
   display: block;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: var(--t-micro);
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: .06em;
@@ -246,7 +246,7 @@
 }
 .ss-ctx p {
   margin: 0;
-  font-size: 13px;
+  font-size: var(--t-row);
   line-height: 1.45;
   color: var(--analyst-ink);
 }
@@ -268,7 +268,7 @@
 }
 .exp-name small {
   display: block;
-  font-size: 11px;
+  font-size: var(--t-meta);
   color: var(--ink-3);
   font-weight: 500;
 }
@@ -368,7 +368,7 @@
   align-items: center;
   margin-top: 12px;
   font-family: var(--mono);
-  font-size: 10.5px;
+  font-size: var(--t-label);
   color: var(--ink-3);
 }
 .dir-chip {
@@ -376,7 +376,7 @@
   align-items: center;
   gap: 5px;
   font-family: var(--sans);
-  font-size: 10px;
+  font-size: var(--t-micro);
   font-weight: 700;
   letter-spacing: .04em;
   text-transform: uppercase;
@@ -392,7 +392,7 @@
   display: flex;
   align-items: center;
   gap: 9px;
-  font-size: 12.5px;
+  font-size: var(--t-small);
   color: var(--ink-2);
   background: var(--card-2);
   border: 1px solid var(--line);
@@ -406,7 +406,7 @@
   background: var(--team-primary-soft);
   color: var(--team-primary-ink);
   display: grid; place-items: center;
-  font-size: 10px;
+  font-size: var(--t-micro);
   font-weight: 800;
   font-family: var(--mono);
 }
@@ -422,7 +422,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  font-size: 12px;
+  font-size: var(--t-secondary);
   font-weight: 700;
   color: var(--team-primary-ink);
   cursor: pointer;
@@ -437,7 +437,7 @@
 .disc.open .disc-body { display: block; }
 .formula {
   font-family: var(--mono);
-  font-size: 12px;
+  font-size: var(--t-secondary);
   background: var(--card-2);
   border: 1px solid var(--line);
   color: var(--ink);
@@ -452,7 +452,7 @@
   color: #dbe4f2;
 }
 .disc-note {
-  font-size: 12.5px;
+  font-size: var(--t-small);
   color: var(--ink-2);
   line-height: 1.55;
   margin: 10px 0 0;
@@ -483,7 +483,7 @@
 .honest .by {
   margin-top: 11px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--t-meta);
   color: var(--analyst-ink);
 }
 
@@ -513,14 +513,14 @@
 }
 .pitch .pi-name {
   font-weight: 700;
-  font-size: 14px;
+  font-size: var(--t-body);
   display: flex;
   align-items: baseline;
   gap: 7px;
 }
 .pitch .pi-name .ab {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: var(--t-micro);
   color: var(--ink-3);
   border: 1px solid var(--line);
   border-radius: var(--r-chip);
@@ -528,7 +528,7 @@
 }
 .pitch .velo {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: var(--t-meta);
   color: var(--q-hot);
   font-weight: 700;
   margin: 3px 0 5px;
@@ -544,7 +544,7 @@
   background: var(--analyst-tint);
   border-left: 2px solid var(--analyst);
   border-radius: 0 var(--r1) var(--r1) 0;
-  font-size: 11px;
+  font-size: var(--t-meta);
   color: var(--analyst-ink);
   line-height: 1.4;
 }
