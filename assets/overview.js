@@ -334,7 +334,7 @@
       const labelY = H - M_BOT + 25;
       addLine(svg, wx, wy + 8, wx, labelY - 7, 'var(--ink-3)', 1, null);
       const annoText = worstGame
-        ? worstGame.score + ' ' + (worstGame.home ? 'vs ' : '@ ') + abbreviate(worstGame.opp)
+        ? (worstGame.score || '').replace('-', '–') + ' ' + (worstGame.home ? 'vs ' : '@ ') + abbreviate(worstGame.opp)
         : 'worst game';
       addText(svg, wx, labelY, annoText, 10.5,
         'var(--ink-2)', 'middle', 'var(--sans)');
@@ -421,7 +421,9 @@
       ]),
       el('span', { class: 'res' }, [
         el('span', { class: 'wl ' + cls }, g.result),
-        document.createTextNode(g.score || ''),
+        // En-dash (U+2013) for the score separator — MLB API ships "7-2"
+        // with ASCII hyphen-minus which sits low at 13px mono.
+        document.createTextNode((g.score || '').replace('-', '–')),
       ]),
     ]);
   }
@@ -431,7 +433,9 @@
   // shows the date alone, no gap).
   function oppContextStr(ctx) {
     if (!ctx) return '';
-    const rec = (ctx.w != null && ctx.l != null) ? ctx.w + '-' + ctx.l : '';
+    // En-dash for the W–L record — consistent with header, AL East,
+    // WC rows; ASCII hyphen here renders low at 10–11px mono.
+    const rec = (ctx.w != null && ctx.l != null) ? ctx.w + '–' + ctx.l : '';
     const place = ctx.division_rank
       ? F.ordinal(ctx.division_rank) + ' ' + (ctx.division_name || '')
       : '';

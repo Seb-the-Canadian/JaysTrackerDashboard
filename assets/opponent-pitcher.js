@@ -109,7 +109,18 @@
       cell.className = 'slash-cell' + (entry[2] ? ' lead' : '');
       const b = document.createElement('b');
       const v = p[entry[0]];
-      b.textContent = (v == null || v === '' || v === '-.--') ? '—' : v;
+      if (v == null || v === '' || v === '-.--') {
+        // Lift the em-dash placeholder to visual midline. At 25px
+        // font-weight: 800, raw textContent left the em-dash sitting
+        // below center, reading as a heavy underline (V14 audit finding).
+        const ph = document.createElement('span');
+        ph.className = 'ph';
+        ph.setAttribute('aria-label', 'No value');
+        ph.textContent = '—';
+        b.appendChild(ph);
+      } else {
+        b.textContent = v;
+      }
       cell.appendChild(b);
       const small = document.createElement('small');
       // Gate the .term affordance on stat_school.json having an entry

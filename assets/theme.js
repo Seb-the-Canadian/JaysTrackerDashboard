@@ -141,6 +141,13 @@
     const next = currentMode() === 'dark' ? 'light' : 'dark';
     setStoredTheme(next);
     applyTheme(next);
+    // Notify subscribers (page-level glyph, modal-internal glyph) that the
+    // theme flipped. B4 audit fix: modal-internal toggles previously
+    // updated their own glyph in a local closure, leaving the page-level
+    // glyph stale after modal-close.
+    try {
+      window.dispatchEvent(new CustomEvent('jt-theme-change', { detail: { mode: next } }));
+    } catch (_) { /* swallow — non-blocking */ }
     return next;
   }
 

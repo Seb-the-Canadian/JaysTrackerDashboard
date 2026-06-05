@@ -227,11 +227,16 @@
     }, { headingProvided: true });
 
     // Wire Hitting/Pitching toggle. Selector is scoped to the seg
-    // control rendered inside headerBlock().
+    // control rendered inside headerBlock(). aria-pressed reflects
+    // which group the ledger is currently showing (B6 audit fix).
     document.querySelectorAll('.seg button').forEach(function (b) {
       b.addEventListener('click', function () {
-        document.querySelectorAll('.seg button').forEach(function (x) { x.classList.remove('on'); });
+        document.querySelectorAll('.seg button').forEach(function (x) {
+          x.classList.remove('on');
+          x.setAttribute('aria-pressed', 'false');
+        });
         b.classList.add('on');
+        b.setAttribute('aria-pressed', 'true');
         CURRENT_GROUP = b.dataset.group;
         LEDGER_HOST.innerHTML = '';
         LEDGER_HOST.appendChild(renderLedger(state, CURRENT_GROUP));
@@ -249,9 +254,9 @@
       +     '<p>Every number against all 30 clubs — so a stat is never just a stat.</p>'
       +   '</div>'
       +   '<div class="ts-controls">'
-      +     '<div class="seg">'
-      +       '<button class="on" data-group="hitting">Hitting</button>'
-      +       '<button data-group="pitching">Pitching</button>'
+      +     '<div class="seg" role="group" aria-label="Ledger view">'
+      +       '<button class="on" data-group="hitting" aria-pressed="true" aria-label="View hitting stats">Hitting</button>'
+      +       '<button data-group="pitching" aria-pressed="false" aria-label="View pitching stats">Pitching</button>'
       +     '</div>'
       +     '<span class="sort-hint">↕ Sorted by MLB rank</span>'
       +   '</div>'
