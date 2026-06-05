@@ -89,13 +89,26 @@
   --seam: #c8102e;   /* fixed stitch red — independent of --team-accent */
   --label: #6b5f4c;  /* stamped warm ink for eyebrows */
 
-  /* ---- TYPE ---- */
+  /* ---- TYPE ----
+     Headline scale (display → label) was the original v2 scale. The
+     four intermediate sizes below were added in the v2 type-scale pass
+     (#123) because 51 of 117 `font-size:` literals across the per-tab
+     CSS files were the same four pixel values (10/11/12/13px) used
+     10–20× each, with no token covering that range. Naming follows the
+     existing role-based pattern (--t-display / --t-body / --t-label).
+     The 0.5px-stepped --t-small (12.5) / --t-label (10.5) remain the
+     headline-paired sizes; --t-row / --t-meta / --t-micro cover the
+     denser per-tab tabular + metadata + chip surfaces. */
   --t-display: 46px;
   --t-h1: 28px;
   --t-h2: 19px;
   --t-body: 14px;
+  --t-row: 13px;        /* tabular rows, game-card meta/result, st-row body */
   --t-small: 12.5px;
+  --t-secondary: 12px;  /* secondary metadata (rank cells, segmented controls, modal meta) */
+  --t-meta: 11px;       /* rank ordinals, badge text, byline meta, pill-legend */
   --t-label: 10.5px;
+  --t-micro: 10px;      /* chip labels, abbreviations, micro-pills */
 
   --w-display: 800;
   --w-read: 500;

@@ -156,8 +156,13 @@ opposing-pitcher modal.
 
 | # | Issue | Why deferred |
 |---|---|---|
-| V5 | Type-scale gaps — 117 `font-size` literals; 51 of them are the four sizes `11/12/13/10px` (each used 10–19 times) but no token covers that range. | Cascading visual impact; needs design-system pass + per-surface review. |
 | V6 | Radius-scale gap — 34 `border-radius` literals; `3px` used 10× with no `--r*` token equivalent. | Same — needs decision on `--r-chip` or similar. |
+
+### Resolved in later passes
+
+| # | Finding | Resolution |
+|---|---|---|
+| V5 | Type-scale gaps — 117 `font-size` literals; 51 of them are the four sizes `11/12/13/10px` (each used 10–19 times) but no token covers that range. | Added four intermediate type tokens to `tokens.css` (`--t-row: 13px`, `--t-secondary: 12px`, `--t-meta: 11px`, `--t-micro: 10px`) using the existing role-based naming pattern. Replaced 72 literals across `overview.css` / `players.css` / `team-stats.css` / `stat-school.css` / `tooltip.css` — the four target sizes (53 sites) plus existing-token-match drift on `10.5px` → `--t-label` (6), `12.5px` → `--t-small` (7), `14px` → `--t-body` (6). PR #127 / issue #123. |
 
 ## Not yet covered (next audit pass)
 
