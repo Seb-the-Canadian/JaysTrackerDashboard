@@ -88,6 +88,31 @@ def test_fetch_savant_team_csv_http_error_returns_empty_logs(mocker, capsys):
     assert "savant statcast fetch failed" in capsys.readouterr().err
 
 
+def test_fetch_savant_team_csv_strips_utf8_bom(mocker):
+    """#29 regression: Savant's CSV ships with a UTF-8 BOM (\\ufeff). Decoded
+    as plain utf-8, the BOM blocks DictReader from recognizing the opening
+    quote of `"last_name, first_name"` — the embedded comma then splits one
+    field into two and every column shifts by one, so `player_id` carries
+    the wrong value and the MLBAM roster join matches zero. utf-8-sig
+    strips the BOM so the header parses correctly."""
+    # \xef\xbb\xbf is the UTF-8 BOM; the quoted first field mirrors what
+    # Savant actually sends. If decoded as plain utf-8, DictReader would
+    # produce keys like '﻿"last_name' / ' first_name"' and shift the
+    # data; utf-8-sig handles it cleanly.
+    bom_csv = (b'\xef\xbb\xbf"last_name, first_name",player_id,brl_percent\n'
+               b'"Clement, Ernie",676391,2.5\n')
+    mocker.patch("fetch_data.urllib.request.urlopen",
+                 return_value=_urlopen_returning(bom_csv))
+    rows = fetch_data.fetch_savant_team_csv("statcast", {})
+    assert len(rows) == 1
+    # The actual MLBAM id must land in player_id — the regression signature
+    # was player_id='2.5' (or similar shifted value) when BOM wasn't stripped.
+    assert rows[0]["player_id"] == "676391"
+    assert rows[0]["brl_percent"] == "2.5"
+    # And the quoted "Last, First" stays a single field.
+    assert rows[0]["last_name, first_name"] == "Clement, Ernie"
+
+
 def test_fetch_savant_team_csv_timeout_returns_empty(mocker, capsys):
     mocker.patch("fetch_data.urllib.request.urlopen",
                  side_effect=urllib.error.URLError("timed out"))

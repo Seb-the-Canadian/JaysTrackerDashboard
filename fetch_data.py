@@ -866,7 +866,13 @@ def fetch_savant_team_csv(slug, params):
     req = urllib.request.Request(url, headers={"User-Agent": SAVANT_USER_AGENT})
     try:
         with urllib.request.urlopen(req, timeout=SAVANT_TIMEOUT_S) as resp:
-            body = resp.read().decode("utf-8", errors="replace")
+            # utf-8-sig strips a leading BOM if present. Savant's CSVs ship
+            # with one; without stripping, the BOM blocks DictReader from
+            # recognizing the first field's opening quote, so a quoted
+            # header like "last_name, first_name" gets split on the inner
+            # comma and every column shifts by one. (#29 root cause —
+            # broke the MLBAM-id join and zeroed barrel%/hard-hit%.)
+            body = resp.read().decode("utf-8-sig", errors="replace")
     except (urllib.error.HTTPError, urllib.error.URLError) as e:
         log(f"warning: savant {slug} fetch failed: {e}")
         return []
@@ -948,19 +954,13 @@ def fetch_savant_barrels(team_abbrev, season):
             "barrel_pct": _fmt_pct(_first_present(row, _BARREL_COL_ALIASES)),
             "hardhit_pct": _fmt_pct(_first_present(row, _HARDHIT_COL_ALIASES)),
         }
-    # #29 diagnostic v2: the first version's "matched N/N" was misleading —
-    # it counted parsed rows, not roster matches (the actual signal). The
-    # first refresh confirmed `xMLBAMID` isn't in the CSV at all and
-    # `player_id` carries a tiny non-MLBAM int (e.g. '215'). Dump the full
-    # first row so the next refresh names exactly who '215' is — once we
-    # know, we either swap to a Savant endpoint that carries MLBAM or
-    # add a name-based fallback. baseballsavant is unreachable from the
-    # dev container, so this in-band diagnostic is the only way to see it.
+    # Lightweight join breadcrumb (post-#29). The previous "did roster
+    # match anything?" check sits at the call site (line ~1335) and warns
+    # only when the join is completely empty. This line lets us notice
+    # partial degradation (e.g., a callup not yet in Savant) at a glance.
     if rows:
-        first = rows[0]
-        log("INFO: savant barrels schema — %d rows; columns=%s"
-            % (len(rows), list(first.keys())))
-        log("INFO: savant barrels first row=%r" % first)
+        log("INFO: savant barrels — %d rows parsed (%d valid MLBAM ids)"
+            % (len(rows), len(out)))
     return out
 
 
