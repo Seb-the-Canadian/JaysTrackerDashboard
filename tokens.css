@@ -114,6 +114,14 @@
   --s6: 32px;
   --s7: 48px;
 
+  /* Sub-r1 chip scale — fills the 2–3px gap below --r1. Both extracted
+     in the v2 uniformity pass (#124) from high-frequency literals:
+     --r-pip from 7 occurrences (pips, micro-bars, focus-ring corners),
+     --r-chip from 10 occurrences (inline pills, provenance chips, badge
+     corners). One token now keeps any future redesign from forgetting
+     a site. */
+  --r-pip: 2px;
+  --r-chip: 3px;
   --r1: 6px;
   --r2: 10px;
   --r3: 14px;

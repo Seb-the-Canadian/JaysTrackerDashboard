@@ -101,7 +101,7 @@
   font-size: 9px;
   color: var(--ink-4);
   border: 1px solid var(--line);
-  border-radius: 3px;
+  border-radius: var(--r-chip);
   padding: 0 4px;
 }
 
@@ -146,7 +146,7 @@
   flex: 1;
   min-width: 0;
   height: 30px;
-  border-radius: 3px;
+  border-radius: var(--r-chip);
   display: grid;
   place-items: center;
   font-family: var(--mono);
@@ -331,7 +331,7 @@
   left: 50%;
   width: 2px;
   background: var(--ink);
-  border-radius: 2px;
+  border-radius: var(--r-pip);
 }
 
 /* PR-G: percentile tick on the scale rail. Position derives from
@@ -341,7 +341,7 @@
   position: absolute;
   top: -3px; bottom: -3px;
   width: 4px;
-  border-radius: 3px;
+  border-radius: var(--r-chip);
   background: var(--ink);
   box-shadow: 0 0 0 2px var(--card);
   transform: translateX(-50%);
@@ -523,7 +523,7 @@
   font-size: 10px;
   color: var(--ink-3);
   border: 1px solid var(--line);
-  border-radius: 3px;
+  border-radius: var(--r-chip);
   padding: 0 4px;
 }
 .pitch .velo {
