@@ -42,6 +42,11 @@ async function loadPage(browser) {
     for (const h of (body.roster && body.roster.hitters || [])) {
       const r = i * 6;
       body.player_ranks[String(h.id)] = { ops: r, hr: r, rbi: r, sb: r };
+      // T9 requires xwoba to be a non-placeholder for the Statcast line
+      // to render its label — buildStatcastLine filters placeholders out.
+      if (!h.xwoba || h.xwoba === '.---') h.xwoba = '.358';
+      if (!h.barrel_pct || h.barrel_pct === '---') h.barrel_pct = '11.4%';
+      if (!h.hardhit_pct || h.hardhit_pct === '---') h.hardhit_pct = '49.2%';
       i++;
     }
     let j = 1;
@@ -70,9 +75,10 @@ async function loadPage(browser) {
   return { ctx, page };
 }
 
-// Open the first hitter player modal and resolve its first .term[data-stat]
-// (in the rank rows). Used by every test that exercises modal tooltips.
-async function openHitterTermInModal(page) {
+// Open the first ranked modal (hitter or pitcher) and return the slug of
+// its first .term[data-stat] rank row. Most tests just need a working
+// term; T8 explicitly needs a hitter and uses openHitterModal below.
+async function openAnyTermInModal(page) {
   await page.evaluate(() => { window.location.hash = 'players'; });
   await page.waitForTimeout(400);
   const ids = await page.evaluate(() =>
@@ -89,13 +95,30 @@ async function openHitterTermInModal(page) {
   return null;
 }
 
+// Open a hitter modal specifically. Hitter modals carry .modal-statcast
+// (pitcher modals don't), so iterate cards until one renders with that.
+async function openHitterModal(page) {
+  await page.evaluate(() => { window.location.hash = 'players'; });
+  await page.waitForTimeout(400);
+  const ids = await page.evaluate(() =>
+    Array.from(document.querySelectorAll('.pcard')).map(c => c.dataset.playerId));
+  for (const id of ids) {
+    await page.evaluate((pid) => { window.location.hash = 'player-' + pid; }, id);
+    await page.waitForTimeout(180);
+    const isHitter = await page.evaluate(() =>
+      !!document.querySelector('#player-modal-scrim.show .modal-statcast'));
+    if (isHitter) return id;
+  }
+  return null;
+}
+
 (async () => {
   const browser = await chromium.launch();
 
   // ----- T1: click opens tooltip with content -----
   {
     const { ctx, page } = await loadPage(browser);
-    const slug = await openHitterTermInModal(page);
+    const slug = await openAnyTermInModal(page);
     await page.click('#player-modal-scrim.show .ctx-row .term[data-stat]');
     await page.waitForTimeout(200);
     const tip = await page.evaluate(() => {
@@ -113,7 +136,7 @@ async function openHitterTermInModal(page) {
   // ----- T2: tooltip carries head + definition + Read more -----
   {
     const { ctx, page } = await loadPage(browser);
-    await openHitterTermInModal(page);
+    await openAnyTermInModal(page);
     await page.click('#player-modal-scrim.show .ctx-row .term[data-stat]');
     await page.waitForTimeout(200);
     const parts = await page.evaluate(() => {
@@ -136,7 +159,7 @@ async function openHitterTermInModal(page) {
   // ----- T3: Esc closes + restores focus -----
   {
     const { ctx, page } = await loadPage(browser);
-    await openHitterTermInModal(page);
+    await openAnyTermInModal(page);
     await page.click('#player-modal-scrim.show .ctx-row .term[data-stat]');
     await page.waitForTimeout(200);
     // Give the trigger focus so Esc's restore is observable.
@@ -161,7 +184,7 @@ async function openHitterTermInModal(page) {
   // ----- T4: click outside closes -----
   {
     const { ctx, page } = await loadPage(browser);
-    await openHitterTermInModal(page);
+    await openAnyTermInModal(page);
     await page.click('#player-modal-scrim.show .ctx-row .term[data-stat]');
     await page.waitForTimeout(150);
     // Dispatch a click on document.body at a coordinate guaranteed to be
@@ -183,7 +206,7 @@ async function openHitterTermInModal(page) {
   // ----- T5: Read more deep-links to #stat-<slug> -----
   {
     const { ctx, page } = await loadPage(browser);
-    const slug = await openHitterTermInModal(page);
+    const slug = await openAnyTermInModal(page);
     await page.click('#player-modal-scrim.show .ctx-row .term[data-stat]');
     await page.waitForTimeout(150);
     const href = await page.evaluate(() => {
@@ -226,7 +249,7 @@ async function openHitterTermInModal(page) {
   // ----- T7: aria-describedby wired on open, removed on close -----
   {
     const { ctx, page } = await loadPage(browser);
-    await openHitterTermInModal(page);
+    await openAnyTermInModal(page);
     await page.click('#player-modal-scrim.show .ctx-row .term[data-stat]');
     await page.waitForTimeout(150);
     const opened = await page.evaluate(() => {
@@ -242,6 +265,58 @@ async function openHitterTermInModal(page) {
     report(opened === 'jays-tooltip' && closed === null ? 'PASS' : 'FAIL',
       'T7: aria-describedby wired on open, removed on close',
       `opened=${opened} closed=${closed}`);
+    await ctx.close();
+  }
+
+  // ----- T8: Phase 2 — slash-line labels are tooltip-wrapped -----
+  //
+  // The hitter modal slash line (AVG/OBP/SLG/OPS) and the pitcher slash
+  // line (ERA/WHIP, K/W-L unwrapped) should expose .term[data-stat] on
+  // the documented stats. Asserts the wiring; doesn't require all four —
+  // some players may render only a subset.
+  {
+    const { ctx, page } = await loadPage(browser);
+    await openHitterModal(page);
+    const found = await page.evaluate(() => {
+      const slash = document.querySelector('#player-modal-scrim.show .slash-big');
+      if (!slash) return null;
+      return Array.from(slash.querySelectorAll('.term[data-stat]'))
+        .map((t) => t.getAttribute('data-stat'));
+    });
+    const expected = ['avg', 'obp', 'slg', 'ops'];
+    const missing = expected.filter((s) => !(found || []).includes(s));
+    report(found && missing.length === 0 ? 'PASS' : 'FAIL',
+      'T8: hitter slash line labels wired with data-stat',
+      `found=${(found || []).join(',')} missing=${missing.join(',')}`);
+    await ctx.close();
+  }
+
+  // ----- T9: Phase 2 — Statcast value line labels are tooltip-wrapped -----
+  //
+  // xwOBA and Barrel% have stat_school.json entries → .term[data-stat].
+  // Hard-hit% has no entry yet, so it stays plain text (silent no-op).
+  {
+    const { ctx, page } = await loadPage(browser);
+    await page.evaluate(() => { window.location.hash = 'players'; });
+    await page.waitForTimeout(400);
+    const ids = await page.evaluate(() =>
+      Array.from(document.querySelectorAll('.pcard')).map((c) => c.dataset.playerId));
+    let found = null;
+    for (const id of ids) {
+      await page.evaluate((pid) => { window.location.hash = 'player-' + pid; }, id);
+      await page.waitForTimeout(150);
+      found = await page.evaluate(() => {
+        const line = document.querySelector('#player-modal-scrim.show .modal-statcast');
+        if (!line) return null;
+        return Array.from(line.querySelectorAll('.term[data-stat]'))
+          .map((t) => t.getAttribute('data-stat'));
+      });
+      if (found && found.length) break;
+    }
+    const ok = found && found.includes('xwoba') && found.includes('barrel_pct');
+    report(ok ? 'PASS' : 'FAIL',
+      'T9: Statcast value line wires xwoba + barrel_pct labels',
+      found ? `slugs=${found.join(',')}` : 'no Statcast line found');
     await ctx.close();
   }
 

@@ -265,11 +265,20 @@
         const b = document.createElement('b');
         b.textContent = player[entry[0]] || '—';
         cell.appendChild(b);
+        // Wrap label in .term[data-stat] so the tooltip module picks it up.
+        // The OPS lead cell carries a percentile suffix; render it as a
+        // sibling text node so the tooltip trigger stays a tight token.
         const small = document.createElement('small');
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'term';
+        labelSpan.setAttribute('data-stat', entry[0]);
+        labelSpan.textContent = entry[1];
+        small.appendChild(labelSpan);
         const opsPct = F.rankPercentile(myRanks.ops, pool);
-        small.textContent = entry[2] && opsPct != null
-          ? entry[1] + ' · ' + F.ordinalNum(opsPct) + ' %ile'
-          : entry[1];
+        if (entry[2] && opsPct != null) {
+          small.appendChild(document.createTextNode(
+            ' · ' + F.ordinalNum(opsPct) + ' %ile'));
+        }
         cell.appendChild(small);
         slash.appendChild(cell);
       });
@@ -283,9 +292,14 @@
       // Pitcher: ERA / WHIP / K / W-L compact line
       const line = document.createElement('div');
       line.className = 'slash-big';
+      // Tuple: [accessor, label, isLead, slug?]. accessor is the player[]
+      // key (or null for the W–L derived cell); slug only present when
+      // stat_school.json documents the stat (k and w-l have no entry yet,
+      // so they stay plain — silent no-op vs. dotted underline that opens
+      // nothing).
       [
-        ['era', 'ERA', true],
-        ['whip', 'WHIP'],
+        ['era', 'ERA', true, 'era'],
+        ['whip', 'WHIP', false, 'whip'],
         ['k', 'K'],
         [null, 'W–L'],
       ].forEach(function (entry, i) {
@@ -302,7 +316,15 @@
           : (player[entry[0]] || '—');
         cell.appendChild(b);
         const small = document.createElement('small');
-        small.textContent = entry[1];
+        if (entry[3]) {
+          const labelSpan = document.createElement('span');
+          labelSpan.className = 'term';
+          labelSpan.setAttribute('data-stat', entry[3]);
+          labelSpan.textContent = entry[1];
+          small.appendChild(labelSpan);
+        } else {
+          small.textContent = entry[1];
+        }
         cell.appendChild(small);
         line.appendChild(cell);
       });
@@ -364,10 +386,13 @@
   // so the modal omits the line entirely rather than showing three dashes.
   const STATCAST_PLACEHOLDERS = { '': 1, '—': 1, '.---': 1, '---': 1, 'null': 1 };
   function buildStatcastLine(player) {
+    // Tuple: [label, value, slug]. slug enables the tooltip when
+    // stat_school.json documents the stat; hardhit_pct isn't there yet so
+    // its label stays a plain text token (no false affordance).
     const metrics = [
-      ['xwOBA', player.xwoba],
-      ['Barrel%', player.barrel_pct],
-      ['Hard-hit%', player.hardhit_pct],
+      ['xwOBA', player.xwoba, 'xwoba'],
+      ['Barrel%', player.barrel_pct, 'barrel_pct'],
+      ['Hard-hit%', player.hardhit_pct, null],
     ].filter(function (m) {
       return m[1] != null && !STATCAST_PLACEHOLDERS[String(m[1]).trim()];
     });
@@ -377,8 +402,12 @@
     line.className = 'modal-statcast';
     let html = '<span class="ms-label">Statcast</span>';
     metrics.forEach(function (m) {
+      const labelHtml = m[2]
+        ? '<span class="term" data-stat="' + escapeHtml(m[2]) + '">'
+          + escapeHtml(m[0]) + '</span>'
+        : escapeHtml(m[0]);
       html += '<span class="ms-metric"><b>' + escapeHtml(m[1]) + '</b> '
-        + escapeHtml(m[0]) + '</span>';
+        + labelHtml + '</span>';
     });
     line.innerHTML = html;
     return line;
