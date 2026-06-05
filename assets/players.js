@@ -344,15 +344,17 @@
   // there's no MLB-wide Savant pull — so a rank strip for them would be a
   // fabricated position. They render value-only via buildStatcastLine below.
   function buildHitterRankRows(player, myRanks, pool) {
+    // Tuple: [label, value, rank, isStatcast, slug]. The slug threads to
+    // the .term[data-stat] tooltip — same key used by stat_school.json.
     const defs = [
-      ['OPS', player.ops, myRanks.ops, false],
-      ['Home runs', player.hr, myRanks.hr, false],
-      ['RBI', player.rbi, myRanks.rbi, false],
-      ['Stolen bases', player.sb, myRanks.sb, false],
+      ['OPS', player.ops, myRanks.ops, false, 'ops'],
+      ['Home runs', player.hr, myRanks.hr, false, 'hr'],
+      ['RBI', player.rbi, myRanks.rbi, false, 'rbi'],
+      ['Stolen bases', player.sb, myRanks.sb, false, 'sb'],
     ];
     return defs
       .filter(function (d) { return d[1] != null && d[1] !== '—' && d[1] !== '.---' && d[1] !== '---'; })
-      .map(function (d) { return ctxRow(d[0], d[1], d[2], d[3], pool); });
+      .map(function (d) { return ctxRow(d[0], d[1], d[2], d[3], pool, d[4]); });
   }
 
   // Statcast value strip for hitters. Renders xwOBA / Barrel% / Hard-hit%
@@ -383,19 +385,23 @@
   }
 
   function buildPitcherRankRows(player, myRanks, pool) {
+    // Tuple: [label, value, rank, isStatcast, slug]. K/9 + BB/9 map to the
+    // stat_school.json keys k9/bb9 (stat-registry handles the alias) so the
+    // tooltip still resolves; IP isn't in stat_school.json yet, so its
+    // tooltip silently no-ops — that's the documented degrade path.
     const defs = [
-      ['ERA', player.era, myRanks.era, false],
-      ['WHIP', player.whip, myRanks.whip, false],
-      ['K/9', player.k_per_9, myRanks.k_per_9, false],
-      ['BB/9', player.bb_per_9, myRanks.bb_per_9, false],
-      ['IP', player.ip, myRanks.ip, false],
+      ['ERA', player.era, myRanks.era, false, 'era'],
+      ['WHIP', player.whip, myRanks.whip, false, 'whip'],
+      ['K/9', player.k_per_9, myRanks.k_per_9, false, 'k9'],
+      ['BB/9', player.bb_per_9, myRanks.bb_per_9, false, 'bb9'],
+      ['IP', player.ip, myRanks.ip, false, 'ip'],
     ];
     return defs
       .filter(function (d) { return d[1] != null && d[1] !== '—' && d[1] !== '-.--'; })
-      .map(function (d) { return ctxRow(d[0], d[1], d[2], d[3], pool); });
+      .map(function (d) { return ctxRow(d[0], d[1], d[2], d[3], pool, d[4]); });
   }
 
-  function ctxRow(name, val, rank, isStatcast, pool) {
+  function ctxRow(name, val, rank, isStatcast, pool, slug) {
     const row = document.createElement('div');
     row.className = 'ctx-row';
     // Percentile within the qualified pool — pool-relative rank converted so
@@ -409,9 +415,13 @@
         + '<small class="pctl"> %ile</small>'
       : '<span style="color:var(--ink-4)">—</span>';
 
+    // data-stat is the JaysTooltip / stat-registry join key. Always emit
+    // when we have a slug — the registry resolves to stat_school.json or
+    // no-ops if the slug isn't documented yet.
+    const slugAttr = slug ? ' data-stat="' + escapeHtml(slug) + '"' : '';
     row.innerHTML = ''
       + '<div class="ctx-name">'
-      +   '<span class="term">' + name + '</span>'
+      +   '<span class="term"' + slugAttr + '>' + name + '</span>'
       +   (isStatcast ? ' <span class="sc">Statcast</span>' : '')
       + '</div>'
       + '<div class="ctx-val">' + (val == null ? '—' : val) + '</div>'
