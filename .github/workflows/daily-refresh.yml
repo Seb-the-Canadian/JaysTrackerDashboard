@@ -102,18 +102,30 @@ jobs:
           [ -f data/tldr_cache.json ] && git add data/tldr_cache.json
           git commit -m "Daily data refresh: $(date -u +%Y-%m-%d)"
 
-          # If main moved between checkout and push (concurrent PR merge,
-          # manual commit, an overlapping workflow run), the first push
-          # gets rejected as non-fast-forward. Rebase onto the new tip
-          # and try again — the daily refresh commit only touches
-          # data.json, so a rebase against anything else won't conflict.
+          # If the running branch moved between checkout and push (concurrent
+          # PR merge, manual commit, an overlapping workflow_dispatch run),
+          # the first push gets rejected as non-fast-forward. Rebase onto the
+          # same branch we're running on — $GITHUB_REF_NAME is the branch the
+          # job was dispatched against. The previous version rebased onto
+          # main, which is wrong on workflow_dispatch runs against a feature
+          # branch: it pulls in main's older data.json and conflicts with the
+          # branch's newer content. The daily refresh commit only touches
+          # data.json / data/*_cache.json, so rebasing against the branch
+          # tip resolves cleanly via the strategy below.
           for attempt in 1 2 3; do
             if git push; then
               echo "pushed daily refresh (attempt $attempt)"
               exit 0
             fi
-            echo "push rejected on attempt $attempt, rebasing onto origin/main..."
-            git pull --rebase origin main
+            echo "push rejected on attempt $attempt, rebasing onto origin/$GITHUB_REF_NAME..."
+            # -X theirs: when a conflict occurs on data.json/gamelog_cache.json,
+            # prefer the incoming side (the branch tip). Our just-fetched data
+            # is a strict overwrite of those files anyway; resolving with the
+            # branch tip and then re-running the commit isn't useful (data.json
+            # would just go stale). On real conflicts elsewhere this would be
+            # wrong — but the daily refresh only touches data.json and caches,
+            # so the strategy is safe in scope.
+            git pull --rebase -X theirs origin "$GITHUB_REF_NAME"
           done
           echo "ERROR: push still failing after 3 rebase-and-retry attempts"
           exit 1
