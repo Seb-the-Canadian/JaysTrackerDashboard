@@ -1,7 +1,7 @@
 {
-  "as_of": "2026-06-04T22:43:02.023180+00:00",
+  "as_of": "2026-06-05T00:02:35.691136+00:00",
   "notes_meta": {
-    "last_updated_iso": "2026-06-04T22:42:08Z"
+    "last_updated_iso": "2026-06-05T00:01:48Z"
   },
   "config": {
     "team_id": 141,
@@ -361,31 +361,6 @@
   ],
   "upcoming_games": [
     {
-      "game_pk": 824919,
-      "date": "2026-06-04",
-      "home": false,
-      "opp": "Atlanta Braves",
-      "opp_team_id": 144,
-      "opp_team_abbrev": "ATL",
-      "probable_pitcher_us": "Mason Fluharty",
-      "probable_pitcher_us_id": 689254,
-      "probable_pitcher_them": "Chris Sale",
-      "probable_pitcher_them_id": 519242,
-      "status": "Pre-Game",
-      "opp_context": {
-        "team_id": 144,
-        "team": "Atlanta Braves",
-        "w": 42,
-        "l": 20,
-        "pct": ".677",
-        "gb": "-",
-        "streak": "W2",
-        "last10": "6-4",
-        "division_rank": "1",
-        "division_name": "NL East"
-      }
-    },
-    {
       "game_pk": 822810,
       "date": "2026-06-05",
       "home": true,
@@ -534,20 +509,34 @@
         "division_rank": "2",
         "division_name": "NL East"
       }
+    },
+    {
+      "game_pk": 822803,
+      "date": "2026-06-12",
+      "home": true,
+      "opp": "New York Yankees",
+      "opp_team_id": 147,
+      "opp_team_abbrev": "NYY",
+      "probable_pitcher_us": "",
+      "probable_pitcher_us_id": null,
+      "probable_pitcher_them": "",
+      "probable_pitcher_them_id": null,
+      "status": "Scheduled",
+      "opp_context": {
+        "team_id": 147,
+        "team": "New York Yankees",
+        "w": 37,
+        "l": 25,
+        "pct": ".597",
+        "gb": "0.5",
+        "streak": "W1",
+        "last10": "7-3",
+        "division_rank": "2",
+        "division_name": "AL East"
+      }
     }
   ],
   "opponent_pitchers": {
-    "519242": {
-      "id": 519242,
-      "name": "Chris Sale",
-      "throws": "L",
-      "age": 37,
-      "era": "2.01",
-      "whip": "0.94",
-      "ip": "67.0",
-      "k": 80,
-      "gs": 11
-    },
     "687064": {
       "id": 687064,
       "name": "Brandon Young",
@@ -634,11 +623,11 @@
         "age": 24,
         "height": "6' 0\"",
         "weight": 210,
-        "ab": 8,
-        "avg": ".250",
-        "obp": ".250",
-        "slg": ".625",
-        "ops": ".875",
+        "ab": 9,
+        "avg": ".222",
+        "obp": ".222",
+        "slg": ".556",
+        "ops": ".778",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
@@ -676,11 +665,11 @@
         "age": 30,
         "height": "6' 0\"",
         "weight": 170,
-        "ab": 235,
-        "avg": ".302",
-        "obp": ".324",
-        "slg": ".447",
-        "ops": ".771",
+        "ab": 236,
+        "avg": ".305",
+        "obp": ".327",
+        "slg": ".449",
+        "ops": ".776",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
@@ -697,18 +686,18 @@
         "age": 36,
         "height": "6' 1\"",
         "weight": 220,
-        "ab": 160,
-        "avg": ".206",
-        "obp": ".282",
-        "slg": ".350",
-        "ops": ".632",
+        "ab": 162,
+        "avg": ".210",
+        "obp": ".285",
+        "slg": ".358",
+        "ops": ".643",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 5,
         "rbi": 14,
         "sb": 3,
-        "recent": "cold"
+        "recent": null
       },
       {
         "id": 660821,
@@ -739,11 +728,11 @@
         "age": 29,
         "height": "6' 1\"",
         "weight": 220,
-        "ab": 217,
-        "avg": ".221",
-        "obp": ".309",
-        "slg": ".433",
-        "ops": ".742",
+        "ab": 218,
+        "avg": ".220",
+        "obp": ".308",
+        "slg": ".431",
+        "ops": ".739",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
@@ -760,11 +749,11 @@
         "age": 31,
         "height": "5' 9\"",
         "weight": 178,
-        "ab": 89,
-        "avg": ".236",
-        "obp": ".310",
-        "slg": ".337",
-        "ops": ".647",
+        "ab": 90,
+        "avg": ".233",
+        "obp": ".307",
+        "slg": ".333",
+        "ops": ".640",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
@@ -783,9 +772,9 @@
         "weight": 180,
         "ab": 82,
         "avg": ".317",
-        "obp": ".360",
+        "obp": ".367",
         "slg": ".427",
-        "ops": ".787",
+        "ops": ".794",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
@@ -802,18 +791,18 @@
         "age": 34,
         "height": "5' 10\"",
         "weight": 190,
-        "ab": 71,
-        "avg": ".141",
-        "obp": ".197",
-        "slg": ".183",
-        "ops": ".380",
+        "ab": 72,
+        "avg": ".153",
+        "obp": ".208",
+        "slg": ".194",
+        "ops": ".402",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 1,
         "rbi": 4,
         "sb": 0,
-        "recent": null
+        "recent": "hot"
       },
       {
         "id": 665489,
@@ -823,11 +812,11 @@
         "age": 27,
         "height": "6' 0\"",
         "weight": 245,
-        "ab": 215,
-        "avg": ".293",
-        "obp": ".387",
-        "slg": ".381",
-        "ops": ".768",
+        "ab": 216,
+        "avg": ".292",
+        "obp": ".386",
+        "slg": ".380",
+        "ops": ".766",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
@@ -844,18 +833,18 @@
         "age": 24,
         "height": "5' 10\"",
         "weight": 170,
-        "ab": 92,
-        "avg": ".304",
-        "obp": ".340",
-        "slg": ".446",
-        "ops": ".786",
+        "ab": 93,
+        "avg": ".301",
+        "obp": ".337",
+        "slg": ".441",
+        "ops": ".778",
         "xwoba": ".---",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 3,
         "rbi": 16,
         "sb": 0,
-        "recent": "hot"
+        "recent": null
       }
     ],
     "pitchers": [
@@ -909,18 +898,18 @@
         "age": 25,
         "height": "5' 11\"",
         "weight": 206,
-        "ip": "0.0",
-        "era": "-.--",
-        "whip": "-.--",
-        "k_per_9": "-.--",
-        "bb_per_9": "-.--",
-        "k": 0,
-        "bb": 0,
+        "ip": "0.2",
+        "era": "0.00",
+        "whip": "1.50",
+        "k_per_9": "13.50",
+        "bb_per_9": "13.50",
+        "k": 1,
+        "bb": 1,
         "w": 0,
         "l": 0,
         "sv": 0,
         "gs": 0,
-        "recent": null
+        "recent": "new"
       },
       {
         "id": 657756,
@@ -1014,17 +1003,17 @@
         "age": 24,
         "height": "6' 2\"",
         "weight": 215,
-        "ip": "22.2",
-        "era": "3.97",
-        "whip": "1.37",
-        "k_per_9": "11.91",
-        "bb_per_9": "3.57",
-        "k": 30,
-        "bb": 9,
+        "ip": "24.0",
+        "era": "3.75",
+        "whip": "1.38",
+        "k_per_9": "11.63",
+        "bb_per_9": "3.75",
+        "k": 31,
+        "bb": 10,
         "w": 3,
         "l": 0,
         "sv": 0,
-        "gs": 2,
+        "gs": 3,
         "recent": "hot"
       },
       {
@@ -1136,47 +1125,47 @@
   },
   "team_stats": {
     "hitting": {
-      "obp": {
-        "val": ".310",
-        "rank": 25
-      },
-      "avg": {
-        "val": ".244",
-        "rank": 12
-      },
-      "ops": {
-        "val": ".690",
-        "rank": 26
-      },
       "runs": {
         "val": 250,
         "rank": 24
       },
+      "ops": {
+        "val": ".692",
+        "rank": 26
+      },
+      "obp": {
+        "val": ".311",
+        "rank": 25
+      },
       "slg": {
-        "val": ".380",
+        "val": ".381",
         "rank": 23
       },
       "hr": {
         "val": 59,
         "rank": 23
+      },
+      "avg": {
+        "val": ".245",
+        "rank": 11
       }
     },
     "pitching": {
-      "whip": {
-        "val": "1.28",
-        "rank": 17
+      "era": {
+        "val": "3.95",
+        "rank": 11
+      },
+      "bb9": {
+        "val": "3.29",
+        "rank": 11
       },
       "k9": {
         "val": "9.01",
         "rank": 6
       },
-      "era": {
-        "val": "3.96",
-        "rank": 11
-      },
-      "bb9": {
-        "val": "3.27",
-        "rank": 10
+      "whip": {
+        "val": "1.28",
+        "rank": 17
       }
     }
   },
@@ -1184,7 +1173,7 @@
     "665926": {
       "ops": 154,
       "hr": 109,
-      "rbi": 85,
+      "rbi": 86,
       "sb": 45
     },
     "678218": {
@@ -1202,11 +1191,11 @@
     "662139": {
       "ops": 86,
       "hr": 120,
-      "rbi": 153,
+      "rbi": 152,
       "sb": 73
     },
     "676391": {
-      "ops": 70,
+      "ops": 71,
       "hr": 115,
       "rbi": 125,
       "sb": 93
@@ -1224,7 +1213,7 @@
       "sb": null
     },
     "672960": {
-      "ops": 84,
+      "ops": 83,
       "hr": 29,
       "rbi": 41,
       "sb": 158
@@ -1248,7 +1237,7 @@
       "sb": null
     },
     "665489": {
-      "ops": 73,
+      "ops": 69,
       "hr": 140,
       "rbi": 111,
       "sb": 57
@@ -1295,9 +1284,9 @@
       "ip": null
     },
     "592332": {
-      "era": 28,
+      "era": 27,
       "whip": 20,
-      "k_per_9": 32,
+      "k_per_9": 31,
       "bb_per_9": 4,
       "ip": 9
     },
@@ -1353,7 +1342,7 @@
   },
   "player_rank_pool": {
     "hitting": 166,
-    "pitching": 70
+    "pitching": 69
   },
   "injuries": [
     {
@@ -1499,54 +1488,6 @@
   ],
   "transactions": [
     {
-      "date": "2026-05-28",
-      "type": "Status Change",
-      "description": "Toronto Blue Jays transferred RHP Lazaro Estrada from the 15-day injured list to the 60-day injured list. Right shoulder impingement.",
-      "person_name": "Lazaro Estrada"
-    },
-    {
-      "date": "2026-05-28",
-      "type": "Assigned",
-      "description": "Toronto Blue Jays sent RHP Lazaro Estrada on a rehab assignment to Dunedin Blue Jays.",
-      "person_name": "Lazaro Estrada"
-    },
-    {
-      "date": "2026-05-28",
-      "type": "Status Change",
-      "description": "Toronto Blue Jays activated 2B Charles McAdoo.",
-      "person_name": "Charles McAdoo"
-    },
-    {
-      "date": "2026-05-28",
-      "type": "Status Change",
-      "description": "Toronto Blue Jays activated RHP Connor Seabold.",
-      "person_name": "Connor Seabold"
-    },
-    {
-      "date": "2026-05-28",
-      "type": "Status Change",
-      "description": "Toronto Blue Jays activated RHP Connor Seabold.",
-      "person_name": "Connor Seabold"
-    },
-    {
-      "date": "2026-05-28",
-      "type": "Status Change",
-      "description": "Toronto Blue Jays placed 2B Lenyn Sosa on the 10-day injured list retroactive to May 27, 2026. Right wrist contusion.",
-      "person_name": "Lenyn Sosa"
-    },
-    {
-      "date": "2026-05-28",
-      "type": "Selected",
-      "description": "Toronto Blue Jays selected the contract of 2B Charles McAdoo from Buffalo Bisons.",
-      "person_name": "Charles McAdoo"
-    },
-    {
-      "date": "2026-05-28",
-      "type": "Optioned",
-      "description": "Toronto Blue Jays optioned RHP Chase Lee to Buffalo Bisons.",
-      "person_name": "Chase Lee"
-    },
-    {
       "date": "2026-05-30",
       "type": "Designated for Assignment",
       "description": "Toronto Blue Jays designated RHP Austin Voth for assignment.",
@@ -1567,14 +1508,14 @@
     {
       "date": "2026-05-31",
       "type": "Assigned",
-      "description": "Toronto Blue Jays sent RHP Shane Bieber on a rehab assignment to Dunedin Blue Jays.",
-      "person_name": "Shane Bieber"
+      "description": "Toronto Blue Jays sent RHP Max Scherzer on a rehab assignment to Buffalo Bisons.",
+      "person_name": "Max Scherzer"
     },
     {
       "date": "2026-05-31",
       "type": "Assigned",
-      "description": "Toronto Blue Jays sent RHP Max Scherzer on a rehab assignment to Buffalo Bisons.",
-      "person_name": "Max Scherzer"
+      "description": "Toronto Blue Jays sent RHP Shane Bieber on a rehab assignment to Dunedin Blue Jays.",
+      "person_name": "Shane Bieber"
     },
     {
       "date": "2026-06-01",
@@ -1596,15 +1537,15 @@
     },
     {
       "date": "2026-06-03",
-      "type": "Assigned",
-      "description": "Toronto Blue Jays sent RHP Yimi Garc\u00eda on a rehab assignment to Dunedin Blue Jays.",
-      "person_name": "Yimi Garc\u00eda"
-    },
-    {
-      "date": "2026-06-03",
       "type": "Status Change",
       "description": "Toronto Blue Jays transferred LHP Joe Mantiply from the 15-day injured list to the 60-day injured list. Left knee inflammation.",
       "person_name": "Joe Mantiply"
+    },
+    {
+      "date": "2026-06-03",
+      "type": "Assigned",
+      "description": "Toronto Blue Jays sent RHP Yimi Garc\u00eda on a rehab assignment to Dunedin Blue Jays.",
+      "person_name": "Yimi Garc\u00eda"
     },
     {
       "date": "2026-06-03",
@@ -1616,13 +1557,13 @@
       "date": "2026-06-03",
       "type": "Trade",
       "description": "Minnesota Twins traded RHP Simeon Woods Richardson to Toronto Blue Jays for cash.",
-      "person_name": ""
+      "person_name": "Simeon Woods Richardson"
     },
     {
       "date": "2026-06-03",
       "type": "Trade",
       "description": "Minnesota Twins traded RHP Simeon Woods Richardson to Toronto Blue Jays for cash.",
-      "person_name": "Simeon Woods Richardson"
+      "person_name": ""
     },
     {
       "date": "2026-06-04",
@@ -1638,18 +1579,34 @@
     },
     {
       "date": "2026-06-04",
-      "type": "Selected",
-      "description": "Toronto Blue Jays selected the contract of RHP Chad Dallas from Buffalo Bisons.",
-      "person_name": "Chad Dallas"
-    },
-    {
-      "date": "2026-06-04",
       "type": "Optioned",
       "description": "Toronto Blue Jays optioned RHP Hayden Juenger to Buffalo Bisons.",
       "person_name": "Hayden Juenger"
+    },
+    {
+      "date": "2026-06-04",
+      "type": "Selected",
+      "description": "Toronto Blue Jays selected the contract of RHP Chad Dallas from Buffalo Bisons.",
+      "person_name": "Chad Dallas"
     }
   ],
   "news": [
+    {
+      "title": "Game #63 GameThread: Jays @ Braves",
+      "summary": "The final game in Atlanta. They\u2019ve lost the series and four in a row, and avoiding the sweep will be difficult with Chris Sale on the mound. They\u2019ve gone for a righty maximizing lineup to try to counter, which has Charles McAdoo at second and Daulton Varsho and Andres Gimenez sitting. That will make defence [&#8230;]",
+      "source": "Bluebird Banter",
+      "author": "Tom Mullie",
+      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-gamethreads/62267/game-63-gamethread-jays-braves",
+      "published": "2026-06-04T23:17:25+00:00"
+    },
+    {
+      "title": "Gregor Chisholm: Why the Blue Jays will likely demote Brandon Valenzuela when Alejandro Kirk returns - Toronto Star",
+      "summary": "Gregor Chisholm: Why the Blue Jays will likely demote Brandon Valenzuela when Alejandro Kirk returns&nbsp;&nbsp;Toronto Star",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMihAJBVV95cUxQbEY4WDZNY1NJSTUzNWNJMDNGM2hlWmtLa19tWUlMTGxkMHVQTFMtWFZadmt1SkQ3Tl82ZUNESlVVQ2NUNlp5Sy1TQ0RHbDEtNFBDd2NRb041ZzI4UnV2UGNCeUhuNWNmcW15a2ZRZDhhbXJOTUg2M1huSUVxOXhqMnNJZjFONTMtdFMzNkVoTm83c2d1N0NHOWotUHQ4Y0tJQkwxRW96TmczZXptMWVLMmVneFBKTE9HakxJdDhrS215TG5nbTVvQXFmb2hnbG12dENLMURzRUJLSzhSRHFIVDNuTkx1Yi03RFdsdGJPSXhrSE1TTzN6NUxXY3RDM2tyMmE5eQ?oc=5",
+      "published": "2026-06-04T21:36:02+00:00"
+    },
     {
       "title": "Blue Jays Call Up Reliever and Announce Two Additional Roster Moves - Sports Illustrated",
       "summary": "Blue Jays Call Up Reliever and Announce Two Additional Roster Moves&nbsp;&nbsp;Sports Illustrated",
@@ -1657,6 +1614,22 @@
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNU21MbjMwa3FLamd5bUdPczB4ZXppdXVCOElEVkY5VkVZOGlnS201blV5TGc0VlNWcS1vOGlqZUZnSVZMMzlRaERkNkN3ajl5d3hjb010d1VRNDgtS3hQa1BoWjl5SXpYUUd0M0FRSnlQZGgxeFZtbDlqTnowLTc4V2pCOGdfbHdRRjZvSFpILVh4TmFOeWE5bTFLd2Y5cVJ6WGc?oc=5",
       "published": "2026-06-04T21:30:00+00:00"
+    },
+    {
+      "title": "Blue Jays' Alejandro Kirk homers in first rehab game with single-A Dunedin - Sportsnet.ca",
+      "summary": "Blue Jays' Alejandro Kirk homers in first rehab game with single-A Dunedin&nbsp;&nbsp;Sportsnet.ca",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPcHpLcEhHRVRLbHZjb21Gb3Zhd0NTcDJoRFFueXA3a3plVllycng5aXNXdUlvY1hydWJKcTZrd29YYmdJX1Bud05pdmxWaTFaZnM5SFVaOHBFUlM4dzZkZGJPZ0xrMWlsUkwyeG0waDFLcFkxdDRkNDhpV3JYQmVaUjlKRnNUbkNxeU9XdlJGTmg2bUh0LTNibDVmczBLazRZS01XRVN2bl9Ed3kzQTdLRA?oc=5",
+      "published": "2026-06-04T21:08:00+00:00"
+    },
+    {
+      "title": "Blue Jays call up RHP Chad Dallas, option Hayden Juenger to triple-A - Sportsnet.ca",
+      "summary": "Blue Jays call up RHP Chad Dallas, option Hayden Juenger to triple-A&nbsp;&nbsp;Sportsnet.ca",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNTDN2Q3ctSjl0UnltSE5Xc1F6b2xURlJwcks3V25vVkc2Mm43RU5BRGRLWUtXSC1HQjZpcUc4OFNzTk5FSDhrUlgtYW12Qkd2ZHphVnZXUFJGVU1iZGRFS09pWHJUSW9sb1JrcnVhZERWMFppT2wyRHFaN21sQkpjVXllNTBRVjlzZ00wVWFOYUxYZDVyTHhFb0RTY3g5c0czM3RsemVxdGc?oc=5",
+      "published": "2026-06-04T21:07:00+00:00"
     },
     {
       "title": "Seojun Moon is quickly validating the Blue Jays investment - Jays Journal",
@@ -1667,12 +1640,12 @@
       "published": "2026-06-04T21:00:00+00:00"
     },
     {
-      "title": "Toronto Blue Jays Announce George Springer Decision Before Braves Series Finale - heavy.com",
-      "summary": "Toronto Blue Jays Announce George Springer Decision Before Braves Series Finale&nbsp;&nbsp;heavy.comBlue Jays' Mason Fluharty to start Thursday vs. Braves&nbsp;&nbsp;Sportsnet.caHa-Seong Kim back out of lineup for Blue Jays finale&nbsp;&nbsp;Yahoo Sports",
+      "title": "Blue Jays cut pitcher with 0.00 ERA in bullpen shakeup - The Big Lead",
+      "summary": "Blue Jays cut pitcher with 0.00 ERA in bullpen shakeup&nbsp;&nbsp;The Big Lead",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPWTZFa01oQmFTYlh3QjJ4SFR3ckV0RDJEVkZvVTdfalJxaThJNDU0MEpTR20tbUNwNnVwWGdYRjY4MG1nVVVDb0JiV1pFMkdhRmlWXzl2QmZ4ZzV2RW1iVHZ5TUtRNEluM3lDTlRKMW1mZUpSYnhNYzNLUXdCNldoLVlXeHBzbFB5NWl6N3NhUC1oeDA?oc=5",
-      "published": "2026-06-04T20:24:55+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOQ2pjOGF3NWQ5UGo2bnFsY1FNV3d5ZVpKVTZPemR2OVFSUjhCSzBoM240WlAwOHJpME0ta0ltdWVkVWcxTjFHT2RuSVhNZE90NUJkbXczX1U1dEFjRl9sS0dJZVJtYW11NktVQy1OMkhxUzZlbjRqeUViVTR6a3ZSaFpLNFZpZndJRUE?oc=5",
+      "published": "2026-06-04T20:41:42+00:00"
     },
     {
       "title": "Blue Jays call up Dallas, option Juenger to Triple-A - TSN",
@@ -1683,36 +1656,12 @@
       "published": "2026-06-04T20:08:06+00:00"
     },
     {
-      "title": "Here's What to Know About Toronto Blue Jays Latest Call Up - Yahoo Sports",
-      "summary": "Here's What to Know About Toronto Blue Jays Latest Call Up&nbsp;&nbsp;Yahoo Sports",
+      "title": "Why Mason Fluharty is Blue Jays' starting pitcher today, and who is bulk guy to follow - sportingnews.com",
+      "summary": "Why Mason Fluharty is Blue Jays' starting pitcher today, and who is bulk guy to follow&nbsp;&nbsp;sportingnews.com",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOaDN1ZmEzT0V6cTNqRnhvQUxtS2VkYmxCellUSHRGLTFnMG1CeW9oaFkzTjhUZ1lOTlZEZzg2ejY3X09yZUpBT0YtSnpoRXc3bld0bnc0eUxoOFRpOUwxOXdNQTd4RFVNdzJmN2VvT1hPT2xiUHlYY01sbWF4d29NMTBGSQ?oc=5",
-      "published": "2026-06-04T20:05:57+00:00"
-    },
-    {
-      "title": "Blue Jays call up RHP Chad Dallas, option Hayden Juenger to triple-A - Sportsnet.ca",
-      "summary": "Blue Jays call up RHP Chad Dallas, option Hayden Juenger to triple-A&nbsp;&nbsp;Sportsnet.ca",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNTDN2Q3ctSjl0UnltSE5Xc1F6b2xURlJwcks3V25vVkc2Mm43RU5BRGRLWUtXSC1HQjZpcUc4OFNzTk5FSDhrUlgtYW12Qkd2ZHphVnZXUFJGVU1iZGRFS09pWHJUSW9sb1JrcnVhZERWMFppT2wyRHFaN21sQkpjVXllNTBRVjlzZ00wVWFOYUxYZDVyTHhFb0RTY3g5c0czM3RsemVxdGc?oc=5",
-      "published": "2026-06-04T20:00:00+00:00"
-    },
-    {
-      "title": "Blue Jays linked to former Yankees pitching prospect as trade deadline target - sportingnews.com",
-      "summary": "Blue Jays linked to former Yankees pitching prospect as trade deadline target&nbsp;&nbsp;sportingnews.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxOdlA5QW9teEh1cjZhZnZfWUR5TjFUek12aFlWdzgtU0ZMMDNJVDB1TGZWbmZ2cjBQekZtYmQ4YWg4dGRhUmtReDlkX1E3X2VYRzNrMV9aWFVwZFhUa05JMGJoZ3RzWXRXNnBEaFF4TEk5dWVreGo0cnk1U2lfSUlURVY4cEYzeE5DTWtuWDdnNUp6V2hhTVZRQWpzVEVuSlRnN1JnZUhDSmgzb2hJc2c3Wk1JNGpvbFBnbl9aUTM1RkkyVC1kUjlEakt1QTdnbmNCcVBQVlAxOURYVjIzOE05YzFsUG9FelJVUDRj?oc=5",
-      "published": "2026-06-04T19:20:20+00:00"
-    },
-    {
-      "title": "How to watch Blue Jays vs. Braves: TV channel and streaming options for June 4 - The New York Times",
-      "summary": "How to watch Blue Jays vs. Braves: TV channel and streaming options for June 4&nbsp;&nbsp;The New York Times",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxQc0VFbG1XWGUyY3JJN25lLWNDLU5ZQWxwOGVpM3ppSU9tcHdJbjkteUxxaEVIZnJ4M0hURkRjVXVQMU5kTUtOeDk4dXF1ci1ka01veUhoaVZhcTVUNjFGY3JRY2FXdlBNVFBvTUx5bEFKZWhoRzdMR0V0V2NNSTVjbUcyd1Q1dDdmbDd1N2xvT01jWVZEWXprS09kczVXVWFTZXktMU9yU1RFLU5hc0VTSmVOczk5MHRtc0ZEbHdqeTM1Q1B6bjhoNg?oc=5",
-      "published": "2026-06-04T19:13:40+00:00"
+      "url": "https://news.google.com/rss/articles/CBMi6wFBVV95cUxPb0NVQTEyZUgzYXVvYVVycWt3Y3BLRE9OOTZYUTRFOXlHb3kzd0t3S2YweW1feUh4cGV0M3N3ZmRXVmRrMEFOR1Y2VWFIVERicURzeVMxcTZBTnZmQnV5YXZtcUppNFdSNEN2U2dQTUtWZXRFWGtrcXU1WTRzTjU1M2ZuLTFZeExJTVQ2WUNmYjJOOUlRWnhEalZ0ZU1QNkljOGVxaWdURnZQdGZ2dzBZV21hTXJ4SmxsVm9vU1BjR205V3FQc0JQTHF5cDdUZVd1Z1BjREhac3hwRHpaM0NUa0lSY093cWVkbzBN?oc=5",
+      "published": "2026-06-04T19:28:24+00:00"
     },
     {
       "title": "Hitting Coaches?",
@@ -1729,14 +1678,6 @@
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMifEFVX3lxTE91M3dQWml2VjRyVWlXN1dQRWQwLVVOVDF6WUUtSVB6NVJRTzBiclA0SVVTeTVMdVg2RExSYWMxaWpFZzFHRTdSQ3duTXVDXzZVOVJYcGV1cXlvSHJ2NVAwZEQwUXo1a1JZb0V0eWV5NnZWbG81ekJ5RlhhTE8?oc=5",
       "published": "2026-06-04T17:10:37+00:00"
-    },
-    {
-      "title": "Home of Blue Jays star sells at $430K loss in Toronto - INsauga",
-      "summary": "Home of Blue Jays star sells at $430K loss in Toronto&nbsp;&nbsp;INsauga",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNbm9nbXA1MWctWUtfR1BteTdRUUNRZzQyLVQza0dfZFFEMUhnd3VPSW1TanF3RW9mSDNxUG41RkRCWVFzU0RjZDJ1dExlWkI2cTBNNlVzX3FBdkxzS1liNnM2d04tdEgzc1djc1FKRHF3c254X1pfSF9JN0JKMURVZVgwNA?oc=5",
-      "published": "2026-06-04T17:07:32+00:00"
     },
     {
       "title": "Blue Jays under increasing pressure after fourth straight loss - Sportsnet.ca",
@@ -1787,14 +1728,6 @@
       "published": "2026-06-04T15:00:10+00:00"
     },
     {
-      "title": "Blue Jays Transfer Veteran Pitcher to 60-Day IL - heavy.com",
-      "summary": "Blue Jays Transfer Veteran Pitcher to 60-Day IL&nbsp;&nbsp;heavy.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxNWnZNdXhEb1BLSHU4RTdieGR1U0hWZ0t5bFRRYzg0RzUzMlM2OHFHWGFqckktZ3F4WDJ6OUU1RmZLMktMcjV2YmJ5NjBlTUdmTjZFNm9ZV2ZXWVk0bHB4VDNPQ0lpUndVS3p3OWpiaXFYcWdYMHl1OWxHek90RExrLUpxTVJLa3BhMHc?oc=5",
-      "published": "2026-06-04T13:58:11+00:00"
-    },
-    {
       "title": "Instant Reaction: Blue Jays losing streak hits four games with 7-3 loss to Braves - Blue Jays Nation",
       "summary": "Instant Reaction: Blue Jays losing streak hits four games with 7-3 loss to Braves&nbsp;&nbsp;Blue Jays Nation",
       "source": "Google News",
@@ -1809,6 +1742,14 @@
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMiywFBVV95cUxQUXRUdmNaSTY3bmN5M1lTSVdsRG0ta2NNY1FFUk9rZHFodGtUUS1OT0tJTG5DOEJXOVlvN2dzY0w0dGZ3c0Rkd1h2QlVrRDJuS2FjNldoV2RycG5EazV3SFF5ajF3V1ctWWxZSnZtWV9Jb1FoRHhnV3BjbWN0ZjdZTjRIeTQwZWg1OHZZNEJKLU9CWkpoaUJUcjJrczJyTF9Bcmg1LWhOWGN4YkxLS1NuN0pGTzR2dmxCUDUtYkV6TmFzU0F2eHFaUWd0WQ?oc=5",
       "published": "2026-06-04T10:37:00+00:00"
+    },
+    {
+      "title": "Gregor Chisholm: Help is on the way for the Blue Jays \u2014 not a moment too soon - Toronto Star",
+      "summary": "Gregor Chisholm: Help is on the way for the Blue Jays \u2014 not a moment too soon&nbsp;&nbsp;Toronto Star",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMi5AFBVV95cUxQWVcwVUNucHBpbUpxQlFYZ09xYWgxX0ZhMWN3Z0t2aExIMmRGaHBKS29xVVc1dGhBXzVFRkNqTHFQdUVnZDdvZXBsem9JM2E0REVJQmxOajhtcXV4WTRKanZ1eUxQbG9CaE5RanNMaklRSUFiUThjcnZ1ZS1xUHdPaTducVgtYWphakZQbDRZY1VhOUx6QmRESGk1NDU4UUhTMUFvb1NleTc3eVlNSWFFMEpjRmNYYVVZWjhmSndzUERCMHg5bU44MDEzbDVCTnBwODE0NHp5a21BczJyLUY2R0M5VUQ?oc=5",
+      "published": "2026-06-04T09:01:53+00:00"
     }
   ],
   "run_diff_last_10": [
