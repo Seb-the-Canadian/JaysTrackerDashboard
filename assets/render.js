@@ -101,9 +101,10 @@
       setText('hdr-rec-detail', '');
     }
 
-    // Injury count — clickable chip; popover lands in a later commit.
-    const injuries = data.injuries || [];
-    setText('il-count', String(injuries.length));
+    // Injury count — drives the IL chip + popover (B5 fix). Filters
+    // "Reassigned to Minors" out of the count and the popover list
+    // (closes #28) — these are roster moves, not injuries.
+    setText('il-count', String(filteredInjuries(data).length));
 
     // Freshness badge — green <24h, amber 24-48h, red >48h since as_of.
     renderFreshness(data.as_of);
@@ -287,10 +288,111 @@
     window.addEventListener('jt-theme-change', updateGlyph);
   }
 
+  // IL popover state — module-local. The chip handler runs at boot
+  // (data hasn't loaded yet), so click reads from _lastState which
+  // renderFromState updates on every refresh.
+  let _ilHooked = false;
+  let _ilOpen = false;
+  let _ilPopover = null;
+
+  function filteredInjuries(data) {
+    // Filter "Reassigned to Minors" — roster moves, not injuries
+    // (closes #28). Keep the comparison loose to also catch "Sent
+    // to Minors" / "Optioned" style messages MLB occasionally ships
+    // through the same feed.
+    return ((data && data.injuries) || []).filter(function (inj) {
+      const st = String(inj.status || '');
+      return !/reassigned to minors|optioned to minors|sent to minors/i.test(st);
+    });
+  }
+
+  function buildIlPopoverContent(state) {
+    const F = window.JaysFormat;
+    const data = (state && state.data) || {};
+    const injuries = filteredInjuries(data);
+    if (injuries.length === 0) {
+      return '<div class="il-pop-head"><b>Injured list</b></div>'
+        + '<p class="il-pop-empty">No one on the IL today.</p>';
+    }
+    let html = '<div class="il-pop-head"><b>Injured list</b> <small>'
+      + injuries.length + ' player' + (injuries.length === 1 ? '' : 's') + '</small></div>'
+      + '<ul class="il-pop-list">';
+    injuries.forEach(function (inj) {
+      const name = F.escapeHtml(inj.name || '—');
+      const status = F.escapeHtml(inj.status || '');
+      const eta = inj.eta_note ? '<small>' + F.escapeHtml(inj.eta_note) + '</small>' : '';
+      html += '<li><span class="il-pop-name">' + name + '</span>'
+        + '<span class="il-pop-status">' + status + '</span>' + eta + '</li>';
+    });
+    html += '</ul>';
+    return html;
+  }
+
+  function openIl() {
+    const chip = document.getElementById('il-chip');
+    if (!chip || !_lastState) return;
+    if (!_ilPopover) {
+      _ilPopover = document.createElement('div');
+      _ilPopover.className = 'il-popover';
+      _ilPopover.id = 'il-popover';
+      _ilPopover.setAttribute('role', 'dialog');
+      _ilPopover.setAttribute('aria-label', 'Injured list');
+      document.body.appendChild(_ilPopover);
+    }
+    _ilPopover.innerHTML = buildIlPopoverContent(_lastState);
+    // Position below the chip, anchored to its right edge so a wide
+    // popover doesn't overflow the viewport on the left.
+    const r = chip.getBoundingClientRect();
+    const w = 320;
+    const left = Math.max(8, Math.min(window.innerWidth - w - 8, r.right - w));
+    _ilPopover.style.left = (left + window.scrollX) + 'px';
+    _ilPopover.style.top = (r.bottom + 6 + window.scrollY) + 'px';
+    _ilPopover.classList.add('show');
+    chip.setAttribute('aria-expanded', 'true');
+    _ilOpen = true;
+  }
+
+  function closeIl() {
+    if (_ilPopover) _ilPopover.classList.remove('show');
+    const chip = document.getElementById('il-chip');
+    if (chip) chip.setAttribute('aria-expanded', 'false');
+    _ilOpen = false;
+  }
+
   function hookIlChip(state) {
-    // IL chip is currently a static badge. Popover (names + status + ETA)
-    // is a tracked follow-up (M2 from the round-1 bug log).
-    void state;
+    if (_ilHooked) return;
+    _ilHooked = true;
+    void state; // state cached via renderFromState → _lastState
+    const chip = document.getElementById('il-chip');
+    if (!chip) return;
+    chip.setAttribute('aria-expanded', 'false');
+    chip.setAttribute('aria-haspopup', 'dialog');
+    chip.setAttribute('aria-controls', 'il-popover');
+    chip.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (_ilOpen) closeIl();
+      else openIl();
+    });
+    document.addEventListener('click', function (e) {
+      if (!_ilOpen) return;
+      if (_ilPopover && _ilPopover.contains(e.target)) return;
+      closeIl();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (_ilOpen && e.key === 'Escape') {
+        e.preventDefault();
+        e.stopPropagation();
+        closeIl();
+        chip.focus();
+      }
+    });
+    // Keep popover content fresh: rebuild on every open from current
+    // _lastState. Also rebuild if open during a data refresh.
+    window.addEventListener('jt-data-refresh', function () {
+      if (_ilOpen && _lastState) {
+        _ilPopover.innerHTML = buildIlPopoverContent(_lastState);
+      }
+    });
   }
 
   let _tabsHooked = false;
@@ -360,7 +462,16 @@
     'stat-school': 'Stat School',
   };
 
+  // Cached state — the IL popover handler runs at boot (data not yet
+  // available) and reads from this at click time. Dispatched as
+  // jt-data-refresh so any other chrome that needs to react to a refresh
+  // can subscribe instead of polling.
+  let _lastState = null;
+
   function renderFromState(state) {
+    _lastState = state;
+    try { window.dispatchEvent(new CustomEvent('jt-data-refresh')); }
+    catch (_) { /* non-blocking */ }
     // Theme mode was set synchronously at init (skeleton time); only the
     // team-identity tokens need re-applying now that config has arrived.
     window.JaysTheme.applyTeamTheme(state.config);

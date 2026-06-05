@@ -571,16 +571,39 @@
 
 /* ============================================================
    RESPONSIVE
+
+   Breakpoint rationale (V16 fix): the longest current name
+   ("Vladimir Guerrero Jr.") is ~150px at 13.5px bold sans. To keep
+   names un-truncated across the gradient, each card needs the name
+   column ≥150px after avatar (~57px including gap+padding) and right
+   cluster (~80–110px depending on rank badge). Net per-card minimum:
+   ~290px including 11px grid gap.
+
+   Width    | Cards/row | Card width | Name col (est.)
+   ---------|-----------|------------|----------------
+   ≥1200    |     4     |   ~285px   |  ~140px
+   880–1200 |     3     |   ~290px   |  ~150px
+   580– 880 |     2     |   ~280px   |  ~145px
+    < 580   |     1     |   ~full    |  generous
+
+   Plus: at ≤1200px the rank-badge " %ile" suffix is hidden via
+   media query (.pc-stat i small) — saves ~25–30px back to the name
+   column. "61st" alone still reads as percentile in context with
+   the bold value + uppercase label adjacent.
    ============================================================ */
-@media (max-width: 980px) {
+@media (max-width: 1200px) {
   .pcards { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* Drop " %ile" suffix at narrow widths to free name column space.
+     The ordinal ("61st") still reads as percentile against the
+     adjacent value+label cluster. */
+  .pc-stat i small { display: none; }
 }
-@media (max-width: 680px) {
+@media (max-width: 880px) {
   .pcards { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
   .slash-big { gap: 12px; }
   .modal-form { margin-left: 0; width: 100%; }
 }
-@media (max-width: 460px) {
+@media (max-width: 620px) {
   .pcards { grid-template-columns: minmax(0, 1fr); }
   .ctx-row {
     grid-template-columns: 84px 40px 1fr 62px;
