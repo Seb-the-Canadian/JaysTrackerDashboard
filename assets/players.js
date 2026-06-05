@@ -339,7 +339,8 @@
     if (rankRows.length > 0) {
       const label = document.createElement('p');
       label.className = 'mb-label';
-      label.textContent = 'Where ' + (isHitter ? 'he' : 'they') + ' rank';
+      // Subject-verb agreement: "he ranks" (singular), "they rank" (plural).
+      label.textContent = 'Where ' + (isHitter ? 'he ranks' : 'they rank');
       body.appendChild(label);
       rankRows.forEach(function (row) { body.appendChild(row); });
     }

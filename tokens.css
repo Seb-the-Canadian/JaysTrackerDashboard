@@ -67,9 +67,23 @@
   --analyst: #9a7b4f;
   --analyst-tint: #f1ead7;
   --analyst-ink: #6b5733;
+  /* Analyst body ink — the read-aloud paragraph color INSIDE cream cards
+     (distinct from --analyst-ink, the eyebrow / accent ink). Extracted in
+     the v2 uniformity pass from three identical literals across
+     overview.css / players.css / stat-school.css. */
+  --analyst-ink-body: #4a4332;
+  /* Border around analyst cream cards. Two files (players, stat-school)
+     were duplicating the same hex literal; one token resolves the drift. */
+  --analyst-edge: #e4d8bd;
   --external: #5d6b88;
   --external-tint: #ecedf3;
   --external-ink: #414c63;
+
+  /* Heat-bar visual midpoint — theme-independent. Used by the .strip
+     (player rank rows + team-stats ledger) and the Stat School
+     .scale-track. Same hex was hardcoded in three files before the v2
+     uniformity pass — single token now keeps them in lockstep. */
+  --heat-neutral: #cdb89a;
 
   /* ---- NOSTALGIA (baseball-universal, NOT team-specific) ---- */
   --seam: #c8102e;   /* fixed stitch red — independent of --team-accent */
@@ -158,6 +172,8 @@
   /* LAYERS — desaturate tints; lift inks */
   --analyst-tint: #26221a;
   --analyst-ink: #cbb182;
+  --analyst-ink-body: #cabfa6;   /* paragraph ink inside cream cards (dark mode pair) */
+  --analyst-edge: #36301f;       /* border around cream cards (dark mode pair) */
   --analyst: #b08f57;
   --external-tint: #1e222c;
   --external-ink: #9fb0d0;
