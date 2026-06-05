@@ -148,6 +148,24 @@ def test_transform_roster_hitter_row_has_all_fields(cfg, mocker, mock_player_xst
     assert h["recent"] == "hot"
 
 
+def test_transform_roster_hitter_carries_xwoba_from_woba_key(cfg, mocker, mock_player_xstats, mock_savant_barrels):
+    """#117 regression guard: under type=expectedStatistics the API returns
+    the xwOBA value under the key `woba` (the type already carries the
+    "expected" meaning, so the 'x' prefix is dropped). The caller's lookup
+    must read `woba` as the canonical key; `xWoba`/`xwoba` are kept as
+    backwards-compat fallbacks but were the ONLY keys checked pre-fix —
+    which is why every hitter's xwoba shipped as '.---' in production."""
+    mocker.patch("fetch_data.fetch_player_season_stats", return_value=_hitter_stats())
+    mocker.patch("fetch_data.derive_recent_form", return_value=None)
+    mock_player_xstats.return_value = {
+        "avg": ".210", "slg": ".298", "woba": ".252", "wobaCon": ".276",
+    }
+    mock_savant_barrels.return_value = {}
+    result = fetch_data.transform_roster(
+        [_hitter_entry(665489, "Vladimir Guerrero Jr.", pos="1B")], cfg)
+    assert result["hitters"][0]["xwoba"] == ".252"
+
+
 def test_transform_roster_hitter_xwoba_dash_when_xstats_empty(cfg, mocker):
     """Empty xstats (network fail, pre-Opening-Day) → '.---' placeholder."""
     mocker.patch("fetch_data.fetch_player_season_stats", return_value=_hitter_stats())

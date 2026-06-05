@@ -708,6 +708,12 @@ def fetch_player_xstats(person_id, season):
     ...)` path with a hydrate, the same workaround as `_fetch_game_log`
     (PR #63 history).
 
+    Note (#117): under type=expectedStatistics the keys come back WITHOUT
+    the leading `x` — the type already carries the "expected" meaning. So
+    xwOBA is published as `woba`, xBA as `avg`, xSLG as `slg`,
+    xwOBACON as `wobaCon`. The caller's lookup uses `woba` as the
+    canonical key with `xWoba` / `xwoba` as backwards-compat fallbacks.
+
     Returns {} for any failure (network, missing endpoint, no expectedStats
     surfaced for the player yet) so the caller can apply a "---" placeholder.
     Never raises; never `die()`s — Statcast is value-add, not foundational.
@@ -723,40 +729,6 @@ def fetch_player_xstats(person_id, season):
     except Exception as e:
         log(f"warning: xstats fetch for {person_id} failed: {e}")
         return {}
-    # #117 diagnostic: every hitter's xwoba ships as '.---', and there's no
-    # log breadcrumb to say why. Once per process, log the actual response
-    # shape so the next refresh names the failure mode exactly (no splits?
-    # type rotated? hydrate ignored?). Removed in the fix commit.
-    global _XSTATS_DIAG_LOGGED
-    if not _XSTATS_DIAG_LOGGED:
-        _XSTATS_DIAG_LOGGED = True
-        people = response.get("people") or []
-        if not people:
-            log(f"INFO: xstats #117 — person_id={person_id}: response.people empty; top keys={list(response.keys())}")
-        else:
-            stats_entries = people[0].get("stats", [])
-            summary = [
-                {
-                    "type": (e.get("type") or {}).get("displayName"),
-                    "group": (e.get("group") or {}).get("displayName"),
-                    "splits": len(e.get("splits") or []),
-                }
-                for e in stats_entries
-            ]
-            log(f"INFO: xstats #117 — person_id={person_id}: stats entries={summary}")
-            # v2 follow-on: previous diag confirmed type+group+1 split — so
-            # the filter is matching. Now dump the actual split.stat dict so
-            # we can see which key xwOBA is published under (callers read
-            # xWoba / xwoba — those may have rotated). One more refresh
-            # names the right field, then we patch the lookup.
-            for e in stats_entries:
-                if (e.get("type") or {}).get("displayName") == "expectedStatistics" \
-                        and (e.get("group") or {}).get("displayName") == "hitting":
-                    sp = (e.get("splits") or [])
-                    if sp:
-                        log(f"INFO: xstats #117 — split.stat keys={list((sp[0].get('stat') or {}).keys())}")
-                        log(f"INFO: xstats #117 — split.stat={sp[0].get('stat')}")
-                    break
     people = response.get("people") or []
     if not people:
         return {}
@@ -769,11 +741,6 @@ def fetch_player_xstats(person_id, season):
                 return splits[0].get("stat") or {}
             return {}
     return {}
-
-
-# #117 diagnostic state — see fetch_player_xstats. Module-level so it fires
-# exactly once per process even when many hitters are processed.
-_XSTATS_DIAG_LOGGED = False
 
 
 def is_pitcher(entry):
@@ -1338,7 +1305,16 @@ def transform_roster(roster_entries, cfg):
             xwoba = ".---"
             if int(stat.get("atBats") or 0) > 0:
                 xstat = fetch_player_xstats(pid, cfg["season"])
-                xwoba = xstat.get("xWoba") or xstat.get("xwoba") or ".---"
+                # `woba` is the canonical key under type=expectedStatistics
+                # (the type carries the "expected" meaning, so MLB drops the
+                # 'x' prefix). xWoba / xwoba kept as backwards-compat fallbacks
+                # — #117 root cause.
+                xwoba = (
+                    xstat.get("woba")
+                    or xstat.get("xWoba")
+                    or xstat.get("xwoba")
+                    or ".---"
+                )
             # Barrel% / Hard-Hit% from Savant leaderboard (#29 PR 3).
             # Sub-threshold-PA hitters won't appear in the leaderboard;
             # fall back to '---' placeholders.
