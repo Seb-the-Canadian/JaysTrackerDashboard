@@ -150,6 +150,7 @@ opposing-pitcher modal.
 | # | Finding | Resolution |
 |---|---|---|
 | B1 | "WHERE HE RANK" missing trailing "s" in hitter modal subhead. Subject-verb agreement: "he ranks" / "they rank" — only the hitter side was wrong. | Fixed in `players.js`: `'Where ' + (isHitter ? 'he ranks' : 'they rank')`. |
+| B2 | Rank-row terms for stats without `stat_school.json` entries (`k9`, `bb9`, `ip`, `hr`, `rbi`, `sb`, `hardhit_pct`) show dotted-underline + cursor:help but tooltip silently no-ops. | Resolved as issue #125 (frontend suppression). Added `JaysStatRegistry.has(slug)` sync helper, made `render.js` await registry load before dispatch, gated every `.term[data-stat]` emit site (`players.js`, `team-stats.js`, `overview.js`, `opponent-pitcher.js`) on `has()`. Slugs without backing now render as plain text — no dead affordance. Editorial path (Option A from #125) is unblocked: authoring a `stat_school.json` entry restores the affordance automatically. Regression guard in `tests/probes/tooltips.js` (T12/T13). |
 
 ### Filed as issues (non-trivial)
 
@@ -157,7 +158,6 @@ opposing-pitcher modal.
 |---|---|---|
 | V5 | Type-scale gaps — 117 `font-size` literals; 51 of them are the four sizes `11/12/13/10px` (each used 10–19 times) but no token covers that range. | Cascading visual impact; needs design-system pass + per-surface review. |
 | V6 | Radius-scale gap — 34 `border-radius` literals; `3px` used 10× with no `--r*` token equivalent. | Same — needs decision on `--r-chip` or similar. |
-| B2 | Rank-row terms for stats without `stat_school.json` entries (`k9`, `bb9`, `ip`, `hr`, `rbi`, `sb`, `hardhit_pct`) show dotted-underline + cursor:help but tooltip silently no-ops. | Editorial work — content for these stats belongs to the maintainer's voice (`stat_school.json`), not to a code change. |
 
 ## Not yet covered (next audit pass)
 

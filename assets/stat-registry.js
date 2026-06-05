@@ -50,9 +50,20 @@
   // calls load() on init; this avoids racing the first event).
   function ready() { return DATA !== null; }
 
+  // Synchronously check whether a slug has a stat_school.json entry. Used
+  // by renderers to gate the `.term[data-stat]` affordance — emitting the
+  // dotted-underline + cursor:help only when there's actually a tooltip
+  // behind it (issue #125). Pre-load contract: render.js awaits load()
+  // before any renderer runs, so by emit time DATA is populated and this
+  // returns the truthful answer. If called before load resolves it
+  // returns false — renderers degrade to plain text rather than a dead
+  // affordance, which is the desired direction anyway.
+  function has(slug) { return get(slug) !== null; }
+
   window.JaysStatRegistry = {
     load: load,
     get: get,
+    has: has,
     ready: ready,
   };
 })();
