@@ -1,7 +1,7 @@
 {
-  "as_of": "2026-06-05T03:06:48.221136+00:00",
+  "as_of": "2026-06-05T10:24:35.815541+00:00",
   "notes_meta": {
-    "last_updated_iso": "2026-06-04T22:29:51-04:00"
+    "last_updated_iso": "2026-06-04T23:06:59-04:00"
   },
   "config": {
     "team_id": 141,
@@ -166,8 +166,8 @@
       "team": "Minnesota Twins",
       "team_id": 142,
       "w": 29,
-      "l": 34,
-      "gb": "1.5",
+      "l": 35,
+      "gb": "2.0",
       "note": "Out",
       "is_us": false
     },
@@ -201,9 +201,9 @@
     {
       "team": "Kansas City Royals",
       "team_id": 118,
-      "w": 24,
+      "w": 25,
       "l": 38,
-      "gb": "6.0",
+      "gb": "5.5",
       "note": "Out",
       "is_us": false
     },
@@ -588,7 +588,7 @@
         "ops": ".604",
         "xwoba": ".---",
         "barrel_pct": "3.7%",
-        "hardhit_pct": "23.5%",
+        "hardhit_pct": "23.3%",
         "hr": 6,
         "rbi": 28,
         "sb": 7,
@@ -671,8 +671,8 @@
         "slg": ".450",
         "ops": ".779",
         "xwoba": ".---",
-        "barrel_pct": "2.8%",
-        "hardhit_pct": "25.6%",
+        "barrel_pct": "2.7%",
+        "hardhit_pct": "25.5%",
         "hr": 5,
         "rbi": 22,
         "sb": 2,
@@ -692,8 +692,8 @@
         "slg": ".352",
         "ops": ".636",
         "xwoba": ".---",
-        "barrel_pct": "8.1%",
-        "hardhit_pct": "37.9%",
+        "barrel_pct": "7.8%",
+        "hardhit_pct": "37.2%",
         "hr": 5,
         "rbi": 14,
         "sb": 3,
@@ -734,8 +734,8 @@
         "slg": ".432",
         "ops": ".743",
         "xwoba": ".---",
-        "barrel_pct": "15.1%",
-        "hardhit_pct": "53.2%",
+        "barrel_pct": "15.5%",
+        "hardhit_pct": "52.8%",
         "hr": 13,
         "rbi": 35,
         "sb": 0,
@@ -818,8 +818,8 @@
         "slg": ".391",
         "ops": ".782",
         "xwoba": ".---",
-        "barrel_pct": "6.7%",
-        "hardhit_pct": "44.6%",
+        "barrel_pct": "6.6%",
+        "hardhit_pct": "44.9%",
         "hr": 3,
         "rbi": 24,
         "sb": 5,
@@ -1125,16 +1125,8 @@
   },
   "team_stats": {
     "hitting": {
-      "hr": {
-        "val": 59,
-        "rank": 23
-      },
       "slg": {
         "val": ".382",
-        "rank": 22
-      },
-      "runs": {
-        "val": 257,
         "rank": 22
       },
       "avg": {
@@ -1147,21 +1139,29 @@
       },
       "obp": {
         "val": ".312",
-        "rank": 24
+        "rank": 25
+      },
+      "hr": {
+        "val": 59,
+        "rank": 23
+      },
+      "runs": {
+        "val": 257,
+        "rank": 22
       }
     },
     "pitching": {
-      "k9": {
-        "val": "8.96",
-        "rank": 7
+      "whip": {
+        "val": "1.27",
+        "rank": 15
       },
       "era": {
         "val": "3.93",
         "rank": 11
       },
-      "whip": {
-        "val": "1.27",
-        "rank": 15
+      "k9": {
+        "val": "8.96",
+        "rank": 7
       },
       "bb9": {
         "val": "3.27",
@@ -1171,7 +1171,7 @@
   },
   "player_ranks": {
     "665926": {
-      "ops": 154,
+      "ops": 155,
       "hr": 109,
       "rbi": 87,
       "sb": 45
@@ -1508,14 +1508,14 @@
     {
       "date": "2026-05-31",
       "type": "Assigned",
-      "description": "Toronto Blue Jays sent RHP Shane Bieber on a rehab assignment to Dunedin Blue Jays.",
-      "person_name": "Shane Bieber"
+      "description": "Toronto Blue Jays sent RHP Max Scherzer on a rehab assignment to Buffalo Bisons.",
+      "person_name": "Max Scherzer"
     },
     {
       "date": "2026-05-31",
       "type": "Assigned",
-      "description": "Toronto Blue Jays sent RHP Max Scherzer on a rehab assignment to Buffalo Bisons.",
-      "person_name": "Max Scherzer"
+      "description": "Toronto Blue Jays sent RHP Shane Bieber on a rehab assignment to Dunedin Blue Jays.",
+      "person_name": "Shane Bieber"
     },
     {
       "date": "2026-06-01",
@@ -1537,15 +1537,15 @@
     },
     {
       "date": "2026-06-03",
-      "type": "Assigned",
-      "description": "Toronto Blue Jays sent RHP Yimi Garc\u00eda on a rehab assignment to Dunedin Blue Jays.",
-      "person_name": "Yimi Garc\u00eda"
-    },
-    {
-      "date": "2026-06-03",
       "type": "Status Change",
       "description": "Toronto Blue Jays transferred LHP Joe Mantiply from the 15-day injured list to the 60-day injured list. Left knee inflammation.",
       "person_name": "Joe Mantiply"
+    },
+    {
+      "date": "2026-06-03",
+      "type": "Assigned",
+      "description": "Toronto Blue Jays sent RHP Yimi Garc\u00eda on a rehab assignment to Dunedin Blue Jays.",
+      "person_name": "Yimi Garc\u00eda"
     },
     {
       "date": "2026-06-03",
@@ -1557,13 +1557,13 @@
       "date": "2026-06-03",
       "type": "Trade",
       "description": "Minnesota Twins traded RHP Simeon Woods Richardson to Toronto Blue Jays for cash.",
-      "person_name": ""
+      "person_name": "Simeon Woods Richardson"
     },
     {
       "date": "2026-06-03",
       "type": "Trade",
       "description": "Minnesota Twins traded RHP Simeon Woods Richardson to Toronto Blue Jays for cash.",
-      "person_name": "Simeon Woods Richardson"
+      "person_name": ""
     },
     {
       "date": "2026-06-04",
@@ -1579,49 +1579,73 @@
     },
     {
       "date": "2026-06-04",
-      "type": "Selected",
-      "description": "Toronto Blue Jays selected the contract of RHP Chad Dallas from Buffalo Bisons.",
-      "person_name": "Chad Dallas"
-    },
-    {
-      "date": "2026-06-04",
       "type": "Optioned",
       "description": "Toronto Blue Jays optioned RHP Hayden Juenger to Buffalo Bisons.",
       "person_name": "Hayden Juenger"
+    },
+    {
+      "date": "2026-06-04",
+      "type": "Selected",
+      "description": "Toronto Blue Jays selected the contract of RHP Chad Dallas from Buffalo Bisons.",
+      "person_name": "Chad Dallas"
     }
   ],
   "news": [
+    {
+      "title": "Here's where Major League Baseball contract talks are at \u2014 and what it could mean for the Jays - CBC",
+      "summary": "Here's where Major League Baseball contract talks are at \u2014 and what it could mean for the Jays&nbsp;&nbsp;CBC",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMifkFVX3lxTE83X2xvNVFTd09pNHFZNVlENGFCODE2M0Qza0dTZVBCNXdpVWRUTmk3WnhTY3MySFNFc2pOU09zN2Y0Zzdoam5rVkk1bWRySzZfVzhDQTluMzYzZmRJSTBYUV9sWF9kQjNRc05QV2JxVWhCQS1IMElKZE43eUlCQQ?oc=5",
+      "published": "2026-06-05T08:00:00+00:00"
+    },
+    {
+      "title": "Condensed Game: TOR@ATL - 6/4/26 - MLB.com",
+      "summary": "Condensed Game: TOR@ATL - 6/4/26&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMickFVX3lxTFBGS2FjV05nMXhrOHhENGY0ZDRQajU4WkZIdVJDQk9sQUI2bHJDX0NGd19uODhfTmZDS3hlNGUxZ1VweTM4eHIzdV9aTm1sUV81ck1EendVZWJSUzgwYkpUc3hfaGhZNk9fVC11a3NCVE5tUQ?oc=5",
+      "published": "2026-06-05T06:07:14+00:00"
+    },
+    {
+      "title": "Chad Dallas leads Blue Jays to 7-2 win in debut - MLB.com",
+      "summary": "Chad Dallas leads Blue Jays to 7-2 win in debut&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxPVWJXUmdpVm9tQ1dnOGd4WXRjN09CdF91RndUWkxMR0xQaTZ4d0FKbDU0VlhCbVFFcDBhdW5VcDY4WjJFNGpsZkZoZjNPczdDUTkyNThSdmVkcFhGZmk2ajFrUEo0MEJmeGpQdW5sNDZQOVNyeHd6dHBURkRnamlzQzBmTUE1RHRfYU5N?oc=5",
+      "published": "2026-06-05T06:07:12+00:00"
+    },
+    {
+      "title": "Chad Dallas combines with 5 Toronto pitchers for 4-hitter in MLB debut as Blue Jays stop Braves 7-2 - NanaimoNewsNOW",
+      "summary": "Chad Dallas combines with 5 Toronto pitchers for 4-hitter in MLB debut as Blue Jays stop Braves 7-2&nbsp;&nbsp;NanaimoNewsNOW",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMi1AFBVV95cUxPV3o5b3huZ2FyN0U5Y1gzc2RKcGFWcU11QjJSWm9uX29XX2pSMWp1WXRJUy1FQnZhN2lhVDA1eERuSHBRSFhLaTlNN2FDSEhlTWVHSXEwaDBLOS1YaVAwZ0dxaFNGT0dtVF9aSmd4cml5QmlfT0w3SVZ4emVuMTh0SlU3UTRidTljY1lxLTMzTkxjNFFTWkZmYWlBSGhKRVJoeE9EZmJ4VGp2d3lTTFVIc2hOcnc5Q0l1Smx1bHpiWkNjTGJzSGQ3bXVkaUNaWGhUM2RhQg?oc=5",
+      "published": "2026-06-05T04:32:27+00:00"
+    },
+    {
+      "title": "Blue Jays respond to significant challenge vs. Braves after eventful week - Sportsnet.ca",
+      "summary": "Blue Jays respond to significant challenge vs. Braves after eventful week&nbsp;&nbsp;Sportsnet.ca",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOWFAzTW5odHlzZnhMY0ZmTzg3a2M0VkJYX3h1a3VpTE9lVmR6clpXdVNaN2x1bWJvanprbm5RZE9Wamk3TDZvdmluRFNMUnd1ejRQMkFSSHlPTzdDY0NoSXRxbXdySExPaEZXZWllU0lNS3Bwci1Gd255NHViQzBNajJHWDFXeG1yeDBEcnVoSnFOVUhCSmxYWVJWU3dWT25kcy1pQ1Axb3A2Ry1fT0JV?oc=5",
+      "published": "2026-06-05T03:56:00+00:00"
+    },
+    {
+      "title": "Toronto Blue Jays Announce George Springer Decision Amid Braves Series - heavy.com",
+      "summary": "Toronto Blue Jays Announce George Springer Decision Amid Braves Series&nbsp;&nbsp;heavy.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPWTZFa01oQmFTYlh3QjJ4SFR3ckV0RDJEVkZvVTdfalJxaThJNDU0MEpTR20tbUNwNnVwWGdYRjY4MG1nVVVDb0JiV1pFMkdhRmlWXzl2QmZ4ZzV2RW1iVHZ5TUtRNEluM3lDTlRKMW1mZUpSYnhNYzNLUXdCNldoLVlXeHBzbFB5NWl6N3NhUC1oeDA?oc=5",
+      "published": "2026-06-05T03:27:00+00:00"
+    },
     {
       "title": "Toronto Blue Jays at Atlanta Braves Game Story, Scores/Highlights - 06/04/2026 - MLB.com",
       "summary": "Toronto Blue Jays at Atlanta Braves Game Story, Scores/Highlights - 06/04/2026&nbsp;&nbsp;MLB.com",
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5UZS15dTYzU3kzOFdVbjNaWVZBS3B0Y1hCQjRhbTVrd2hFWnYxMVg0emI1V1NyTTE2Zll0R3RqTFh0c3BCN09LOEkzYXNlTVJu0gFQQVVfeXFMTlRlLXl1NjNTeTM4V1VuM1pZVkFLcHRjWEJCNGFtNWt3aEVadjExWDR6YjVXU3JNMTZmWXRHdGpMWHRzcEI3T0s4STNhc2VNUm4?oc=5",
-      "published": "2026-06-05T03:00:00+00:00"
-    },
-    {
-      "title": "Blue Jays respond to significant challenge vs. Braves after eventful week - Sportsnet.ca",
-      "summary": "Blue Jays respond to significant challenge vs. Braves after eventful week&nbsp;&nbsp;Sportsnet.caGame #63 GameThread: Jays @ Braves&nbsp;&nbsp;Bluebird BanterChad Dallas combines with 5 Toronto pitchers for 4-hitter in MLB debut as Blue Jays stop Braves 7-2&nbsp;&nbsp;Toronto Star",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxOWFAzTW5odHlzZnhMY0ZmTzg3a2M0VkJYX3h1a3VpTE9lVmR6clpXdVNaN2x1bWJvanprbm5RZE9Wamk3TDZvdmluRFNMUnd1ejRQMkFSSHlPTzdDY0NoSXRxbXdySExPaEZXZWllU0lNS3Bwci1Gd255NHViQzBNajJHWDFXeG1yeDBEcnVoSnFOVUhCSmxYWVJWU3dWT25kcy1pQ1Axb3A2Ry1fT0JV?oc=5",
-      "published": "2026-06-05T02:43:00+00:00"
-    },
-    {
-      "title": "Dallas combines with five Toronto pitchers for four-hitter in MLB debut as Blue Jays stop Braves - TSN",
-      "summary": "Dallas combines with five Toronto pitchers for four-hitter in MLB debut as Blue Jays stop Braves&nbsp;&nbsp;TSN",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMixwFBVV95cUxPMnNNSUhsZ09CYzNndkF1Nk81RVJ4UTdra3BVejU2cjFybXlHY3BoSXhkdkEwYi1CX2g1LUpqRFRhMHIzS3dPRUkwMTVvQmRFbW1rTnFYT0lGRzB2Nm05NThTYjJ6cmtfVGpDOFZNTEhpS0xMUjlKel9yWGZTekpac2ZGX0JDdUxhaXJMZkNTbkJsMDRRTzhSMlhjSmlScjNZMjdEa2wyU2xhMk80NUJwbnhXYVVSSUNQczlCX3RYYm5YTVlpeHdJ?oc=5",
-      "published": "2026-06-05T02:30:00+00:00"
-    },
-    {
-      "title": "A Texan named Dallas stars for Blue Jays in memorable debut",
-      "summary": "",
-      "source": "MLB.com",
-      "author": "Rick Farlow",
-      "url": "https://www.mlb.com/news/chad-dallas-earns-win-in-major-league-debut-for-blue-jays",
-      "published": "2026-06-05T02:28:00+00:00"
+      "published": "2026-06-05T03:02:15+00:00"
     },
     {
       "title": "Jays Beat Chris Sale And Braves",
@@ -1632,20 +1656,20 @@
       "published": "2026-06-05T02:26:47+00:00"
     },
     {
-      "title": "Chad Dallas makes a slick behind-the-back catch - MLB.com",
-      "summary": "Chad Dallas makes a slick behind-the-back catch&nbsp;&nbsp;MLB.com",
+      "title": "Jays Beat Chris Sale And Braves - Bluebird Banter",
+      "summary": "Jays Beat Chris Sale And Braves&nbsp;&nbsp;Bluebird Banter",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOVmUxbC1WMUh5bDBFR3JqQWhXMXlvQThNaHc3YXRVZHNIVnA5NDRPWkRXaHZwcExaamR6bUI2ZlpERHJjWVJuUzE2QTJ3YUlNVlJjVHhCM0xGM1E4ZmJRMjRtNTZUbkZ5MV8wc0VhNzFBOEFOT25mcnNrRVBMMHVYRE43OA?oc=5",
-      "published": "2026-06-05T01:06:50+00:00"
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQbHdBbVZLcXhqVXVuckN2M3VMeFNTVVhjTjZGTDFoMERPVlNJemdnRE5BTUF1a2dnci1odmdfbUdzanVPMmFiYkJSQzRKMmNFdElnRXlFNWN1RmVPellXLWJGeUtpNW9sdktSb2dvYktjOE94QmVHaG1QOFpuRm04UkhYSUF4dzZVZ2ZhdFB2U09NRC1FSDc0RA?oc=5",
+      "published": "2026-06-05T02:26:00+00:00"
     },
     {
-      "title": "Toronto Blue Jays Dylan Cease throws 75 pitches for Triple-A Bisons in potential lone rehab start - TSN",
-      "summary": "Toronto Blue Jays Dylan Cease throws 75 pitches for Triple-A Bisons in potential lone rehab start&nbsp;&nbsp;TSN",
+      "title": "Tyler Heineman's two-run double - MLB.com",
+      "summary": "Tyler Heineman's two-run double&nbsp;&nbsp;MLB.com",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxQWV90RWM1aVNVb3NHVHB2ci1LdldrOW9LM1NjRGt5OXJmOHJ2WDNxdWMyNFBqb1EydXdicFBzZ1ZGcXB2YWtsZFpQNWE0b051ekZjTmFvY1RadTgyb0F1VVp4MnpENG9uRnlmV21zNFRabWFNczBkRDNwUkFuYThxckZNX0pzZENGR1ZDcHdhRjJFYlpaZ2VWNnBiaER2ZG1yamJDdDVDOXA?oc=5",
-      "published": "2026-06-05T00:56:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOekhGVV9ZaDlBQzkwSWFwa0NSM3Zxb1lVa01COG9idDFpSEk5bUM4bmE1Q0M0b09KaDUwXzhNYm5GZmFrUVlMZ0hQQ09FeGxMZjAzTm5HcUY3YWtMWjExZ3p6RnQxUzZqRVktYjZQZW5xVS1xOHRCaGJfbTVjNS0xbkoxTkd2VEo0?oc=5",
+      "published": "2026-06-05T02:06:52+00:00"
     },
     {
       "title": "Blue Jays' Cease strikes out six, allows pair of homers in triple-A rehab start - Sportsnet.ca",
@@ -1664,38 +1688,6 @@
       "published": "2026-06-04T23:17:25+00:00"
     },
     {
-      "title": "Blue Jays Call Up Reliever and Announce Two Additional Roster Moves - Sports Illustrated",
-      "summary": "Blue Jays Call Up Reliever and Announce Two Additional Roster Moves&nbsp;&nbsp;Sports Illustrated",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxNU21MbjMwa3FLamd5bUdPczB4ZXppdXVCOElEVkY5VkVZOGlnS201blV5TGc0VlNWcS1vOGlqZUZnSVZMMzlRaERkNkN3ajl5d3hjb010d1VRNDgtS3hQa1BoWjl5SXpYUUd0M0FRSnlQZGgxeFZtbDlqTnowLTc4V2pCOGdfbHdRRjZvSFpILVh4TmFOeWE5bTFLd2Y5cVJ6WGc?oc=5",
-      "published": "2026-06-04T21:30:00+00:00"
-    },
-    {
-      "title": "Toronto Blue Jays Announce George Springer Decision Before Braves Series Finale - heavy.com",
-      "summary": "Toronto Blue Jays Announce George Springer Decision Before Braves Series Finale&nbsp;&nbsp;heavy.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPWTZFa01oQmFTYlh3QjJ4SFR3ckV0RDJEVkZvVTdfalJxaThJNDU0MEpTR20tbUNwNnVwWGdYRjY4MG1nVVVDb0JiV1pFMkdhRmlWXzl2QmZ4ZzV2RW1iVHZ5TUtRNEluM3lDTlRKMW1mZUpSYnhNYzNLUXdCNldoLVlXeHBzbFB5NWl6N3NhUC1oeDA?oc=5",
-      "published": "2026-06-04T21:20:35+00:00"
-    },
-    {
-      "title": "Blue Jays' Alejandro Kirk homers in first rehab game with single-A Dunedin - Sportsnet.ca",
-      "summary": "Blue Jays' Alejandro Kirk homers in first rehab game with single-A Dunedin&nbsp;&nbsp;Sportsnet.ca",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxPcHpLcEhHRVRLbHZjb21Gb3Zhd0NTcDJoRFFueXA3a3plVllycng5aXNXdUlvY1hydWJKcTZrd29YYmdJX1Bud05pdmxWaTFaZnM5SFVaOHBFUlM4dzZkZGJPZ0xrMWlsUkwyeG0waDFLcFkxdDRkNDhpV3JYQmVaUjlKRnNUbkNxeU9XdlJGTmg2bUh0LTNibDVmczBLazRZS01XRVN2bl9Ed3kzQTdLRA?oc=5",
-      "published": "2026-06-04T21:08:00+00:00"
-    },
-    {
-      "title": "Blue Jays call up RHP Chad Dallas, option Hayden Juenger to triple-A - Sportsnet.ca",
-      "summary": "Blue Jays call up RHP Chad Dallas, option Hayden Juenger to triple-A&nbsp;&nbsp;Sportsnet.ca",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiqAFBVV95cUxNTDN2Q3ctSjl0UnltSE5Xc1F6b2xURlJwcks3V25vVkc2Mm43RU5BRGRLWUtXSC1HQjZpcUc4OFNzTk5FSDhrUlgtYW12Qkd2ZHphVnZXUFJGVU1iZGRFS09pWHJUSW9sb1JrcnVhZERWMFppT2wyRHFaN21sQkpjVXllNTBRVjlzZ00wVWFOYUxYZDVyTHhFb0RTY3g5c0czM3RsemVxdGc?oc=5",
-      "published": "2026-06-04T21:07:00+00:00"
-    },
-    {
       "title": "Seojun Moon is quickly validating the Blue Jays investment - Jays Journal",
       "summary": "Seojun Moon is quickly validating the Blue Jays investment&nbsp;&nbsp;Jays Journal",
       "source": "Google News",
@@ -1705,7 +1697,7 @@
     },
     {
       "title": "Blue Jays call up Dallas, option Juenger to Triple-A - TSN",
-      "summary": "Blue Jays call up Dallas, option Juenger to Triple-A&nbsp;&nbsp;TSN",
+      "summary": "Blue Jays call up Dallas, option Juenger to Triple-A&nbsp;&nbsp;TSNMyles Straw talks two-run single, Dallas and more&nbsp;&nbsp;MLB.comEncouraging signs emerge as Blue Jays avoid being swept by Braves&nbsp;&nbsp;Toronto Sun",
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMiiwFBVV95cUxOOTRFUWJZa1U2VmlXbXFCRFNSUmsyZnEtd1hsbFFGQ2h0Vlk5TFNDNVQ3MWNtaC1UTllySUttT3NsTi1Pdm5BaVptYmZLMUwySjQxS0U1UkxxV0p5OU43WUFKaVZOMVM0Q1dxN1ZuMGlDc2FTS3NGTVhkck5Tc1d5c21tUGN2SEc3WDRN?oc=5",
@@ -1736,20 +1728,28 @@
       "published": "2026-06-04T19:12:45+00:00"
     },
     {
-      "title": "Home of Blue Jays star sells at $430K loss in Toronto - INsauga",
-      "summary": "Home of Blue Jays star sells at $430K loss in Toronto&nbsp;&nbsp;INsauga",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNbm9nbXA1MWctWUtfR1BteTdRUUNRZzQyLVQza0dfZFFEMUhnd3VPSW1TanF3RW9mSDNxUG41RkRCWVFzU0RjZDJ1dExlWkI2cTBNNlVzX3FBdkxzS1liNnM2d04tdEgzc1djc1FKRHF3c254X1pfSF9JN0JKMURVZVgwNA?oc=5",
-      "published": "2026-06-04T17:07:32+00:00"
-    },
-    {
       "title": "Blue Jays under increasing pressure after fourth straight loss - Sportsnet.ca",
       "summary": "Blue Jays under increasing pressure after fourth straight loss&nbsp;&nbsp;Sportsnet.ca",
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQTEVZd2VjMjJWX2huVjJiel9mSWNJWmppX1QwVE1NelhBM2p3MWdRRWxSTnJLZC1ZUU1QUnZEeUZnNi1jeDlzQ2hFRmRuUTdwLWxfaFpxVlBsUHNvQTN6aGhxOUIxRFhmVWh1aWQ5dHJqQmFycHVobnF1LUhtb0s1aDVLUVdSZUVBSG5oRU1iUDVzLW5vVm1oLV9EeUlNMnB6Vnc?oc=5",
       "published": "2026-06-04T17:05:00+00:00"
+    },
+    {
+      "title": "Mutual Need Sparks Reunion of Blue Jays, Woods Richardson - Yahoo Sports Canada",
+      "summary": "Mutual Need Sparks Reunion of Blue Jays, Woods Richardson&nbsp;&nbsp;Yahoo Sports Canada",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOMTZBdS1JNFY2TU5vUHFzdmRrQmROM1dvbHpDWTZzLTdpRlk4SWpBRDk5RVpBeW5XUzlOSzNJZGN4ZmNDSTE2RWhodF82OU1xNi1BeG5MalkxUDhma0pMc3doVEdQSkpaaUJWcERFWjVIUDFoU0ZqeC1vZy1hT0k0ak9idFpOUQ?oc=5",
+      "published": "2026-06-04T17:00:05+00:00"
+    },
+    {
+      "title": "Today In Jays History: Jays Come Back From 10-0 To Beat Red Sox",
+      "summary": "37 Years Ago Today This is one of my all-time favorite games, played in 1989. But then any game where we beat the Red Sox is a favorite game. The Blue Jays defeated the Red Sox 13-11 in 12 innings. After six innings, the Red Sox led 10-0. Alex Sanchez started for the Jays. He [&#8230;]",
+      "source": "Bluebird Banter",
+      "author": "tom dakers",
+      "url": "https://www.bluebirdbanter.com/blue-jay-history/62260/today-in-jays-history-jays-come-back-from-10-0-to-beat-red-sox",
+      "published": "2026-06-04T15:20:03+00:00"
     }
   ],
   "run_diff_last_10": [
