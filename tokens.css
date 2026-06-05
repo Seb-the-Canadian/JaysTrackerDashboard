@@ -212,6 +212,23 @@
 [data-theme="dark"] svg.rd-chart text { fill: var(--ink-3); }
 
 /* ============================================================
+   No-data placeholder (.ph)
+
+   The em-dash glyph (U+2014) sits at the font's typographic midline,
+   which is below the visual center of adjacent all-caps and tabular-
+   numeric text at the 10–13px tabular sizes used across the dashboard
+   (issue: dashes read as underscores). Wrapping a placeholder em-dash
+   in `<span class="ph">—</span>` lifts the glyph back to the perceived
+   line center and gives a single hook for any future "no data" treatment
+   (color, shape, accessible label).
+   ============================================================ */
+.ph {
+  display: inline-block;
+  vertical-align: 0.12em;
+  line-height: 1;
+}
+
+/* ============================================================
    Reduced-motion preference — disable transitions & animations.
    Per handoff §8 decision 9: skeleton/arc animations become static.
    ============================================================ */

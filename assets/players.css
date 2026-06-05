@@ -131,20 +131,47 @@
   align-items: flex-end;
   gap: 3px;
 }
+/* Stacked stat — value+label on the top line, rank badge below.
+   Stack frees ~60px of horizontal room for the name column so longer
+   names ("Vladimir Guerrero", "Kevin Gausman") no longer truncate
+   to a single token. */
 .pc-stat {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 1px;
   font-family: var(--mono);
-  font-size: var(--t-secondary);
+  font-variant-numeric: tabular-nums;
   color: var(--ink-3);
   white-space: nowrap;
+  line-height: 1.05;
+}
+.pc-stat-main {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 6px;
 }
 .pc-stat b {
   font-weight: 700;
-  font-size: var(--t-body);
+  font-size: 16px;
   color: var(--ink);
+  letter-spacing: -.01em;
+}
+.pc-stat-lbl {
+  font-size: var(--t-micro);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
 }
 .pc-stat i {
   font-style: normal;
-  font-weight: 700;
+  font-weight: 600;
+  font-size: 9px;
+  letter-spacing: .02em;
+}
+.pc-stat i small {
+  font-weight: 500;
+  letter-spacing: 0;
 }
 .pc-stat i.good { color: var(--pos); }
 .pc-stat i.mid  { color: var(--ink-3); }
@@ -409,6 +436,19 @@
 .strip .mk.m3 { background: var(--q-mid); }
 .strip .mk.m4 { background: var(--q-warm); }
 .strip .mk.m5 { background: var(--neg); }
+
+/* No-rank state — player exists but isn't in the qualified pool yet
+   (early-season RPs, etc.). A bare green→red gradient with no marker reads
+   as broken UI; the dim track plus a thin midline says "no rank here" cleanly. */
+.strip.strip-empty {
+  background: var(--card-2);
+  border-color: var(--line);
+  opacity: .55;
+}
+.strip.strip-empty .avg {
+  background: var(--ink-4);
+  opacity: .35;
+}
 
 /* Statcast value line — under the slash line, value-only (no rank rail).
    Same provenance-chip aesthetic as the .ctx-name .sc badge. */

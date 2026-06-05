@@ -130,7 +130,7 @@
     const left = F.rankLeftPercent(r.rank).toFixed(0);
     row.innerHTML = ''
       + '<div class="sss-name">' + statLabel(r.slug)
-      +   '<small>' + (r.val == null ? '—' : r.val) + '</small>'
+      +   '<small>' + (r.val == null ? '<span class="ph">—</span>' : r.val) + '</small>'
       + '</div>'
       + '<div class="strip">'
       +   '<span class="avg"></span>'
@@ -194,7 +194,7 @@
         +   labelHtml
         +   (def.statcast ? ' <span class="sc">Statcast</span>' : '')
         + '</div>'
-        + '<div class="c-val">' + (s.val == null ? '—' : s.val) + '</div>'
+        + '<div class="c-val">' + (s.val == null ? '<span class="ph">—</span>' : s.val) + '</div>'
         + '<div class="strip">'
         +   '<span class="avg"></span>'
         +   (s.rank ? '<span class="mk ' + tier + '" style="left:' + left + '%"></span>' : '')

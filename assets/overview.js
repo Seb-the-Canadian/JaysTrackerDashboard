@@ -44,6 +44,15 @@
     return el('span', { class: 'term', 'data-stat': slug }, label);
   }
 
+  // MLB Stats API returns gb="-" for the leader of a standings group. That
+  // hyphen at small mono font sits visually low and reads as an underscore;
+  // normalize to the project's canonical em-dash placeholder, rendered with
+  // the .ph wrapper so the glyph sits at visual midline against caps.
+  function gbSpan(gb) {
+    if (gb && gb !== '-') return el('span', { class: 'gb' }, gb);
+    return el('span', { class: 'gb' }, el('span', { class: 'ph', 'aria-label': 'No games back' }, '—'));
+  }
+
   function abbreviate(teamName, fallback) {
     // Heuristic 3-letter abbr from a team name. Used for opponent tiles
     // when MLB Stats API hasn't given us the abbr directly.
@@ -528,7 +537,7 @@
         el('span', { class: 'abbr', 'data-team': abbr,
           'aria-label': 'Team ' + abbr }, abbr),
         el('span', { class: 'rc' }, (t.w || 0) + '–' + (t.l || 0)),
-        el('span', { class: 'gb' }, t.gb || '—'),
+        gbSpan(t.gb),
       ]));
     });
     body.push(el('div', { class: 'cutline' }, [
@@ -545,7 +554,7 @@
         el('span', { class: 'abbr', 'data-team': abbr,
           'aria-label': 'Team ' + abbr }, abbr),
         el('span', { class: 'rc' }, (t.w || 0) + '–' + (t.l || 0)),
-        el('span', { class: 'gb' }, t.gb || '—'),
+        gbSpan(t.gb),
       ]));
     });
 
