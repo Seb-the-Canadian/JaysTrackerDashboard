@@ -91,9 +91,12 @@
     // ----- Season line (ERA / WHIP / IP / K) -----
     const line = document.createElement('div');
     line.className = 'slash-big';
+    // Tuple: [accessor, label, isLead, slug?]. Only era + whip have
+    // stat_school.json entries; ip and k stay plain text (no false
+    // dotted-underline affordance for terms that open nothing).
     [
-      ['era', 'ERA', true],
-      ['whip', 'WHIP'],
+      ['era', 'ERA', true, 'era'],
+      ['whip', 'WHIP', false, 'whip'],
       ['ip', 'IP'],
       ['k', 'K'],
     ].forEach(function (entry, i) {
@@ -109,7 +112,15 @@
       b.textContent = (v == null || v === '' || v === '-.--') ? '—' : v;
       cell.appendChild(b);
       const small = document.createElement('small');
-      small.textContent = entry[1];
+      if (entry[3]) {
+        const labelSpan = document.createElement('span');
+        labelSpan.className = 'term';
+        labelSpan.setAttribute('data-stat', entry[3]);
+        labelSpan.textContent = entry[1];
+        small.appendChild(labelSpan);
+      } else {
+        small.textContent = entry[1];
+      }
       cell.appendChild(small);
       line.appendChild(cell);
     });
