@@ -723,6 +723,27 @@ def fetch_player_xstats(person_id, season):
     except Exception as e:
         log(f"warning: xstats fetch for {person_id} failed: {e}")
         return {}
+    # #117 diagnostic: every hitter's xwoba ships as '.---', and there's no
+    # log breadcrumb to say why. Once per process, log the actual response
+    # shape so the next refresh names the failure mode exactly (no splits?
+    # type rotated? hydrate ignored?). Removed in the fix commit.
+    global _XSTATS_DIAG_LOGGED
+    if not _XSTATS_DIAG_LOGGED:
+        _XSTATS_DIAG_LOGGED = True
+        people = response.get("people") or []
+        if not people:
+            log(f"INFO: xstats #117 — person_id={person_id}: response.people empty; top keys={list(response.keys())}")
+        else:
+            stats_entries = people[0].get("stats", [])
+            summary = [
+                {
+                    "type": (e.get("type") or {}).get("displayName"),
+                    "group": (e.get("group") or {}).get("displayName"),
+                    "splits": len(e.get("splits") or []),
+                }
+                for e in stats_entries
+            ]
+            log(f"INFO: xstats #117 — person_id={person_id}: stats entries={summary}")
     people = response.get("people") or []
     if not people:
         return {}
@@ -735,6 +756,11 @@ def fetch_player_xstats(person_id, season):
                 return splits[0].get("stat") or {}
             return {}
     return {}
+
+
+# #117 diagnostic state — see fetch_player_xstats. Module-level so it fires
+# exactly once per process even when many hitters are processed.
+_XSTATS_DIAG_LOGGED = False
 
 
 def is_pitcher(entry):
