@@ -30,9 +30,11 @@ jobs:
       - name: Install Playwright + browser
         # Pinned minor so a future major doesn't silently break probe
         # behavior. Bump deliberately in a separate PR.
+        # pixelmatch + pngjs power the visual-regression probe; CJS-only
+        # versions pinned to keep the require()-based probe runner happy.
         run: |
           npm init -y >/dev/null 2>&1
-          npm install --no-save playwright@1.49
+          npm install --no-save playwright@1.49 pixelmatch@5 pngjs@7
           npx playwright install --with-deps chromium
 
       - name: Start static server
@@ -73,6 +75,14 @@ jobs:
           node tests/probes/round-1.js
           node tests/probes/round-2.js
           node tests/probes/round-3.js
+
+      - name: Run visual-regression probe
+        # Compares committed baselines in tests/screenshots/baselines/ to
+        # fresh renders. Fails on any pixel diff above the per-frame budget
+        # (see tests/probes/visual.js header for thresholds). On failure,
+        # the diff PNGs land in /tmp/v2-shots/ and upload via the existing
+        # artifact step below.
+        run: node tests/probes/visual.js
 
       - name: Upload probe artifacts on failure
         if: failure()
