@@ -82,6 +82,13 @@ async function fixturePage(browser, opts) {
     const ov = document.getElementById('tab-overview');
     return ov && !ov.querySelector('.panel-skeleton');
   }, null, { timeout: 8000 }).catch(() => {});
+  // Wait for Hanken Grotesk (Google Fonts CDN) before screenshotting.
+  // Without this, the first paint can land in the system fallback sans
+  // and the screenshot freezes the fallback metrics — on CI the first
+  // run produced 7-8% structural diffs (modal heights off by 38px)
+  // because the fallback wraps differently than Hanken. document.fonts.ready
+  // resolves only after every @font-face declared in CSS has settled.
+  await page.evaluate(() => document.fonts && document.fonts.ready);
   await page.waitForTimeout(700);
   return { ctx, page };
 }

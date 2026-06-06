@@ -39,18 +39,42 @@ the probe; the framework is in place.
 
 ## Updating baselines
 
-Bumping a baseline is deliberate and reviewable:
+Baselines must be regenerated **in CI**, not locally. The local-vs-CI
+font rasterization delta is non-trivial — PR #132's first run showed
+7–8% structural diffs (modal heights off by 38px) because the runner's
+OS-level font hinting differs from the maintainer's container even
+after `document.fonts.ready` synchronization. The CI-generated PNGs
+are the source of truth for the comparison job.
+
+### Maintainer flow
+
+1. Push your branch with whatever intentional visual change you're
+   making. The `probes` job will fail on the visual probe — that's
+   expected because the baselines are stale.
+2. Go to **Actions → UI probes → Run workflow**, pick your branch,
+   check **"Regenerate visual-regression baselines and commit them
+   to the branch"**, click Run.
+3. The `regenerate-baselines` job runs `UPDATE_SNAPSHOTS=1`, writes
+   the fresh PNGs, and pushes a `v2(visual): regenerate baselines in
+   CI` commit back to your branch.
+4. The auto-commit retriggers the normal `probes` job, which now
+   compares cleanly against the fresh baselines.
+5. Review the baseline PNGs as part of your PR diff — that's the
+   approval mechanism. If a diff is unintentional, the PR doesn't
+   merge.
+
+### Local iteration
+
+For ad-hoc local checks, you can still run:
 
 ```bash
 python3 -m http.server 8000 &
 UPDATE_SNAPSHOTS=1 NODE_PATH=/opt/node22/lib/node_modules node tests/probes/visual.js
-git add tests/screenshots/baselines/*.png
-git commit -m "v2(visual): refresh baselines — <reason>"
 ```
 
-The reviewer sees the new baselines as part of the diff — that's the
-approval mechanism. If the diff is unintentional, the PR doesn't get
-merged.
+to see what your change looks like. But the resulting PNGs won't
+match the CI runner — **don't commit them**. Use the workflow_dispatch
+path for the canonical update.
 
 ## When a CI run fails
 
