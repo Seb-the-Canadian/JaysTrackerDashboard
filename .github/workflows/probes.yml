@@ -5,7 +5,18 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      update_visual_baselines:
+        description: 'Regenerate visual-regression baselines and commit them to the branch'
+        required: false
+        type: boolean
+        default: false
 
+# Default permission is read. The regenerate-baselines job below opts into
+# `contents: write` when (and only when) the workflow_dispatch input is set
+# — that's the deliberate maintainer-triggered path; PRs from forks can
+# never reach the write-permitted job.
 permissions:
   contents: read
 
@@ -17,6 +28,10 @@ jobs:
   probes:
     runs-on: ubuntu-latest
     timeout-minutes: 12
+    # Skip the comparison run when a maintainer triggered baseline regen —
+    # the regenerate-baselines job handles that path and the commit-back
+    # will retrigger this workflow.
+    if: github.event_name != 'workflow_dispatch' || github.event.inputs.update_visual_baselines != 'true'
 
     steps:
       - name: Checkout
@@ -30,9 +45,11 @@ jobs:
       - name: Install Playwright + browser
         # Pinned minor so a future major doesn't silently break probe
         # behavior. Bump deliberately in a separate PR.
+        # pixelmatch + pngjs power the visual-regression probe; CJS-only
+        # versions pinned to keep the require()-based probe runner happy.
         run: |
           npm init -y >/dev/null 2>&1
-          npm install --no-save playwright@1.49
+          npm install --no-save playwright@1.49 pixelmatch@5 pngjs@7
           npx playwright install --with-deps chromium
 
       - name: Start static server
@@ -74,6 +91,14 @@ jobs:
           node tests/probes/round-2.js
           node tests/probes/round-3.js
 
+      - name: Run visual-regression probe
+        # Compares committed baselines in tests/screenshots/baselines/ to
+        # fresh renders. Fails on any pixel diff above the per-frame budget
+        # (see tests/probes/visual.js header for thresholds). On failure,
+        # the diff PNGs land in /tmp/v2-shots/ and upload via the existing
+        # artifact step below.
+        run: node tests/probes/visual.js
+
       - name: Upload probe artifacts on failure
         if: failure()
         uses: actions/upload-artifact@v4
@@ -81,3 +106,75 @@ jobs:
           name: probe-screenshots
           path: /tmp/v2-shots/
           if-no-files-found: ignore
+
+  # ============================================================
+  # Baseline regeneration — manual maintainer trigger.
+  #
+  # Run by Actions UI: workflow_dispatch + check "Regenerate visual-
+  # regression baselines". The job regenerates every visual baseline
+  # from inside CI (so the PNGs match the CI runner's font rendering,
+  # not the maintainer's local environment — the local-vs-CI delta was
+  # what tripped PR #132's first CI run) and pushes a commit-back to
+  # the triggering branch. The subsequent push event reruns the normal
+  # `probes` job, which then compares cleanly.
+  #
+  # Permissions: this job gets `contents: write` so the commit-back
+  # works. The conditional + the `workflow_dispatch`-only trigger
+  # restricts it to maintainer-initiated runs; PRs cannot reach it.
+  # ============================================================
+  regenerate-baselines:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.update_visual_baselines == 'true'
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          # Need the token for the commit-back push to work on the
+          # triggering branch.
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install Playwright + browser + diff deps
+        run: |
+          npm init -y >/dev/null 2>&1
+          npm install --no-save playwright@1.49 pixelmatch@5 pngjs@7
+          npx playwright install --with-deps chromium
+
+      - name: Start static server
+        run: |
+          nohup python3 -m http.server 8000 >/tmp/http.log 2>&1 &
+          for i in 1 2 3 4 5 6 7 8 9 10; do
+            if curl -s -o /dev/null http://localhost:8000/index-v2.html; then
+              echo "server up"
+              exit 0
+            fi
+            sleep 0.5
+          done
+          echo "server did not start"
+          cat /tmp/http.log
+          exit 1
+
+      - name: Regenerate baselines
+        env:
+          UPDATE_SNAPSHOTS: '1'
+        run: node tests/probes/visual.js
+
+      - name: Commit and push new baselines
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add tests/screenshots/baselines/
+          if git diff --cached --quiet; then
+            echo "No baseline changes — nothing to commit."
+            exit 0
+          fi
+          git commit -m "v2(visual): regenerate baselines in CI"
+          git push
