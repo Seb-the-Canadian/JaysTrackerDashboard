@@ -107,23 +107,29 @@ a { color: inherit; }
   position: relative;
   width: 40px; height: 40px;
 }
-/* Brand mark — a baseball infield: four bases (2nd / 1st / home /
-   3rd) arranged as a diamond. No container box; the bases are drawn
-   in --ink, which flips per theme (near-black on the light cream
-   page, near-white on dark) so the mark always contrasts and stays
-   team-independent — it holds at any fork palette and does not consume
-   config.brand_mark (a v1-only field; see docs/forking.md). */
-.brand .mark span {
-  position: absolute;
-  width: 7px; height: 7px;
+/* Brand mark — one baseball diamond split into four segments. A single
+   --ink square is rotated 45° into a diamond; two thin --paper bars (the
+   page colour) cross its centre, carving it into four diamond segments
+   with crisp, uniform gaps. --ink/--paper flip per theme, so the mark is
+   dark-on-cream in light mode and near-white on dark, carries no blue, and
+   is fully team-independent (config.brand_mark is v1-only; see
+   docs/forking.md). */
+.brand .mark > span {
+  position: absolute; left: 50%; top: 50%;
+  width: 26px; height: 26px;
   background: var(--ink);
-  border-radius: 1px;
+  border-radius: 3px;
+  overflow: hidden;
   transform: translate(-50%, -50%) rotate(45deg);
 }
-.brand .mark span:nth-child(1) { left: 50%; top: 30%; }  /* 2nd base */
-.brand .mark span:nth-child(2) { left: 70%; top: 50%; }  /* 1st base */
-.brand .mark span:nth-child(3) { left: 50%; top: 70%; }  /* home plate */
-.brand .mark span:nth-child(4) { left: 30%; top: 50%; }  /* 3rd base */
+.brand .mark > span::before,
+.brand .mark > span::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  background: var(--paper);
+  transform: translate(-50%, -50%);
+}
+.brand .mark > span::before { width: 3px;  height: 140%; }
+.brand .mark > span::after  { width: 140%; height: 3px;  }
 .brand .wordmark h1,
 .brand .wordmark b {
   font-weight: var(--w-display); font-size: 16px;
@@ -525,7 +531,7 @@ a { color: inherit; }
 
 <header class="appbar">
   <div class="brand">
-    <span class="mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
+    <span class="mark" aria-hidden="true"><span></span></span>
     <span class="wordmark">
       <h1 id="brand-title">Loading…</h1>
       <small id="brand-sub">v2 build</small>
