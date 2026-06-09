@@ -311,10 +311,10 @@
     const data = (state && state.data) || {};
     const injuries = filteredInjuries(data);
     if (injuries.length === 0) {
-      return '<div class="il-pop-head"><b>Injured list</b></div>'
+      return '<div class="il-pop-head" id="il-pop-head"><b>Injured list</b></div>'
         + '<p class="il-pop-empty">No one on the IL today.</p>';
     }
-    let html = '<div class="il-pop-head"><b>Injured list</b> <small>'
+    let html = '<div class="il-pop-head" id="il-pop-head"><b>Injured list</b> <small>'
       + injuries.length + ' player' + (injuries.length === 1 ? '' : 's') + '</small></div>'
       + '<ul class="il-pop-list">';
     injuries.forEach(function (inj) {
@@ -335,8 +335,9 @@
       _ilPopover = document.createElement('div');
       _ilPopover.className = 'il-popover';
       _ilPopover.id = 'il-popover';
-      _ilPopover.setAttribute('role', 'dialog');
-      _ilPopover.setAttribute('aria-label', 'Injured list');
+      _ilPopover.setAttribute('role', 'region');
+      _ilPopover.setAttribute('aria-live', 'polite');
+      _ilPopover.setAttribute('aria-labelledby', 'il-pop-head');
       document.body.appendChild(_ilPopover);
     }
     _ilPopover.innerHTML = buildIlPopoverContent(_lastState);
@@ -366,7 +367,7 @@
     const chip = document.getElementById('il-chip');
     if (!chip) return;
     chip.setAttribute('aria-expanded', 'false');
-    chip.setAttribute('aria-haspopup', 'dialog');
+    chip.setAttribute('aria-haspopup', 'true');
     chip.setAttribute('aria-controls', 'il-popover');
     chip.addEventListener('click', function (e) {
       e.stopPropagation();

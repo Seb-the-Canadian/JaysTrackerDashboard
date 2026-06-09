@@ -47,6 +47,7 @@
   cursor: pointer;
 }
 .seg button.on {
+  font-weight: 700;   /* a11y A19: weight, not color alone, marks active */
   background: var(--team-secondary);
   color: #fff;
   box-shadow: var(--sh1);
@@ -216,9 +217,11 @@
   /* PR-F: 13px → 14px so the bold ordinal qualifies as WCAG large
      text (3:1 threshold instead of 4.5:1). --pos-2 (.c-rank.m2) hits
      3.15:1 on light --card, which passes the relaxed large-text
-     bar. --q-warm (.c-rank.m4) is still 2.68:1 — token-level fix
-     deferred to v2.0.1 since deepening --q-warm cascades to the IL
-     chip + freshness amber states. */
+     bar. the rank-tier ramp (.c-rank.m2 green / .m4 amber) is a known
+     contrast gap (a11y A5) deferred to a palette-design pass: deepening
+     m2 to clear 4.5:1 collapses it into m1, and the 5-tier ramp needs a
+     holistic redesign rather than a per-token nudge. Non-rank amber text
+     now uses the dedicated --q-warm-ink token. */
   font-size: var(--t-body);
 }
 .c-rank small {

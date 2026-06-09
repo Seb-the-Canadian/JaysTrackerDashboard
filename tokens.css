@@ -35,7 +35,7 @@
   /* ---- NEUTRAL INK SCALE ---- */
   --ink: #1c2230;
   --ink-2: #5b6472;
-  --ink-3: #8a93a1;
+  --ink-3: #656e7b;
   --ink-4: #b3b9c4;
 
   /* ---- SURFACES (cream scorecard substrate) ---- */
@@ -53,6 +53,10 @@
   --q-mid: #a7a194;
   --q-cool: #5e86a8;
   --q-cold: #356285;
+  /* Amber-as-FOREGROUND-text (a11y A2). --q-warm is a background
+     fill; as text on cream paper it only hits ~2.7:1. This paired
+     ink is the text-safe amber; it flips light->dark below. */
+  --q-warm-ink: #9c5226;
 
   /* Binary outcome (team-neutral) */
   --pos: #2f7d55;       /* win / good / above avg */
@@ -158,7 +162,7 @@
   /* INK & SURFACE — lift values for legibility */
   --ink: #eceef2;
   --ink-2: #a6aeba;
-  --ink-3: #727b89;
+  --ink-3: #868f9d;
   --ink-4: #4a5260;
   --label: #bcab8d;
   --paper: #13161c;
@@ -189,6 +193,7 @@
   --pos: #3c9466;
   --pos-2: #5aa97c;
   --neg: #c0644f;
+  --q-warm-ink: #d98a4e;   /* amber-as-text on dark paper (a11y A2) */
 
   /* LAYERS — desaturate tints; lift inks */
   --analyst-tint: #26221a;
