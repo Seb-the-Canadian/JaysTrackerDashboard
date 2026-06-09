@@ -103,21 +103,29 @@ a { color: inherit; }
 }
 .brand { display: flex; align-items: center; gap: 12px; }
 .brand .mark {
+  display: block;
+  position: relative;
   width: 40px; height: 40px; border-radius: 9px;
   background: var(--team-primary);
-  display: grid; place-items: center;
   box-shadow: var(--sh1);
 }
+/* Brand mark — a baseball infield: four theme-neutral white bases
+   (2nd / 1st / home / 3rd) arranged as a diamond. Team-neutral BY
+   DESIGN (white on --team-primary) so it holds at any fork palette;
+   v2 does not consume config.brand_mark — that's a v1-only field
+   (see docs/forking.md). PR-F (D4): white, not --card, so the bases
+   never disappear against dark primaries in dark mode. */
 .brand .mark span {
-  display: block; width: 16px; height: 16px;
-  /* Iconography — theme-neutral white diamond.
-     PR-F (decision D4): was `var(--card)`, which becomes #1b1f27 in
-     dark mode and disappears against dark-blue primaries (TOR dark
-     1.89:1, NYY dark 1.39:1 — fails AA non-text 3:1). The diamond IS
-     a brand mark, not a themed surface — neutrality is correct. */
+  position: absolute;
+  width: 8px; height: 8px;
   background: #ffffff;
-  transform: rotate(45deg); /* diamond bug */
+  border-radius: 1px;
+  transform: translate(-50%, -50%) rotate(45deg);
 }
+.brand .mark span:nth-child(1) { left: 50%; top: 26%; }  /* 2nd base */
+.brand .mark span:nth-child(2) { left: 74%; top: 50%; }  /* 1st base */
+.brand .mark span:nth-child(3) { left: 50%; top: 74%; }  /* home plate */
+.brand .mark span:nth-child(4) { left: 26%; top: 50%; }  /* 3rd base */
 .brand .wordmark h1,
 .brand .wordmark b {
   font-weight: var(--w-display); font-size: 16px;
@@ -519,7 +527,7 @@ a { color: inherit; }
 
 <header class="appbar">
   <div class="brand">
-    <span class="mark"><span aria-hidden="true"></span></span>
+    <span class="mark" aria-hidden="true"><span></span><span></span><span></span><span></span></span>
     <span class="wordmark">
       <h1 id="brand-title">Loading…</h1>
       <small id="brand-sub">v2 build</small>
