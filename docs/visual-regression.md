@@ -57,11 +57,25 @@ are the source of truth for the comparison job.
 3. The `regenerate-baselines` job runs `UPDATE_SNAPSHOTS=1`, writes
    the fresh PNGs, and pushes a `v2(visual): regenerate baselines in
    CI` commit back to your branch.
-4. The auto-commit retriggers the normal `probes` job, which now
-   compares cleanly against the fresh baselines.
+4. That same job then **auto-dispatches** a comparison `probes` run on
+   the new commit (its `Re-validate committed baselines` step). A green
+   probes check lands on the regenerated-baseline commit automatically —
+   no second manual dispatch. (The commit-back uses `GITHUB_TOKEN`, which
+   by design does *not* re-trigger `pull_request`/`push` workflows, so
+   this explicit dispatch is what produces the green check.)
 5. Review the baseline PNGs as part of your PR diff — that's the
    approval mechanism. If a diff is unintentional, the PR doesn't
    merge.
+
+> **The first-run red is expected and harmless.** Step 1's `probes`
+> failure sits on the pre-regeneration commit; it is *not* the PR head
+> once step 4's green run lands. Judge the PR by the check on its **head
+> commit** (and `mergeable_state`), not by the red run in the timeline.
+> A change that intentionally shifts pixels will always show one stale
+> red run — that's the cost of CI-authoritative baselines, not a problem
+> to fix per-PR. (A change that should *not* shift pixels — e.g. adding a
+> field both the renderer and the fixture read — skips this entirely: its
+> first run is green, no regeneration needed.)
 
 ### Local iteration
 
@@ -87,9 +101,10 @@ The existing `probe-screenshots` artifact step in `.github/workflows/probes.yml`
 uploads these. Download from the failed CI run, eyeball the diff:
 
 - **Real regression**: fix the code; the baseline stays as-is.
-- **Intentional visual change**: regenerate the baseline locally
-  (`UPDATE_SNAPSHOTS=1 …`), commit the new PNGs in the same PR as the
-  intended change.
+- **Intentional visual change**: regenerate **in CI** via the
+  workflow_dispatch path above (Maintainer flow). Don't commit
+  locally-generated PNGs — they won't match the runner's font
+  rasterization and will just fail the next comparison.
 
 ## Updating the fixture
 
