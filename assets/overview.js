@@ -500,7 +500,9 @@
     // Find max wins for bar scale
     const maxW = Math.max.apply(null, div.map(function (t) { return Number(t.w) || 0; }));
 
-    return panel('machine', 'AL East', null,
+    // F1 forkability: header from data, not a hardcoded division.
+    const divName = (state.data.team && state.data.team.division_name) || 'Standings';
+    return panel('machine', divName, null,
       div.map(function (t) {
         const w = Number(t.w) || 0;
         const pct = maxW ? (w / maxW) * 100 : 0;
@@ -567,7 +569,10 @@
       ]));
     });
 
-    return panel('machine', 'AL Wild Card', null, body, { hint: '3 spots' });
+    // F3 forkability: league abbrev is the first token of the division
+    // name ("AL East" -> "AL"); neutral fallback when absent.
+    const lg = ((state.data.team && state.data.team.division_name) || '').split(' ')[0];
+    return panel('machine', (lg ? lg + ' Wild Card' : 'Wild Card'), null, body, { hint: '3 spots' });
   }
 
   // ---- Voices around (external) ----
