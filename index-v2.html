@@ -105,20 +105,18 @@ a { color: inherit; }
 .brand .mark {
   display: block;
   position: relative;
-  width: 40px; height: 40px; border-radius: 9px;
-  background: var(--team-primary);
-  box-shadow: var(--sh1);
+  width: 40px; height: 40px;
 }
-/* Brand mark — a baseball infield: four theme-neutral white bases
-   (2nd / 1st / home / 3rd) arranged as a diamond. Team-neutral BY
-   DESIGN (white on --team-primary) so it holds at any fork palette;
-   v2 does not consume config.brand_mark — that's a v1-only field
-   (see docs/forking.md). PR-F (D4): white, not --card, so the bases
-   never disappear against dark primaries in dark mode. */
+/* Brand mark — a baseball infield: four bases (2nd / 1st / home /
+   3rd) arranged as a diamond. No container box; the bases are drawn
+   in --ink, which flips per theme (near-black on the light cream
+   page, near-white on dark) so the mark always contrasts and stays
+   team-independent — it holds at any fork palette and does not consume
+   config.brand_mark (a v1-only field; see docs/forking.md). */
 .brand .mark span {
   position: absolute;
-  width: 6px; height: 6px;
-  background: #ffffff;
+  width: 7px; height: 7px;
+  background: var(--ink);
   border-radius: 1px;
   transform: translate(-50%, -50%) rotate(45deg);
 }
