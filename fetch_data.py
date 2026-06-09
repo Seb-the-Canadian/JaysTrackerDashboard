@@ -2221,6 +2221,7 @@ def main():
     team_summary = {
         "record": {"w": w, "l": l},
         "place": place,
+        "division_name": div_name,   # F1/F3 forkability: drives standings + wild-card headers (renderer derives league from the first token)
         "gb": team_gb,
         "last10": last10_from_records(us_record.get("records", {})),
         "streak": us_record.get("streak", {}).get("streakCode", ""),
