@@ -278,6 +278,11 @@
     svg.setAttribute('viewBox', '0 0 ' + W + ' ' + H);
     svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
     svg.setAttribute('font-family', 'var(--mono)');
+    // a11y A10: name the chart for assistive tech (built from the series).
+    const _net = series.reduce(function (a, s) { return a + (Number(s.diff) || 0); }, 0);
+    const _wg = worstGame ? (' Worst: ' + (worstGame.score || '') + ' vs ' + (worstGame.opp || '') + '.') : '';
+    svg.setAttribute('role', 'img');
+    svg.setAttribute('aria-label', 'Run differential, last ' + series.length + ' games. Net ' + (_net >= 0 ? '+' : '') + _net + '.' + _wg);
 
     // Zero baseline
     addLine(svg, M_LEFT - 5, baseY, W - M_RIGHT, baseY,

@@ -92,6 +92,13 @@ a { color: inherit; }
   overflow: hidden; clip: rect(0, 0, 0, 0);
   white-space: nowrap; border: 0;
 }
+/* Skip-link (a11y A14/A15): visually hidden until focused. */
+.skip-link:focus {
+  position: fixed; top: 8px; left: 8px; z-index: 200;
+  width: auto; height: auto; margin: 0; clip: auto;
+  padding: 8px 14px; background: var(--card); color: var(--ink);
+  border: 1px solid var(--line-2); border-radius: var(--r1); box-shadow: var(--sh2);
+}
 
 /* ============================================================
    PERSISTENT HEADER — record · IL · freshness · source key · theme
@@ -162,7 +169,7 @@ a { color: inherit; }
   display: block; font-style: italic; font-size: 10px;
   color: var(--ink-3); margin-top: 2px;
 }
-.notes-stale-chip.amber { color: var(--q-warm); font-style: normal; font-weight: 600; }
+.notes-stale-chip.amber { color: var(--q-warm-ink); font-style: normal; font-weight: 600; }
 .notes-stale-chip.red   { color: var(--neg);    font-style: normal; font-weight: 700; }
 
 /* Schema-drift banner (T1 — ported from v1). Top-of-main warning when
@@ -192,7 +199,7 @@ a { color: inherit; }
 }
 .il-chip .ic {
   width: 14px; height: 14px; border-radius: 50%;
-  background: var(--q-warm); color: #fff;
+  background: var(--q-warm); color: #2a1a0a;
   font-size: 10px; font-weight: 700;
   display: grid; place-items: center;
 }
@@ -250,7 +257,7 @@ a { color: inherit; }
 .il-pop-status {
   font-family: var(--mono);
   font-size: var(--t-micro);
-  color: var(--q-warm);
+  color: var(--q-warm-ink);
   letter-spacing: .04em;
   text-transform: uppercase;
   text-align: right;
@@ -398,10 +405,10 @@ a { color: inherit; }
   letter-spacing: .08em; text-transform: uppercase;
   padding: 3px 8px; border-radius: var(--r-pill);
 }
-.srctag.machine { color: var(--machine); background: #eef0f3; }
+.srctag.machine { color: #585f70; background: #eef0f3; }
 .srctag.analyst { color: var(--analyst-ink); background: var(--analyst-tint); }
 .srctag.external { color: var(--external-ink); background: var(--external-tint); }
-[data-theme="dark"] .srctag.machine { background: #262b34; }
+[data-theme="dark"] .srctag.machine { background: #262b34; color: #969fad; }
 
 .panel-b { padding: 2px 18px 18px; }
 
@@ -517,9 +524,11 @@ a { color: inherit; }
      /root/.claude/plans/redesign-v2.md
      ============================================================ -->
 
-<header class="appbar">
+<a class="skip-link sr-only" href="#main-content">Skip to main content</a>
+
+<header class="appbar" role="banner">
   <div class="brand">
-    <span class="mark"><span aria-hidden="true"></span></span>
+    <span class="mark" aria-hidden="true"><span></span></span>
     <span class="wordmark">
       <h1 id="brand-title">Loading…</h1>
       <small id="brand-sub">v2 build</small>
@@ -561,21 +570,21 @@ a { color: inherit; }
      audit H6). Other panels had nothing. Screen readers couldn't pair
      tab ↔ tabpanel. -->
 <nav class="tabs" role="tablist" aria-label="Sections">
-  <a class="tab" id="tab-overview-anchor"   href="#overview"    data-tab="overview"    role="tab">Overview</a>
-  <a class="tab" id="tab-players-anchor"    href="#players"     data-tab="players"     role="tab">Players</a>
-  <a class="tab" id="tab-team-stats-anchor" href="#team-stats"  data-tab="team-stats"  role="tab">Team Stats</a>
-  <a class="tab" id="tab-stat-school-anchor" href="#stat-school" data-tab="stat-school" role="tab">
+  <a class="tab" id="tab-overview-anchor"   href="#overview"    data-tab="overview"    role="tab" aria-controls="tab-overview">Overview</a>
+  <a class="tab" id="tab-players-anchor"    href="#players"     data-tab="players"     role="tab" aria-controls="tab-players">Players</a>
+  <a class="tab" id="tab-team-stats-anchor" href="#team-stats"  data-tab="team-stats"  role="tab" aria-controls="tab-team-stats">Team Stats</a>
+  <a class="tab" id="tab-stat-school-anchor" href="#stat-school" data-tab="stat-school" role="tab" aria-controls="tab-stat-school">
     Stat School <span class="sch-ic">✦</span>
   </a>
 </nav>
 
-<main>
+<main id="main-content">
   <!-- Schema-drift banner. The renderer (assets/render.js validateSchema)
        compares data.json's top-level keys against EXPECTED_KEYS on every
        load; if any are missing it surfaces them here. Ported from v1
        (index.html line 247) — survivorship audit T1 found this guard
        had been silently dropped during the v2 redesign. -->
-  <div id="schemaBanner" class="schema-banner" hidden></div>
+  <div id="schemaBanner" class="schema-banner" role="alert" aria-live="assertive" hidden></div>
 
   <!-- Overview tab body — populated by assets/overview.js on boot. -->
   <section class="tab-body" id="tab-overview" role="tabpanel" aria-labelledby="tab-overview-anchor"></section>

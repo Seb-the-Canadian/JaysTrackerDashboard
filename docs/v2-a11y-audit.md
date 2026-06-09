@@ -845,3 +845,44 @@ shifts or ARIA-attribute additions in `index-v2.html` and the four
   but does not include `experimental`. The `aria-allowed-attr` and
   `landmark-unique` checks are covered; the experimental
   `target-size` (2.5.5 AAA) is not.
+
+---
+
+## Phase 2 — fixes applied (2026-06-09)
+
+Implemented the tractable batch from the queue above. Every contrast value
+was verified numerically against the WCAG 4.5:1 (text) / 3:1 (non-text)
+thresholds on the worst-case substrate before landing.
+
+| Finding | Fix | Verified |
+|---|---|---|
+| A1 / A9 | `--ink-3` deepened: light `#8a93a1`→`#656e7b`, dark `#727b89`→`#868f9d` (one token, ~120 sites) | 4.53:1 on cream paper / 4.52:1 on dark card-2; still visibly lighter than `--ink-2` |
+| A2 (chip) | IL-chip numerals white→`#2a1a0a` on the fixed amber circle | 6.15:1 |
+| A2 (text) | New paired `--q-warm-ink` token (light `#9c5226` / dark `#d98a4e`); repointed `.notes-stale-chip.amber`, `.il-pop-status`, `.pc-stat i.warn` | 5.06–6.05:1 |
+| A4 | `.wc-row.me .gb` → `--ink-2` (lift off the me-tint) | 5.03:1 light / 6.46:1 dark |
+| A6 | `.srctag.machine` color scoped: light `#585f70`, dark `#969fad` | 5.60:1 / 5.32:1 |
+| A7 | `[data-theme="dark"] .pitch .velo` → `#e2734f` | 5.35:1 |
+| A10 | Run-diff `<svg class="rd-chart">` gets `role="img"` + generated `aria-label` (series net + worst game) | — |
+| A11 | `aria-hidden="true"` on the brand `.mark` span + every `.diag` pitch SVG | — |
+| A12 | `#schemaBanner` gets `role="alert" aria-live="assertive"` | — |
+| A13 | IL popover `role` dialog→region, `aria-live="polite"`, `aria-labelledby="il-pop-head"`; chip `aria-haspopup`→`true` | — |
+| A14 / A15 | Skip-link (`.sr-only`, revealed on focus) + `id="main-content"` on `<main>` + `role="banner"` on the appbar | — |
+| A16 | `#jays-tooltip` gets `aria-live="polite"` | — |
+| A19 | `.seg button.on` gets `font-weight: 700` (state cue beyond color) | — |
+| A20 | `aria-controls="tab-<name>"` on all four tab anchors | — |
+
+### Deferred (need a design decision — not landed here)
+
+- **A3** (player-modal compare-strip tick markers, 1.93:1): the dim tint
+  is a deliberate "decoration vs. signal" choice; needs a design call.
+- **A5** (rank-tier ramp `.m2` green / `.m4` amber as text): deepening
+  `.m2` to clear 4.5:1 collapses it into `.m1` — the 5-tier ramp needs a
+  holistic palette redesign, not a per-token nudge. The old "deferred to
+  v2.0.1" note in `team-stats.css` is updated to reflect this. Non-rank
+  amber text is fixed via `--q-warm-ink` (A2).
+- **A8** (projection-band orange `--neg`, 4.07:1 dark): just under AA;
+  lifting `--neg` risks the rank-pill backgrounds and standings highlight
+  — bundle with the A5 palette pass.
+
+The merged visual-regression probe guards these CSS changes; baselines
+were regenerated in CI so the committed PNGs reflect the new tones.

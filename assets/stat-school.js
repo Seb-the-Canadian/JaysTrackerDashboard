@@ -375,6 +375,7 @@
     const svgNS = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(svgNS, 'svg');
     svg.setAttribute('class', 'diag');
+    svg.setAttribute('aria-hidden', 'true');
     svg.setAttribute('viewBox', '0 0 56 56');
 
     // Start point at top, end point varies by shape

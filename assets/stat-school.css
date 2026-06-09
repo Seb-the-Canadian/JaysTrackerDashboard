@@ -533,6 +533,8 @@
   font-weight: 700;
   margin: 3px 0 5px;
 }
+/* a11y A7: --q-hot orange is 3.47:1 on the dark card; lift it. */
+[data-theme="dark"] .pitch .velo { color: #e2734f; }
 .pitch .pi-desc {
   font-size: 11.5px;
   color: var(--ink-2);

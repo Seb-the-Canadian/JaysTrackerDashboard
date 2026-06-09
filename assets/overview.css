@@ -409,6 +409,7 @@
   border-radius: var(--r1);
 }
 .wc-row.me .abbr { color: var(--team-primary-ink); }
+.wc-row.me .gb { color: var(--ink-2); }   /* a11y A4: lift GB off the me-tint */
 .cutline {
   display: flex;
   align-items: center;

@@ -55,6 +55,7 @@
     tip.id = TIP_ID;
     tip.className = 'tip';
     tip.setAttribute('role', 'tooltip');
+    tip.setAttribute('aria-live', 'polite');
     tip.hidden = true;
     // Don't close when hovering the tooltip body itself.
     tip.addEventListener('pointerenter', cancelClose);
