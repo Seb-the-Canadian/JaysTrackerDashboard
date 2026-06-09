@@ -212,8 +212,11 @@ def test_fetch_league_player_rankings_assigns_rank_per_qualified_player(mocker, 
 
     mocker.patch("fetch_data.api", side_effect=api_dispatch)
     roster = {
-        "hitters": [{"id": 665489, "name": "Vladimir Guerrero Jr."}],
-        "pitchers": [{"id": 592332, "name": "Kevin Gausman"}],
+        "hitters": [{"id": 665489, "name": "Vladimir Guerrero Jr.",
+                     "ops": ".950", "hr": 25, "rbi": 80, "sb": 15}],
+        "pitchers": [{"id": 592332, "name": "Kevin Gausman", "era": "2.50",
+                      "whip": "1.05", "k_per_9": "10.0", "bb_per_9": "2.0",
+                      "ip": "90.0"}],
     }
     ranks, _pools = fetch_data.fetch_league_player_rankings(cfg, roster)
 
@@ -229,32 +232,40 @@ def test_fetch_league_player_rankings_assigns_rank_per_qualified_player(mocker, 
     assert ranks["592332"]["ip"] == 1        # most innings = best
 
 
-def test_fetch_league_player_rankings_non_qualified_player_returns_none(mocker, cfg):
-    """A rostered player who isn't in the qualified pool gets None
-    for every slug in their group."""
-    hitting_splits = [
-        {"player": {"id": 100001}, "stat": {"ops": ".800", "avg": ".280", "obp": ".360",
-                                            "slg": ".440", "runs": 50, "homeRuns": 18}},
+def test_fetch_league_player_rankings_ranks_nonqualified_players_too(mocker, cfg):
+    """Coverage guarantee (the heat-bar fix): a rostered player who is NOT in
+    the qualified pool but HAS a season stat is still ranked by inserting
+    their value into the qualified distribution, so every card gets a heat
+    bar. Only a player with no parseable stat resolves to None."""
+    hitting_splits = [  # the qualified distribution to rank against
+        {"player": {"id": 1}, "stat": {"ops": ".900", "homeRuns": 30, "rbi": 90, "stolenBases": 20}},
+        {"player": {"id": 2}, "stat": {"ops": ".800", "homeRuns": 22, "rbi": 70, "stolenBases": 12}},
+        {"player": {"id": 3}, "stat": {"ops": ".700", "homeRuns": 14, "rbi": 50, "stolenBases": 6}},
+        {"player": {"id": 4}, "stat": {"ops": ".600", "homeRuns": 6,  "rbi": 30, "stolenBases": 2}},
     ]
-    pitching_splits = []
 
     def api_dispatch(endpoint, params):
         if endpoint == "stats" and params.get("group") == "hitting":
             return _player_splits_response(hitting_splits, "hitting")
-        if endpoint == "stats" and params.get("group") == "pitching":
-            return _player_splits_response(pitching_splits, "pitching")
         return {"stats": []}
 
     mocker.patch("fetch_data.api", side_effect=api_dispatch)
     roster = {
-        "hitters": [{"id": 999999, "name": "Bench Bat"}],
+        "hitters": [
+            # Not in the qualified pool, but has a real OPS → must be ranked.
+            {"id": 999999, "name": "Bench Bat", "ops": ".750", "hr": 10, "rbi": 40, "sb": 5},
+            # No parseable OPS → the only None case.
+            {"id": 888888, "name": "No-Stat Callup", "ops": ".---", "hr": 0, "rbi": 0, "sb": 0},
+        ],
         "pitchers": [],
     }
-    ranks, _pools = fetch_data.fetch_league_player_rankings(cfg, roster)
+    ranks, pools = fetch_data.fetch_league_player_rankings(cfg, roster)
 
-    assert "999999" in ranks
-    for slug in ("ops", "hr", "rbi", "sb"):
-        assert ranks["999999"][slug] is None, f"expected None for {slug}"
+    # .750 sits between .800 (2nd) and .700 (3rd) in the pool of 4 → rank 3, NOT None.
+    assert ranks["999999"]["ops"] == 3
+    assert all(ranks["999999"][s] is not None for s in ("ops", "hr", "rbi", "sb"))
+    # Placeholder OPS → None (nothing to rank); the pcard shows "—" honestly.
+    assert ranks["888888"]["ops"] is None
 
 
 def test_fetch_league_player_rankings_returns_empty_on_api_failure(mocker, cfg):
@@ -273,9 +284,11 @@ def test_fetch_league_player_rankings_returns_empty_on_api_failure(mocker, cfg):
 def test_fetch_league_player_rankings_handles_partial_failure(mocker, cfg):
     """If hitting succeeds but pitching fails (or vice versa), the
     successful side still produces ranks."""
-    hitting_splits = [
-        {"player": {"id": 665489}, "stat": {"ops": ".900", "avg": ".300", "obp": ".400",
-                                            "slg": ".500", "runs": 55, "homeRuns": 20}},
+    hitting_splits = [  # pool of 2 so a percentile is well-defined
+        {"player": {"id": 665489}, "stat": {"ops": ".900", "homeRuns": 20,
+                                            "rbi": 55, "stolenBases": 5}},
+        {"player": {"id": 100002}, "stat": {"ops": ".700", "homeRuns": 12,
+                                            "rbi": 40, "stolenBases": 3}},
     ]
 
     def api_dispatch(endpoint, params):
@@ -287,44 +300,45 @@ def test_fetch_league_player_rankings_handles_partial_failure(mocker, cfg):
 
     mocker.patch("fetch_data.api", side_effect=api_dispatch)
     roster = {
-        "hitters": [{"id": 665489, "name": "Hitter"}],
-        "pitchers": [{"id": 592332, "name": "Pitcher"}],
+        "hitters": [{"id": 665489, "name": "Hitter", "ops": ".900",
+                     "hr": 20, "rbi": 55, "sb": 5}],
+        "pitchers": [{"id": 592332, "name": "Pitcher", "era": "3.00",
+                      "whip": "1.10", "k_per_9": "9.0", "bb_per_9": "2.5",
+                      "ip": "60.0"}],
     }
     ranks, _pools = fetch_data.fetch_league_player_rankings(cfg, roster)
     assert ranks["665489"]["ops"] == 1
     assert ranks["592332"]["era"] is None  # pool was empty due to fail
 
 
-def test_fetch_league_player_rankings_missing_field_sinks_to_bottom(mocker, cfg):
-    """A qualified player whose stat is missing/unparseable sorts to
-    the bottom; the rank assignment still completes for the rest."""
+def test_fetch_league_player_rankings_missing_primary_stat_is_none(mocker, cfg):
+    """A rostered player with a placeholder primary stat resolves to None
+    for THAT slug (nothing to rank → heat bar shows "—"), while their other
+    present stats still rank against the distribution."""
     hitting_splits = [
-        # Top player has a normal OPS.
-        {"player": {"id": 665489}, "stat": {"ops": ".900", "avg": ".300", "obp": ".400",
-                                            "slg": ".500", "runs": 55, "homeRuns": 20}},
-        # Second player has a missing OPS — should rank last.
-        {"player": {"id": 100001}, "stat": {"ops": None, "avg": ".275", "obp": ".355",
-                                            "slg": ".410", "runs": 42, "homeRuns": 15}},
-        # Third player normal.
-        {"player": {"id": 100002}, "stat": {"ops": ".750", "avg": ".260", "obp": ".340",
-                                            "slg": ".410", "runs": 38, "homeRuns": 13}},
+        {"player": {"id": 665489}, "stat": {"homeRuns": 20}},
+        {"player": {"id": 100002}, "stat": {"homeRuns": 13}},
+        {"player": {"id": 100003}, "stat": {"homeRuns": 8}},
     ]
     mocker.patch("fetch_data.api", side_effect=lambda e, p:
                  _player_splits_response(hitting_splits, "hitting")
                  if p.get("group") == "hitting"
                  else {"stats": []})
-    roster = {"hitters": [{"id": 100001, "name": "Missing"}], "pitchers": []}
+    # Placeholder OPS, but a real HR total.
+    roster = {"hitters": [{"id": 100001, "name": "Missing",
+                           "ops": ".---", "hr": 15, "rbi": 0, "sb": 0}],
+              "pitchers": []}
     ranks, _pools = fetch_data.fetch_league_player_rankings(cfg, roster)
-    # OPS rank for 100001 should be 3 (last) since OPS is missing.
-    assert ranks["100001"]["ops"] == 3
-    # Other stats (which are present) place at their natural rank: HR 15 is
-    # the middle of {20, 15, 13} → 2nd.
+    # Placeholder OPS → None (nothing to rank).
+    assert ranks["100001"]["ops"] is None
+    # HR 15 vs distribution {20, 13, 8}: one strictly better → rank 2.
     assert ranks["100001"]["hr"] == 2
 
 
 def test_fetch_league_player_rankings_uses_qualified_player_pool(mocker, cfg):
-    """The fetcher must request playerPool=Qualified — the standard
-    qualification rule is the contract per decision D1."""
+    """The fetcher still requests playerPool=Qualified — that pool is now the
+    DISTRIBUTION every rostered player is ranked against (not a rank-eligibility
+    gate). The request shape is the contract."""
     captured_params = []
 
     def api_dispatch(endpoint, params):
