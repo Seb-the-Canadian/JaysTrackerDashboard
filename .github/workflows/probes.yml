@@ -128,6 +128,7 @@ jobs:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.update_visual_baselines == 'true'
     permissions:
       contents: write
+      actions: write   # auto-dispatch the comparison run after committing baselines
 
     steps:
       - name: Checkout
@@ -168,13 +169,35 @@ jobs:
         run: node tests/probes/visual.js
 
       - name: Commit and push new baselines
+        id: commit
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add tests/screenshots/baselines/
           if git diff --cached --quiet; then
             echo "No baseline changes — nothing to commit."
+            echo "committed=false" >> "$GITHUB_OUTPUT"
             exit 0
           fi
           git commit -m "v2(visual): regenerate baselines in CI"
           git push
+          echo "committed=true" >> "$GITHUB_OUTPUT"
+
+      # Auto-re-validate. The commit-back above uses GITHUB_TOKEN, which by
+      # design does NOT re-trigger the pull_request/push workflow — so the
+      # freshly-committed baselines would otherwise carry no green check on
+      # their own commit (this dispatch run is bound to the pre-regen SHA).
+      # Dispatch the comparison explicitly so a green probes run lands on the
+      # new baseline commit automatically — no manual second step, and the
+      # PR head shows green rather than only the stale first-run red.
+      # Regeneration stays deliberate (maintainer-triggered); this only
+      # automates the *verification* of what was just committed.
+      - name: Re-validate committed baselines
+        if: steps.commit.outputs.committed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh workflow run probes.yml \
+            --ref "${{ github.ref_name }}" \
+            -f update_visual_baselines=false
+          echo "Dispatched comparison run on ${{ github.ref_name }} (the new baseline commit)."
