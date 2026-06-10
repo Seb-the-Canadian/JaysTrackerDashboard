@@ -449,8 +449,14 @@
       ['WHIP', player.whip, myRanks.whip, false, 'whip'],
       ['K/9', player.k_per_9, myRanks.k_per_9, false, 'k9'],
       ['BB/9', player.bb_per_9, myRanks.bb_per_9, false, 'bb9'],
-      ['IP', player.ip, myRanks.ip, false, 'ip'],
     ];
+    // IP is a workload/durability rank against the qualified pool (starters,
+    // ~65+ IP). A reliever's ~20 IP lands dead-last there, so the row would
+    // read "0th %ile" for every RP — misleading, not informative. Show it
+    // only for starters (gs >= 3), matching the pcard SP/RP heuristic.
+    if ((Number(player.gs) || 0) >= 3) {
+      defs.push(['IP', player.ip, myRanks.ip, false, 'ip']);
+    }
     return defs
       .filter(function (d) { return d[1] != null && d[1] !== '—' && d[1] !== '-.--'; })
       .map(function (d) { return ctxRow(d[0], d[1], d[2], d[3], pool, d[4]); });
