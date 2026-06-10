@@ -2,6 +2,23 @@
 
 Blue Jays 2026 Tracker — daily-refreshed MLB dashboard, GitHub-Pages-hosted.
 
+## Definition of done (every feature)
+
+A feature is not done until a machine guards it and it's confirmed live:
+
+1. The change itself.
+2. A **durable guard** — a probe (`tests/probes/`), pytest, or data-contract
+   assertion (`tools/check_data_completeness.py`) that **fails if the feature
+   regresses**. No guard yet → say so explicitly in the feature ledger.
+3. Confirmed on **main AND the live Pages deploy** — not just branch CI.
+   ("Branch CI green" is not "shipped": #135 merged before its mark commits,
+   so an approved, branch-green feature never reached main or the live site.)
+4. A row in [`docs/feature-ledger.md`](docs/feature-ledger.md).
+
+Guarantee the *outcome*, not the mechanism: "render as percentile" fixed the
+scale but never asserted coverage, so heat bars sat at 6/26 unnoticed. Assert
+the thing the user sees.
+
 ## Quick orientation
 
 - `fetch_data.py` → writes `data.json` (machine facts)
