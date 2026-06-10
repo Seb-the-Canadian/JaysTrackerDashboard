@@ -110,21 +110,33 @@ a { color: inherit; }
 }
 .brand { display: flex; align-items: center; gap: 12px; }
 .brand .mark {
-  width: 40px; height: 40px; border-radius: 9px;
-  background: var(--team-primary);
-  display: grid; place-items: center;
-  box-shadow: var(--sh1);
+  display: block;
+  position: relative;
+  width: 40px; height: 40px;
 }
-.brand .mark span {
-  display: block; width: 16px; height: 16px;
-  /* Iconography — theme-neutral white diamond.
-     PR-F (decision D4): was `var(--card)`, which becomes #1b1f27 in
-     dark mode and disappears against dark-blue primaries (TOR dark
-     1.89:1, NYY dark 1.39:1 — fails AA non-text 3:1). The diamond IS
-     a brand mark, not a themed surface — neutrality is correct. */
-  background: #ffffff;
-  transform: rotate(45deg); /* diamond bug */
+/* Brand mark — one baseball diamond split into four segments. A single
+   --ink square is rotated 45° into a diamond; two thin --paper bars (the
+   page colour) cross its centre, carving it into four diamond segments
+   with crisp, uniform gaps. --ink/--paper flip per theme, so the mark is
+   dark-on-cream in light mode and near-white on dark, carries no blue, and
+   is fully team-independent (config.brand_mark is v1-only; see
+   docs/forking.md). */
+.brand .mark > span {
+  position: absolute; left: 50%; top: 50%;
+  width: 26px; height: 26px;
+  background: var(--ink);
+  border-radius: 3px;
+  overflow: hidden;
+  transform: translate(-50%, -50%) rotate(45deg);
 }
+.brand .mark > span::before,
+.brand .mark > span::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  background: var(--paper);
+  transform: translate(-50%, -50%);
+}
+.brand .mark > span::before { width: 3px;  height: 140%; }
+.brand .mark > span::after  { width: 140%; height: 3px;  }
 .brand .wordmark h1,
 .brand .wordmark b {
   font-weight: var(--w-display); font-size: 16px;

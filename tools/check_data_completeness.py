@@ -59,6 +59,26 @@ def warn_scan(data):
                     warns.append(f"every player_ranks.*.{slug} is null ({len(vals)} players) "
                                  f"despite pool={pool.get(group)} — silent rank gap")
 
+    # 1c. Heat-bar coverage guarantee. Every rostered player who HAS a
+    #     primary stat (ops for hitters, era for pitchers) must get a rank,
+    #     so the pcard heat bar is uniform and never silently degrades to "—"
+    #     for someone who has actually played. Reports coverage every refresh
+    #     (auditable) and flags the real bug class — stat present, rank null
+    #     (troubleshootable: it names the players). Warn-only: a rank gap must
+    #     never blank the live dashboard (resilience over completeness here).
+    roster = data.get("roster") or {}
+    for grp, primary in (("hitters", "ops"), ("pitchers", "era")):
+        players = roster.get(grp) or []
+        have_stat = [p for p in players if str(p.get(primary)) not in PLACEHOLDERS]
+        gap = [p.get("name") for p in have_stat
+               if (pr.get(str(p.get("id"))) or {}).get(primary) is None]
+        if have_stat:
+            warns.append(f"heat-bar coverage {grp}: {len(have_stat) - len(gap)}/{len(have_stat)} "
+                         f"with a {primary} are ranked")
+        if gap:
+            warns.append(f"GUARANTEE GAP — {len(gap)} {grp} have a {primary} but no rank "
+                         f"(heat bar shows '—'): {', '.join(str(n) for n in gap[:8])}")
+
     # 2. Statcast saturation: every hitter's metric a placeholder → the
     #    Savant/xstats join is down (the value-only line renders nothing).
     hitters = (data.get("roster") or {}).get("hitters") or []

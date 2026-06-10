@@ -1577,6 +1577,48 @@ def _player_rank_for_stat(splits, player_id, api_field, higher_is_better=True):
     return None
 
 
+def _dist_values(splits, api_field):
+    """Parseable numeric values of `api_field` across the qualified splits.
+
+    The qualified pool IS the league distribution we rank against; pulling
+    the raw values once lets every roster player be a cheap insertion-rank
+    rather than a membership lookup.
+    """
+    vals = []
+    for s in splits:
+        v = parse_float((s.get("stat") or {}).get(api_field), default=None)
+        if v is not None:
+            vals.append(v)
+    return vals
+
+
+def _value_rank(dist_values, value, pool, higher_is_better=True):
+    """Insertion rank (1-based) of `value` within the qualified distribution.
+
+    Counts how many qualified players are strictly better than `value` and
+    adds 1, then clamps to [1, pool] so the result always maps to a valid
+    percentile in the renderer (format.js rankPercentile requires rank in
+    [1, pool]).
+
+    This is the coverage fix: it ranks EVERY rostered player who has a
+    parseable stat against the league's qualified pool — qualified or not —
+    so the heat bar is uniform and guaranteed, instead of degrading to "—"
+    for the bench bats, relievers, and spot starters that miss MLB's
+    qualification cutoff (~3 of every 4 roster spots). A non-qualified
+    player's rate stat is simply slotted into the distribution where its
+    value falls. Returns None only when the player has no parseable value
+    (genuinely nothing to rank, e.g. a just-recalled bat with no PA).
+    """
+    pv = parse_float(value, default=None)
+    if pv is None or not dist_values or pool < 2:
+        return None
+    if higher_is_better:
+        better = sum(1 for v in dist_values if v > pv)
+    else:
+        better = sum(1 for v in dist_values if v < pv)
+    return max(1, min(pool, better + 1))
+
+
 def fetch_league_player_rankings(cfg, roster):
     """Compute MLB rank for every player on our roster, per stat.
 
@@ -1620,6 +1662,15 @@ def fetch_league_player_rankings(cfg, roster):
     if not hitting_splits and not pitching_splits:
         return {}, pools
 
+    # Pre-extract the qualified distribution's values per stat once; each
+    # roster player is then a cheap insertion-rank against it. The roster
+    # dict already carries every ranked value (hitters: ops/hr/rbi/sb;
+    # pitchers: era/whip/k_per_9/bb_per_9/ip), so no per-player API call.
+    hit_dist = {api: _dist_values(hitting_splits, api) for _, api in PLAYER_HITTING_STATS}
+    pit_dist = {api: _dist_values(pitching_splits, api) for _, api in PLAYER_PITCHING_STATS}
+    hit_pool = pools["hitting"]
+    pit_pool = pools["pitching"]
+
     ranks = {}
     for hitter in roster.get("hitters") or []:
         pid = hitter.get("id")
@@ -1627,8 +1678,8 @@ def fetch_league_player_rankings(cfg, roster):
             continue
         ranks[str(pid)] = {}
         for slug, api_field in PLAYER_HITTING_STATS:
-            ranks[str(pid)][slug] = _player_rank_for_stat(
-                hitting_splits, pid, api_field, higher_is_better=True)
+            ranks[str(pid)][slug] = _value_rank(
+                hit_dist[api_field], hitter.get(slug), hit_pool, higher_is_better=True)
     for pitcher in roster.get("pitchers") or []:
         pid = pitcher.get("id")
         if pid is None:
@@ -1636,8 +1687,8 @@ def fetch_league_player_rankings(cfg, roster):
         ranks[str(pid)] = {}
         for slug, api_field in PLAYER_PITCHING_STATS:
             higher_better = slug in PLAYER_PITCHING_HIGHER_IS_BETTER
-            ranks[str(pid)][slug] = _player_rank_for_stat(
-                pitching_splits, pid, api_field, higher_is_better=higher_better)
+            ranks[str(pid)][slug] = _value_rank(
+                pit_dist[api_field], pitcher.get(slug), pit_pool, higher_is_better=higher_better)
     return ranks, pools
 
 
