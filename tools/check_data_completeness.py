@@ -40,8 +40,13 @@ def hard_key_check(data):
 
 
 def warn_scan(data):
-    """Silent-degradation findings (never fatal)."""
+    """Silent-degradation findings (never fatal).
+
+    Returns (warns, infos): warns are actionable findings; infos are
+    always-on audit lines (e.g. the heat-bar coverage ledger) that keep the
+    refresh log auditable without crying wolf."""
     warns = []
+    infos = []
 
     # 1. player_ranks: a slug null for every player while the pool is
     #    non-empty means the rank join/fetch silently degraded.
@@ -67,14 +72,22 @@ def warn_scan(data):
     #     (troubleshootable: it names the players). Warn-only: a rank gap must
     #     never blank the live dashboard (resilience over completeness here).
     roster = data.get("roster") or {}
-    for grp, primary in (("hitters", "ops"), ("pitchers", "era")):
+    for grp, primary, pt_key in (("hitters", "ops", "ab"), ("pitchers", "era", "ip")):
         players = roster.get(grp) or []
-        have_stat = [p for p in players if str(p.get(primary)) not in PLACEHOLDERS]
+        # Mirror the fetcher's playing-time gate: only players with playing
+        # time owe us a rank (a 0-AB call-up legitimately shows "—").
+        def _played(p):
+            try:
+                return float(p.get(pt_key) or 0) > 0
+            except (TypeError, ValueError):
+                return False
+        have_stat = [p for p in players
+                     if str(p.get(primary)) not in PLACEHOLDERS and _played(p)]
         gap = [p.get("name") for p in have_stat
                if (pr.get(str(p.get("id"))) or {}).get(primary) is None]
         if have_stat:
-            warns.append(f"heat-bar coverage {grp}: {len(have_stat) - len(gap)}/{len(have_stat)} "
-                         f"with a {primary} are ranked")
+            infos.append(f"heat-bar coverage {grp}: {len(have_stat) - len(gap)}/{len(have_stat)} "
+                         f"with playing time are ranked")
         if gap:
             warns.append(f"GUARANTEE GAP — {len(gap)} {grp} have a {primary} but no rank "
                          f"(heat bar shows '—'): {', '.join(str(n) for n in gap[:8])}")
@@ -98,7 +111,7 @@ def warn_scan(data):
     if ug and all(g.get("opp_context") is None for g in ug):
         warns.append(f"no upcoming game has opp_context ({len(ug)} games) — standings join missed")
 
-    return warns
+    return warns, infos
 
 
 def main():
@@ -118,7 +131,10 @@ def main():
         print(f"ERROR: data.json missing contract key '{k}' "
               f"(renderer EXPECTED_KEYS would fire the schema-drift banner)")
 
-    for w in warn_scan(data):
+    warns, infos = warn_scan(data)
+    for i in infos:
+        print(f"INFO: {i}")
+    for w in warns:
         print(f"WARN: {w}")
 
     if missing and not args.warn_only:

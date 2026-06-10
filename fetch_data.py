@@ -1676,19 +1676,29 @@ def fetch_league_player_rankings(cfg, roster):
         pid = hitter.get("id")
         if pid is None:
             continue
+        # Playing-time gate: a hitter with zero at-bats has counting stats
+        # that default to 0 in the roster dict (hr/rbi/sb) — ranking those
+        # would show a fresh call-up as "0th percentile" instead of the
+        # honest "not yet ranked" dash. No playing time → no ranks.
+        played = parse_float(hitter.get("ab"), default=0.0) > 0
         ranks[str(pid)] = {}
         for slug, api_field in PLAYER_HITTING_STATS:
             ranks[str(pid)][slug] = _value_rank(
-                hit_dist[api_field], hitter.get(slug), hit_pool, higher_is_better=True)
+                hit_dist[api_field], hitter.get(slug), hit_pool,
+                higher_is_better=True) if played else None
     for pitcher in roster.get("pitchers") or []:
         pid = pitcher.get("id")
         if pid is None:
             continue
+        # Same gate for pitchers: ip "0.0" parses to a rankable 0 even when
+        # era/whip are "-.--" placeholders — gate the whole row instead.
+        played = parse_float(pitcher.get("ip"), default=0.0) > 0
         ranks[str(pid)] = {}
         for slug, api_field in PLAYER_PITCHING_STATS:
             higher_better = slug in PLAYER_PITCHING_HIGHER_IS_BETTER
             ranks[str(pid)][slug] = _value_rank(
-                pit_dist[api_field], pitcher.get(slug), pit_pool, higher_is_better=higher_better)
+                pit_dist[api_field], pitcher.get(slug), pit_pool,
+                higher_is_better=higher_better) if played else None
     return ranks, pools
 
 
