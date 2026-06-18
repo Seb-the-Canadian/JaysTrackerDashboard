@@ -212,7 +212,7 @@ def test_fetch_league_player_rankings_assigns_rank_per_qualified_player(mocker, 
 
     mocker.patch("fetch_data.api", side_effect=api_dispatch)
     roster = {
-        "hitters": [{"id": 665489, "name": "Vladimir Guerrero Jr.",
+        "hitters": [{"id": 665489, "name": "Vladimir Guerrero Jr.", "ab": 250,
                      "ops": ".950", "hr": 25, "rbi": 80, "sb": 15}],
         "pitchers": [{"id": 592332, "name": "Kevin Gausman", "era": "2.50",
                       "whip": "1.05", "k_per_9": "10.0", "bb_per_9": "2.0",
@@ -253,9 +253,9 @@ def test_fetch_league_player_rankings_ranks_nonqualified_players_too(mocker, cfg
     roster = {
         "hitters": [
             # Not in the qualified pool, but has a real OPS → must be ranked.
-            {"id": 999999, "name": "Bench Bat", "ops": ".750", "hr": 10, "rbi": 40, "sb": 5},
-            # No parseable OPS → the only None case.
-            {"id": 888888, "name": "No-Stat Callup", "ops": ".---", "hr": 0, "rbi": 0, "sb": 0},
+            {"id": 999999, "name": "Bench Bat", "ab": 90, "ops": ".750", "hr": 10, "rbi": 40, "sb": 5},
+            # Placeholder OPS (has ABs but e.g. a stat gap) → None for that slug.
+            {"id": 888888, "name": "No-Stat Callup", "ab": 12, "ops": ".---", "hr": 0, "rbi": 0, "sb": 0},
         ],
         "pitchers": [],
     }
@@ -300,7 +300,7 @@ def test_fetch_league_player_rankings_handles_partial_failure(mocker, cfg):
 
     mocker.patch("fetch_data.api", side_effect=api_dispatch)
     roster = {
-        "hitters": [{"id": 665489, "name": "Hitter", "ops": ".900",
+        "hitters": [{"id": 665489, "name": "Hitter", "ab": 200, "ops": ".900",
                      "hr": 20, "rbi": 55, "sb": 5}],
         "pitchers": [{"id": 592332, "name": "Pitcher", "era": "3.00",
                       "whip": "1.10", "k_per_9": "9.0", "bb_per_9": "2.5",
@@ -309,6 +309,47 @@ def test_fetch_league_player_rankings_handles_partial_failure(mocker, cfg):
     ranks, _pools = fetch_data.fetch_league_player_rankings(cfg, roster)
     assert ranks["665489"]["ops"] == 1
     assert ranks["592332"]["era"] is None  # pool was empty due to fail
+
+
+def test_fetch_league_player_rankings_zero_playing_time_gate(mocker, cfg):
+    """A 0-AB hitter / 0-IP pitcher gets None for EVERY slug — counting
+    stats default to 0 in the roster dict, and without the gate a fresh
+    call-up would rank dead-last ("0th %ile") instead of the honest "—"."""
+    hitting_splits = [
+        {"player": {"id": 1}, "stat": {"ops": ".900", "homeRuns": 30, "rbi": 90, "stolenBases": 20}},
+        {"player": {"id": 2}, "stat": {"ops": ".700", "homeRuns": 10, "rbi": 40, "stolenBases": 4}},
+    ]
+    pitching_splits = [
+        {"player": {"id": 3}, "stat": {"era": "3.00", "whip": "1.10",
+                                       "strikeoutsPer9Inn": "9.0", "walksPer9Inn": "2.5",
+                                       "inningsPitched": "80.0"}},
+        {"player": {"id": 4}, "stat": {"era": "4.50", "whip": "1.40",
+                                       "strikeoutsPer9Inn": "7.0", "walksPer9Inn": "3.5",
+                                       "inningsPitched": "60.0"}},
+    ]
+
+    def api_dispatch(endpoint, params):
+        if endpoint == "stats" and params.get("group") == "hitting":
+            return _player_splits_response(hitting_splits, "hitting")
+        if endpoint == "stats" and params.get("group") == "pitching":
+            return _player_splits_response(pitching_splits, "pitching")
+        return {"stats": []}
+
+    mocker.patch("fetch_data.api", side_effect=api_dispatch)
+    roster = {
+        # 0 AB: counting stats are the roster-dict defaults (0) — gate must
+        # block them all, even though 0 is technically rankable.
+        "hitters": [{"id": 777, "name": "Fresh Callup", "ab": 0,
+                     "ops": ".---", "hr": 0, "rbi": 0, "sb": 0}],
+        # 0.0 IP: era/whip are placeholders, but ip "0.0" parses — gate
+        # must block the whole row.
+        "pitchers": [{"id": 888, "name": "Taxi Squad", "ip": "0.0",
+                      "era": "-.--", "whip": "-.--", "k_per_9": "-.--",
+                      "bb_per_9": "-.--"}],
+    }
+    ranks, _pools = fetch_data.fetch_league_player_rankings(cfg, roster)
+    assert all(v is None for v in ranks["777"].values()), ranks["777"]
+    assert all(v is None for v in ranks["888"].values()), ranks["888"]
 
 
 def test_fetch_league_player_rankings_missing_primary_stat_is_none(mocker, cfg):
@@ -325,7 +366,7 @@ def test_fetch_league_player_rankings_missing_primary_stat_is_none(mocker, cfg):
                  if p.get("group") == "hitting"
                  else {"stats": []})
     # Placeholder OPS, but a real HR total.
-    roster = {"hitters": [{"id": 100001, "name": "Missing",
+    roster = {"hitters": [{"id": 100001, "name": "Missing", "ab": 120,
                            "ops": ".---", "hr": 15, "rbi": 0, "sb": 0}],
               "pitchers": []}
     ranks, _pools = fetch_data.fetch_league_player_rankings(cfg, roster)

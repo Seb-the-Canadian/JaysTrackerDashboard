@@ -31,7 +31,14 @@ the probe; the framework is in place.
    workflow can't shift the snapshot state.
 2. **Theme**: set explicitly via `data-theme` attribute; `localStorage` is
    cleared per-page so prior visits don't bleed into the baseline.
-3. **Comparison**: [`pixelmatch`](https://github.com/mapbox/pixelmatch)
+3. **Clock**: frozen to a fixed instant (`FROZEN_NOW_MS`, just after the
+   fixture's `as_of`) before any page script runs, so relative-time text —
+   the freshness badge ("Updated · Nd old"), the "Analyst voice: Nd old"
+   chip, IL-popover ETAs — renders identically forever. Without this,
+   baselines rot as the calendar advances (a baseline generated one day
+   fails days later with small text diffs on every header-bearing surface).
+   Bump `FROZEN_NOW_MS` if the fixture's `as_of` moves.
+4. **Comparison**: [`pixelmatch`](https://github.com/mapbox/pixelmatch)
    with `threshold: 0.1` (per-pixel color tolerance) + `0.05%` whole-
    frame budget (~576 pixels at 1280×900). Tight enough to catch real
    regressions (the dash-as-underscore class flagged at 0.7–1.0% diff in
