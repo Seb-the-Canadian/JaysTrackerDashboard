@@ -44,6 +44,17 @@ const { PNG } = require('pngjs');
 
 const BASE = process.env.JT_BASE || 'http://localhost:8000/index-v2.html';
 const UPDATE = process.env.UPDATE_SNAPSHOTS === '1';
+
+// Determinism: freeze the page clock. The fixture pins the DATA (as_of,
+// note timestamps), but the dashboard renders RELATIVE time against
+// Date.now() — the header freshness badge ("Updated · Nd old"), the
+// "Analyst voice: Nd old" chip, and IL-popover ETAs. Without freezing,
+// baselines rot as the calendar advances: a baseline generated today
+// fails days later with a small localized text diff on every
+// header-bearing surface (caught 0.15-0.97% diffs after a 3-day drift).
+// Pin "now" just after the fixture's as_of so the relative strings read
+// naturally AND never change. Update this if the fixture's as_of moves.
+const FROZEN_NOW_MS = Date.parse('2026-06-15T12:00:00Z');
 const ROOT = path.join(__dirname, '..', '..');
 const BASELINES = path.join(ROOT, 'tests', 'screenshots', 'baselines');
 const DIFFS = '/tmp/v2-shots';
@@ -74,6 +85,17 @@ async function fixturePage(browser, opts) {
   // Clear any persisted theme before navigation so the baseline always
   // starts from a known state.
   await page.addInitScript(() => { try { localStorage.removeItem('jt-theme'); } catch (_) {} });
+  // Freeze Date BEFORE any page script runs so relative-time rendering is
+  // deterministic (see FROZEN_NOW_MS). class-extends-Date keeps new Date(x),
+  // Date.parse, Date.UTC, and instanceof intact; only "now" is pinned.
+  await page.addInitScript((fixed) => {
+    const RealDate = Date;
+    class FrozenDate extends RealDate {
+      constructor(...args) { if (args.length === 0) { super(fixed); } else { super(...args); } }
+      static now() { return fixed; }
+    }
+    window.Date = FrozenDate;
+  }, FROZEN_NOW_MS);
   await page.goto(BASE);
   if (opts && opts.theme === 'dark') {
     await page.evaluate(() => document.documentElement.setAttribute('data-theme', 'dark'));
