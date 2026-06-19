@@ -66,3 +66,9 @@ soft-fail the visual step on `pull_request` while hard-failing on `push`/
 dispatch — kills the noise but weakens the pre-merge catch; (c) move visual to
 a separate workflow that only runs on push/dispatch. Decision deferred to the
 maintainer — see `docs/visual-regression.md`.
+
+## Deliberately pulled (awaiting a real fix)
+
+| Feature | Why pulled | Re-enable condition |
+|---|---|---|
+| Analyst voice (`notes.json`: overview narrative, player/injury/team/pitch notes, "Analyst voice: Nd old" chip) | No verifiable source + repeatedly went stale (e.g. the 672386 injury note orphaned when the player was activated). Gated off via `config.analyst_notes_enabled=false` (render-layer; data + code retained). | A source-traceable, freshness-guaranteed voice — e.g. notes auto-derived from data with a contract assertion, or an authoring loop a probe can prove is current. Flip the flag; regenerate visual baselines (the panels return). |
