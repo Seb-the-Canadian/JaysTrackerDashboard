@@ -1,8 +1,8 @@
 {
   "players": {
     "543807_hitting_2026": {
-      "fetched_at": "2026-06-29T10:38:52.058654+00:00",
-      "signature": "atBats=236|hits=52|baseOnBalls=28|homeRuns=8|totalBases=87",
+      "fetched_at": "2026-06-30T10:15:14.140304+00:00",
+      "signature": "atBats=240|hits=53|baseOnBalls=28|homeRuns=8|totalBases=90",
       "splits": [
         {
           "date": "2026-03-27",
@@ -5406,6 +5406,93 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-06-29",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822792/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822792,
+            "link": "/api/v1.1/game/822792/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          },
+          "player": {
+            "fullName": "George Springer",
+            "id": 543807,
+            "link": "/api/v1/people/543807"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "DH",
+              "code": "10",
+              "name": "Designated Hitter",
+              "type": "Hitter"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 0,
+            "atBats": 4,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".221",
+            "babip": "1.000",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 0,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 0,
+            "groundOutsToAirouts": "-.--",
+            "hitByPitch": 0,
+            "hits": 1,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 0,
+            "numberOfPitches": 22,
+            "obp": ".309",
+            "ops": ".684",
+            "plateAppearances": 4,
+            "rbi": 0,
+            "runs": 1,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".375",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 3,
+            "summary": "1-4 | 3B, 3 K, R",
+            "totalBases": 3,
+            "triples": 1
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
@@ -8814,8 +8901,8 @@
       ]
     },
     "643511_pitching_2026": {
-      "fetched_at": "2026-06-28T10:02:27.647976+00:00",
-      "signature": "inningsPitched=38.2|earnedRuns=8|strikeOuts=20|baseOnBalls=12",
+      "fetched_at": "2026-06-30T10:15:17.467891+00:00",
+      "signature": "inningsPitched=39.2|earnedRuns=8|strikeOuts=20|baseOnBalls=13",
       "splits": [
         {
           "date": "2026-03-27",
@@ -13056,12 +13143,118 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-06-29",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822792/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822792,
+            "link": "/api/v1.1/game/822792/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          },
+          "player": {
+            "fullName": "Tyler Rogers",
+            "id": 643511,
+            "link": "/api/v1/people/643511"
+          },
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 1,
+            "atBats": 4,
+            "avg": ".238",
+            "balks": 0,
+            "baseOnBalls": 1,
+            "battersFaced": 5,
+            "blownSaves": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "completeGames": 0,
+            "doubles": 1,
+            "earnedRuns": 0,
+            "era": "1.82",
+            "flyOuts": 1,
+            "gamesFinished": 0,
+            "gamesPitched": 1,
+            "gamesPlayed": 1,
+            "gamesStarted": 0,
+            "groundIntoDoublePlay": 0,
+            "groundOuts": 2,
+            "groundOutsToAirouts": "2.59",
+            "hitBatsmen": 0,
+            "hitByPitch": 0,
+            "hits": 1,
+            "hitsPer9Inn": "9.00",
+            "holds": 1,
+            "homeRuns": 0,
+            "homeRunsPer9": "0.00",
+            "inheritedRunners": 0,
+            "inheritedRunnersScored": 0,
+            "inningsPitched": "1.0",
+            "intentionalWalks": 1,
+            "losses": 0,
+            "numberOfPitches": 9,
+            "obp": ".400",
+            "ops": ".900",
+            "outs": 3,
+            "pickoffs": 0,
+            "pitchesPerInning": "9.00",
+            "runs": 0,
+            "runsScoredPer9": "0.00",
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "saveOpportunities": 0,
+            "saves": 0,
+            "shutouts": 0,
+            "slg": ".500",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 0,
+            "strikePercentage": ".780",
+            "strikeoutWalkRatio": "0.00",
+            "strikeoutsPer9Inn": "0.00",
+            "strikes": 7,
+            "summary": "1.0 IP, 0 ER, 0 K, BB",
+            "totalBases": 2,
+            "triples": 0,
+            "walksPer9Inn": "9.00",
+            "whip": "1.24",
+            "wildPitches": 0,
+            "winPercentage": ".---",
+            "wins": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "649966_hitting_2026": {
-      "fetched_at": "2026-06-28T10:02:24.613767+00:00",
-      "signature": "atBats=10|hits=3|baseOnBalls=1|homeRuns=1|totalBases=6",
+      "fetched_at": "2026-06-30T10:15:15.262350+00:00",
+      "signature": "atBats=12|hits=4|baseOnBalls=2|homeRuns=1|totalBases=8",
       "splits": [
         {
           "date": "2026-06-23",
@@ -13490,6 +13683,93 @@
             "strikeOuts": 0,
             "summary": "0-1",
             "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
+        },
+        {
+          "date": "2026-06-29",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822792/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822792,
+            "link": "/api/v1.1/game/822792/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          },
+          "player": {
+            "fullName": "Luis Ur\u00edas",
+            "id": 649966,
+            "link": "/api/v1/people/649966"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "2B",
+              "code": "4",
+              "name": "Second Base",
+              "type": "Infielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 0,
+            "atBats": 2,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".333",
+            "babip": "1.000",
+            "baseOnBalls": 1,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 1,
+            "flyOuts": 0,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 0,
+            "groundOutsToAirouts": "-.--",
+            "hitByPitch": 0,
+            "hits": 1,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 3,
+            "numberOfPitches": 10,
+            "obp": ".429",
+            "ops": "1.096",
+            "plateAppearances": 3,
+            "rbi": 0,
+            "runs": 1,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".667",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 1,
+            "summary": "1-2 | 2B, BB, K",
+            "totalBases": 2,
             "triples": 0
           },
           "team": {
@@ -25538,8 +25818,8 @@
       ]
     },
     "664702_hitting_2026": {
-      "fetched_at": "2026-06-28T10:02:25.270509+00:00",
-      "signature": "atBats=129|hits=31|baseOnBalls=13|homeRuns=2|totalBases=43",
+      "fetched_at": "2026-06-30T10:15:15.799829+00:00",
+      "signature": "atBats=131|hits=31|baseOnBalls=13|homeRuns=2|totalBases=43",
       "splits": [
         {
           "date": "2026-03-27",
@@ -32080,12 +32360,105 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-06-29",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822792/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822792,
+            "link": "/api/v1.1/game/822792/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          },
+          "player": {
+            "fullName": "Myles Straw",
+            "id": 664702,
+            "link": "/api/v1/people/664702"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "CF",
+              "code": "8",
+              "name": "Outfielder",
+              "type": "Outfielder"
+            },
+            {
+              "abbreviation": "LF",
+              "code": "7",
+              "name": "Outfielder",
+              "type": "Outfielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 1,
+            "atBats": 2,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".237",
+            "babip": ".000",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 1,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 1,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 2,
+            "groundOutsToAirouts": "2.00",
+            "hitByPitch": 0,
+            "hits": 0,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 1,
+            "numberOfPitches": 10,
+            "obp": ".299",
+            "ops": ".627",
+            "plateAppearances": 3,
+            "rbi": 1,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 1,
+            "slg": ".328",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 0,
+            "summary": "0-2 | RBI",
+            "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "664770_hitting_2026": {
-      "fetched_at": "2026-06-29T10:38:55.760084+00:00",
-      "signature": "atBats=155|hits=48|baseOnBalls=8|homeRuns=4|totalBases=68",
+      "fetched_at": "2026-06-30T10:15:16.098757+00:00",
+      "signature": "atBats=158|hits=48|baseOnBalls=9|homeRuns=4|totalBases=68",
       "splits": [
         {
           "date": "2026-03-27",
@@ -36592,12 +36965,99 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-06-29",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822792/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822792,
+            "link": "/api/v1.1/game/822792/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          },
+          "player": {
+            "fullName": "Nathan Lukes",
+            "id": 664770,
+            "link": "/api/v1/people/664770"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "RF",
+              "code": "9",
+              "name": "Outfielder",
+              "type": "Outfielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 1,
+            "atBats": 3,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".304",
+            "babip": ".000",
+            "baseOnBalls": 1,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 0,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 2,
+            "groundOutsToAirouts": "2.00",
+            "hitByPitch": 0,
+            "hits": 0,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 0,
+            "numberOfPitches": 17,
+            "obp": ".355",
+            "ops": ".785",
+            "plateAppearances": 4,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".430",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 0,
+            "summary": "0-3 | BB",
+            "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "665489_hitting_2026": {
-      "fetched_at": "2026-06-29T10:38:58.982056+00:00",
-      "signature": "atBats=295|hits=79|baseOnBalls=35|homeRuns=4|totalBases=103",
+      "fetched_at": "2026-06-30T10:15:17.693049+00:00",
+      "signature": "atBats=299|hits=80|baseOnBalls=35|homeRuns=4|totalBases=104",
       "splits": [
         {
           "date": "2026-03-27",
@@ -43557,6 +44017,93 @@
             "strikeOuts": 1,
             "summary": "0-4 | K",
             "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
+        },
+        {
+          "date": "2026-06-29",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822792/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822792,
+            "link": "/api/v1.1/game/822792/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          },
+          "player": {
+            "fullName": "Vladimir Guerrero Jr.",
+            "id": 665489,
+            "link": "/api/v1/people/665489"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "1B",
+              "code": "3",
+              "name": "First Base",
+              "type": "Infielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 2,
+            "atBats": 4,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".268",
+            "babip": ".250",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 1,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 1,
+            "groundOutsToAirouts": "0.50",
+            "hitByPitch": 0,
+            "hits": 1,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 0,
+            "numberOfPitches": 14,
+            "obp": ".347",
+            "ops": ".695",
+            "plateAppearances": 4,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".348",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 0,
+            "summary": "1-4",
+            "totalBases": 1,
             "triples": 0
           },
           "team": {
@@ -56855,8 +57402,8 @@
       ]
     },
     "672960_hitting_2026": {
-      "fetched_at": "2026-06-29T10:38:53.260364+00:00",
-      "signature": "atBats=298|hits=71|baseOnBalls=32|homeRuns=19|totalBases=139",
+      "fetched_at": "2026-06-30T10:15:14.597916+00:00",
+      "signature": "atBats=301|hits=71|baseOnBalls=32|homeRuns=19|totalBases=139",
       "splits": [
         {
           "date": "2026-03-27",
@@ -64009,12 +64556,99 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-06-29",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822792/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822792,
+            "link": "/api/v1.1/game/822792/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          },
+          "player": {
+            "fullName": "Kazuma Okamoto",
+            "id": 672960,
+            "link": "/api/v1/people/672960"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "3B",
+              "code": "5",
+              "name": "Third Base",
+              "type": "Infielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 0,
+            "atBats": 3,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".236",
+            "babip": ".000",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 0,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 1,
+            "groundOutsToAirouts": "1.00",
+            "hitByPitch": 1,
+            "hits": 0,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 2,
+            "numberOfPitches": 18,
+            "obp": ".318",
+            "ops": ".780",
+            "plateAppearances": 4,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".462",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 2,
+            "summary": "0-3 | HBP, 2 K",
+            "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "676391_hitting_2026": {
-      "fetched_at": "2026-06-29T10:38:51.410960+00:00",
-      "signature": "atBats=311|hits=93|baseOnBalls=10|homeRuns=7|totalBases=137",
+      "fetched_at": "2026-06-30T10:15:13.839302+00:00",
+      "signature": "atBats=314|hits=94|baseOnBalls=11|homeRuns=7|totalBases=138",
       "splits": [
         {
           "date": "2026-03-27",
@@ -71272,12 +71906,129 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-06-29",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822792/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822792,
+            "link": "/api/v1.1/game/822792/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          },
+          "player": {
+            "fullName": "Ernie Clement",
+            "id": 676391,
+            "link": "/api/v1/people/676391"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "SS",
+              "code": "6",
+              "name": "Shortstop",
+              "type": "Infielder"
+            },
+            {
+              "abbreviation": "2B",
+              "code": "4",
+              "name": "Second Base",
+              "type": "Infielder"
+            },
+            {
+              "abbreviation": "SS",
+              "code": "6",
+              "name": "Shortstop",
+              "type": "Infielder"
+            },
+            {
+              "abbreviation": "2B",
+              "code": "4",
+              "name": "Second Base",
+              "type": "Infielder"
+            },
+            {
+              "abbreviation": "SS",
+              "code": "6",
+              "name": "Shortstop",
+              "type": "Infielder"
+            },
+            {
+              "abbreviation": "2B",
+              "code": "4",
+              "name": "Second Base",
+              "type": "Infielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 2,
+            "atBats": 3,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".299",
+            "babip": ".333",
+            "baseOnBalls": 1,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 1,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 0,
+            "groundOutsToAirouts": "0.00",
+            "hitByPitch": 0,
+            "hits": 1,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 2,
+            "numberOfPitches": 16,
+            "obp": ".321",
+            "ops": ".760",
+            "plateAppearances": 4,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".439",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 0,
+            "summary": "1-3 | BB",
+            "totalBases": 1,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "678218_hitting_2026": {
-      "fetched_at": "2026-06-27T09:45:34.400045+00:00",
-      "signature": "atBats=147|hits=36|baseOnBalls=19|homeRuns=7|totalBases=63",
+      "fetched_at": "2026-06-30T10:15:12.976224+00:00",
+      "signature": "atBats=150|hits=36|baseOnBalls=20|homeRuns=7|totalBases=63",
       "splits": [
         {
           "date": "2026-04-05",
@@ -75808,6 +76559,93 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-06-29",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822792/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822792,
+            "link": "/api/v1.1/game/822792/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          },
+          "player": {
+            "fullName": "Brandon Valenzuela",
+            "id": 678218,
+            "link": "/api/v1/people/678218"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "C",
+              "code": "2",
+              "name": "Catcher",
+              "type": "Catcher"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 0,
+            "atBats": 3,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".240",
+            "babip": ".000",
+            "baseOnBalls": 1,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 0,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 2,
+            "groundOutsToAirouts": "2.00",
+            "hitByPitch": 0,
+            "hits": 0,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 4,
+            "numberOfPitches": 16,
+            "obp": ".327",
+            "ops": ".747",
+            "plateAppearances": 4,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".420",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 1,
+            "summary": "0-3 | BB, K",
+            "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
@@ -80164,8 +81002,8 @@
       ]
     },
     "682818_hitting_2026": {
-      "fetched_at": "2026-06-29T10:38:59.566153+00:00",
-      "signature": "atBats=134|hits=37|baseOnBalls=9|homeRuns=5|totalBases=59",
+      "fetched_at": "2026-06-30T10:15:18.006238+00:00",
+      "signature": "atBats=137|hits=37|baseOnBalls=9|homeRuns=5|totalBases=59",
       "splits": [
         {
           "date": "2026-04-26",
@@ -84237,12 +85075,99 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-06-29",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822792/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822792,
+            "link": "/api/v1.1/game/822792/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          },
+          "player": {
+            "fullName": "Yohendrick Pi\u00f1ango",
+            "id": 682818,
+            "link": "/api/v1/people/682818"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "LF",
+              "code": "7",
+              "name": "Outfielder",
+              "type": "Outfielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 1,
+            "atBats": 3,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".270",
+            "babip": ".000",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 0,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 1,
+            "groundOutsToAirouts": "1.00",
+            "hitByPitch": 0,
+            "hits": 0,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 2,
+            "numberOfPitches": 6,
+            "obp": ".315",
+            "ops": ".746",
+            "plateAppearances": 3,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".431",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 1,
+            "summary": "0-3 | K",
+            "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "686973_pitching_2026": {
-      "fetched_at": "2026-06-29T10:38:54.224639+00:00",
-      "signature": "inningsPitched=45.0|earnedRuns=5|strikeOuts=62|baseOnBalls=12",
+      "fetched_at": "2026-06-30T10:15:15.027859+00:00",
+      "signature": "inningsPitched=46.0|earnedRuns=5|strikeOuts=64|baseOnBalls=13",
       "splits": [
         {
           "date": "2026-03-27",
@@ -88483,12 +89408,118 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-06-29",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822792/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822792,
+            "link": "/api/v1.1/game/822792/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          },
+          "player": {
+            "fullName": "Louis Varland",
+            "id": 686973,
+            "link": "/api/v1/people/686973"
+          },
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 1,
+            "atBats": 4,
+            "avg": ".190",
+            "balks": 0,
+            "baseOnBalls": 1,
+            "battersFaced": 5,
+            "blownSaves": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "completeGames": 0,
+            "doubles": 0,
+            "earnedRuns": 0,
+            "era": "0.98",
+            "flyOuts": 0,
+            "gamesFinished": 1,
+            "gamesPitched": 1,
+            "gamesPlayed": 1,
+            "gamesStarted": 0,
+            "groundIntoDoublePlay": 0,
+            "groundOuts": 0,
+            "groundOutsToAirouts": "1.56",
+            "hitBatsmen": 0,
+            "hitByPitch": 0,
+            "hits": 1,
+            "hitsPer9Inn": "9.00",
+            "holds": 0,
+            "homeRuns": 0,
+            "homeRunsPer9": "0.00",
+            "inheritedRunners": 0,
+            "inheritedRunnersScored": 0,
+            "inningsPitched": "1.0",
+            "intentionalWalks": 0,
+            "losses": 0,
+            "numberOfPitches": 23,
+            "obp": ".400",
+            "ops": ".650",
+            "outs": 3,
+            "pickoffs": 0,
+            "pitchesPerInning": "23.00",
+            "runs": 0,
+            "runsScoredPer9": "0.00",
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "saveOpportunities": 1,
+            "saves": 1,
+            "shutouts": 0,
+            "slg": ".250",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 2,
+            "strikePercentage": ".610",
+            "strikeoutWalkRatio": "2.00",
+            "strikeoutsPer9Inn": "18.00",
+            "strikes": 14,
+            "summary": "1.0 IP, 0 ER, 2 K, BB",
+            "totalBases": 1,
+            "triples": 0,
+            "walksPer9Inn": "9.00",
+            "whip": "0.96",
+            "wildPitches": 0,
+            "winPercentage": ".---",
+            "wins": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "689254_pitching_2026": {
-      "fetched_at": "2026-06-28T10:02:24.971308+00:00",
-      "signature": "inningsPitched=32.0|earnedRuns=16|strikeOuts=39|baseOnBalls=16",
+      "fetched_at": "2026-06-30T10:15:15.565443+00:00",
+      "signature": "inningsPitched=32.1|earnedRuns=16|strikeOuts=39|baseOnBalls=16",
       "splits": [
         {
           "date": "2026-03-28",
@@ -93153,6 +94184,112 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-06-29",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822792/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822792,
+            "link": "/api/v1.1/game/822792/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          },
+          "player": {
+            "fullName": "Mason Fluharty",
+            "id": 689254,
+            "link": "/api/v1/people/689254"
+          },
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 0,
+            "atBats": 0,
+            "avg": ".272",
+            "balks": 0,
+            "baseOnBalls": 0,
+            "battersFaced": 0,
+            "blownSaves": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 1,
+            "caughtStealingPercentage": "1.000",
+            "completeGames": 0,
+            "doubles": 0,
+            "earnedRuns": 0,
+            "era": "4.45",
+            "flyOuts": 0,
+            "gamesFinished": 0,
+            "gamesPitched": 1,
+            "gamesPlayed": 1,
+            "gamesStarted": 0,
+            "groundIntoDoublePlay": 0,
+            "groundOuts": 0,
+            "groundOutsToAirouts": "0.67",
+            "hitBatsmen": 0,
+            "hitByPitch": 0,
+            "hits": 0,
+            "hitsPer9Inn": "0.00",
+            "holds": 1,
+            "homeRuns": 0,
+            "homeRunsPer9": "0.00",
+            "inheritedRunners": 1,
+            "inheritedRunnersScored": 0,
+            "inningsPitched": "0.1",
+            "intentionalWalks": 0,
+            "losses": 0,
+            "numberOfPitches": 2,
+            "obp": ".000",
+            "ops": ".000",
+            "outs": 1,
+            "pickoffs": 0,
+            "pitchesPerInning": "6.00",
+            "runs": 0,
+            "runsScoredPer9": "0.00",
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "saveOpportunities": 0,
+            "saves": 0,
+            "shutouts": 0,
+            "slg": ".000",
+            "stolenBasePercentage": ".000",
+            "stolenBases": 0,
+            "strikeOuts": 0,
+            "strikePercentage": "1.000",
+            "strikeoutWalkRatio": "-.--",
+            "strikeoutsPer9Inn": "0.00",
+            "strikes": 2,
+            "summary": "0.1 IP, 0 ER, 0 K, 0 BB",
+            "totalBases": 0,
+            "triples": 0,
+            "walksPer9Inn": "0.00",
+            "whip": "1.55",
+            "wildPitches": 0,
+            "winPercentage": ".---",
+            "wins": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
@@ -95601,8 +96738,8 @@
       ]
     },
     "702056_pitching_2026": {
-      "fetched_at": "2026-06-25T10:06:16.173827+00:00",
-      "signature": "inningsPitched=60.2|earnedRuns=24|strikeOuts=58|baseOnBalls=30",
+      "fetched_at": "2026-06-30T10:15:17.227804+00:00",
+      "signature": "inningsPitched=67.1|earnedRuns=25|strikeOuts=61|baseOnBalls=30",
       "splits": [
         {
           "date": "2026-04-28",
@@ -96763,6 +97900,112 @@
             "wildPitches": 0,
             "winPercentage": ".---",
             "wins": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
+        },
+        {
+          "date": "2026-06-29",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822792/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822792,
+            "link": "/api/v1.1/game/822792/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 121,
+            "link": "/api/v1/teams/121",
+            "name": "New York Mets"
+          },
+          "player": {
+            "fullName": "Trey Yesavage",
+            "id": 702056,
+            "link": "/api/v1/people/702056"
+          },
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 14,
+            "atBats": 24,
+            "avg": ".185",
+            "balks": 0,
+            "baseOnBalls": 0,
+            "battersFaced": 25,
+            "blownSaves": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "completeGames": 0,
+            "doubles": 1,
+            "earnedRuns": 1,
+            "era": "3.34",
+            "flyOuts": 9,
+            "gamesFinished": 0,
+            "gamesPitched": 1,
+            "gamesPlayed": 1,
+            "gamesStarted": 1,
+            "groundIntoDoublePlay": 0,
+            "groundOuts": 4,
+            "groundOutsToAirouts": "0.57",
+            "hitBatsmen": 1,
+            "hitByPitch": 1,
+            "hits": 3,
+            "hitsPer9Inn": "4.05",
+            "holds": 0,
+            "homeRuns": 1,
+            "homeRunsPer9": "1.35",
+            "inheritedRunners": 0,
+            "inheritedRunnersScored": 0,
+            "inningsPitched": "6.2",
+            "intentionalWalks": 0,
+            "losses": 0,
+            "numberOfPitches": 94,
+            "obp": ".160",
+            "ops": ".452",
+            "outs": 20,
+            "pickoffs": 0,
+            "pitchesPerInning": "14.10",
+            "runs": 1,
+            "runsScoredPer9": "1.35",
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "saveOpportunities": 0,
+            "saves": 0,
+            "shutouts": 0,
+            "slg": ".292",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 3,
+            "strikePercentage": ".610",
+            "strikeoutWalkRatio": "-.--",
+            "strikeoutsPer9Inn": "4.05",
+            "strikes": 57,
+            "summary": "6.2 IP, ER, 3 K, 0 BB",
+            "totalBases": 7,
+            "triples": 0,
+            "walksPer9Inn": "0.00",
+            "whip": "1.10",
+            "wildPitches": 0,
+            "winPercentage": "1.000",
+            "wins": 1
           },
           "team": {
             "id": 141,
