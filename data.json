@@ -1,7 +1,7 @@
 {
-  "as_of": "2026-07-05T09:51:14.578237+00:00",
+  "as_of": "2026-07-06T10:36:55.098485+00:00",
   "notes_meta": {
-    "last_updated_iso": "2026-07-04T09:45:04Z"
+    "last_updated_iso": "2026-07-05T09:51:14Z"
   },
   "config": {
     "team_id": 141,
@@ -11,50 +11,50 @@
   "team": {
     "record": {
       "w": 42,
-      "l": 47
+      "l": 48
     },
     "place": "3rd in AL East",
     "division_name": "AL East",
     "gb": "11.5",
     "last10": "3-7",
-    "streak": "L1",
+    "streak": "L2",
     "runs_scored": 356,
-    "runs_allowed": 394,
-    "run_diff": -38,
+    "runs_allowed": 398,
+    "run_diff": -42,
     "pythag_w": 40,
-    "pythag_l": 49
+    "pythag_l": 50
   },
   "division": [
     {
       "team": "Tampa Bay Rays",
       "team_id": 139,
       "w": 52,
-      "l": 34,
-      "pct": ".605",
+      "l": 35,
+      "pct": ".598",
       "gb": "-",
-      "streak": "L1",
-      "last10": "9-1",
+      "streak": "L2",
+      "last10": "8-2",
       "is_us": false
     },
     {
       "team": "New York Yankees",
       "team_id": 147,
       "w": 49,
-      "l": 39,
-      "pct": ".557",
+      "l": 40,
+      "pct": ".551",
       "gb": "4.0",
-      "streak": "L1",
-      "last10": "2-8",
+      "streak": "L2",
+      "last10": "1-9",
       "is_us": false
     },
     {
       "team": "Toronto Blue Jays",
       "team_id": 141,
       "w": 42,
-      "l": 47,
-      "pct": ".472",
+      "l": 48,
+      "pct": ".467",
       "gb": "11.5",
-      "streak": "L1",
+      "streak": "L2",
       "last10": "3-7",
       "is_us": true
     },
@@ -62,22 +62,22 @@
       "team": "Baltimore Orioles",
       "team_id": 110,
       "w": 42,
-      "l": 48,
-      "pct": ".467",
+      "l": 49,
+      "pct": ".462",
       "gb": "12.0",
-      "streak": "W3",
+      "streak": "L1",
       "last10": "4-6",
       "is_us": false
     },
     {
       "team": "Boston Red Sox",
       "team_id": 111,
-      "w": 39,
+      "w": 40,
       "l": 48,
-      "pct": ".448",
-      "gb": "13.5",
-      "streak": "W2",
-      "last10": "7-3",
+      "pct": ".455",
+      "gb": "12.5",
+      "streak": "W3",
+      "last10": "8-2",
       "is_us": false
     }
   ],
@@ -86,7 +86,7 @@
       "team": "Tampa Bay Rays",
       "team_id": 139,
       "w": 52,
-      "l": 34,
+      "l": 35,
       "gb": "-",
       "note": "Division leader",
       "is_us": false
@@ -94,7 +94,7 @@
     {
       "team": "Chicago White Sox",
       "team_id": 145,
-      "w": 46,
+      "w": 47,
       "l": 42,
       "gb": "-",
       "note": "Division leader",
@@ -103,7 +103,7 @@
     {
       "team": "Seattle Mariners",
       "team_id": 136,
-      "w": 46,
+      "w": 47,
       "l": 44,
       "gb": "-",
       "note": "Division leader",
@@ -113,7 +113,7 @@
       "team": "New York Yankees",
       "team_id": 147,
       "w": 49,
-      "l": 39,
+      "l": 40,
       "gb": "+4.5",
       "note": "In (1st WC seed)",
       "is_us": false
@@ -122,7 +122,7 @@
       "team": "Cleveland Guardians",
       "team_id": 114,
       "w": 47,
-      "l": 43,
+      "l": 44,
       "gb": "+1.5",
       "note": "In (2nd WC seed)",
       "is_us": false
@@ -131,7 +131,7 @@
       "team": "Texas Rangers",
       "team_id": 140,
       "w": 45,
-      "l": 44,
+      "l": 45,
       "gb": "-",
       "note": "In (3rd WC seed)",
       "is_us": false
@@ -139,18 +139,18 @@
     {
       "team": "Houston Astros",
       "team_id": 117,
-      "w": 44,
+      "w": 45,
       "l": 47,
-      "gb": "2.0",
+      "gb": "1.0",
       "note": "Out",
       "is_us": false
     },
     {
       "team": "Minnesota Twins",
       "team_id": 142,
-      "w": 43,
+      "w": 44,
       "l": 47,
-      "gb": "2.5",
+      "gb": "1.5",
       "note": "Out",
       "is_us": false
     },
@@ -158,7 +158,7 @@
       "team": "Toronto Blue Jays",
       "team_id": 141,
       "w": 42,
-      "l": 47,
+      "l": 48,
       "gb": "3.0",
       "note": "Out",
       "is_us": true
@@ -167,7 +167,7 @@
       "team": "Baltimore Orioles",
       "team_id": 110,
       "w": 42,
-      "l": 48,
+      "l": 49,
       "gb": "3.5",
       "note": "Out",
       "is_us": false
@@ -176,7 +176,7 @@
       "team": "Athletics",
       "team_id": 133,
       "w": 41,
-      "l": 48,
+      "l": 49,
       "gb": "4.0",
       "note": "Out",
       "is_us": false
@@ -184,18 +184,27 @@
     {
       "team": "Boston Red Sox",
       "team_id": 111,
-      "w": 39,
+      "w": 40,
       "l": 48,
-      "gb": "5.0",
+      "gb": "4.0",
       "note": "Out",
       "is_us": false
     },
     {
       "team": "Detroit Tigers",
       "team_id": 116,
-      "w": 39,
+      "w": 40,
       "l": 50,
-      "gb": "6.0",
+      "gb": "5.0",
+      "note": "Out",
+      "is_us": false
+    },
+    {
+      "team": "Kansas City Royals",
+      "team_id": 118,
+      "w": 36,
+      "l": 54,
+      "gb": "9.0",
       "note": "Out",
       "is_us": false
     },
@@ -203,36 +212,13 @@
       "team": "Los Angeles Angels",
       "team_id": 108,
       "w": 36,
-      "l": 54,
+      "l": 55,
       "gb": "9.5",
-      "note": "Out",
-      "is_us": false
-    },
-    {
-      "team": "Kansas City Royals",
-      "team_id": 118,
-      "w": 35,
-      "l": 54,
-      "gb": "10.0",
       "note": "Out",
       "is_us": false
     }
   ],
   "recent_games": [
-    {
-      "game_pk": 822798,
-      "date": "2026-06-24",
-      "home": true,
-      "opp": "Houston Astros",
-      "result": "L",
-      "score": "1-3",
-      "status": "Final",
-      "winning_pitcher": "Steven Okert",
-      "losing_pitcher": "Jeff Hoffman",
-      "summary_facts": "Final 1-3 (L). WP Steven Okert. LP Jeff Hoffman. SV Josh Hader",
-      "us_score": 1,
-      "them_score": 3
-    },
     {
       "game_pk": 822797,
       "date": "2026-06-25",
@@ -358,34 +344,23 @@
       "summary_facts": "Final 0-11 (L). WP Logan Gilbert. LP Shane Bieber",
       "us_score": 0,
       "them_score": 11
-    }
-  ],
-  "upcoming_games": [
+    },
     {
       "game_pk": 823117,
       "date": "2026-07-05",
       "home": false,
       "opp": "Seattle Mariners",
-      "opp_team_id": 136,
-      "opp_team_abbrev": "SEA",
-      "probable_pitcher_us": "Trey Yesavage",
-      "probable_pitcher_us_id": 702056,
-      "probable_pitcher_them": "Emerson Hancock",
-      "probable_pitcher_them_id": 676106,
-      "status": "Scheduled",
-      "opp_context": {
-        "team_id": 136,
-        "team": "Seattle Mariners",
-        "w": 46,
-        "l": 44,
-        "pct": ".511",
-        "gb": "-",
-        "streak": "W1",
-        "last10": "5-5",
-        "division_rank": "1",
-        "division_name": "AL West"
-      }
-    },
+      "result": "L",
+      "score": "0-4",
+      "status": "Final",
+      "winning_pitcher": "Emerson Hancock",
+      "losing_pitcher": "Trey Yesavage",
+      "summary_facts": "Final 0-4 (L). WP Emerson Hancock. LP Trey Yesavage",
+      "us_score": 0,
+      "them_score": 4
+    }
+  ],
+  "upcoming_games": [
     {
       "game_pk": 823205,
       "date": "2026-07-07",
@@ -393,20 +368,20 @@
       "opp": "San Francisco Giants",
       "opp_team_id": 137,
       "opp_team_abbrev": "SF",
-      "probable_pitcher_us": "",
-      "probable_pitcher_us_id": null,
-      "probable_pitcher_them": "",
-      "probable_pitcher_them_id": null,
+      "probable_pitcher_us": "Kevin Gausman",
+      "probable_pitcher_us_id": 592332,
+      "probable_pitcher_them": "Landen Roupp",
+      "probable_pitcher_them_id": 694738,
       "status": "Scheduled",
       "opp_context": {
         "team_id": 137,
         "team": "San Francisco Giants",
         "w": 37,
-        "l": 51,
-        "pct": ".420",
+        "l": 52,
+        "pct": ".416",
         "gb": "21.0",
-        "streak": "W1",
-        "last10": "5-5",
+        "streak": "L1",
+        "last10": "4-6",
         "division_rank": "4",
         "division_name": "NL West"
       }
@@ -420,18 +395,18 @@
       "opp_team_abbrev": "SF",
       "probable_pitcher_us": "",
       "probable_pitcher_us_id": null,
-      "probable_pitcher_them": "",
-      "probable_pitcher_them_id": null,
+      "probable_pitcher_them": "Trevor McDonald",
+      "probable_pitcher_them_id": 686790,
       "status": "Scheduled",
       "opp_context": {
         "team_id": 137,
         "team": "San Francisco Giants",
         "w": 37,
-        "l": 51,
-        "pct": ".420",
+        "l": 52,
+        "pct": ".416",
         "gb": "21.0",
-        "streak": "W1",
-        "last10": "5-5",
+        "streak": "L1",
+        "last10": "4-6",
         "division_rank": "4",
         "division_name": "NL West"
       }
@@ -443,20 +418,20 @@
       "opp": "San Francisco Giants",
       "opp_team_id": 137,
       "opp_team_abbrev": "SF",
-      "probable_pitcher_us": "",
-      "probable_pitcher_us_id": null,
-      "probable_pitcher_them": "",
-      "probable_pitcher_them_id": null,
+      "probable_pitcher_us": "Dylan Cease",
+      "probable_pitcher_us_id": 656302,
+      "probable_pitcher_them": "Logan Webb",
+      "probable_pitcher_them_id": 657277,
       "status": "Scheduled",
       "opp_context": {
         "team_id": 137,
         "team": "San Francisco Giants",
         "w": 37,
-        "l": 51,
-        "pct": ".420",
+        "l": 52,
+        "pct": ".416",
         "gb": "21.0",
-        "streak": "W1",
-        "last10": "5-5",
+        "streak": "L1",
+        "last10": "4-6",
         "division_rank": "4",
         "division_name": "NL West"
       }
@@ -476,11 +451,11 @@
       "opp_context": {
         "team_id": 135,
         "team": "San Diego Padres",
-        "w": 43,
+        "w": 44,
         "l": 45,
-        "pct": ".489",
-        "gb": "15.0",
-        "streak": "L8",
+        "pct": ".494",
+        "gb": "14.0",
+        "streak": "W1",
         "last10": "2-8",
         "division_rank": "3",
         "division_name": "NL West"
@@ -501,11 +476,11 @@
       "opp_context": {
         "team_id": 135,
         "team": "San Diego Padres",
-        "w": 43,
+        "w": 44,
         "l": 45,
-        "pct": ".489",
-        "gb": "15.0",
-        "streak": "L8",
+        "pct": ".494",
+        "gb": "14.0",
+        "streak": "W1",
         "last10": "2-8",
         "division_rank": "3",
         "division_name": "NL West"
@@ -526,11 +501,11 @@
       "opp_context": {
         "team_id": 135,
         "team": "San Diego Padres",
-        "w": 43,
+        "w": 44,
         "l": 45,
-        "pct": ".489",
-        "gb": "15.0",
-        "streak": "L8",
+        "pct": ".494",
+        "gb": "14.0",
+        "streak": "W1",
         "last10": "2-8",
         "division_rank": "3",
         "division_name": "NL West"
@@ -538,16 +513,38 @@
     }
   ],
   "opponent_pitchers": {
-    "676106": {
-      "id": 676106,
-      "name": "Emerson Hancock",
+    "694738": {
+      "id": 694738,
+      "name": "Landen Roupp",
       "throws": "R",
       "age": 27,
-      "era": "3.47",
-      "whip": "1.05",
-      "ip": "90.2",
-      "k": 87,
-      "gs": 16
+      "era": "4.55",
+      "whip": "1.37",
+      "ip": "89.0",
+      "k": 99,
+      "gs": 17
+    },
+    "686790": {
+      "id": 686790,
+      "name": "Trevor McDonald",
+      "throws": "R",
+      "age": 25,
+      "era": "4.42",
+      "whip": "1.23",
+      "ip": "57.0",
+      "k": 50,
+      "gs": 11
+    },
+    "657277": {
+      "id": 657277,
+      "name": "Logan Webb",
+      "throws": "R",
+      "age": 29,
+      "era": "3.66",
+      "whip": "1.17",
+      "ip": "93.1",
+      "k": 78,
+      "gs": 15
     }
   },
   "roster": {
@@ -560,12 +557,12 @@
         "age": 27,
         "height": "5' 8\"",
         "weight": 245,
-        "ab": 70,
-        "avg": ".200",
-        "obp": ".260",
-        "slg": ".314",
-        "ops": ".574",
-        "xwoba": ".264",
+        "ab": 74,
+        "avg": ".189",
+        "obp": ".247",
+        "slg": ".297",
+        "ops": ".544",
+        "xwoba": ".257",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 2,
@@ -588,7 +585,7 @@
         "ops": ".656",
         "xwoba": ".267",
         "barrel_pct": "3.7%",
-        "hardhit_pct": "24.0%",
+        "hardhit_pct": "24.3%",
         "hr": 7,
         "rbi": 35,
         "sb": 10,
@@ -602,12 +599,12 @@
         "age": 25,
         "height": "6' 0\"",
         "weight": 225,
-        "ab": 153,
-        "avg": ".235",
-        "obp": ".322",
-        "slg": ".412",
-        "ops": ".734",
-        "xwoba": ".326",
+        "ab": 154,
+        "avg": ".234",
+        "obp": ".320",
+        "slg": ".409",
+        "ops": ".729",
+        "xwoba": ".324",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 7,
@@ -623,14 +620,14 @@
         "age": 30,
         "height": "5' 8\"",
         "weight": 207,
-        "ab": 254,
-        "avg": ".252",
-        "obp": ".320",
-        "slg": ".413",
-        "ops": ".733",
-        "xwoba": ".297",
-        "barrel_pct": "6.7%",
-        "hardhit_pct": "39.2%",
+        "ab": 257,
+        "avg": ".249",
+        "obp": ".317",
+        "slg": ".409",
+        "ops": ".726",
+        "xwoba": ".295",
+        "barrel_pct": "6.6%",
+        "hardhit_pct": "38.8%",
         "hr": 7,
         "rbi": 23,
         "sb": 7,
@@ -644,14 +641,14 @@
         "age": 30,
         "height": "6' 0\"",
         "weight": 170,
-        "ab": 328,
+        "ab": 331,
         "avg": ".293",
         "obp": ".316",
-        "slg": ".430",
-        "ops": ".746",
-        "xwoba": ".271",
+        "slg": ".429",
+        "ops": ".745",
+        "xwoba": ".274",
         "barrel_pct": "2.4%",
-        "hardhit_pct": "23.9%",
+        "hardhit_pct": "23.6%",
         "hr": 7,
         "rbi": 29,
         "sb": 2,
@@ -686,13 +683,13 @@
         "age": 30,
         "height": "6' 1\"",
         "weight": 220,
-        "ab": 311,
-        "avg": ".238",
-        "obp": ".319",
-        "slg": ".457",
-        "ops": ".776",
-        "xwoba": ".332",
-        "barrel_pct": "15.0%",
+        "ab": 315,
+        "avg": ".235",
+        "obp": ".315",
+        "slg": ".451",
+        "ops": ".766",
+        "xwoba": ".329",
+        "barrel_pct": "14.9%",
         "hardhit_pct": "49.5%",
         "hr": 19,
         "rbi": 54,
@@ -707,12 +704,12 @@
         "age": 29,
         "height": "5' 9\"",
         "weight": 202,
-        "ab": 16,
-        "avg": ".375",
-        "obp": ".474",
-        "slg": ".625",
-        "ops": "1.099",
-        "xwoba": ".342",
+        "ab": 19,
+        "avg": ".316",
+        "obp": ".409",
+        "slg": ".526",
+        "ops": ".935",
+        "xwoba": ".314",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 1,
@@ -728,12 +725,12 @@
         "age": 31,
         "height": "5' 9\"",
         "weight": 178,
-        "ab": 134,
-        "avg": ".239",
-        "obp": ".300",
-        "slg": ".351",
-        "ops": ".651",
-        "xwoba": ".298",
+        "ab": 135,
+        "avg": ".237",
+        "obp": ".298",
+        "slg": ".348",
+        "ops": ".646",
+        "xwoba": ".297",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 3,
@@ -749,14 +746,14 @@
         "age": 31,
         "height": "5' 11\"",
         "weight": 180,
-        "ab": 175,
-        "avg": ".286",
-        "obp": ".333",
-        "slg": ".400",
-        "ops": ".733",
-        "xwoba": ".298",
-        "barrel_pct": "1.4%",
-        "hardhit_pct": "28.3%",
+        "ab": 179,
+        "avg": ".285",
+        "obp": ".332",
+        "slg": ".397",
+        "ops": ".729",
+        "xwoba": ".297",
+        "barrel_pct": "1.3%",
+        "hardhit_pct": "27.5%",
         "hr": 4,
         "rbi": 17,
         "sb": 0,
@@ -770,12 +767,12 @@
         "age": 23,
         "height": "6' 1\"",
         "weight": 232,
-        "ab": 19,
-        "avg": ".211",
-        "obp": ".211",
-        "slg": ".421",
-        "ops": ".632",
-        "xwoba": ".227",
+        "ab": 21,
+        "avg": ".190",
+        "obp": ".190",
+        "slg": ".381",
+        "ops": ".571",
+        "xwoba": ".206",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 1,
@@ -791,14 +788,14 @@
         "age": 27,
         "height": "6' 0\"",
         "weight": 245,
-        "ab": 309,
-        "avg": ".265",
-        "obp": ".346",
-        "slg": ".346",
-        "ops": ".692",
-        "xwoba": ".343",
+        "ab": 312,
+        "avg": ".266",
+        "obp": ".348",
+        "slg": ".349",
+        "ops": ".697",
+        "xwoba": ".344",
         "barrel_pct": "6.6%",
-        "hardhit_pct": "44.3%",
+        "hardhit_pct": "44.1%",
         "hr": 4,
         "rbi": 35,
         "sb": 6,
@@ -812,12 +809,12 @@
         "age": 24,
         "height": "5' 10\"",
         "weight": 170,
-        "ab": 149,
-        "avg": ".268",
-        "obp": ".310",
-        "slg": ".416",
+        "ab": 150,
+        "avg": ".267",
+        "obp": ".313",
+        "slg": ".413",
         "ops": ".726",
-        "xwoba": ".311",
+        "xwoba": ".313",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 5,
@@ -961,12 +958,12 @@
         "age": 24,
         "height": "6' 2\"",
         "weight": 215,
-        "ip": "33.1",
-        "era": "4.59",
-        "whip": "1.53",
-        "k_per_9": "10.80",
-        "bb_per_9": "4.32",
-        "k": 40,
+        "ip": "34.1",
+        "era": "4.72",
+        "whip": "1.57",
+        "k_per_9": "11.01",
+        "bb_per_9": "4.19",
+        "k": 42,
         "bb": 16,
         "w": 3,
         "l": 0,
@@ -1066,17 +1063,17 @@
         "age": 22,
         "height": "6' 4\"",
         "weight": 225,
-        "ip": "67.1",
-        "era": "3.34",
-        "whip": "1.10",
-        "k_per_9": "8.15",
-        "bb_per_9": "4.01",
-        "k": 61,
-        "bb": 30,
+        "ip": "73.1",
+        "era": "3.31",
+        "whip": "1.08",
+        "k_per_9": "8.35",
+        "bb_per_9": "3.93",
+        "k": 68,
+        "bb": 32,
         "w": 4,
-        "l": 3,
+        "l": 4,
         "sv": 0,
-        "gs": 12,
+        "gs": 13,
         "recent": null
       },
       {
@@ -1087,12 +1084,12 @@
         "age": 35,
         "height": "6' 3\"",
         "weight": 180,
-        "ip": "39.2",
-        "era": "1.82",
-        "whip": "1.24",
-        "k_per_9": "4.54",
-        "bb_per_9": "2.95",
-        "k": 20,
+        "ip": "40.2",
+        "era": "1.77",
+        "whip": "1.20",
+        "k_per_9": "4.65",
+        "bb_per_9": "2.88",
+        "k": 21,
         "bb": 13,
         "w": 1,
         "l": 2,
@@ -1105,162 +1102,162 @@
   "team_stats": {
     "hitting": {
       "avg": {
-        "val": ".245",
-        "rank": 13
+        "val": ".244",
+        "rank": 16
       },
-      "slg": {
-        "val": ".385",
-        "rank": 24
-      },
-      "ops": {
-        "val": ".692",
-        "rank": 26
+      "runs": {
+        "val": 356,
+        "rank": 29
       },
       "obp": {
-        "val": ".307",
+        "val": ".306",
         "rank": 27
       },
       "hr": {
         "val": 88,
-        "rank": 23
+        "rank": 24
       },
-      "runs": {
-        "val": 356,
+      "slg": {
+        "val": ".382",
+        "rank": 27
+      },
+      "ops": {
+        "val": ".688",
         "rank": 27
       }
     },
     "pitching": {
-      "bb9": {
-        "val": "3.60",
-        "rank": 19
-      },
-      "era": {
-        "val": "4.12",
-        "rank": 13
-      },
       "k9": {
-        "val": "8.99",
+        "val": "9.02",
         "rank": 8
       },
+      "era": {
+        "val": "4.11",
+        "rank": 12
+      },
       "whip": {
-        "val": "1.31",
+        "val": "1.30",
         "rank": 16
+      },
+      "bb9": {
+        "val": "3.58",
+        "rank": 20
       }
     }
   },
   "player_ranks": {
     "672386": {
-      "ops": 151,
-      "hr": 149,
-      "rbi": 151,
-      "sb": 138
+      "ops": 152,
+      "hr": 150,
+      "rbi": 152,
+      "sb": 139
     },
     "665926": {
       "ops": 134,
-      "hr": 111,
-      "rbi": 101,
+      "hr": 113,
+      "rbi": 103,
       "sb": 37
     },
     "678218": {
-      "ops": 91,
-      "hr": 111,
-      "rbi": 150,
-      "sb": 114
+      "ops": 97,
+      "hr": 113,
+      "rbi": 151,
+      "sb": 116
     },
     "662139": {
-      "ops": 92,
-      "hr": 111,
-      "rbi": 145,
+      "ops": 98,
+      "hr": 113,
+      "rbi": 146,
       "sb": 48
     },
     "676391": {
-      "ops": 85,
-      "hr": 111,
-      "rbi": 130,
-      "sb": 98
+      "ops": 86,
+      "hr": 113,
+      "rbi": 132,
+      "sb": 99
     },
     "682729": {
-      "ops": 151,
-      "hr": 151,
-      "rbi": 151,
-      "sb": 138
+      "ops": 152,
+      "hr": 152,
+      "rbi": 152,
+      "sb": 139
     },
     "672960": {
-      "ops": 68,
-      "hr": 15,
-      "rbi": 24,
-      "sb": 138
+      "ops": 76,
+      "hr": 18,
+      "rbi": 25,
+      "sb": 139
     },
     "649966": {
-      "ops": 1,
-      "hr": 149,
-      "rbi": 151,
-      "sb": 138
+      "ops": 5,
+      "hr": 150,
+      "rbi": 152,
+      "sb": 139
     },
     "664702": {
-      "ops": 136,
-      "hr": 144,
-      "rbi": 150,
-      "sb": 98
+      "ops": 137,
+      "hr": 145,
+      "rbi": 151,
+      "sb": 99
     },
     "664770": {
-      "ops": 92,
-      "hr": 137,
-      "rbi": 150,
-      "sb": 138
+      "ops": 97,
+      "hr": 138,
+      "rbi": 151,
+      "sb": 139
     },
     "815873": {
-      "ops": 140,
-      "hr": 149,
-      "rbi": 151,
-      "sb": 138
+      "ops": 152,
+      "hr": 150,
+      "rbi": 152,
+      "sb": 139
     },
     "665489": {
       "ops": 116,
-      "hr": 137,
-      "rbi": 101,
+      "hr": 138,
+      "rbi": 103,
       "sb": 55
     },
     "682818": {
       "ops": 98,
-      "hr": 131,
-      "rbi": 150,
-      "sb": 138
+      "hr": 132,
+      "rbi": 151,
+      "sb": 139
     },
     "671936": {
       "era": 11,
       "whip": 47,
-      "k_per_9": 24,
-      "bb_per_9": 48,
+      "k_per_9": 25,
+      "bb_per_9": 51,
       "ip": 64
     },
     "680755": {
-      "era": 23,
+      "era": 24,
       "whip": 20,
-      "k_per_9": 29,
+      "k_per_9": 30,
       "bb_per_9": 61,
       "ip": 64
     },
     "656302": {
       "era": 12,
-      "whip": 32,
+      "whip": 33,
       "k_per_9": 1,
       "bb_per_9": 60,
-      "ip": 56
+      "ip": 60
     },
     "656546": {
-      "era": 58,
-      "whip": 59,
+      "era": 57,
+      "whip": 60,
       "k_per_9": 1,
-      "bb_per_9": 54,
+      "bb_per_9": 53,
       "ip": 64
     },
     "592332": {
-      "era": 52,
+      "era": 50,
       "whip": 35,
-      "k_per_9": 29,
+      "k_per_9": 30,
       "bb_per_9": 17,
-      "ip": 22
+      "ip": 24
     },
     "686973": {
       "era": 1,
@@ -1270,57 +1267,57 @@
       "ip": 64
     },
     "689254": {
-      "era": 60,
+      "era": 59,
       "whip": 64,
-      "k_per_9": 6,
-      "bb_per_9": 62,
+      "k_per_9": 4,
+      "bb_per_9": 61,
       "ip": 64
     },
     "571578": {
-      "era": 63,
-      "whip": 64,
-      "k_per_9": 53,
+      "era": 61,
+      "whip": 63,
+      "k_per_9": 54,
       "bb_per_9": 40,
       "ip": 64
     },
     "669456": {
       "era": 64,
       "whip": 64,
-      "k_per_9": 60,
+      "k_per_9": 59,
       "bb_per_9": 64,
       "ip": 64
     },
     "693686": {
       "era": 15,
-      "whip": 11,
+      "whip": 12,
       "k_per_9": 27,
       "bb_per_9": 36,
       "ip": 64
     },
     "667297": {
-      "era": 37,
+      "era": 35,
       "whip": 47,
       "k_per_9": 20,
-      "bb_per_9": 53,
+      "bb_per_9": 52,
       "ip": 64
     },
     "702056": {
-      "era": 23,
-      "whip": 17,
-      "k_per_9": 40,
+      "era": 24,
+      "whip": 14,
+      "k_per_9": 41,
       "bb_per_9": 58,
       "ip": 64
     },
     "643511": {
       "era": 2,
-      "whip": 42,
+      "whip": 36,
       "k_per_9": 64,
-      "bb_per_9": 42,
+      "bb_per_9": 40,
       "ip": 64
     }
   },
   "player_rank_pool": {
-    "hitting": 151,
+    "hitting": 152,
     "pitching": 64
   },
   "injuries": [
@@ -1481,20 +1478,124 @@
   ],
   "news": [
     {
-      "title": "Blue Jays by the decade: The SkyDome\u2019s opening defined the 1980s \u2014 even if it struggled to close - Toronto Star",
-      "summary": "Blue Jays by the decade: The SkyDome\u2019s opening defined the 1980s \u2014 even if it struggled to close&nbsp;&nbsp;Toronto Star",
+      "title": "Where to watch Toronto Blue Jays vs San Francisco Giants: TV channel, start time, streaming for July 6 - USA Today",
+      "summary": "Where to watch Toronto Blue Jays vs San Francisco Giants: TV channel, start time, streaming for July 6&nbsp;&nbsp;USA Today",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMikgJBVV95cUxOS0hZMDhKV0ZhaGdNWmlpekQ1eC0wcUcxMkY0ajlkbjJuOHhBQXNVckMwMmZzNjZYOHFaR1dHM3ZKRXptY2xYZ2FLMDJYdDVuTnRXSEVOUS1Rb2pDek5FQkxpZm9UWEQ0WVVBNFBnOXVtaFdRdU9aUl9HcXIzVThJRndicVRiVmJqTW5nQ0l4Mno0NnBqOFZwUFFoRDRhSDFOdWFGSTV4ZUFrWFhfQkJYeGZrYkFlUnJvdVRLcjdHVlE5Sk9JYUVkRWQ4eU1KYzFZN281OXo2SS1SeHphbTNPT193WkhTZ0c2bm5UTy1LNktPbGlDQW1WZ3EydXJ5TDU1MGdCYWZ3UVhoUDk0d18wNGh3?oc=5",
-      "published": "2026-07-05T09:00:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMi1gFBVV95cUxOdms4bFBycDJ4dElFM2JwdWJBbHl0ZDN2NG56NUREdGxub0xCZWhyQlYzQUp2N1gwSlphZjRMM2NucUhMSVZkQzhOcEhQVlV5M3VfR3ptMjQ0OVlWdklBbS1lV1pfOV9jZkllZ2hfWXZOcVpNM21acGNfLVUwZ2N0R0FWSkFJcG8xby1DWS16YnVCTUdrbWVhblZsNjVKcFp3eHVhb1ltWGVYY1lvenZBQTZVNTZtZkcxdXNvZDl3X0ZCa09WTUlJNEl1ajBqUmUxMGVJOWd3?oc=5",
+      "published": "2026-07-06T10:15:00+00:00"
     },
     {
-      "title": "Mariners and Blue Jays square off in series rubber match - FOX Sports",
-      "summary": "Mariners and Blue Jays square off in series rubber match&nbsp;&nbsp;FOX Sports",
+      "title": "Blue Jays hit a new low as offensive collapse threatens to derail season - Jays Journal",
+      "summary": "Blue Jays hit a new low as offensive collapse threatens to derail season&nbsp;&nbsp;Jays Journal",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMimwFBVV95cUxPa2EzWTBUSVBYc1R3TllkT1RWY3d2RkphRWFCVmt5VDhkS1ZmOFhVd3ZaZUhpajcxZTl1bzVTVmRNcWlPeGo4dkM2Q3NkWjhYeDl3c2Y1YkRsQTZHQWFpMm8zekpKTnloakw4dXMtN2t5S2ZEUHFieWVvUkxzSW5Sa0M3Z0lxRVQ1SU9Qc0VuMXFpX2o5MkswVW1QVQ?oc=5",
-      "published": "2026-07-05T07:56:01+00:00"
+      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNbjJMZ0RQd3hZUFN2S0M2S000N1QwVE1ZTlZUaUd4OFVVYnRsQnZQdDZqWjhPWXhzd0pIUmVjbUxXanRlMk1HRG1RenNtWnpJVFJDVnBwa3lWeUw4ZXRCRGw4eUNseXFSN2RCVkR2cGY0RUNxcU1uQ2M3T3plVWFfcFQ0bHdlQTktNVQtRHEwYWNtcUNnTEZQSnprT2w?oc=5",
+      "published": "2026-07-06T10:00:03+00:00"
+    },
+    {
+      "title": "Blue Jays' woes at plate continue in latest lost weekend - Sportsnet.ca",
+      "summary": "Blue Jays' woes at plate continue in latest lost weekend&nbsp;&nbsp;Sportsnet.ca",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNYWM5cHBOTVMwNmVUWmNFOFBwaW9vcU5YYm1oRXBSZXIxbC1MZG5XbmZ4M2pFWjN1a1A1Y2JnTmNsUXVmYWxTYjdmQy1KM3RjMjROcGNZcjhWSnBqb0NUeWZfQXgzSXRXXzdwalZLT1ZqbEJ1andISTdrZXRpd2FIdFhuTUw2ZXlMaGNweEdUXzJraVpoRkJIMw?oc=5",
+      "published": "2026-07-06T05:36:00+00:00"
+    },
+    {
+      "title": "Yesavage's strong start undone by Blue Jays' struggling bats - MLB.com",
+      "summary": "Yesavage's strong start undone by Blue Jays' struggling bats&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxQdXJ3R2dLT0dPU1dFU1ZQZGFEc2VPeDV5cEV0ZGtlY05WbXpSbGFzdE5obVFfNnpGWXJoVkgxc3JKMXljOEF2SDRfMzhyWUQ4bkQwcHZDUDRoV25pdVhxeW9iNUhCMzdJRU1rQlFnWWRQUkNNb0FyTU5VSGNFeTVsR2VSemo4VzdBbEg5am9BakFPc0E?oc=5",
+      "published": "2026-07-06T01:06:37+00:00"
+    },
+    {
+      "title": "Blue Jays' Springer on track to return Monday; Scherzer to get another rehab start - Castanet",
+      "summary": "Blue Jays' Springer on track to return Monday; Scherzer to get another rehab start&nbsp;&nbsp;Castanet",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMivgFBVV95cUxNd0pjRWF2a0hMdV9HYjVWSklSOXIwNlNLOTJwMW5KVnVxMTVYblNrN1RzTGVJSkN3TWZuZUMwTzNyYkFOdlRJODJBcGVFOGkyNEFsZTFaSEVKMW5fa052QUhpXzZmU3d1NlVjNnh2WDdkZkN6dXRuNzg3QXlJRVJ4Sll2YjhIb0RUSjYzYTI3anV6M0dJZ3RsV1hxdGNlV2hpZjlDbUdMeWUwZmNBV2xxRmNWaUNrSElsekpvV2Rn?oc=5",
+      "published": "2026-07-06T00:46:00+00:00"
+    },
+    {
+      "title": "Blue Jays Release 172-Game MLB Player Amid Looming George Springer Return - heavy.com",
+      "summary": "Blue Jays Release 172-Game MLB Player Amid Looming George Springer Return&nbsp;&nbsp;heavy.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxQTk1YN1Y4Z3ZudU84blI4WEJjN0VPd2tnUGRseUdXd1RLeVNFQi1EclFhM0NmcDg4M051VUpjeU9KQ0g3alJ4c3FITGgwWnEwcG9fVzl6Nnl4SVdfVjY0cW1MTXFWYU9XaUVTUFZ1VG9FUjRfZ29aY1E5X2RtZjJvWUxtX19keW41N2c?oc=5",
+      "published": "2026-07-06T00:43:00+00:00"
+    },
+    {
+      "title": "Toronto Blue Jays' Springer on track to return Monday; Scherzer to get another rehab start - TSN",
+      "summary": "Toronto Blue Jays' Springer on track to return Monday; Scherzer to get another rehab start&nbsp;&nbsp;TSN",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxQRkQ4UGFpeHJFczBld2lqRURLdkMwV0pWSWd4aXpCOGNOMFV1SXlnZDQ4M3B4dllCby1wRDhwTWhKVFhCLU9TMlhhcGV6WGYxdXVnYmc1YVlDM3Nadjl2czczb2s0akpsX1ZTTWNsb1lraGlqd0JoTGRZSm5JaVBiMjQ0dGNzVUVDXy1KRDYyWkU0UnpxRXR5RGp0NE5sS0VjR2RlamhvUEpDNFdwOVp6WmZR?oc=5",
+      "published": "2026-07-06T00:07:00+00:00"
+    },
+    {
+      "title": "Trey Yesavage's seven strikeouts - MLB.com",
+      "summary": "Trey Yesavage's seven strikeouts&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMidkFVX3lxTE9wcTNyQTlIZ0ZmcGMzYTRsS3ZyWlVMV2xHQkJVTnRQNTBMVDFsT0F3QVdETndIQlF6RHJTU0VMYzJNSEdnSFB0UzFDcGYyc05NNzl2MXMwc1g4OHdzTzY2a2xxcTZOcVhwYTFGZWVnUkZPa3AwdFE?oc=5",
+      "published": "2026-07-06T00:05:07+00:00"
+    },
+    {
+      "title": "Hancock, Mariners blank Blue Jays 4-0; Garver hits two-run homer - Toronto Star",
+      "summary": "Hancock, Mariners blank Blue Jays 4-0; Garver hits two-run homer&nbsp;&nbsp;Toronto Star",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMi6AFBVV95cUxQbXc5S2M0OGFhUnVXQjJNVVV4V3VLNk1NQndmanhsR1hkd3VSZnl3WGk3b3hQQ2NsYUVEWkNESm54Z1J2V21oSUJfRC16WV9XZ08wc1pMTlZJbG9fd2dTQlVuOHdhb21Xd3cyOWNEMXNaV3QzbXQ0ZHBYd0VtZXJiLUpGcXJBMHJuNWNJT2t1QkFIUkJhd3c4c0MzZE4xOUxJeHotNG1lRW9yZTBVMVdPRnhIN2o0bGhjb3ZDUUZLQjN4bWJZcVprX0RDZG55OThHR0wySDI1dWZxTGZ2MEZZbUJrWC1jQlc5?oc=5",
+      "published": "2026-07-05T23:43:00+00:00"
+    },
+    {
+      "title": "Scoreless In Seattle, Again - Bluebird Banter",
+      "summary": "Scoreless In Seattle, Again&nbsp;&nbsp;Bluebird Banter",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxON2wtUE1ienQwM1RUNVVwSHdranAzLVBUYldyU3NfRXVtV19qMm1lOTRJR0lNMlpLQ3lEaFFZRWdTYk9OLUFicTlqTFlLM2ZXRmNfTGRXZVpmTXM0ZDhRS2lBSUxkNVphcUcySERiS0JUc0NzdnBhZkVWeWlUb1NKZE5yMmpBWWJSanNCN21HczdpQQ?oc=5",
+      "published": "2026-07-05T23:39:15+00:00"
+    },
+    {
+      "title": "Scoreless In Seattle, Again",
+      "summary": "Blue Jays 0 Mariners 4 So\u2026..for the second game in a row, we didn\u2019t score. Today, three hits, one extra base hit (Vlad\u2019s double), with singles from Nathan Lukes and Ernie Clement. And we had two walks. Surprisingly, only six strikeouts, but a lot of soft contact. We had one hard hit ball, Vlad\u2019s double [&#8230;]",
+      "source": "Bluebird Banter",
+      "author": "tom dakers",
+      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-scores/62672/scoreless-in-seattle-again",
+      "published": "2026-07-05T23:39:15+00:00"
+    },
+    {
+      "title": "Toronto Blue Jays at Seattle Mariners Game Story, Scores/Highlights - 07/05/2026 - MLB.com",
+      "summary": "Toronto Blue Jays at Seattle Mariners Game Story, Scores/Highlights - 07/05/2026&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFB4YW5UYkRZZ1FKWVlJNzNlVDFJUXhJZlhDSURjUzg5WGhtVXdCRElzeW5RblpVa1hQTnVWWS10V28wc1ZNZHlGLWg1YXQtc25y0gFQQVVfeXFMUHhhblRiRFlnUUpZWUk3M2VUMUlReElmWENJRGNTODlYaG1Vd0JESXN5blFuWlVrWFBOdVZZLXRXbzBzVk1keUYtaDVhdC1zbnI?oc=5",
+      "published": "2026-07-05T22:27:18+00:00"
+    },
+    {
+      "title": "Blue Jays vs. Mariners (Jul 5, 2026) Game Stats - ESPN",
+      "summary": "Blue Jays vs. Mariners (Jul 5, 2026) Game Stats&nbsp;&nbsp;ESPN",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiXkFVX3lxTE0wYUw0TFFUN2EtdDBnTHZmamFlR3JrYWFFSjJyZ200XzFDSnB6TUJNM21aZjJOeEtvcXRmZDZscUZCbmhZZEQ4d1F3ZHgwS0ptVW92ZTdxblhwaWZZc0E?oc=5",
+      "published": "2026-07-05T21:17:10+00:00"
+    },
+    {
+      "title": "Toronto Blue Jays at San Francisco Giants Preview - 07/06/2026 - MLB.com",
+      "summary": "Toronto Blue Jays at San Francisco Giants Preview - 07/06/2026&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE5MV24zSFVZekZOUld3OUtLdzRSOUYyZGR5ME13ZVY5bk51UTY2QUlGM2lnRE1yUU9oOUlWalgySU0yQ0VLWlluWDUwdVJQakpiU25ZMnl4SmhoV2_SAVtBVV95cUxOTFduM0hVWXpGTlJXdzlLS3c0UjlGMmRkeTBNd2VWOW5OdVE2NkFJRjNpZ0RNclFPaDlJVmpYMklNMkNFS1pZblg1MHVSUGpKYlNuWTJ5eEpoaFdv?oc=5",
+      "published": "2026-07-05T21:09:57+00:00"
+    },
+    {
+      "title": "Blue Jays @ Mariners Game Thread",
+      "summary": "Game #90. It really can\u2019t be as bad as yesterday\u2019s game, right? Trey Yesavage is having a good season. But then Emerson Hancock isn\u2019t terrible either. I can\u2019t imagine naming someone Emerson. But then I don\u2019t have much imagination. Today\u2019s lineups: Today&#8217;s Lineups BLUE JAYS MARINERS Nathan Lukes &#8211; RF J.P. Crawford &#8211; 3B Vladimir [&#8230;]",
+      "source": "Bluebird Banter",
+      "author": "tom dakers",
+      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-gamethreads/62666/blue-jays-mariners-game-thread",
+      "published": "2026-07-05T19:42:00+00:00"
     },
     {
       "title": "Blue Jays' Guerrero Jr. turns down all-star invite, Cease and Varland heading to game - Sportsnet.ca",
@@ -1502,151 +1603,42 @@
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxQLWdxeWw1MFVySF9qRVZqN24zRU1nWTVyakh5U1BkM091NHpjZlpfN2FWSmNtclV6QnhhS0ttenh1WG1HU0hub3JkWGtieWVfVmNYSnZlakdWbElPMXJuNTdfamRrT3RLNUZJellRZGVLZm5jVzd6d2pka1pkX1dPbm15NzFEbU9YOVVVOTFiVnpISFA3bXhISU5uRHpoUlhkX1ZHcmdDZ2xFcTJZb0hHT1NGWFhVeGNCZjF6SQ?oc=5",
-      "published": "2026-07-05T01:51:00+00:00"
+      "published": "2026-07-05T18:59:00+00:00"
     },
     {
-      "title": "Blue Jays\u2019 Guerrero Jr. turns down all-star invite to rest, prepare for 2nd half of season - CityNews Toronto",
-      "summary": "Blue Jays\u2019 Guerrero Jr. turns down all-star invite to rest, prepare for 2nd half of season&nbsp;&nbsp;CityNews Toronto",
+      "title": "Three Blue Jays Matchups That Matter Against Mariners, Emerson Hancock - Yahoo Sports Canada",
+      "summary": "Three Blue Jays Matchups That Matter Against Mariners, Emerson Hancock&nbsp;&nbsp;Yahoo Sports Canada",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMixgFBVV95cUxNQXlpZ2t3eWVONWNjOVJHUzg4a3dYV1lrU21LWm9xZUs1X2ZkTjY1dGFZYkJRMFFKY2ExY1h1NlFwY3E5eGJ1NUJHVWRWQnEycGl1R3k2VWJYVEYxbWh3dnE3ODh5SlhMX2J6dW11bTh3VGZYQXdnOG1YUTNUemNHRERPc2hvbjBNdXFIeGxOcjlaUURPQ3ZHRU45WWg1M3c5YmVlc3JoQmdsWHZPd1hhakFIUVFjVXA3YjJqbldKUHZMYkNIZ1E?oc=5",
-      "published": "2026-07-05T00:45:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxPNXd4Z3ZKTWcyeHdENVNtWjJhS0hLWk1hQWZKaXQzeGh1Zm9EYXY1SHhZY2N3RG53TDBoX01UODF6aEE0d3lMUGl0Q0xaV0hEanJzbFBxRDFRd3ViSWNPT3dodE9qQkRjWmlHaFhNajVtT3NsY1pVak93ZGxTcEN2NlZCZDVOdw?oc=5",
+      "published": "2026-07-05T18:29:16+00:00"
     },
     {
-      "title": "Bieber struggles again as Blue Jays get thumped by Mariners - Sportsnet.ca",
-      "summary": "Bieber struggles again as Blue Jays get thumped by Mariners&nbsp;&nbsp;Sportsnet.ca",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPam5CNkZFcHlzMGIya0gwQ0F3VFhhdkpWTVllb1lHN3BSN296SEJucFQ3a3Y0alc3V3drX3FTOU9Camt3cXNZTDBaa2JHaDZxa0swTFZZd19NdkVieG9tcTV6RWF5S3FQZURwRWVsS1pNdGFrR0VWZi1CMHVNd01lR29aRk1vYzJkdGxvYnBqQ1luelRIcldhMVM2UTJWdw?oc=5",
-      "published": "2026-07-05T00:32:00+00:00"
-    },
-    {
-      "title": "Guerrero Jr., Cease and Varland join Clement as Blue Jays All-Stars - TSN",
-      "summary": "Guerrero Jr., Cease and Varland join Clement as Blue Jays All-Stars&nbsp;&nbsp;TSN",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPallBVThDcWR0RTZINDhUejlRTjJhT2NHbTZSc1Rfd2YzaldqelRBWVdOMGhtYjlrZC15Y3ZpeWxQUjN2NjlOczlPOVVkM1RHSXBSWDFYOTlYdXNQRk96UVdQX1RmVkxOcjVaaVZzb0tmVEZNU25LcFluYWN3RFlINjNhU1J4UkVFcThmWnhaeXE0aXBZQi1RWkdkajRBUQ?oc=5",
-      "published": "2026-07-05T00:15:00+00:00"
-    },
-    {
-      "title": "Three More Toronto Blue Jays Earn All-Star Game Selections - Yahoo Sports",
-      "summary": "Three More Toronto Blue Jays Earn All-Star Game Selections&nbsp;&nbsp;Yahoo Sports",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOMEV6S3gwcHk5Q0V4aEJOREwxd2tiaTZPOVk4ajRTRlh5Mi1KRkFFQ3l0eXpJRmM2bmRaOTFQWks3YUlXOE8zTmFhbjVETHFmcVM1X24yRU9KV2tEa0ZhMUFqSXJWSHdjWnVyclM5TlZlbjFWZXJDYVI0Z1pJR2k0TE5Vdw?oc=5",
-      "published": "2026-07-05T00:11:00+00:00"
-    },
-    {
-      "title": "Mariners Crush Jays - Bluebird Banter",
-      "summary": "Mariners Crush Jays&nbsp;&nbsp;Bluebird Banter",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxNcEtWYlhxenFfYi1Pbm9RZnhtMVh2bUhCU2hXQ0NGb0FPcmc1cEVFMEhzZm9iU1BJOHFteHk5dnZrUnU4Q1RWTzJHRkUtSjg2ckNnT2dXVjFQZFQtZHRyS1ZNSGwzSW5ZRGNzaUpMb25sekE3UlhYX2NTZXpMb0NFNG5lenFaT0Nt?oc=5",
-      "published": "2026-07-04T23:29:45+00:00"
-    },
-    {
-      "title": "Mariners Crush Jays",
-      "summary": "Jays 0 Mariners 11 The trouble with signing a pitcher coming off of Tommy John Surgery is that they might not be the same pitcher they were before the surgery. Today, at least, Shane Bieber was not the pitcher he used to be. He pitched a nice first inning and go the first two outs [&#8230;]",
+      "title": "Sunday Jays Notes",
+      "summary": "It must be fun to be a manager and a pitching coach. Ok, we have Shane Bieber back and ready to go. Three starts in, he has a 9.00 ERA. 7 walks and 9 strikeouts in 13 innings. Batters are hitting .351/.422/.737 against him. His fastball velocity is at the 15th percentile and average exit [&#8230;]",
       "source": "Bluebird Banter",
       "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-scores/62660/mariners-crush-jays",
-      "published": "2026-07-04T23:29:45+00:00"
+      "url": "https://www.bluebirdbanter.com/news/62663/sunday-jays-notes",
+      "published": "2026-07-05T16:14:38+00:00"
     },
     {
-      "title": "Strike 1 call overturned after Blue Jays ABS challeng | 07/04/2026 - MLB.com",
-      "summary": "Strike 1 call overturned after Blue Jays ABS challeng | 07/04/2026&nbsp;&nbsp;MLB.com",
+      "title": "Toronto Blue Jays Release 6-Year MLB Player During Mariners Series - heavy.com",
+      "summary": "Toronto Blue Jays Release 6-Year MLB Player During Mariners Series&nbsp;&nbsp;heavy.com",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxQOC1Xak55aGE3SThHMjNWcFZXS1FDaGg1ZGtsclJoVDI2eHd4OTZITG1rbUZCc25sRUZrR1BocVB5U2U0QUhhdTdMcTc1V1BQM1JZcGY5ZXowdHVtazE3ZWdqX28wNWwyUUVNXzVYaTltRTVaVXVoZHlsZ1dUSlBNd0tHOXhaNDNVUVphZXVyRQ?oc=5",
-      "published": "2026-07-04T21:43:08+00:00"
+      "url": "https://news.google.com/rss/articles/CBMitAFBVV95cUxOdzdJMGtQVlB6NDVuUC1NZUI0cE1hREpDbV9lLXRxZmtyRmRmbmdsRk9wR0lOU29JSzNGbWpqVjE3SVNENHByRkw4SUkyMl94T3dQRHk3RnhXNFR3UmhlZElHS3VqUko5ZVNrRlR4UzZ1UmVUNFhMWVA1eHFfNnhaR3EwdzBzQ1Fab1luYWkzbkJmeUpFMTNzYmxkemE2SUZlT3VDLWJ5NFMzVGtiZzlta1BKeEQ?oc=5",
+      "published": "2026-07-05T13:44:22+00:00"
     },
     {
-      "title": "Toronto Blue Jays at Seattle Mariners Preview - 07/05/2026 - MLB.com",
-      "summary": "Toronto Blue Jays at Seattle Mariners Preview - 07/05/2026&nbsp;&nbsp;MLB.com",
+      "title": "Blue Jays by the decade: The SkyDome\u2019s opening defined the 1980s \u2014 even if it struggled to close - The Record",
+      "summary": "Blue Jays by the decade: The SkyDome\u2019s opening defined the 1980s \u2014 even if it struggled to close&nbsp;&nbsp;The Record",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTFA5ZVJnRTMyVF9nMzJNdlNyWHVZb1hkYkU1dm01Z01wRngyZFpMS1A5TEtHYTNkU2lDOVFHQThxYXNKR2xkNVIzM1VsWExyLXNKbXhKQk9nN2hoVkXSAVtBVV95cUxQOWVSZ0UzMlRfZzMyTXZTclh1WW9YZGJFNXZtNWdNcEZ4MmRaTEtQOUxLR2EzZFNpQzlRR0E4cWFzSkdsZDVSMzNVbFhMci1zSm14SkJPZzdoaFZF?oc=5",
-      "published": "2026-07-04T20:03:53+00:00"
-    },
-    {
-      "title": "Toronto Blue Jays Kevin Pillar swings for the trees in Victoria next week - CHEK News",
-      "summary": "Toronto Blue Jays Kevin Pillar swings for the trees in Victoria next week&nbsp;&nbsp;CHEK News",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOeEZpVWtrTV9sWWx5VE5yZDlFQ3NTOTZueWZfcUhxbVdCNHA2S2lINU81U29LUkIwOHFGUmxMM2JQMm5mb1otcmFnRjFhMVkxSElxbW41VG1fRFN4dFdnaTJjOUl6VjhqbGV2NThiNFBLeTYzOU1qN0swN2FQUFZwQm13TFZvZzMza2ZIQ3Y1anM2bl9FMHF0YzM4Ujc1clpqMVp4Ng?oc=5",
-      "published": "2026-07-04T19:32:57+00:00"
-    },
-    {
-      "title": "Blue Jays hope George Springer can return Monday vs. Giants - Sportsnet.ca",
-      "summary": "Blue Jays hope George Springer can return Monday vs. Giants&nbsp;&nbsp;Sportsnet.ca",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxPcjdhblVkNk9GYUhzZTJCaWZOd3JNVlA3ZVlVMVA2WlE3ZGFFY2RXTkpQZHdIVkJJRU94Wmw4RTFtWXlzQkxRUW1MbmZ5Nk9nRGhELVU1U2poa3lleUtiTDNCRFk2aWJPY2xhdjYyX1hITk9sd0hSUlZjZXBOOFFUTkdBN1ZwSkg2U2lDbnpIT3dtYUdJYk1ybWJ1bE0?oc=5",
-      "published": "2026-07-04T19:28:00+00:00"
-    },
-    {
-      "title": "Jays @ Mariners Game Thread",
-      "summary": "Game number 89\u2026..the season is flying by. Winnning a second game in a row would be nice. George Springer is still away, moved to the Family Medical Emergency list, but there is no emergency, just letting George have more time with his son. Unfortunately, it looks like Canada\u2019s time in the World Cup is over. [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jay-discussion/62657/jays-mariners-game-thread",
-      "published": "2026-07-04T19:09:29+00:00"
-    },
-    {
-      "title": "Blue Jays trade idea lands Mets All-Star pitcher for two top-10 prospects - sportingnews.com",
-      "summary": "Blue Jays trade idea lands Mets All-Star pitcher for two top-10 prospects&nbsp;&nbsp;sportingnews.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxQOVlkTllwZUhJZzVuU252aHJuckVwTW5rbEI1S3FKd2tid0lzS245QWFPTEZVcWdRVmR4dHBVOGVkMF91RnE0dlZLTHAxVi1QWmZJT1dKci1vcjB5c29qaGw0UXByRWc5X1hfMXFWZGMtQlExVV95SEs2cFlyZnpxT1NEc0ZkbUZPSlZyWlh2S2ZlRlBZbUFEb3BrYXR2YTNLbUV3VmtKSU1YR3VtaFNxYm5PY185V1BSUUlxalNwWldkSlNiOTd6N1pJS2JaUGRka0d1MVNSanZrZ2c?oc=5",
-      "published": "2026-07-04T16:04:44+00:00"
-    },
-    {
-      "title": "Blue Jays should be targeting these 3 upcoming All-Stars at the trade deadline - Jays Journal",
-      "summary": "Blue Jays should be targeting these 3 upcoming All-Stars at the trade deadline&nbsp;&nbsp;Jays Journal",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQcmtDY09UZE00Y0xTTzZwdEk1WGdGRDVISWtyVjUwb0NhbFNDY3pocnhtTWNMVGtHNjVjSEFYdUwzYnA4SG5NTEtYTlh6YVlBS18zQ241bE9sS3hjV3FtLU9iYUJRa3RQaFZFNVppU1NpS2hpUkhvd0lYTTV2Z3Vsa3VzaEVOV1d3LXdlY0lZTUUzN01YYkRZOTRSWUpxcjRVSWxwTA?oc=5",
-      "published": "2026-07-04T15:00:00+00:00"
-    },
-    {
-      "title": "Jays donate $50k to Port Dover baseball on behalf of John Axford - Simcoe Reformer",
-      "summary": "Jays donate $50k to Port Dover baseball on behalf of John Axford&nbsp;&nbsp;Simcoe Reformer",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiswFBVV95cUxOT3FzRkFSUkV6UUVEVWZXbHJVZ0ltaHhJVDZxWlFNaHhtamR2TndHOUUwVUdvR1J4UzlPZzlaanl5d2JWb01CTlNMVjlEVjBNa2JfVG9oMmpfN3hyQUZ5RG9id3d4SG5RenJIOWs0M0xPb3BMZ0lRdFhpa1RGN3ZocFZUMmp0QlBTWk12QnpkemxrYnFGWFp6S18tdmgzX1BzMzdqRUZpZHlaLWprNHNqLTQxSQ?oc=5",
-      "published": "2026-07-04T14:24:39+00:00"
-    },
-    {
-      "title": "MLB Highlights: Mariners 11, Blue Jays 0 - Sportsnet.ca",
-      "summary": "MLB Highlights: Mariners 11, Blue Jays 0&nbsp;&nbsp;Sportsnet.caToronto Blue Jays Release 6-Year MLB Player During Mariners Series&nbsp;&nbsp;heavy.comToronto Blue Jays at Seattle Mariners Game Story, Scores/Highlights - 07/04/2026&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTFBMOTlERlZSaDB3RVBoQ29PN1QtVXNpNXozMEh5Wmk2XzFxWDJfNTlITks2a1JJVndocllZV2tBY0FZbTh6MnpLX2tuc2h6b05KYkMzQmR5dUJYaGdvUTNubGt5RnI2YkQ1dnZoaUZRd0ZYclRrMGEzZFJSbFR1dDQ?oc=5",
-      "published": "2026-07-04T09:02:00+00:00"
-    },
-    {
-      "title": "Why do the Blue Jays tap their knuckles when they get on base? We tried to get in on the inside joke - Toronto Star",
-      "summary": "Why do the Blue Jays tap their knuckles when they get on base? We tried to get in on the inside joke&nbsp;&nbsp;Toronto Star",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMimgJBVV95cUxPTGxnc0tZREp2RTVxOGlxSVVfUDBRTVNqa0tVeTRLaEcwdE56bmdVUXZsWTZNYjRFb3BiZjhDZGQ5NTkzcFlfNWxKSEd6Sjl6SnlOOU12M3hnOGtIQnI3ak1lWWx5UF8xcDh2VjNCNk9rZlgyLVNkc3k2NWMxcjRXaTdXcXg1eWpZZHVqMk5pODZVckVSbzBvTUlra01zelZJSHR4R2N2bkRhcENueVQtOTNXVlZzd3BLc3NJeU5CaW5pUENhUXY4LS1CZmZweXplODNSZXNHSU40TGNndmNMQXN2V2dXODg5azJCSnBSY0lNaHY3aHJHX3lzWW8zRFJSdGg3UVZGTUxUbmpRZlBYQk5Iel9xcGx0dWc?oc=5",
-      "published": "2026-07-04T09:00:00+00:00"
-    },
-    {
-      "title": "Blue Jays blank Mariners behind Cease as Okamoto earns Rookie of the Month - Sportsnet.ca",
-      "summary": "Blue Jays blank Mariners behind Cease as Okamoto earns Rookie of the Month&nbsp;&nbsp;Sportsnet.ca",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxOMElYSEdJS1dOaE5MbW1aMm15WmJZNEFGdEdFNE10UTJqbEw3NzNaaXotbUhSVVktNWdoVTJxX1ZxOV84VkJLQXVYMmRvcU1kT25YZFdSTkctSW5wcHBVUDI2Mm5kQjJYY1NSVFRQWDNUU1hURVlOWGV3ZTRFRzZJeVY2Vi1yRE5UTUhtOWxSd3Q5Qk9FTkFFZVEzRmR1bWtMekp3Tk9peDRSNXFubkg2RUFR?oc=5",
-      "published": "2026-07-04T06:52:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMinwJBVV95cUxPNkxqdjFMU0VmdHZsQ2JVOTZNNDBrZHU4RE00bXVJY2NhUUF2Q1pYNEd2OEo3cXpqRlVKOFZ0TVJCeTNYNVhQMEpjZm1OcjgwdnBhcjFub1hyY0FueUpPVHh4OV9GRk9wa3Rtb2F6VWtxbUwtb2Vrb3pjTnYzRUhKSWptaUNlSkxwY1VQYURJT2NpenJ4cU1RUDVyOFRmcERvV1VPWVlLVXdESGhpZVd2MFQ4TGhaNGpmd1Z6dWRZTlZDX3A1andqcGwybjVpRHFMMUdqWi1LS25mUzE1b2cweWpZODVKd2FjTFI0U1pjVjkxX1RVQnFpb2ZSelM2UzRjN1hTREdEZlBJTzlob0xJcUd0LWVWYzlWb2NkYWZNdw?oc=5",
+      "published": "2026-07-05T09:00:00+00:00"
     }
   ],
   "run_diff_last_10": [
-    {
-      "date": "2026-06-24",
-      "diff": -2,
-      "result": "L"
-    },
     {
       "date": "2026-06-25",
       "diff": -1,
@@ -1690,6 +1682,11 @@
     {
       "date": "2026-07-04",
       "diff": -11,
+      "result": "L"
+    },
+    {
+      "date": "2026-07-05",
+      "diff": -4,
       "result": "L"
     }
   ]
