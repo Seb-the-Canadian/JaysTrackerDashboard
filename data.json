@@ -1,7 +1,7 @@
 {
-  "as_of": "2026-07-13T10:09:26.011796+00:00",
+  "as_of": "2026-07-14T09:37:02.470267+00:00",
   "notes_meta": {
-    "last_updated_iso": "2026-07-12T09:35:49Z"
+    "last_updated_iso": "2026-07-13T10:09:26Z"
   },
   "config": {
     "team_id": 141,
@@ -460,6 +460,31 @@
         "division_rank": "1",
         "division_name": "AL East"
       }
+    },
+    {
+      "game_pk": 822787,
+      "date": "2026-07-21",
+      "home": true,
+      "opp": "Tampa Bay Rays",
+      "opp_team_id": 139,
+      "opp_team_abbrev": "TB",
+      "probable_pitcher_us": "",
+      "probable_pitcher_us_id": null,
+      "probable_pitcher_them": "",
+      "probable_pitcher_them_id": null,
+      "status": "Scheduled",
+      "opp_context": {
+        "team_id": 139,
+        "team": "Tampa Bay Rays",
+        "w": 56,
+        "l": 38,
+        "pct": ".596",
+        "gb": "-",
+        "streak": "L1",
+        "last10": "5-5",
+        "division_rank": "1",
+        "division_name": "AL East"
+      }
     }
   ],
   "opponent_pitchers": {},
@@ -500,8 +525,8 @@
         "slg": ".363",
         "ops": ".640",
         "xwoba": ".263",
-        "barrel_pct": "3.5%",
-        "hardhit_pct": "23.9%",
+        "barrel_pct": "3.4%",
+        "hardhit_pct": "23.5%",
         "hr": 7,
         "rbi": 38,
         "sb": 10,
@@ -542,8 +567,8 @@
         "slg": ".387",
         "ops": ".695",
         "xwoba": ".294",
-        "barrel_pct": "6.0%",
-        "hardhit_pct": "38.9%",
+        "barrel_pct": "5.9%",
+        "hardhit_pct": "38.8%",
         "hr": 7,
         "rbi": 24,
         "sb": 9,
@@ -563,7 +588,7 @@
         "slg": ".433",
         "ops": ".751",
         "xwoba": ".273",
-        "barrel_pct": "2.2%",
+        "barrel_pct": "2.5%",
         "hardhit_pct": "22.4%",
         "hr": 8,
         "rbi": 32,
@@ -626,8 +651,8 @@
         "slg": ".469",
         "ops": ".788",
         "xwoba": ".329",
-        "barrel_pct": "14.5%",
-        "hardhit_pct": "47.3%",
+        "barrel_pct": "14.8%",
+        "hardhit_pct": "47.5%",
         "hr": 22,
         "rbi": 62,
         "sb": 0,
@@ -690,7 +715,7 @@
         "ops": ".747",
         "xwoba": ".300",
         "barrel_pct": "1.2%",
-        "hardhit_pct": "28.1%",
+        "hardhit_pct": "29.4%",
         "hr": 5,
         "rbi": 18,
         "sb": 0,
@@ -1017,17 +1042,9 @@
   },
   "team_stats": {
     "hitting": {
-      "hr": {
-        "val": 98,
-        "rank": 24
-      },
       "avg": {
         "val": ".244",
         "rank": 14
-      },
-      "ops": {
-        "val": ".690",
-        "rank": 27
       },
       "slg": {
         "val": ".384",
@@ -1040,16 +1057,20 @@
       "obp": {
         "val": ".306",
         "rank": 27
+      },
+      "ops": {
+        "val": ".690",
+        "rank": 27
+      },
+      "hr": {
+        "val": 98,
+        "rank": 24
       }
     },
     "pitching": {
       "whip": {
         "val": "1.31",
         "rank": 16
-      },
-      "k9": {
-        "val": "8.99",
-        "rank": 7
       },
       "bb9": {
         "val": "3.64",
@@ -1058,6 +1079,10 @@
       "era": {
         "val": "4.13",
         "rank": 12
+      },
+      "k9": {
+        "val": "8.99",
+        "rank": 7
       }
     }
   },
@@ -1362,18 +1387,6 @@
   ],
   "transactions": [
     {
-      "date": "2026-07-06",
-      "type": "Status Change",
-      "description": "Toronto Blue Jays activated DH George Springer from the bereavement list.",
-      "person_name": "George Springer"
-    },
-    {
-      "date": "2026-07-06",
-      "type": "Status Change",
-      "description": "Toronto Blue Jays placed RHP Braydon Fisher on the bereavement list.",
-      "person_name": "Braydon Fisher"
-    },
-    {
       "date": "2026-07-07",
       "type": "Optioned",
       "description": "Toronto Blue Jays optioned LF Yohendrick Pi\u00f1ango to Buffalo Bisons.",
@@ -1387,15 +1400,15 @@
     },
     {
       "date": "2026-07-08",
-      "type": "Signed as Free Agent",
-      "description": "Toronto Blue Jays signed free agent RF Daz Cameron to a minor league contract.",
-      "person_name": "Daz Cameron"
-    },
-    {
-      "date": "2026-07-08",
       "type": "Assigned",
       "description": "Toronto Blue Jays sent RHP Max Scherzer on a rehab assignment to Buffalo Bisons.",
       "person_name": "Max Scherzer"
+    },
+    {
+      "date": "2026-07-08",
+      "type": "Signed as Free Agent",
+      "description": "Toronto Blue Jays signed free agent RF Daz Cameron to a minor league contract.",
+      "person_name": "Daz Cameron"
     },
     {
       "date": "2026-07-10",
@@ -1413,59 +1426,147 @@
       "date": "2026-07-10",
       "type": "Trade",
       "description": "Toronto Blue Jays traded RHP Tommy Nance to Minnesota Twins for C Ryan Sprock and Future Considerations.",
-      "person_name": "Ryan Sprock"
+      "person_name": ""
     },
     {
       "date": "2026-07-10",
       "type": "Trade",
       "description": "Toronto Blue Jays traded RHP Tommy Nance to Minnesota Twins for C Ryan Sprock and Future Considerations.",
-      "person_name": ""
-    },
-    {
-      "date": "2026-07-12",
-      "type": "Selected",
-      "description": "Toronto Blue Jays selected the contract of RHP CJ Van Eyk from Buffalo Bisons.",
-      "person_name": "CJ Van Eyk"
+      "person_name": "Ryan Sprock"
     },
     {
       "date": "2026-07-12",
       "type": "Optioned",
       "description": "Toronto Blue Jays optioned RHP Chad Dallas to Buffalo Bisons.",
       "person_name": "Chad Dallas"
+    },
+    {
+      "date": "2026-07-12",
+      "type": "Selected",
+      "description": "Toronto Blue Jays selected the contract of RHP CJ Van Eyk from Buffalo Bisons.",
+      "person_name": "CJ Van Eyk"
     }
   ],
   "news": [
     {
-      "title": "Blue Jays Draft Recap: Day 2 - Bluebird Banter",
-      "summary": "Blue Jays Draft Recap: Day 2&nbsp;&nbsp;Bluebird Banter",
+      "title": "Gregor Chisholm: Blue Jays first-half report card: An F for Vladimir Guerrero Jr. threatens playoff graduation - Toronto Star",
+      "summary": "Gregor Chisholm: Blue Jays first-half report card: An F for Vladimir Guerrero Jr. threatens playoff graduation&nbsp;&nbsp;Toronto Star",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxPeWU0SkFQOWViX25HMW5pdHRsZ3dIRl9lTkt4dkRHX3R6VmVRTHpJVXJGT3ZNVE0xWTZzV3FIblMxYnpGN3A5eE0wN2I4ZVZsd0hXSFJzYnlvS1ZXNWFmVDVlRnpramU2Z1dzaFpXeVd1cC1uN2tZOTlySk1lVlRIRmdrVk9ockFkREhGVUc3cUFpSnVsNXc?oc=5",
-      "published": "2026-07-13T06:10:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMijwJBVV95cUxNYy1DZ21FU0pITkhkMHNmenlkSEtSekd1RkRWTUZiZkZEX1dXeHFvdnZmTWtsWDI1WmVqdDZrZ0lsMGJwQXdHZUVrZXFKX01ucWs3bWRGRDhZVm55cFVNaDZFNzhsV0FYaDBwSnZTbW9SNFJfbjlWOWpwT0ttSFVRbjFoVzlDYlRPODVYcWpQMXNPak56bGZESWNIajg5VE1xS1NDUzBkSnJXNzlFMDNfZjhiMFo3X2dOWjFoWXVsVUlGV0E0VlNCaWxhUEo2QnNadHBZeGJDV25MT2MySnd3d2wwTXVfdzB1cXFOVXkzQzhfTjJ1Yko1WFhOXzc4TEx3VFRDUTFJa25BNE8yczBr?oc=5",
+      "published": "2026-07-14T09:00:00+00:00"
     },
     {
-      "title": "Blue Jays Draft Recap: Day 2",
-      "summary": "The second 80% of the 2026 MLB amateur draft occurred yesterday afternoon. The Blue Jays made 16 additional picks following the three they had yesterday. The theme today was cutting deals. The Jays will likely need to come up with extra money to pay Cole Carlon and Will Brick, both of whom were generally expected [&#8230;]",
+      "title": "Blue Jays' vision for Dylan Cease begins coming to life with all-star start - Sportsnet.ca",
+      "summary": "Blue Jays' vision for Dylan Cease begins coming to life with all-star start&nbsp;&nbsp;Sportsnet.ca",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMisgFBVV95cUxNbkU5SFFHb2NNRXZISE1BVEJaZVRLUXNMbFoxRGdfM19MMW44aGFJQUdrZGlxUUJIY0tKQXhDemZUbzRfTGkxbzJjT2pIdGZLUkVZd3dRS1IxbDk2YWM1enFrRGVwYjQ1Nm1COUpJcTB4djF5cEUzd3ZuOGxrRmVOVjI2QVk1OXRCNjB1ZUpFYVFNVlNjTFU2UkY0azNMaW1PNXJFTXZKbUdZRFd6WnNDd1Jn?oc=5",
+      "published": "2026-07-14T01:48:00+00:00"
+    },
+    {
+      "title": "Open Thread For Home Run Derby",
+      "summary": "I\u2019ll admit, I have no interest in the home run. I think my lack of interest comes, in part, from listening to Chris Berman saying back back back back back back, like he was a chicken. But, mostly, because it the home run derby is the same thing over and over. But I realize, my [&#8230;]",
       "source": "Bluebird Banter",
-      "author": "Tom Mullie",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-analysis/62775/blue-jays-draft-recap-day-2",
-      "published": "2026-07-13T06:10:00+00:00"
+      "author": "tom dakers",
+      "url": "https://www.bluebirdbanter.com/general/62789/open-thread-for-home-run-derby",
+      "published": "2026-07-13T23:48:00+00:00"
     },
     {
-      "title": "Here are the Blue Jays' 2026 Draft picks - MLB.com",
-      "summary": "Here are the Blue Jays' 2026 Draft picks&nbsp;&nbsp;MLB.com",
+      "title": "Decker on Blue Jays: 'I think you're a buyer in this situation' - TSN",
+      "summary": "Decker on Blue Jays: 'I think you're a buyer in this situation'&nbsp;&nbsp;TSN",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiYEFVX3lxTFBzNEg3dUlsV3ZSYVgwcWd1dVlQTW0tWnVORXBhanBaQzNJaExkTm1sQ01qZzlpbDlsMXpMaFNPemFlUTBBVUZla3R6RWRuS1R6SF95LUxCcFVoTldqLTVEUtIBbEFVX3lxTFBKT1V6RzRXcFZsN2dCWHlVaWRadHNpYVNmaGFudWFmQ01UT3FSNkdjM0taS3F3UUdaMFBuOVFzR0lCVG9sYVFFMFNVQ3d3Z1pZRmk0MkJyRGd4bG9tM3lWSmRMT25hVGRoVjFtMg?oc=5",
-      "published": "2026-07-13T02:58:24+00:00"
+      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxNVmJESHhhR3hBOERKUkpaX2FvdVo1SkJnY3BtREllWXNZV1QwUzhDeC1IV2R2bW9BTUxNZXg4bFdlWjFkc3FmWnFuUDVIMXQ4OEFlSzdRc0x1NFo2V05EcHB4T0x1VlNIMktWWWU0MF9helZaWGh3SFJMMm9vTmM5YTk4Mm9sNUU4ZXVySjNwYzdLNlM2dWl5VTZZM2U?oc=5",
+      "published": "2026-07-13T23:02:46+00:00"
     },
     {
-      "title": "Toronto Blue Jays Quietly Sign 5-Year MLB Veteran Before All-Star Break - heavy.com",
-      "summary": "Toronto Blue Jays Quietly Sign 5-Year MLB Veteran Before All-Star Break&nbsp;&nbsp;heavy.com",
+      "title": "Blue Jays running out of time to turn season around - The Globe and Mail",
+      "summary": "Blue Jays running out of time to turn season around&nbsp;&nbsp;The Globe and Mail",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNdTFnaHJKb1VUSlNSVmhoSEdhQ1NiT1ZKNHR1QXQ2d1ZZMHlzS0xzZmlkR1BwMUt4S2RQbGhTbDJKY2UwVFgzR215bHI2THJNa3lwdVJmQzFlR0szMW0wME56c3M2OEJrMGI5WDJxZW05ekRiN0hiaTRlZnBSWlFrcGpXUGpVQzdRbUZDLWx5Y2lHOW9sS0QzeA?oc=5",
-      "published": "2026-07-13T00:20:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxNLW5IRWtYbzNDcWJQTGNNcnc1NU5KWEotUFNfT0pNbXhzVjNHZkFSaDV6NzVDT2FBSlhwNGhIemt6OXlPMnNsRGNkTG5KbDZVWGtBUXh3aUlwS2hlbGN2TUVKb2VISm9vckRjTHJsVnlYWjQ5MFU0OERLei1WRFFYc3k5d1d0Z0tzSkJ1YW91VmFxZkpTOExRakJoaTdhaXBKaDJ3NUVEdWRWNldu?oc=5",
+      "published": "2026-07-13T22:38:38+00:00"
+    },
+    {
+      "title": "Blue Jays' Dylan Cease Reacts to Being Named American League All-Star Game Starter - Yahoo Sports Canada",
+      "summary": "Blue Jays' Dylan Cease Reacts to Being Named American League All-Star Game Starter&nbsp;&nbsp;Yahoo Sports Canada",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPalRnQkswaU5hVjNzZkRDclJYX1k1MnNnZ2pYVHJQX1NCQlRaNlMway0tSlY3eV9LR2V6WDFYTVYxb0pIZ01EOVg1WmY4czJfWmdFclI3R3dQWnMtUzZnT2V5NEd5NnY3bF9mWUNRamR5bzRuUVdtSVRNTzFOckdEVEV3?oc=5",
+      "published": "2026-07-13T22:30:01+00:00"
+    },
+    {
+      "title": "LIVE: Watch Home Run Derby Batting Practice - MLB.com",
+      "summary": "LIVE: Watch Home Run Derby Batting Practice&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxOZXNfN25BWVBQXzE0cDVoOWlWaXJwTS1pZ3hkOFh0elByVVNSdXU0anRjQWFQTnFFTHc5WWk3T2I0c1JFdXFwVUFfWjdLZ3NmWDlIc0h4OXJQa1UteG9ncXlCRVBrTFF0RXFaYTBVZkhweWtMakdnRWI1U0tQRUl1MDJLUQ?oc=5",
+      "published": "2026-07-13T21:53:49+00:00"
+    },
+    {
+      "title": "Ernie Clement talks starting in All-Star Game - MLB.com",
+      "summary": "Ernie Clement talks starting in All-Star Game&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxNc2ZmeGszcEZmS25Bdy1kY1hYQ3RiZ25heWlmN2NFTTZCaHNZbHNhMG94ZGxvX1IwdnJpVkZzRXpZeDdPcDFxYkU4WjZyclhEWFd6SmJaMDRhLXlsaEduMmNQeUZEUkdmRjE4Y2FXLVdfWTdXU3hvZWI3MHVXM3RhS3dCX3BnYUk?oc=5",
+      "published": "2026-07-13T21:39:51+00:00"
+    },
+    {
+      "title": "Toronto Blue Jays manager Schneider shares special All-Star moment with his son - blogTO",
+      "summary": "Toronto Blue Jays manager Schneider shares special All-Star moment with his son&nbsp;&nbsp;blogTO",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxNS2RjWHdzLVlXdjFRVk1yX05PT0JCOC1XVFFsQ0hDbmFZVXZPaWoyZGxoSFI0TDBPRHllWERROVJxMk9ZelppU19oS29TMEQ3YlBHOUZaSUJZU2VBbVZLbFNUZzllRnl2UGttYVhQS3ljcDIyUUliUG1fN2dETVFwU0NxbC11Sy1vY082aEZ4dlc4UEpwOU1kWE1n?oc=5",
+      "published": "2026-07-13T21:26:15+00:00"
+    },
+    {
+      "title": "Dylan Cease will be first Blue Jays pitcher to start all-star game since Roy Halladay in 2009 - CBC",
+      "summary": "Dylan Cease will be first Blue Jays pitcher to start all-star game since Roy Halladay in 2009&nbsp;&nbsp;CBC",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNTGdMN3JrOXctNXJGRTNYQmxYSDQzeGYwdEJfcy02ZkVpV1c2TEpGeEU5dHNHN3lqUGtSNmo1MmZjaHVlZHljQnBub3BTNXpUdjkwdkRsVzlEUjFIOW1RV0hFRnhhMWEtWVU3b0NyQl9RNmRYRVVmNUZqOWFESFZTYk1wcjlVbTVZd1B1Qk5IYWxPd0xmdTNQQ01pOXk2R1k1VFlZWEIzVnFwUWo0SUVPanZidVROZw?oc=5",
+      "published": "2026-07-13T20:51:07+00:00"
+    },
+    {
+      "title": "John Schneider takes a question from his son, Gunner - MLB.com",
+      "summary": "John Schneider takes a question from his son, Gunner&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMijwFBVV95cUxOdFNXbVdBMkxFQ1RkRXh0NkJKaFYydDJTX1l1N1NoZkNhNWJkY3dvVVgxTWxTbnRiUS1DelNJUXFIeVh4LVU3bzRTdVk4WUgtbFBVN29Tb2JyNjhiRmRVcktTejkxNXEwUWxmN1I3TTdVOWI1SnVTQ2JnUTZLZDkyU1ZCR1Vlc25qODNGNnB4bw?oc=5",
+      "published": "2026-07-13T20:07:57+00:00"
+    },
+    {
+      "title": "All-Star surprise! Blue Jays skipper fields media question from 9-year-old son",
+      "summary": "",
+      "source": "MLB.com",
+      "author": "Jared Greenspan",
+      "url": "https://www.mlb.com/news/blue-jays-manager-john-schneider-answers-question-from-son-gunner-at-all-star-game",
+      "published": "2026-07-13T19:48:38+00:00"
+    },
+    {
+      "title": "Dylan Cease talks about being named an All-Star - MLB.com",
+      "summary": "Dylan Cease talks about being named an All-Star&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxPSGY4UHJGV3h3Q3lNSGwxclQ4NDVrVUVhdklYVk9ueDR1MWRlcTgxLXZNdzJhUGhrWE1Dek1EYXRQYlRGWm5mQURxSGIwVmRyTDJnV0lDVFNScFd5c3FZV3pvdmNkdWE3b0JSZmdyc2pGR0RJWHNPRHRCZjlkY0ZFYVdnUVJVb3JlbGc?oc=5",
+      "published": "2026-07-13T19:45:01+00:00"
+    },
+    {
+      "title": "Blue Jays Linked to Landing Center Fielder With an Eye on 2027 - Yahoo Sports",
+      "summary": "Blue Jays Linked to Landing Center Fielder With an Eye on 2027&nbsp;&nbsp;Yahoo Sports",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQVGUtTVJQSVFFR1hFWDlSS2M1TldNUGhLekplWEdacFlwOUU1WllSelRvUHUycWJoVHUzcGs5cUFOQWpzbkdWTVlJRXlvVDVHMjNETlVtZ2hVN29uajl1OURRcTFVRHhoSktuMUl1UUNpcEhRdmFyVVpGcXM2eTdYYVBnTU12WGs?oc=5",
+      "published": "2026-07-13T19:03:01+00:00"
+    },
+    {
+      "title": "Blue Jays sign 4 free agents following 2026 MLB Draft - Blue Jays Nation",
+      "summary": "Blue Jays sign 4 free agents following 2026 MLB Draft&nbsp;&nbsp;Blue Jays Nation",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxQZE9zbHNmZUZGS1V1UmFuMFhNcU5lTmNOOTFxbVp5MnctSEU1cWo0NjRvUUh1OVBDRWlfcjloNXhBQ3l5U21idnE0NGg4dHZwZlBWcUhESWNheTk3Q2c1REtfWjkwRTBpR0tMLXY5cjVFWFBweFRtb1dYcWQ4RnV4bzRVUHBlX3hOSmZnZHFPWm1nc29xMThHdA?oc=5",
+      "published": "2026-07-13T18:25:00+00:00"
     },
     {
       "title": "Hoffman blows late lead as Blue Jays head into all-star break with tough loss - Sportsnet.ca",
@@ -1473,79 +1574,23 @@
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxOdDZjc1VsU0RUazBpUTB2NkVxSEVYdDJlWnNxckZkSWZxMnFwU2E1MUFXb1FJNkxWZ2dfOW90WmxHZTVXUHdVcnFDdkJUTE1wTTI2SlRFRl9JMnJBTU5NdUhjcDJUNVF2LXk1cGVxQjBSYnc1ZkZwUWVoUEhFQlEyTUk2V25YSnBuVkdWdkdyLUpPZU9vT080LWd0WFRDVFFONVlueXI4YnJmeDJOUzRkNXo2SmFPZw?oc=5",
-      "published": "2026-07-13T00:05:00+00:00"
+      "published": "2026-07-13T17:19:00+00:00"
     },
     {
-      "title": "Two sentences on every Blue Jays pick in the 2026 MLB Draft - Sportsnet.ca",
-      "summary": "Two sentences on every Blue Jays pick in the 2026 MLB Draft&nbsp;&nbsp;Sportsnet.ca",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxNNzBJaDJEcUpIMUhhdVBMYzhzajgxUmRqV2hPNTNJSDVQcmI1X3JuLWdzeG5YaXI2bUNudmt0N2pMaE4tdGtRQzlkQndkNlh6Y29OVTVDci0wclhhSk1LR2l1QjBuZ0pidWlGUnduRFNfNl9XYndQTjIwZHJtNDJmc0NnREUwUnJpYmQtNzRGZnhSampPTzNxUF9hUFo1Zw?oc=5",
-      "published": "2026-07-12T23:35:00+00:00"
-    },
-    {
-      "title": "Dylan Cease to start MLB All-Star Game for American League - The Globe and Mail",
-      "summary": "Dylan Cease to start MLB All-Star Game for American League&nbsp;&nbsp;The Globe and Mail",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxQSUdUOUVKZTFUV3J3SnZQSWNWQTZOS196dzI3UkxGYkNTTHVYLU9WTlRTRGdXdTFYSFdjVWhLRlNpQUVOTENQSlNBdWJPYldQNWJTTlpGSXVMRTJDV1NOMGtQMi1DOGZuVmR4SDlRR2JPazlkamdJM0dCdFRocnpYSkV6MUVYMDRNekNCRWFqMk1CemJmRTBrNzRBRmVfRHZZUWJWNmZZUklHWWF5YTR3Q1dBUkpWUQ?oc=5",
-      "published": "2026-07-12T23:22:03+00:00"
-    },
-    {
-      "title": "Jays Lose To Padres - Bluebird Banter",
-      "summary": "Jays Lose To Padres&nbsp;&nbsp;Bluebird Banter",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxOSTBxZXZ0TzNuZm9ZbnVTTk4taHp1TEFSQW9ELTZ2WmRGRFlfVjdQclRyMmFMMEprTzlQNURzMDU1VzJQVFRreHhWUnMxSWFnU1ZaVUhnVWcta0I3dHRKcEZobGNmNGRNcmxhU09QT1I2TlBRa3U3LUM0dm5ESTN1dEo0NnNFNnNE?oc=5",
-      "published": "2026-07-12T23:21:05+00:00"
-    },
-    {
-      "title": "Jays Lose To Padres",
-      "summary": "Blue Jays 4 Padres 3 A rough eight cost them. Hoffman in. Xander Bogaerts, leading off, ground one softly (63.4 mph) up the middle, but between second and short. Ernie Clement got to it too deep to make a play. Bogaerts stole second. Manny Machado lined a single to center, scoring the run. Gavin Sheets [&#8230;]",
+      "title": "Happy Birthday Bill Caudill",
+      "summary": "Bill Caudill celebrates his 70th birthday today. For those unfamiliar, Caudill was the Blue Jays\u2019 answer to B.J. Ryan back in the 1980s. He broke into the majors with the Cubs, then found his stride as one of baseball\u2019s elite closers in Seattle, before moving to Oakland, where he racked up 36 saves in a [&#8230;]",
       "source": "Bluebird Banter",
       "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-scores/62776/jays-lose-to-padres",
-      "published": "2026-07-12T23:21:05+00:00"
+      "url": "https://www.bluebirdbanter.com/blue-jay-history/62786/happy-birthday-bill-caudill",
+      "published": "2026-07-13T15:10:50+00:00"
     },
     {
-      "title": "Blue Jays select Eddie Rosado Jr. 612th overall in 2026 MLB Draft - Blue Jays Nation",
-      "summary": "Blue Jays select Eddie Rosado Jr. 612th overall in 2026 MLB Draft&nbsp;&nbsp;Blue Jays Nation",
+      "title": "Blue Jays Skipper Sends Jeff Hoffman Warning Before All-Star Break - Yahoo Sports Canada",
+      "summary": "Blue Jays Skipper Sends Jeff Hoffman Warning Before All-Star Break&nbsp;&nbsp;Yahoo Sports Canada",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxPMVFIVlQ3VVg4U0RnSm1CTDZENWlEZUg3QUtrZUFqNGlET3YwQmpvRjlQOVNuSWJvdVVaeXBzMDIxbUhXNzhnVXZIM2FjWWhJRjQ3MUtxSEVqMzY5ZVBlODF6dnZtcjdocTR0akVlajVSMlZJU3daX242RUtzMnBUMFA3aU1VUnNXSi1PX3g4OGJRR1ZOQmlzQTd3?oc=5",
-      "published": "2026-07-12T23:15:00+00:00"
-    },
-    {
-      "title": "Padres 5-4 Blue Jays (Jul 12, 2026) Game Recap - ESPN",
-      "summary": "Padres 5-4 Blue Jays (Jul 12, 2026) Game Recap&nbsp;&nbsp;ESPN",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiW0FVX3lxTE9xQ2sxMHNVOXhyMmphNk1LdC1aZkpEWXhnck1XQl9CZGJVY2dLZHB0bnBtOEZ4Z1pnY0xmdU0yVEZrUUp0ZXF4LWxXQ1BIdHJERjJSS245TDhzdjg?oc=5",
-      "published": "2026-07-12T23:11:17+00:00"
-    },
-    {
-      "title": "Strike 1 overturned by ABS - MLB.com",
-      "summary": "Strike 1 overturned by ABS&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOZF9SY1ZCX25heTVUeDBXMUN6cHAyMGZRSnVya21qMFpmSUhoS3gwWE9ZS2thcEU4Ny1VX2E1clVsZnlwaUJMazFkM21uUERGZkdNeHR1enpCNDhxWVh4MVloRkl4RUZkamlhNUpBaWhkQVpqaW9KNnJtM3k4MFJNWTNlRHFQWWRiRUJscC1YWUpHd0ZuZ1hNZA?oc=5",
-      "published": "2026-07-12T22:51:11+00:00"
-    },
-    {
-      "title": "The distance behind Ernie Clement's home run - MLB.com",
-      "summary": "The distance behind Ernie Clement's home run&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOaV91Y29YVUd5Q25wbFJ6aGFHZmNiVUdlQlVGSVd1Zjk0TVltZjBCb3dON251bjl1RkkwUVUyN2JXa0JPeDNlY2FjYzdvMFg4dEE3Z0c0V0Viakw1ZkdVSFNNWGhIb1dLX1hlaEV3NzdnbUplV09ONlRVSjVNTHM0OFd1b3ctUG9Yb2diSU5R?oc=5",
-      "published": "2026-07-12T21:47:36+00:00"
-    },
-    {
-      "title": "Examining the Blue Jays\u2019 top trade candidates - Blue Jays Nation",
-      "summary": "Examining the Blue Jays\u2019 top trade candidates&nbsp;&nbsp;Blue Jays Nation",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxQNmRrM1RjODZQck9EcXVaR1RsVnpna21PSVhDNnFYN0RXbnJvMWFqRk90RVpRdFJpbFVweUZ0LVdhYWJVRWpLVWxhdHJnbVFXVTlXemhaY3BIR1VkbkNxZm5xeGdXeHFwLTZ4QjBhN1YtNmdNSjB6cXY5WTVYZkhkVUxtYjZ3OTQ?oc=5",
-      "published": "2026-07-12T21:47:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiggFBVV95cUxPdlg5QmxYekpNS3lXbkh5WVRlTm9qdkRoMkN0eEtqdUFHa1lnYldoNjBpREwtbGJTRFVnWWNxOU5TdGNCblA4UkJnZW9CejU3TXVjZXM3S0tiUkxrMFoycV9RbUdmVmNwbGJhVWx3d3JWamIydlNUeWVfaEJxcUgyUFJR?oc=5",
+      "published": "2026-07-13T14:42:09+00:00"
     },
     {
       "title": "Blue Jays' Parker, Perry, Canada's Flewelling shine at Futures Game - Sportsnet.ca",
@@ -1553,47 +1598,15 @@
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMiowFBVV95cUxQVTdGcGp4MjEtci1xcWZ6V2xCWVJlSTBLU1hnNUdJZDMxRGFuTXhXQWV4UVZZUnV5Nzh1VzdlZWV5UVp0alkyeXRFY0RlZG5Yd1ROYzlhN3JKdU5BZmxKWkJESlgyOWRMMzBfczBoX09uMXkwSThBYXFsQzRtcmhnTGJHZU9WYURJbjVFWXNUal9rVGpZVVN5eGg1ZERYZDdjc0Fj?oc=5",
-      "published": "2026-07-12T21:23:00+00:00"
+      "published": "2026-07-13T12:51:00+00:00"
     },
     {
-      "title": "Blue Jays' Dylan Cease to start All-Star Game for AL - Sportsnet.ca",
-      "summary": "Blue Jays' Dylan Cease to start All-Star Game for AL&nbsp;&nbsp;Sportsnet.ca",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPUlNuYXd0S0lwNkRSQ05OZGFXZk1fTDFjUmNLbDcwOFJDMm9LZnhCMU1fTW9qTFF5N0xWTzZTYmEtUm5ISU44TzhXSDlRekRuY0ZOTzlwRV8xbV81a3RMSWdqQnppelk5WUx4QVZBd3JreFNlV3RTeElaaFlmQVJKUXY2SnpSaTd4b1ZjWWYzR2pMYXM?oc=5",
-      "published": "2026-07-12T21:23:00+00:00"
-    },
-    {
-      "title": "How Schneider chose Cease over Schlittler for All-Star start - Sportsnet.ca",
-      "summary": "How Schneider chose Cease over Schlittler for All-Star start&nbsp;&nbsp;Sportsnet.ca",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPc0g2SVAyanVjYnlJYUFZdmNxX2pwdEhlTHFrQUJUWjY1TzN4cUJIX09meEkySy1zMW9zcVhOU2Zsc1gwRVRvbzUzYW1YNG5xM1M2WGlndHFGY0RvamxFODMyOGFRZHVJN3NsMERCQmx5Mzg2SWhlNDgtekdqb0diMW42akxLOGx5cU43dU90NWxrbXNlQk9DLTZwZFl2YW8?oc=5",
-      "published": "2026-07-12T21:11:00+00:00"
-    },
-    {
-      "title": "[Reddit/Streams]!! Toronto Blue Jays vs San Diego Padres \ud835\udc0b\ud835\udc08\ud835\udc15\ud835\udc04 \uff26\uff52\uff45\uff45 \uff33\uff54\uff52\uff45\uff41\uff4d \uff2f\uff2e \uff34\uff56 \uff23\uff48\uff41\uff4e\uff4e\uff45\uff4c - Business and Investment Development Agency - CzechInvest",
-      "summary": "[Reddit/Streams]!! Toronto Blue Jays vs San Diego Padres \ud835\udc0b\ud835\udc08\ud835\udc15\ud835\udc04 \uff26\uff52\uff45\uff45 \uff33\uff54\uff52\uff45\uff41\uff4d \uff2f\uff2e \uff34\uff56 \uff23\uff48\uff41\uff4e\uff4e\uff45\uff4c&nbsp;&nbsp;Business and Investment Development Agency - CzechInvest",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMi2gNBVV95cUxNVVhoYVNaUklPcEJRSS1wdndIYWstZTFzVHZETWRrbUpEUkNnYlNZRTV5ZDVWck5vTFEwMGliMVJmOUVyN2pjMC1hUUFnZ05GV1hqSHI3MzhIMjQ1RGdwa0tYNWozQUo1Y1hZQ2hwd1E1eGNpVkpjX3hUakJwNEU3VjJKb0xlY1QzamJnRUQ0akk5b0MxRC15RHptZm5QTGZ6ZTdnckoyRUxDcTRIUnVTZVNzZS0tamdSYnR4N09TU2hKV2tURjFfamhGS0pjOExzV3l0d3NObE9LUnVtdi11OFJEY1g3SXhBVGJZa28zWmE1LWljRVgtUVY3X1BwZl9nYUVmUWNQZWlaS0tXWExwVjliSTd2NXRISUp6Z1czN3g4SUtoalMyMVFEVzZoOUE0MlFyMzUxNlBhcUZHRWktNlhEMWNVZGtpNHlJQ1hmY1VXWWdrWk9FcHpHc2w3cDNMdmNTTXIxdlhWRnhXcm5pdFJNS3lVbGZVRjBiSzlTYkRRM2Z1ZzJtZU5hNWppREFQQW1OVklaTzdLdFFUOEpMQVJtakJmTlg0bmJ0U2xVQUhpYWQ0T01meHo5V0c2TUxFcXJGa1U3V0std1ZTZlRYRGpiNVRhMWN4N0E?oc=5",
-      "published": "2026-07-12T20:53:01+00:00"
-    },
-    {
-      "title": "Toronto Blue Jays at San Diego Padres Game Story, Scores/Highlights - 07/12/2026 - MLB.com",
-      "summary": "Toronto Blue Jays at San Diego Padres Game Story, Scores/Highlights - 07/12/2026&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTFA2bF81WXpmdDNra0tpM3hSRXQwWTYxRVppNnpMRlVuVXVtSGV5OHVIN055NUpKUW9MRjdGYl9kWVdRQXlNcTRkRzI2RVE1NXow0gFQQVVfeXFMUDZsXzVZemZ0M2trS2kzeFJFdDBZNjFFWmk2ekxGVW5VdW1IZXk4dUg3Tnk1SkpRb0xGN0ZiX2RZV1FBeU1xNGRHMjZFUTU1ejA?oc=5",
-      "published": "2026-07-12T20:43:37+00:00"
-    },
-    {
-      "title": "Blue Jays @ Padres Game Thread",
-      "summary": "Game three with the Padres. A series win would be nice. Please score some runs. And this is the end of the first half of the season. I had someone argue with me about the first half thing. But I don\u2019t make the rules, baseball says everything before the All-Star break is the first half, [&#8230;]",
+      "title": "Favourite Blue Jays All-Star Memories: Dave Stieb, Damaso Garcia and Afredo Griffin?",
+      "summary": "With All-Star week upon us, I wanted to share a few favorite All-Star memories, beginning with 1984. In 1984, for the first time, more than one of our players was named to the All-Star team\u2014we had three: Dave Stieb, Damaso Garcia, and Alfredo Griffin. Stieb earned his fourth All-Star nod that year. He ultimately set [&#8230;]",
       "source": "Bluebird Banter",
       "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-gamethreads/62773/blue-jays-padres-game-thread",
-      "published": "2026-07-12T19:49:08+00:00"
+      "url": "https://www.bluebirdbanter.com/blue-jay-history/62781/favourite-blue-jays-all-star-memories-dave-stieb-damaso-garcia-and-afredo-griffin",
+      "published": "2026-07-13T12:17:00+00:00"
     }
   ],
   "run_diff_last_10": [
