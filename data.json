@@ -1,7 +1,7 @@
 {
-  "as_of": "2026-08-04T11:22:45.011677+00:00",
+  "as_of": "2026-08-05T11:20:40.322439+00:00",
   "notes_meta": {
-    "last_updated_iso": "2026-08-03T12:22:20Z"
+    "last_updated_iso": "2026-08-04T11:22:45Z"
   },
   "config": {
     "team_id": 141,
@@ -11,61 +11,61 @@
   "team": {
     "record": {
       "w": 53,
-      "l": 60
+      "l": 61
     },
     "place": "5th in AL East",
     "division_name": "AL East",
-    "gb": "13.5",
+    "gb": "14.5",
     "last10": "6-4",
-    "streak": "W1",
-    "runs_scored": 442,
-    "runs_allowed": 498,
-    "run_diff": -56,
+    "streak": "L1",
+    "runs_scored": 444,
+    "runs_allowed": 505,
+    "run_diff": -61,
     "pythag_w": 50,
-    "pythag_l": 63
+    "pythag_l": 64
   },
   "division": [
     {
       "team": "Tampa Bay Rays",
       "team_id": 139,
-      "w": 66,
+      "w": 67,
       "l": 46,
-      "pct": ".589",
+      "pct": ".593",
       "gb": "-",
-      "streak": "W1",
+      "streak": "W2",
       "last10": "7-3",
       "is_us": false
     },
     {
       "team": "New York Yankees",
       "team_id": 147,
-      "w": 63,
+      "w": 64,
       "l": 50,
-      "pct": ".558",
+      "pct": ".561",
       "gb": "3.5",
-      "streak": "L1",
+      "streak": "W1",
       "last10": "5-5",
       "is_us": false
     },
     {
       "team": "Boston Red Sox",
       "team_id": 111,
-      "w": 60,
+      "w": 61,
       "l": 51,
-      "pct": ".541",
+      "pct": ".545",
       "gb": "5.5",
-      "streak": "W5",
+      "streak": "W6",
       "last10": "8-2",
       "is_us": false
     },
     {
       "team": "Baltimore Orioles",
       "team_id": 110,
-      "w": 54,
+      "w": 55,
       "l": 58,
-      "pct": ".482",
+      "pct": ".487",
       "gb": "12.0",
-      "streak": "L2",
+      "streak": "W1",
       "last10": "5-5",
       "is_us": false
     },
@@ -73,10 +73,10 @@
       "team": "Toronto Blue Jays",
       "team_id": 141,
       "w": 53,
-      "l": 60,
-      "pct": ".469",
-      "gb": "13.5",
-      "streak": "W1",
+      "l": 61,
+      "pct": ".465",
+      "gb": "14.5",
+      "streak": "L1",
       "last10": "6-4",
       "is_us": true
     }
@@ -85,7 +85,7 @@
     {
       "team": "Tampa Bay Rays",
       "team_id": 139,
-      "w": 66,
+      "w": 67,
       "l": 46,
       "gb": "-",
       "note": "Division leader",
@@ -95,7 +95,7 @@
       "team": "Chicago White Sox",
       "team_id": 145,
       "w": 59,
-      "l": 52,
+      "l": 53,
       "gb": "-",
       "note": "Division leader",
       "is_us": false
@@ -103,7 +103,7 @@
     {
       "team": "Houston Astros",
       "team_id": 117,
-      "w": 58,
+      "w": 59,
       "l": 56,
       "gb": "-",
       "note": "Division leader",
@@ -112,18 +112,18 @@
     {
       "team": "New York Yankees",
       "team_id": 147,
-      "w": 63,
+      "w": 64,
       "l": 50,
-      "gb": "+6.0",
+      "gb": "+7.0",
       "note": "In (1st WC seed)",
       "is_us": false
     },
     {
       "team": "Boston Red Sox",
       "team_id": 111,
-      "w": 60,
+      "w": 61,
       "l": 51,
-      "gb": "+4.0",
+      "gb": "+5.0",
       "note": "In (2nd WC seed)",
       "is_us": false
     },
@@ -131,7 +131,7 @@
       "team": "Cleveland Guardians",
       "team_id": 114,
       "w": 57,
-      "l": 56,
+      "l": 57,
       "gb": "-",
       "note": "In (3rd WC seed)",
       "is_us": false
@@ -140,7 +140,7 @@
       "team": "Minnesota Twins",
       "team_id": 142,
       "w": 56,
-      "l": 57,
+      "l": 58,
       "gb": "1.0",
       "note": "Out",
       "is_us": false
@@ -148,9 +148,27 @@
     {
       "team": "Texas Rangers",
       "team_id": 140,
+      "w": 56,
+      "l": 58,
+      "gb": "1.0",
+      "note": "Out",
+      "is_us": false
+    },
+    {
+      "team": "Baltimore Orioles",
+      "team_id": 110,
       "w": 55,
       "l": 58,
-      "gb": "2.0",
+      "gb": "1.5",
+      "note": "Out",
+      "is_us": false
+    },
+    {
+      "team": "Detroit Tigers",
+      "team_id": 116,
+      "w": 55,
+      "l": 58,
+      "gb": "1.5",
       "note": "Out",
       "is_us": false
     },
@@ -158,26 +176,8 @@
       "team": "Seattle Mariners",
       "team_id": 136,
       "w": 55,
-      "l": 58,
+      "l": 59,
       "gb": "2.0",
-      "note": "Out",
-      "is_us": false
-    },
-    {
-      "team": "Baltimore Orioles",
-      "team_id": 110,
-      "w": 54,
-      "l": 58,
-      "gb": "2.5",
-      "note": "Out",
-      "is_us": false
-    },
-    {
-      "team": "Detroit Tigers",
-      "team_id": 116,
-      "w": 54,
-      "l": 58,
-      "gb": "2.5",
       "note": "Out",
       "is_us": false
     },
@@ -185,7 +185,7 @@
       "team": "Toronto Blue Jays",
       "team_id": 141,
       "w": 53,
-      "l": 60,
+      "l": 61,
       "gb": "4.0",
       "note": "Out",
       "is_us": true
@@ -193,9 +193,9 @@
     {
       "team": "Kansas City Royals",
       "team_id": 118,
-      "w": 46,
+      "w": 47,
       "l": 67,
-      "gb": "11.0",
+      "gb": "10.0",
       "note": "Out",
       "is_us": false
     },
@@ -203,7 +203,7 @@
       "team": "Athletics",
       "team_id": 133,
       "w": 45,
-      "l": 67,
+      "l": 68,
       "gb": "11.5",
       "note": "Out",
       "is_us": false
@@ -212,27 +212,13 @@
       "team": "Los Angeles Angels",
       "team_id": 108,
       "w": 43,
-      "l": 69,
+      "l": 70,
       "gb": "13.5",
       "note": "Out",
       "is_us": false
     }
   ],
   "recent_games": [
-    {
-      "game_pk": 824733,
-      "date": "2026-07-24",
-      "home": false,
-      "opp": "Boston Red Sox",
-      "result": "L",
-      "score": "4-6",
-      "status": "Final",
-      "winning_pitcher": "Garrett Whitlock",
-      "losing_pitcher": "CJ Van Eyk",
-      "summary_facts": "Final 4-6 (L). WP Garrett Whitlock. LP CJ Van Eyk. SV Aroldis Chapman",
-      "us_score": 4,
-      "them_score": 6
-    },
     {
       "game_pk": 824734,
       "date": "2026-07-25",
@@ -358,34 +344,23 @@
       "summary_facts": "Final 3-1 (W). WP Shane Bieber. LP Cristian Javier. SV Tyler Rogers",
       "us_score": 3,
       "them_score": 1
-    }
-  ],
-  "upcoming_games": [
+    },
     {
       "game_pk": 824161,
       "date": "2026-08-05",
       "home": false,
       "opp": "Houston Astros",
-      "opp_team_id": 117,
-      "opp_team_abbrev": "HOU",
-      "probable_pitcher_us": "Trey Yesavage",
-      "probable_pitcher_us_id": 702056,
-      "probable_pitcher_them": "Hayden Wesneski",
-      "probable_pitcher_them_id": 669713,
-      "status": "Scheduled",
-      "opp_context": {
-        "team_id": 117,
-        "team": "Houston Astros",
-        "w": 58,
-        "l": 56,
-        "pct": ".509",
-        "gb": "-",
-        "streak": "L1",
-        "last10": "8-2",
-        "division_rank": "1",
-        "division_name": "AL West"
-      }
-    },
+      "result": "L",
+      "score": "2-7",
+      "status": "Final",
+      "winning_pitcher": "Hayden Wesneski",
+      "losing_pitcher": "Chad Dallas",
+      "summary_facts": "Final 2-7 (L). WP Hayden Wesneski. LP Chad Dallas",
+      "us_score": 2,
+      "them_score": 7
+    }
+  ],
+  "upcoming_games": [
     {
       "game_pk": 824158,
       "date": "2026-08-05",
@@ -393,19 +368,19 @@
       "opp": "Houston Astros",
       "opp_team_id": 117,
       "opp_team_abbrev": "HOU",
-      "probable_pitcher_us": "Dylan Cease",
-      "probable_pitcher_us_id": 656302,
+      "probable_pitcher_us": "Jameson Taillon",
+      "probable_pitcher_us_id": 592791,
       "probable_pitcher_them": "Hunter Brown",
       "probable_pitcher_them_id": 686613,
       "status": "Scheduled",
       "opp_context": {
         "team_id": 117,
         "team": "Houston Astros",
-        "w": 58,
+        "w": 59,
         "l": 56,
-        "pct": ".509",
+        "pct": ".513",
         "gb": "-",
-        "streak": "L1",
+        "streak": "W1",
         "last10": "8-2",
         "division_rank": "1",
         "division_name": "AL West"
@@ -418,19 +393,19 @@
       "opp": "Chicago Cubs",
       "opp_team_id": 112,
       "opp_team_abbrev": "CHC",
-      "probable_pitcher_us": "",
-      "probable_pitcher_us_id": null,
+      "probable_pitcher_us": "Dylan Cease",
+      "probable_pitcher_us_id": 656302,
       "probable_pitcher_them": "",
       "probable_pitcher_them_id": null,
       "status": "Scheduled",
       "opp_context": {
         "team_id": 112,
         "team": "Chicago Cubs",
-        "w": 64,
+        "w": 65,
         "l": 49,
-        "pct": ".566",
+        "pct": ".570",
         "gb": "5.5",
-        "streak": "W1",
+        "streak": "W2",
         "last10": "6-4",
         "division_rank": "2",
         "division_name": "NL Central"
@@ -443,20 +418,20 @@
       "opp": "Philadelphia Phillies",
       "opp_team_id": 143,
       "opp_team_abbrev": "PHI",
-      "probable_pitcher_us": "",
-      "probable_pitcher_us_id": null,
+      "probable_pitcher_us": "Jos\u00e9 Soriano",
+      "probable_pitcher_us_id": 667755,
       "probable_pitcher_them": "",
       "probable_pitcher_them_id": null,
       "status": "Scheduled",
       "opp_context": {
         "team_id": 143,
         "team": "Philadelphia Phillies",
-        "w": 60,
+        "w": 61,
         "l": 53,
-        "pct": ".531",
+        "pct": ".535",
         "gb": "7.5",
-        "streak": "W3",
-        "last10": "4-6",
+        "streak": "W4",
+        "last10": "5-5",
         "division_rank": "2",
         "division_name": "NL East"
       }
@@ -468,20 +443,20 @@
       "opp": "Philadelphia Phillies",
       "opp_team_id": 143,
       "opp_team_abbrev": "PHI",
-      "probable_pitcher_us": "",
-      "probable_pitcher_us_id": null,
+      "probable_pitcher_us": "Max Scherzer",
+      "probable_pitcher_us_id": 453286,
       "probable_pitcher_them": "",
       "probable_pitcher_them_id": null,
       "status": "Scheduled",
       "opp_context": {
         "team_id": 143,
         "team": "Philadelphia Phillies",
-        "w": 60,
+        "w": 61,
         "l": 53,
-        "pct": ".531",
+        "pct": ".535",
         "gb": "7.5",
-        "streak": "W3",
-        "last10": "4-6",
+        "streak": "W4",
+        "last10": "5-5",
         "division_rank": "2",
         "division_name": "NL East"
       }
@@ -501,12 +476,12 @@
       "opp_context": {
         "team_id": 143,
         "team": "Philadelphia Phillies",
-        "w": 60,
+        "w": 61,
         "l": 53,
-        "pct": ".531",
+        "pct": ".535",
         "gb": "7.5",
-        "streak": "W3",
-        "last10": "4-6",
+        "streak": "W4",
+        "last10": "5-5",
         "division_rank": "2",
         "division_name": "NL East"
       }
@@ -526,11 +501,11 @@
       "opp_context": {
         "team_id": 111,
         "team": "Boston Red Sox",
-        "w": 60,
+        "w": 61,
         "l": 51,
-        "pct": ".541",
+        "pct": ".545",
         "gb": "5.5",
-        "streak": "W5",
+        "streak": "W6",
         "last10": "8-2",
         "division_rank": "3",
         "division_name": "AL East"
@@ -551,11 +526,36 @@
       "opp_context": {
         "team_id": 111,
         "team": "Boston Red Sox",
-        "w": 60,
+        "w": 61,
         "l": 51,
-        "pct": ".541",
+        "pct": ".545",
         "gb": "5.5",
-        "streak": "W5",
+        "streak": "W6",
+        "last10": "8-2",
+        "division_rank": "3",
+        "division_name": "AL East"
+      }
+    },
+    {
+      "game_pk": 822779,
+      "date": "2026-08-12",
+      "home": true,
+      "opp": "Boston Red Sox",
+      "opp_team_id": 111,
+      "opp_team_abbrev": "BOS",
+      "probable_pitcher_us": "",
+      "probable_pitcher_us_id": null,
+      "probable_pitcher_them": "",
+      "probable_pitcher_them_id": null,
+      "status": "Scheduled",
+      "opp_context": {
+        "team_id": 111,
+        "team": "Boston Red Sox",
+        "w": 61,
+        "l": 51,
+        "pct": ".545",
+        "gb": "5.5",
+        "streak": "W6",
         "last10": "8-2",
         "division_rank": "3",
         "division_name": "AL East"
@@ -563,17 +563,6 @@
     }
   ],
   "opponent_pitchers": {
-    "669713": {
-      "id": 669713,
-      "name": "Hayden Wesneski",
-      "throws": "R",
-      "age": 28,
-      "era": "4.76",
-      "whip": "1.59",
-      "ip": "5.2",
-      "k": 4,
-      "gs": 1
-    },
     "686613": {
       "id": 686613,
       "name": "Hunter Brown",
@@ -596,12 +585,12 @@
         "age": 27,
         "height": "5' 8\"",
         "weight": 245,
-        "ab": 131,
+        "ab": 135,
         "avg": ".237",
-        "obp": ".318",
-        "slg": ".359",
-        "ops": ".677",
-        "xwoba": ".295",
+        "obp": ".316",
+        "slg": ".356",
+        "ops": ".672",
+        "xwoba": ".299",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 4,
@@ -617,14 +606,14 @@
         "age": 27,
         "height": "5' 11\"",
         "weight": 161,
-        "ab": 330,
-        "avg": ".230",
-        "obp": ".273",
+        "ab": 333,
+        "avg": ".231",
+        "obp": ".274",
         "slg": ".348",
-        "ops": ".621",
-        "xwoba": ".265",
-        "barrel_pct": "3.8%",
-        "hardhit_pct": "23.3%",
+        "ops": ".622",
+        "xwoba": ".263",
+        "barrel_pct": "3.7%",
+        "hardhit_pct": "22.9%",
         "hr": 7,
         "rbi": 41,
         "sb": 13,
@@ -659,12 +648,12 @@
         "age": 27,
         "height": "5' 8\"",
         "weight": 190,
-        "ab": 109,
-        "avg": ".147",
-        "obp": ".282",
-        "slg": ".284",
-        "ops": ".566",
-        "xwoba": ".269",
+        "ab": 110,
+        "avg": ".145",
+        "obp": ".280",
+        "slg": ".282",
+        "ops": ".562",
+        "xwoba": ".267",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 3,
@@ -680,14 +669,14 @@
         "age": 30,
         "height": "6' 0\"",
         "weight": 170,
-        "ab": 424,
-        "avg": ".288",
-        "obp": ".312",
-        "slg": ".413",
-        "ops": ".725",
-        "xwoba": ".269",
+        "ab": 427,
+        "avg": ".286",
+        "obp": ".310",
+        "slg": ".410",
+        "ops": ".720",
+        "xwoba": ".268",
         "barrel_pct": "2.3%",
-        "hardhit_pct": "21.4%",
+        "hardhit_pct": "21.3%",
         "hr": 8,
         "rbi": 36,
         "sb": 4,
@@ -701,14 +690,14 @@
         "age": 36,
         "height": "6' 1\"",
         "weight": 220,
-        "ab": 318,
-        "avg": ".239",
-        "obp": ".319",
-        "slg": ".409",
-        "ops": ".728",
+        "ab": 321,
+        "avg": ".240",
+        "obp": ".321",
+        "slg": ".408",
+        "ops": ".729",
         "xwoba": ".308",
-        "barrel_pct": "7.6%",
-        "hardhit_pct": "40.4%",
+        "barrel_pct": "7.5%",
+        "hardhit_pct": "40.2%",
         "hr": 12,
         "rbi": 36,
         "sb": 7,
@@ -722,14 +711,14 @@
         "age": 28,
         "height": "6' 3\"",
         "weight": 222,
-        "ab": 221,
-        "avg": ".271",
-        "obp": ".313",
-        "slg": ".430",
-        "ops": ".743",
-        "xwoba": ".331",
-        "barrel_pct": "10.7%",
-        "hardhit_pct": "46.2%",
+        "ab": 223,
+        "avg": ".269",
+        "obp": ".310",
+        "slg": ".426",
+        "ops": ".736",
+        "xwoba": ".330",
+        "barrel_pct": "10.3%",
+        "hardhit_pct": "46.0%",
         "hr": 7,
         "rbi": 30,
         "sb": 1,
@@ -743,12 +732,12 @@
         "age": 28,
         "height": "5' 9\"",
         "weight": 172,
-        "ab": 136,
-        "avg": ".213",
-        "obp": ".299",
-        "slg": ".272",
-        "ops": ".571",
-        "xwoba": ".269",
+        "ab": 137,
+        "avg": ".212",
+        "obp": ".297",
+        "slg": ".270",
+        "ops": ".567",
+        "xwoba": ".268",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 1,
@@ -764,13 +753,13 @@
         "age": 30,
         "height": "6' 1\"",
         "weight": 220,
-        "ab": 402,
-        "avg": ".231",
-        "obp": ".306",
-        "slg": ".448",
-        "ops": ".754",
-        "xwoba": ".313",
-        "barrel_pct": "13.3%",
+        "ab": 406,
+        "avg": ".229",
+        "obp": ".303",
+        "slg": ".443",
+        "ops": ".746",
+        "xwoba": ".311",
+        "barrel_pct": "13.1%",
         "hardhit_pct": "45.1%",
         "hr": 24,
         "rbi": 69,
@@ -806,16 +795,16 @@
         "age": 31,
         "height": "5' 9\"",
         "weight": 178,
-        "ab": 179,
-        "avg": ".223",
-        "obp": ".279",
-        "slg": ".324",
-        "ops": ".603",
-        "xwoba": ".302",
+        "ab": 182,
+        "avg": ".231",
+        "obp": ".285",
+        "slg": ".346",
+        "ops": ".631",
+        "xwoba": ".306",
         "barrel_pct": "---",
         "hardhit_pct": "---",
         "hr": 3,
-        "rbi": 17,
+        "rbi": 18,
         "sb": 7,
         "recent": "hot"
       },
@@ -827,14 +816,14 @@
         "age": 32,
         "height": "5' 11\"",
         "weight": 180,
-        "ab": 247,
-        "avg": ".271",
-        "obp": ".330",
-        "slg": ".377",
-        "ops": ".707",
-        "xwoba": ".286",
-        "barrel_pct": "1.0%",
-        "hardhit_pct": "27.9%",
+        "ab": 251,
+        "avg": ".267",
+        "obp": ".325",
+        "slg": ".371",
+        "ops": ".696",
+        "xwoba": ".287",
+        "barrel_pct": "0.9%",
+        "hardhit_pct": "27.3%",
         "hr": 5,
         "rbi": 18,
         "sb": 0,
@@ -848,14 +837,14 @@
         "age": 27,
         "height": "6' 0\"",
         "weight": 245,
-        "ab": 398,
-        "avg": ".261",
+        "ab": 401,
+        "avg": ".259",
         "obp": ".338",
-        "slg": ".352",
-        "ops": ".690",
-        "xwoba": ".337",
-        "barrel_pct": "6.8%",
-        "hardhit_pct": "44.2%",
+        "slg": ".349",
+        "ops": ".687",
+        "xwoba": ".336",
+        "barrel_pct": "6.7%",
+        "hardhit_pct": "43.6%",
         "hr": 6,
         "rbi": 44,
         "sb": 7,
@@ -871,12 +860,12 @@
         "age": 26,
         "height": "6' 4\"",
         "weight": 180,
-        "ip": "54.0",
-        "era": "4.00",
-        "whip": "1.28",
-        "k_per_9": "8.83",
-        "bb_per_9": "4.67",
-        "k": 53,
+        "ip": "55.0",
+        "era": "3.93",
+        "whip": "1.25",
+        "k_per_9": "8.84",
+        "bb_per_9": "4.58",
+        "k": 54,
         "bb": 28,
         "w": 3,
         "l": 3,
@@ -892,13 +881,13 @@
         "age": 29,
         "height": "6' 2\"",
         "weight": 195,
-        "ip": "12.0",
-        "era": "12.00",
-        "whip": "2.25",
-        "k_per_9": "13.50",
-        "bb_per_9": "6.75",
+        "ip": "13.0",
+        "era": "11.77",
+        "whip": "2.31",
+        "k_per_9": "12.46",
+        "bb_per_9": "6.92",
         "k": 18,
-        "bb": 9,
+        "bb": 10,
         "w": 0,
         "l": 2,
         "sv": 0,
@@ -913,15 +902,15 @@
         "age": 26,
         "height": "5' 11\"",
         "weight": 206,
-        "ip": "4.2",
-        "era": "1.93",
-        "whip": "1.07",
-        "k_per_9": "5.79",
-        "bb_per_9": "3.86",
-        "k": 3,
-        "bb": 2,
+        "ip": "7.2",
+        "era": "8.22",
+        "whip": "2.09",
+        "k_per_9": "7.04",
+        "bb_per_9": "7.04",
+        "k": 6,
+        "bb": 6,
         "w": 1,
-        "l": 0,
+        "l": 1,
         "sv": 0,
         "gs": 0,
         "recent": null
@@ -969,24 +958,24 @@
         "recent": "cold"
       },
       {
-        "id": 681751,
-        "name": "Lazaro Estrada",
+        "id": 667755,
+        "name": "Jos\u00e9 Soriano",
         "role": "P",
         "throws": "R",
         "age": 27,
-        "height": "5' 10\"",
-        "weight": 180,
-        "ip": "9.1",
-        "era": "4.82",
-        "whip": "0.96",
-        "k_per_9": "5.79",
-        "bb_per_9": "4.82",
-        "k": 6,
-        "bb": 5,
-        "w": 0,
-        "l": 0,
+        "height": "6' 3\"",
+        "weight": 220,
+        "ip": "123.0",
+        "era": "3.29",
+        "whip": "1.25",
+        "k_per_9": "9.29",
+        "bb_per_9": "4.17",
+        "k": 127,
+        "bb": 57,
+        "w": 9,
+        "l": 6,
         "sv": 0,
-        "gs": 0,
+        "gs": 22,
         "recent": null
       },
       {
@@ -1018,13 +1007,13 @@
         "age": 24,
         "height": "6' 2\"",
         "weight": 215,
-        "ip": "43.2",
-        "era": "4.33",
-        "whip": "1.42",
-        "k_per_9": "10.51",
-        "bb_per_9": "3.92",
+        "ip": "44.2",
+        "era": "4.23",
+        "whip": "1.41",
+        "k_per_9": "10.28",
+        "bb_per_9": "4.03",
         "k": 51,
-        "bb": 19,
+        "bb": 20,
         "w": 5,
         "l": 1,
         "sv": 1,
@@ -1102,17 +1091,17 @@
         "age": 23,
         "height": "6' 4\"",
         "weight": 225,
-        "ip": "91.2",
-        "era": "3.73",
-        "whip": "1.16",
-        "k_per_9": "8.93",
+        "ip": "93.2",
+        "era": "3.65",
+        "whip": "1.14",
+        "k_per_9": "8.74",
         "bb_per_9": "4.42",
         "k": 91,
-        "bb": 45,
+        "bb": 46,
         "w": 5,
         "l": 5,
         "sv": 0,
-        "gs": 17,
+        "gs": 18,
         "recent": null
       },
       {
@@ -1140,224 +1129,224 @@
   },
   "team_stats": {
     "hitting": {
+      "runs": {
+        "val": 444,
+        "rank": 30
+      },
+      "obp": {
+        "val": ".303",
+        "rank": 30
+      },
       "slg": {
-        "val": ".378",
+        "val": ".377",
         "rank": 29
+      },
+      "ops": {
+        "val": ".680",
+        "rank": 30
       },
       "hr": {
         "val": 108,
         "rank": 29
       },
       "avg": {
-        "val": ".243",
-        "rank": 17
-      },
-      "ops": {
-        "val": ".682",
-        "rank": 29
-      },
-      "obp": {
-        "val": ".304",
-        "rank": 29
-      },
-      "runs": {
-        "val": 442,
-        "rank": 30
+        "val": ".242",
+        "rank": 18
       }
     },
     "pitching": {
+      "whip": {
+        "val": "1.32",
+        "rank": 18
+      },
       "era": {
-        "val": "4.04",
+        "val": "4.07",
         "rank": 12
       },
-      "whip": {
-        "val": "1.31",
-        "rank": 17
+      "bb9": {
+        "val": "3.64",
+        "rank": 21
       },
       "k9": {
-        "val": "9.00",
+        "val": "8.97",
         "rank": 9
-      },
-      "bb9": {
-        "val": "3.61",
-        "rank": 21
       }
     }
   },
   "player_ranks": {
     "672386": {
-      "ops": 131,
-      "hr": 144,
-      "rbi": 149,
-      "sb": 139
+      "ops": 132,
+      "hr": 142,
+      "rbi": 147,
+      "sb": 138
     },
     "665926": {
-      "ops": 143,
-      "hr": 131,
+      "ops": 141,
+      "hr": 130,
       "rbi": 112,
       "sb": 36
     },
     "678218": {
-      "ops": 105,
+      "ops": 107,
       "hr": 123,
-      "rbi": 149,
-      "sb": 125
+      "rbi": 147,
+      "sb": 124
     },
     "676914": {
-      "ops": 149,
-      "hr": 146,
-      "rbi": 149,
-      "sb": 125
+      "ops": 147,
+      "hr": 144,
+      "rbi": 147,
+      "sb": 124
     },
     "676391": {
-      "ops": 98,
+      "ops": 104,
       "hr": 123,
-      "rbi": 130,
+      "rbi": 129,
       "sb": 88
     },
     "543807": {
       "ops": 95,
-      "hr": 92,
-      "rbi": 130,
-      "sb": 60
+      "hr": 94,
+      "rbi": 129,
+      "sb": 62
     },
     "660821": {
-      "ops": 83,
-      "hr": 131,
-      "rbi": 144,
-      "sb": 125
+      "ops": 86,
+      "hr": 130,
+      "rbi": 142,
+      "sb": 124
     },
     "669701": {
-      "ops": 149,
-      "hr": 147,
-      "rbi": 149,
+      "ops": 147,
+      "hr": 145,
+      "rbi": 147,
       "sb": 98
     },
     "672960": {
-      "ops": 75,
+      "ops": 76,
       "hr": 11,
-      "rbi": 12,
-      "sb": 125
+      "rbi": 15,
+      "sb": 124
     },
     "649966": {
-      "ops": 43,
-      "hr": 146,
-      "rbi": 149,
-      "sb": 139
+      "ops": 45,
+      "hr": 144,
+      "rbi": 147,
+      "sb": 138
     },
     "664702": {
-      "ops": 147,
-      "hr": 146,
-      "rbi": 149,
-      "sb": 60
+      "ops": 141,
+      "hr": 144,
+      "rbi": 147,
+      "sb": 62
     },
     "664770": {
-      "ops": 113,
-      "hr": 144,
-      "rbi": 149,
-      "sb": 139
+      "ops": 118,
+      "hr": 142,
+      "rbi": 147,
+      "sb": 138
     },
     "665489": {
-      "ops": 120,
-      "hr": 135,
+      "ops": 123,
+      "hr": 134,
       "rbi": 103,
-      "sb": 60
+      "sb": 62
     },
     "680755": {
-      "era": 45,
-      "whip": 42,
-      "k_per_9": 31,
-      "bb_per_9": 58,
-      "ip": 58
+      "era": 44,
+      "whip": 40,
+      "k_per_9": 30,
+      "bb_per_9": 60,
+      "ip": 60
     },
     "663893": {
-      "era": 58,
-      "whip": 58,
-      "k_per_9": 2,
-      "bb_per_9": 58,
-      "ip": 58
+      "era": 60,
+      "whip": 60,
+      "k_per_9": 3,
+      "bb_per_9": 60,
+      "ip": 60
     },
     "689149": {
-      "era": 2,
-      "whip": 10,
-      "k_per_9": 58,
-      "bb_per_9": 53,
-      "ip": 58
+      "era": 60,
+      "whip": 60,
+      "k_per_9": 48,
+      "bb_per_9": 60,
+      "ip": 60
     },
     "656302": {
       "era": 5,
-      "whip": 13,
+      "whip": 14,
       "k_per_9": 2,
-      "bb_per_9": 52,
-      "ip": 41
+      "bb_per_9": 53,
+      "ip": 43
     },
     "592791": {
-      "era": 58,
-      "whip": 48,
+      "era": 60,
+      "whip": 49,
       "k_per_9": 37,
-      "bb_per_9": 43,
-      "ip": 58
+      "bb_per_9": 44,
+      "ip": 60
     },
-    "681751": {
-      "era": 55,
-      "whip": 5,
-      "k_per_9": 58,
-      "bb_per_9": 58,
-      "ip": 58
+    "667755": {
+      "era": 17,
+      "whip": 40,
+      "k_per_9": 23,
+      "bb_per_9": 57,
+      "ip": 31
     },
     "686973": {
       "era": 1,
       "whip": 7,
       "k_per_9": 3,
-      "bb_per_9": 26,
-      "ip": 58
+      "bb_per_9": 27,
+      "ip": 60
     },
     "689254": {
       "era": 47,
-      "whip": 55,
-      "k_per_9": 10,
-      "bb_per_9": 53,
-      "ip": 58
+      "whip": 56,
+      "k_per_9": 12,
+      "bb_per_9": 57,
+      "ip": 60
     },
     "453286": {
-      "era": 58,
-      "whip": 58,
-      "k_per_9": 53,
-      "bb_per_9": 58,
-      "ip": 58
+      "era": 60,
+      "whip": 60,
+      "k_per_9": 55,
+      "bb_per_9": 60,
+      "ip": 60
     },
     "669456": {
-      "era": 57,
-      "whip": 58,
-      "k_per_9": 52,
-      "bb_per_9": 58,
-      "ip": 58
+      "era": 58,
+      "whip": 60,
+      "k_per_9": 54,
+      "bb_per_9": 60,
+      "ip": 60
     },
     "693686": {
       "era": 16,
-      "whip": 14,
-      "k_per_9": 32,
+      "whip": 15,
+      "k_per_9": 31,
       "bb_per_9": 25,
-      "ip": 58
+      "ip": 60
     },
     "702056": {
-      "era": 33,
-      "whip": 25,
+      "era": 29,
+      "whip": 22,
       "k_per_9": 30,
-      "bb_per_9": 58,
-      "ip": 58
+      "bb_per_9": 60,
+      "ip": 60
     },
     "643511": {
       "era": 1,
-      "whip": 13,
-      "k_per_9": 58,
+      "whip": 14,
+      "k_per_9": 60,
       "bb_per_9": 25,
-      "ip": 58
+      "ip": 60
     }
   },
   "player_rank_pool": {
-    "hitting": 149,
-    "pitching": 58
+    "hitting": 147,
+    "pitching": 60
   },
   "injuries": [
     {
@@ -1453,9 +1442,9 @@
       "eta_note": ""
     },
     {
-      "person_id": 667755,
-      "name": "Jos\u00e9 Soriano",
-      "status": "Not Yet Reported",
+      "person_id": 681751,
+      "name": "Lazaro Estrada",
+      "status": "Reassigned to Minors",
       "eta_note": ""
     },
     {
@@ -1497,30 +1486,6 @@
   ],
   "transactions": [
     {
-      "date": "2026-07-28",
-      "type": "Assigned",
-      "description": "Toronto Blue Jays sent RF Jes\u00fas S\u00e1nchez on a rehab assignment to Buffalo Bisons.",
-      "person_name": "Jes\u00fas S\u00e1nchez"
-    },
-    {
-      "date": "2026-07-28",
-      "type": "Assigned",
-      "description": "Toronto Blue Jays sent RF Jes\u00fas S\u00e1nchez on a rehab assignment to Buffalo Bisons.",
-      "person_name": "Jes\u00fas S\u00e1nchez"
-    },
-    {
-      "date": "2026-07-28",
-      "type": "Assigned",
-      "description": "Toronto Blue Jays sent RF Jes\u00fas S\u00e1nchez on a rehab assignment to Buffalo Bisons.",
-      "person_name": "Jes\u00fas S\u00e1nchez"
-    },
-    {
-      "date": "2026-07-28",
-      "type": "Assigned",
-      "description": "Toronto Blue Jays sent RF Jes\u00fas S\u00e1nchez on a rehab assignment to Buffalo Bisons.",
-      "person_name": "Jes\u00fas S\u00e1nchez"
-    },
-    {
       "date": "2026-07-29",
       "type": "Recalled",
       "description": "Toronto Blue Jays recalled RHP Chad Dallas from Buffalo Bisons.",
@@ -1547,14 +1512,14 @@
     {
       "date": "2026-07-31",
       "type": "Optioned",
-      "description": "Toronto Blue Jays optioned LHP Adam Macko to Buffalo Bisons.",
-      "person_name": "Adam Macko"
+      "description": "Toronto Blue Jays optioned LF Yohendrick Pi\u00f1ango to Buffalo Bisons.",
+      "person_name": "Yohendrick Pi\u00f1ango"
     },
     {
       "date": "2026-07-31",
       "type": "Optioned",
-      "description": "Toronto Blue Jays optioned LF Yohendrick Pi\u00f1ango to Buffalo Bisons.",
-      "person_name": "Yohendrick Pi\u00f1ango"
+      "description": "Toronto Blue Jays optioned LHP Adam Macko to Buffalo Bisons.",
+      "person_name": "Adam Macko"
     },
     {
       "date": "2026-08-02",
@@ -1571,14 +1536,20 @@
     {
       "date": "2026-08-02",
       "type": "Trade",
-      "description": "Toronto Blue Jays traded RHP Kevin Gausman to Chicago Cubs for CF Brett Bateman and SS Ty Southisene.",
-      "person_name": "Ty Southisene"
+      "description": "Chicago Cubs traded RHP Jameson Taillon and cash to Toronto Blue Jays for Player To Be Named Later.",
+      "person_name": "Jameson Taillon"
     },
     {
       "date": "2026-08-02",
       "type": "Trade",
-      "description": "Toronto Blue Jays traded RHP Kevin Gausman to Chicago Cubs for CF Brett Bateman and SS Ty Southisene.",
-      "person_name": "Brett Bateman"
+      "description": "Chicago Cubs traded RHP Jameson Taillon and cash to Toronto Blue Jays for Player To Be Named Later.",
+      "person_name": ""
+    },
+    {
+      "date": "2026-08-02",
+      "type": "Trade",
+      "description": "Chicago Cubs traded RHP Jameson Taillon and cash to Toronto Blue Jays for Player To Be Named Later.",
+      "person_name": ""
     },
     {
       "date": "2026-08-02",
@@ -1589,26 +1560,26 @@
     {
       "date": "2026-08-02",
       "type": "Trade",
-      "description": "Chicago Cubs traded RHP Jameson Taillon and cash to Toronto Blue Jays for Player To Be Named Later.",
-      "person_name": ""
+      "description": "Toronto Blue Jays traded RHP Kevin Gausman to Chicago Cubs for CF Brett Bateman and SS Ty Southisene.",
+      "person_name": "Ty Southisene"
     },
     {
       "date": "2026-08-02",
       "type": "Trade",
-      "description": "Chicago Cubs traded RHP Jameson Taillon and cash to Toronto Blue Jays for Player To Be Named Later.",
-      "person_name": ""
-    },
-    {
-      "date": "2026-08-02",
-      "type": "Trade",
-      "description": "Chicago Cubs traded RHP Jameson Taillon and cash to Toronto Blue Jays for Player To Be Named Later.",
-      "person_name": "Jameson Taillon"
+      "description": "Toronto Blue Jays traded RHP Kevin Gausman to Chicago Cubs for CF Brett Bateman and SS Ty Southisene.",
+      "person_name": "Brett Bateman"
     },
     {
       "date": "2026-08-03",
       "type": "Status Change",
       "description": "Toronto Blue Jays activated 2B Josh Smith.",
       "person_name": "Josh Smith"
+    },
+    {
+      "date": "2026-08-03",
+      "type": "Signed as Free Agent",
+      "description": "Toronto Blue Jays signed free agent RHP Jake Faherty to a minor league contract.",
+      "person_name": "Jake Faherty"
     },
     {
       "date": "2026-08-03",
@@ -1619,32 +1590,56 @@
     {
       "date": "2026-08-03",
       "type": "Trade",
-      "description": "Los Angeles Angels traded RHP Jos\u00e9 Soriano to Toronto Blue Jays for SS Arjun Nimmala, RF Eddie Micheletti Jr. and RHP Angel Rivero.",
-      "person_name": "Eddie Micheletti Jr."
-    },
-    {
-      "date": "2026-08-03",
-      "type": "Trade",
-      "description": "Los Angeles Angels traded RHP Jos\u00e9 Soriano to Toronto Blue Jays for SS Arjun Nimmala, RF Eddie Micheletti Jr. and RHP Angel Rivero.",
-      "person_name": "Arjun Nimmala"
-    },
-    {
-      "date": "2026-08-03",
-      "type": "Trade",
       "description": "Toronto Blue Jays traded CF Daulton Varsho and cash to Houston Astros for RHP Spencer Arrighetti.",
       "person_name": ""
     },
     {
       "date": "2026-08-03",
       "type": "Trade",
-      "description": "Toronto Blue Jays traded RHP Jeff Hoffman and Other Considerations to Minnesota Twins for LHP Dasan Hill, 2B Dameury Pena, RHP John Klein and Other Considerations.",
-      "person_name": "Dasan Hill"
+      "description": "Toronto Blue Jays traded CF Daulton Varsho and cash to Houston Astros for RHP Spencer Arrighetti.",
+      "person_name": "Spencer Arrighetti"
     },
     {
       "date": "2026-08-03",
       "type": "Trade",
       "description": "Toronto Blue Jays traded CF Daulton Varsho and cash to Houston Astros for RHP Spencer Arrighetti.",
-      "person_name": "Spencer Arrighetti"
+      "person_name": "Daulton Varsho"
+    },
+    {
+      "date": "2026-08-03",
+      "type": "Trade",
+      "description": "Los Angeles Angels traded RHP Jos\u00e9 Soriano to Toronto Blue Jays for SS Arjun Nimmala, RF Eddie Micheletti Jr. and RHP Angel Rivero.",
+      "person_name": "Angel Rivero"
+    },
+    {
+      "date": "2026-08-03",
+      "type": "Recalled",
+      "description": "Toronto Blue Jays recalled RHP Lazaro Estrada from Buffalo Bisons.",
+      "person_name": "Lazaro Estrada"
+    },
+    {
+      "date": "2026-08-03",
+      "type": "Trade",
+      "description": "Los Angeles Angels traded RHP Jos\u00e9 Soriano to Toronto Blue Jays for SS Arjun Nimmala, RF Eddie Micheletti Jr. and RHP Angel Rivero.",
+      "person_name": "Jos\u00e9 Soriano"
+    },
+    {
+      "date": "2026-08-03",
+      "type": "Trade",
+      "description": "Los Angeles Angels traded RHP Jos\u00e9 Soriano to Toronto Blue Jays for SS Arjun Nimmala, RF Eddie Micheletti Jr. and RHP Angel Rivero.",
+      "person_name": "Eddie Micheletti Jr."
+    },
+    {
+      "date": "2026-08-03",
+      "type": "Trade",
+      "description": "Texas Rangers traded 2B Josh Smith and RHP Josh Stephan to Toronto Blue Jays for LHP Adam Macko.",
+      "person_name": "Josh Stephan"
+    },
+    {
+      "date": "2026-08-03",
+      "type": "Trade",
+      "description": "Toronto Blue Jays traded RHP Jeff Hoffman and Other Considerations to Minnesota Twins for LHP Dasan Hill, 2B Dameury Pena, RHP John Klein and Other Considerations.",
+      "person_name": "Dasan Hill"
     },
     {
       "date": "2026-08-03",
@@ -1662,19 +1657,13 @@
       "date": "2026-08-03",
       "type": "Trade",
       "description": "Toronto Blue Jays traded RHP Jeff Hoffman and Other Considerations to Minnesota Twins for LHP Dasan Hill, 2B Dameury Pena, RHP John Klein and Other Considerations.",
-      "person_name": "John Klein"
-    },
-    {
-      "date": "2026-08-03",
-      "type": "Trade",
-      "description": "Toronto Blue Jays traded RHP Jeff Hoffman and Other Considerations to Minnesota Twins for LHP Dasan Hill, 2B Dameury Pena, RHP John Klein and Other Considerations.",
       "person_name": ""
     },
     {
       "date": "2026-08-03",
       "type": "Trade",
-      "description": "Toronto Blue Jays traded CF Daulton Varsho and cash to Houston Astros for RHP Spencer Arrighetti.",
-      "person_name": "Daulton Varsho"
+      "description": "Toronto Blue Jays traded RHP Jeff Hoffman and Other Considerations to Minnesota Twins for LHP Dasan Hill, 2B Dameury Pena, RHP John Klein and Other Considerations.",
+      "person_name": "John Klein"
     },
     {
       "date": "2026-08-03",
@@ -1685,8 +1674,8 @@
     {
       "date": "2026-08-03",
       "type": "Trade",
-      "description": "Texas Rangers traded 2B Josh Smith and RHP Josh Stephan to Toronto Blue Jays for LHP Adam Macko.",
-      "person_name": "Josh Smith"
+      "description": "Los Angeles Angels traded RHP Jos\u00e9 Soriano to Toronto Blue Jays for SS Arjun Nimmala, RF Eddie Micheletti Jr. and RHP Angel Rivero.",
+      "person_name": "Arjun Nimmala"
     },
     {
       "date": "2026-08-03",
@@ -1698,195 +1687,190 @@
       "date": "2026-08-03",
       "type": "Trade",
       "description": "Texas Rangers traded 2B Josh Smith and RHP Josh Stephan to Toronto Blue Jays for LHP Adam Macko.",
-      "person_name": "Josh Stephan"
+      "person_name": "Josh Smith"
     },
     {
-      "date": "2026-08-03",
-      "type": "Trade",
-      "description": "Los Angeles Angels traded RHP Jos\u00e9 Soriano to Toronto Blue Jays for SS Arjun Nimmala, RF Eddie Micheletti Jr. and RHP Angel Rivero.",
+      "date": "2026-08-04",
+      "type": "Status Change",
+      "description": "Toronto Blue Jays activated RHP Jos\u00e9 Soriano.",
       "person_name": "Jos\u00e9 Soriano"
     },
     {
-      "date": "2026-08-03",
-      "type": "Recalled",
-      "description": "Toronto Blue Jays recalled RHP Lazaro Estrada from Buffalo Bisons.",
-      "person_name": "Lazaro Estrada"
+      "date": "2026-08-04",
+      "type": "Status Change",
+      "description": "Toronto Blue Jays activated RHP Jos\u00e9 Soriano.",
+      "person_name": "Jos\u00e9 Soriano"
     },
     {
-      "date": "2026-08-03",
-      "type": "Trade",
-      "description": "Los Angeles Angels traded RHP Jos\u00e9 Soriano to Toronto Blue Jays for SS Arjun Nimmala, RF Eddie Micheletti Jr. and RHP Angel Rivero.",
-      "person_name": "Angel Rivero"
+      "date": "2026-08-04",
+      "type": "Optioned",
+      "description": "Toronto Blue Jays optioned RHP Lazaro Estrada to Buffalo Bisons.",
+      "person_name": "Lazaro Estrada"
     }
   ],
   "news": [
     {
-      "title": "GM Atkins believes Jays are improved after trade deadline - CHCH",
-      "summary": "GM Atkins believes Jays are improved after trade deadline&nbsp;&nbsp;CHCH",
+      "title": "Why this newest player will have the biggest impact on the Blue Jays after the trade deadline - Jays Journal",
+      "summary": "Why this newest player will have the biggest impact on the Blue Jays after the trade deadline&nbsp;&nbsp;Jays Journal",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPSWJMZnlvVVI0SnRrdmNOMFI0N0drMmdQVmp1bjVZZHNnaGN3b0NmRm5tV0VmbkNqaUZiMTBiSUJTbS1iUWFBcHhNM1c4Vmt0V0RwS194Y2lHUjI1ckxhRjAzN0hDNjZlT3pnX3Y5VXNsd1luRjJJS1BqX1JzaTZ2azQ4cTR1SFktM2IwWHdhS3U4dzQ?oc=5",
-      "published": "2026-08-04T11:16:54+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxPV2JWS19icVVnd1p6a1Juekp4M0ZiM2FyR1NxU243THpzUW5zNUJfS2VfYlgwZzZUXzY5NV9aVWV2VlVudXVNQWNlQVRRZXhTYVQxczFLcVF2U3dfUjhHQno4MXNBMHF2NmIycGJjaTlIR1ZqRDdxSC1ndjlyekZIQzRPNElma2ozU2FrTUlONWRTYm9ENzlBbzh3Z2pQdE15ZFhvSGhEWDhRQzQ5T1RtbmZtRU52VzZk?oc=5",
+      "published": "2026-08-05T10:00:00+00:00"
     },
     {
-      "title": "Kirk goes deep as Blue Jays snap Astros\u2019 6-game streak in 3-1 win - CP24",
-      "summary": "Kirk goes deep as Blue Jays snap Astros\u2019 6-game streak in 3-1 win&nbsp;&nbsp;CP24",
+      "title": "Blue Jays\u2019 Trey Yesavage to have MRI on knee after leaving vs. Astros - CityNews Toronto",
+      "summary": "Blue Jays\u2019 Trey Yesavage to have MRI on knee after leaving vs. Astros&nbsp;&nbsp;CityNews Toronto",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMisAFBVV95cUxOblZOUWZlWXR2S0VYLUhJOEVmVVhQU0ZSTTVYYkxNbzF5UVV1U0JYT1NhSVBrb3drblFOQ3VxbUtodXpDRjZGaUlwZ0NkNk5UX0dzOW1lX0xxRFB6VUlGcEt4aFFLeFN3b0lDOEpzTnZlOXJ1VlR2dnJVMVluTEh4QnJRMkRhd0l4QjRsb0VnM05WeUs1M3JyVTRtWEEwaGVDQmdDQUV6NnV6d0ZiOV9XcA?oc=5",
-      "published": "2026-08-04T10:20:45+00:00"
+      "url": "https://news.google.com/rss/articles/CBMikAFBVV95cUxOaGZ0bWxpcUp3VHBxbzhLeV9DQThoSExJeXFtcEJ6b2dIMkZobHVtQklyNGVhckNWLVBadklnUVBDX0VJNHZ1VmpNUHVEMU1JdlhBLTRBRl94LXZQMlNRWlNsVVZuVEE1cDF6a1dLcFYyRnJJME1uT0FxdkkyVzFaMFlpc3JtVU9FMEluS2NqTGU?oc=5",
+      "published": "2026-08-05T09:36:00+00:00"
     },
     {
-      "title": "Blue Jays acquire starter Jose Soriano from Angels - sportsnet.ca",
-      "summary": "Blue Jays acquire starter Jose Soriano from Angels&nbsp;&nbsp;sportsnet.ca",
+      "title": "Schneider: Blue Jays' Guerrero Jr. feeling 'tight and tired' - Sportsnet.ca",
+      "summary": "Schneider: Blue Jays' Guerrero Jr. feeling 'tight and tired'&nbsp;&nbsp;Sportsnet.ca",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxONHU2eUUtOFo1S3NUcGE4X0JqeDFDSkxYZGhGSW12UHB6UWp4VzVQTWQ3SFRHSFQwbjRLTGNoc3dIbk80WFgyTjhwWFA0a21FQndHWGhYbkFJc0xodjFmazlVaFFYS3otV0RYQnVxODV6a0VPYlFIcm00ODY0YmV6RXFlY25qWjc3VklCSGpWakJyZw?oc=5",
-      "published": "2026-08-04T06:04:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNTWNfM2hfNDdiU0ZSU0E2QTJvMjdacVB0UDEzZmJ5b3dITDJ1UGlnTnlMdGdaLXZEWmMyZlVIZ0RPUjVGckNkNFRCTlpRa05CN2tTRFVNNnhPdEZRUFhjVHkyZE83SHQ2R1REeHBqNjRZcXIzOWlOdndUQThxSzZnMk12NVREaFJzR3hwaUFuM3g5MGNsV0xhVw?oc=5",
+      "published": "2026-08-05T04:49:00+00:00"
     },
     {
-      "title": "Blue Jays trade Jeff Hoffman to Twins for three prospects - sportsnet.ca",
-      "summary": "Blue Jays trade Jeff Hoffman to Twins for three prospects&nbsp;&nbsp;sportsnet.ca",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxQQkFxRmNJbS1zMDBlMHNTV2YxalFjNG5IRFB3UkszMm0wSHBjZThzV0pVX212SjFFb0dVRjBXUWNzYThwOU45ZTVMSUpzU1FyNklhUnJkTmZaWVFxRU5KTmJfX2FSSll2NmNMLUc4QXAtQWhYUFl1YmkwbGFzTzloX2F4VQ?oc=5",
-      "published": "2026-08-04T05:37:00+00:00"
-    },
-    {
-      "title": "Blue Jays Trade Deadline Quick-Reaction Grades",
-      "summary": "Some quick grades for the Jays deadline day deals. Kevin Gausman to the Cubs for Ty Southisene and Brett Bateman Gausman\u2019s having the poorest season of his five with the Jays, but still has a 102 ERA+, so he\u2019s still a useful pitcher. And he could step it up in a pennant race. The Jays [&#8230;]",
+      "title": "Jays Lose To Astros",
+      "summary": "Blue Jays 2 Astros 7 Not a good night. The Jays lost the game and Trey Yesavage came out the game with, what the Jays are calling left knee discomfort. It looked like more than discomfort. He was warming up for the third inning, and his left knee seemed to buckle on two warm up [&#8230;]",
       "source": "Bluebird Banter",
       "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-analysis/63093/blue-jays-trade-deadline-quick-reaction-grades",
-      "published": "2026-08-04T05:29:35+00:00"
+      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-scores/63121/jays-lose-to-astros",
+      "published": "2026-08-05T04:18:20+00:00"
     },
     {
-      "title": "Blue Jays Trade Deadline Quick-Reaction Grades - Bluebird Banter",
-      "summary": "Blue Jays Trade Deadline Quick-Reaction Grades&nbsp;&nbsp;Bluebird Banter",
+      "title": "Jays Lose To Astros - Bluebird Banter",
+      "summary": "Jays Lose To Astros&nbsp;&nbsp;Bluebird Banter",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMirwFBVV95cUxQb3JROFg5dFY0dDhkWERobTlkMkFVbW1zRnVkTVRod05nRnJsaWlsUDl3VHBaQmxSbDlMWWgzbFNSX0FNTmpZQkhFLUxZbFRZREUwSHBzcjdQV0l3Y1NlUS01OTFySm1XbFo4bnhaZUFid1EzRGgtZ0RWQWVtbnh6Njh0aHlDSG9YZmRTMEtOUkhlWC1jdi04UkxyZWt1Nzg5clF1VUZocW1PVTR2M1c4?oc=5",
-      "published": "2026-08-04T05:29:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiiAFBVV95cUxQaGFlYS1yMDhGYkJBdDZPdlVrdlpmZmI2bXVCcF8yOWZUNVlZQ3RCSVkxS25sLTRaMzliQ0tSaGZYTGFxcUY1UGFUbVEzMkR3Y3NkT0VSbEwxZDF5cTI3RG1MY1Q3OE05RFdpeDNXREFPSXJkYTg3U2I5ZEU1SGNEUHZkUXBEdnVG?oc=5",
+      "published": "2026-08-05T04:18:00+00:00"
     },
     {
-      "title": "Blue Jays trade Daulton Varsho to Astros for Spencer Arrighetti - sportsnet.ca",
-      "summary": "Blue Jays trade Daulton Varsho to Astros for Spencer Arrighetti&nbsp;&nbsp;sportsnet.ca",
+      "title": "Yesavage exits Blue Jays loss early with revamped rotation in flux - Sportsnet.ca",
+      "summary": "Yesavage exits Blue Jays loss early with revamped rotation in flux&nbsp;&nbsp;Sportsnet.ca",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQYzZlQUhncmlhazVObHJqVzdOWThGVnFVRzdMekYtZ2tEbUVJU3NGMjdPMkNmV2tiQWpWTWU1aDJpYXQzUFFYTjdqLU5OczFqaUx2Z1lZYkx0Qy04THg5bk9RVjdnNFFxamRLLW1uOXhTTmYzUWhmZzRsVDROd190U09abE5xTE5KTXZFbzJta2Z4NEtlSkRXN1F1SGo4NlFiQnhEUTNpOXJ2ekp1?oc=5",
-      "published": "2026-08-04T03:55:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMipwFBVV95cUxOODVKMmFJaVJJMlJ0eVozTkFWc09JVHpaRGJqaEd1cVZ0YU9sR0E2ekRxdHZIaV8tWVlpd3NVMUVFVGFDdlQzTWNIRHB4cFgwaUx2ZVhZNTRpODJYR195NDRESEdzSExreHNDVmk3dE8yQjExYUpjRDlLODRqM0FtQURqaTdrVS1LRWd4UEhZSHk3Z3BmcG9rX0E4dk5rQlhGMVg1MXNtaw?oc=5",
+      "published": "2026-08-05T03:52:00+00:00"
     },
     {
-      "title": "MLB trade deadline recap: Blue Jays make 6 trades while keeping playoff dreams alive; Emotional exits for Daulton Varsho, Kevin Gausman, Jeff Hoffman - Toronto Star",
-      "summary": "MLB trade deadline recap: Blue Jays make 6 trades while keeping playoff dreams alive; Emotional exits for Daulton Varsho, Kevin Gausman, Jeff Hoffman&nbsp;&nbsp;Toronto StarBlue Jays 2026 trade deadline report card as Ross Atkins goes full on hybrid mode&nbsp;&nbsp;Jays JournalHow Blue Jays navigated two opposite paths at trade deadline&nbsp;&nbsp;sportsnet.ca",
+      "title": "Blue Jays' Trey Yesavage to have MRI on knee after leaving vs. Astros - Sportsnet.ca",
+      "summary": "Blue Jays' Trey Yesavage to have MRI on knee after leaving vs. Astros&nbsp;&nbsp;Sportsnet.ca",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMizAFBVV95cUxOZGVkbk1OVEtrVllUbUc3bVZIejd0b3czaFhFSVJWT0pZclY4ZjJUb21JV29yUHB1SzY0YUNJRWU5SlhvLXE1MHpwRUdXRTlMN01pSlJoVUdGSEY3R043TmlLX3FFblJzb3o0QTFEaTJCQW0wXzEwblpxNU8tczk1X05TeHBXLUdrODQwNlRSWkNOaWFud1dqRTA3RGlhR1FJRnVxUjFlWlpaYXhpdGh5bG51dEt6WTl1ZWthVWZQOFZWYjNDaTUxV2tjdU8?oc=5",
-      "published": "2026-08-04T03:50:25+00:00"
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxOUGhzYksyNWE2Y1c1UUtxSXJzNlllb05kZjBuZVg0a2oxejBXOWNVUXl1eGVfTlg5M2RqSWczQVRiOHI1UnU1dEVwY0hMaXVkck9GYnA3WmhJcTZOODROWElvV2JscFJ2WFNjblJpZzJIdXdKWjVWa2pCdHZTZElRRjZZVTF6QzFtblFJOWt1OEh2OE82V2pHNk1LWmFpNUJvQWl0YQ?oc=5",
+      "published": "2026-08-05T03:28:00+00:00"
     },
     {
-      "title": "Jays Beat Astros",
-      "summary": "Blue Jays 3 Astros 1 After Shane Bieber\u2019s last start, we were a little worried about how tonight would go. Well\u2026.he gave up 9 hits and 2 walks in just 5.2 innings but only allowed 1 run. The nice thing to say is he made the pitches when he needed to. The less nice thing [&#8230;]",
+      "title": "Analysis: Jays balance current big league roster and team\u2019s future at trade deadline - CFJC Today Kamloops",
+      "summary": "Analysis: Jays balance current big league roster and team\u2019s future at trade deadline&nbsp;&nbsp;CFJC Today Kamloops",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxQaEdOb0VsblNVbGZYUzhhSU1WMUlsU3l6cFBxV01VQ09yNGpLcUdvdW53VlI3TzMzRno4QUpZUHN3VW9IMlJ0WU9lVHd4NGFseURTNENjZGRlQ0xfUmVldF9jcXRQOHliQXpLbGJKVHcyWjZucXJQS1dCZnJhaTY5eER0bWR4RDhzMXliZG5HU19YM2NJQjNOeXFHV3JrdW4tREVnX2g3bUlGN0dLQUh4TlpMU0E1aE0?oc=5",
+      "published": "2026-08-05T03:11:13+00:00"
+    },
+    {
+      "title": "Kevin Gausman's wife shares heartfelt message after Blue Jays trade star pitcher - Toronto Sun",
+      "summary": "Kevin Gausman's wife shares heartfelt message after Blue Jays trade star pitcher&nbsp;&nbsp;Toronto Sun",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMinAFBVV95cUxQT0gwcWNDQ2M3MmNSM2ZJVFdUaVNIYm1fQmJyZExqdlBMTFZ2OEZ0VXduSnpmRG1hSG5xMjhkZWJtMGFIM3VjUy1OcFRmMlBkZk5UbW0yOWg0S0ZDTlRwSmZBYzhpYlpucGFjdkFWUWthaUZ3bmVOUDRvdUtSQ1lNQUZnalUzaHYtZDh6V3NWcGRQRGR0eGw0V1J3Z0g?oc=5",
+      "published": "2026-08-05T01:49:49+00:00"
+    },
+    {
+      "title": "Blue Jays\u2019 Yesavage exits game with left-knee discomfort, to have MRI on Wednesday - TSN",
+      "summary": "Blue Jays\u2019 Yesavage exits game with left-knee discomfort, to have MRI on Wednesday&nbsp;&nbsp;TSN",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxNQVE0d29xTWRmY3kyXzRaMlpFdWtuNjdQTTJWaFlPZGh5SFpPRzNHSUo2eFQ4VkpvOHRTOFprTHM5VHFuQVRBalhEVk5RZjBaeTBKUnRoUDl4aGhkYi1qVk1RSjFEYW1GUU5OaEhmZkcyZDhhczktVTBIT3pHbXdoX1BmejlVVjJBWGJHN2dXa2JJR05KM0dZVw?oc=5",
+      "published": "2026-08-05T00:59:00+00:00"
+    },
+    {
+      "title": "Soriano to debut Friday as Blue Jays set six-man rotation - Sportsnet.ca",
+      "summary": "Soriano to debut Friday as Blue Jays set six-man rotation&nbsp;&nbsp;Sportsnet.ca",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQVkFheEZwZFF6TDhXVWZLbDJxeU5HeDlZUU5abko5Mm1meE9qRHljRlRqaUdOSnRtcEJYaDFxU1hTRHk1eWlxVVF6eVJYeVZSNm80NGlCSkUzMW9ITmk4cS01V0ZYWWNHdmstbzM4SDhmSXQ1VlNRcVFtcXdVTlZHQ3VBY1d2VFBnYi1NQ1ZCS05WVUtpQkNTbmVDV2ZMbnEtU0tRQg?oc=5",
+      "published": "2026-08-05T00:50:00+00:00"
+    },
+    {
+      "title": "Toronto Blue Jays at Houston Astros Game Story, Scores/Highlights - 08/04/2026 - MLB.com",
+      "summary": "Toronto Blue Jays at Houston Astros Game Story, Scores/Highlights - 08/04/2026&nbsp;&nbsp;MLB.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiUEFVX3lxTE5SNGlWLVNFaEY4RFg4SUNZS0YtZXBKR0c0cUI5ekhlWm9Tdl9pUDlHRTJBY3R3Si1TN1JXY2t0NE9GaFZhRUFOZUxIQ09KS0ww0gFQQVVfeXFMTlI0aVYtU0VoRjhEWDhJQ1lLRi1lcEpHRzRxQjl6SGVab1N2X2lQOUdFMkFjdHdKLVM3Uldja3Q0T0ZoVmFFQU5lTEhDT0pLTDA?oc=5",
+      "published": "2026-08-05T00:49:52+00:00"
+    },
+    {
+      "title": "Toronto Blue Jays activate pitcher Jose Soriano ahead of game against Houston Astros - CP24",
+      "summary": "Toronto Blue Jays activate pitcher Jose Soriano ahead of game against Houston Astros&nbsp;&nbsp;CP24",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiyAFBVV95cUxPVWdVcjdpQ0x5UkdCTTd6WVVGX29zRWxiTXRFRGlGRWE5ZEpXakxTX1dEY2EtVUp0Rl81SmhvN2d0VGtGT0VRN3VNdlNyR0tlcm1KVC0zd3BMdzBpNDlTZE5STTAySF9EUjQ3M2FxN2lTRDRpY0ZVeTdoLUtiSmo0dXVGQzJJZnIwWXZwREtLQTk5a1ZBVWJocXoweU5MZEdocGdRUmxETXJTMExaVTJTMHd3eVRJSDl0WVZpaGhnQVdaVzJqeU5mUg?oc=5",
+      "published": "2026-08-05T00:30:00+00:00"
+    },
+    {
+      "title": "Blue Jays @ Astros Game Thread",
+      "summary": "Game Two of three with the Astros. Another win would be nice. Trey Yesavage is coming off a good start against the Nationals. Hayden Wesneski is making his second start of the season. He went 5.2 in his first start, getting the win, despite giving up three runs. Today&#8217;s Lineups BLUE JAYS ASTROS Nathan Lukes [&#8230;]",
       "source": "Bluebird Banter",
       "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-scores/63088/jays-beat-astros",
-      "published": "2026-08-04T03:11:05+00:00"
+      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-gamethreads/63118/blue-jays-astros-game-thread",
+      "published": "2026-08-04T23:51:00+00:00"
     },
     {
-      "title": "SIMMONS: Hoffman, Varsho will never be forgotten or forgiven for Blue Jays' World Series collapse - Toronto Sun",
-      "summary": "SIMMONS: Hoffman, Varsho will never be forgotten or forgiven for Blue Jays' World Series collapse&nbsp;&nbsp;Toronto Sun",
+      "title": "Kevin Gausman has one more message for Toronto Blue Jays fans - blogTO",
+      "summary": "Kevin Gausman has one more message for Toronto Blue Jays fans&nbsp;&nbsp;blogTO",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMi5gFBVV95cUxOS2Z1OUI0dW1iLTJnRUhfbC1WNUo4ZFdaT0RMNWU2b0FxV1JSaHBSMjNoYXlhSEdEN1VQb0FIUGtGMlVNOEpLdG5oZ2J2QjJtVkJvaHFqN0FoQWgtVm1HcUI1ZEQ4dzNVSEJSY2RRdHZOYzYxa0pYcV9DdnRrMHVtQ1FOMnF1b1VEalFHaHZMODBfdXU3b2FYbzFKY0lXY2JCWG01VHdhUFkwaVdvQzJ4VWE3eXVpSXE2VU9MNkNIZG14a1dTUjI1elVXcV9ya2RINlpIczY2XzBjSmlMVExiRHBCMFYtUQ?oc=5",
-      "published": "2026-08-04T01:36:27+00:00"
+      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxObGo5WG1UaS12dFRPUXV2dmtqM25peW85OHYweVlnb2J0MGhuWGxhTXJPd0FKUW5qck5ULTJwRC1mWUlZSko2SWplbTB1N0RRVVBSajlldHVkVmFYRjNXaDlrTGhyRkM0ZjJvbi1qSk94NmxtdkRuZTc0NXQ2ZEgwSk5xaHVnWEZ5ODh6Yno1Q2NMQQ?oc=5",
+      "published": "2026-08-04T23:27:17+00:00"
     },
     {
-      "title": "Atkins believes Jays are improved after trade deadline - TSN",
-      "summary": "Atkins believes Jays are improved after trade deadline&nbsp;&nbsp;TSN",
+      "title": "Toronto Blue Jays activate pitcher Jose Soriano ahead of game against Houston Astros - Toronto Star",
+      "summary": "Toronto Blue Jays activate pitcher Jose Soriano ahead of game against Houston Astros&nbsp;&nbsp;Toronto Star",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNOTdvSGN1OXd1eTNyUGhZTVZZQVp6QTBMYVVWbUFHSnBvY3lmeHptdXdENVhnV3BTTFJCSGdZOVJlM05xa1FDT2Y3ektTYTJzNWFJNDZ5SWpOT2lVcF9XMW1sa2FlTEptVThTV3lGOF9xMlJrUjVjVWN3LVMwbUR4dGdXcGNlU2NiemFYRUpoUVFLams?oc=5",
-      "published": "2026-08-04T00:50:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMihgJBVV95cUxOaW01el84TWZmWVIyLWxsajJvbUNPbjV2LVpBTG8wSDNEOGZGUjJWNTIyX2FsTVVfaXRnR1RwamszeldzVmh4XzNkb1lRbUJUV2lPSVpNVzlKalVlVzFRa19ZaVVkUXhoU1JXcS1HY1JhdF9ReWUwbDdSUHpRQmxwYlBMLUNtTldNWFpXeUs5bnhNVFNpaTNONGoyNFpsaWZoVlk4NmhPQ0pHTFZMVjZvZGVJMHRVZjlLeTA1RVB0eGw3eVdvWktNbnFzODhnTmtGSkRHRFJMOFpFUGs5bHd0LVJjZHNPYldfMWhKTWtpWGI5VjZHVk1fLUNGNzc0d0hPOEVfSDBB?oc=5",
+      "published": "2026-08-04T23:11:21+00:00"
     },
     {
-      "title": "Ross Atkins on Blue Jays' Trade Deadline - MLB.com",
-      "summary": "Ross Atkins on Blue Jays' Trade Deadline&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMif0FVX3lxTE0wZjB0bFJGMWFGckFIRXhnSlZzaDIxb3d0akdNa1Z0bVp6Mm9ac1lMaHRKTnJqMDZPV1o3NW1ubjE5RzF1dVZWOTdCT3pyVDJuTVNxUEh5V3lCRzNhUVgyNGxheU5hdHVHUmxaM0VYQ20yTW1McWFuUWlXcFYwOXc?oc=5",
-      "published": "2026-08-04T00:19:44+00:00"
-    },
-    {
-      "title": "Jays @ Astros Game Thread",
-      "summary": "After all that happened today, there is still a game tonight. Shane Bieber gets the start, since he\u2019s still there. Cristian Javier starts for Houston. Daulton Varsho hits cleanup tonight for the Astros. That will be weird. He had a rather emotional press conference before the game. It does have to be hard on guys [&#8230;]",
+      "title": "Jays Roster Move: Soriano Added",
+      "summary": "We can\u2019t go a day without a roster move. And the Jays are going with a six man rotation with Soriano and Taillon added to the rotation. Our starters for the next few days: There is a note that Kevin Gausman will be making his first start for the Cubs against the Royals. Did they [&#8230;]",
       "source": "Bluebird Banter",
       "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-gamethreads/63085/jays-astros-game-thread",
-      "published": "2026-08-03T23:50:00+00:00"
+      "url": "https://www.bluebirdbanter.com/news/63112/jays-roster-move-soriano-added",
+      "published": "2026-08-04T22:15:24+00:00"
     },
     {
-      "title": "Jays Roster Moves - Bluebird Banter",
-      "summary": "Jays Roster Moves&nbsp;&nbsp;Bluebird Banter",
+      "title": "Kevin Gausman to make Cubs debut vs. Royals, not Blue Jays - Sportsnet.ca",
+      "summary": "Kevin Gausman to make Cubs debut vs. Royals, not Blue Jays&nbsp;&nbsp;Sportsnet.ca",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxQWnotNmZLWGlORU0zNW1CZDJfb1JUQjNrYWJzNlluazBMMVEwZkxpaEowdnM5WnY5QTdILW1DV1RsTTFSbTJCMF9vbEEyN3ZQX0F2bmg2MFBxZnppMV8ySGFMc1FBRC1CbDJwMEVMUk9PeWVMVlJpMDRqQU85RE44U1pVNDR2Zw?oc=5",
-      "published": "2026-08-03T23:09:56+00:00"
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxOT3h3WVNFM2doUmVEeVNrd3FYdjVsVjFwYW50VVI4eWI5ck5seWx0cEtLN3BGNE9iU25CRnZYckJCQk9wQjJ1aHlfZjlZVHJJZ0R1NEVSOXN0d1ZfWHpPcUxnc2xDVTJ6QmE3RG9YdVl0bDZ0X0FtMHNFQmdYU2pxVnFINjg1WUlmdGEyTUp6MUNUajV6R2x1dEp3?oc=5",
+      "published": "2026-08-04T22:12:00+00:00"
     },
     {
-      "title": "Jays Roster Moves",
-      "summary": "The Jays have made some roster moves: George Springer, Max Scherez and Shane Bieber are still Blue Jays after the deadline has past. I would have bet Springer would be moved. Daulton Varsho is in the lineup for the Astros against the Jays tonight. All in all, I\u2019m happy enough with the return on the [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-roster/63082/jays-roster-moves",
-      "published": "2026-08-03T23:09:56+00:00"
-    },
-    {
-      "title": "Toronto Blue Jays make four trades on MLB deadline day - Daily Hive",
-      "summary": "Toronto Blue Jays make four trades on MLB deadline day&nbsp;&nbsp;Daily Hive",
+      "title": "The Blue Jays traded away some fan favourites. Here's why - NOW Toronto",
+      "summary": "The Blue Jays traded away some fan favourites. Here's why&nbsp;&nbsp;NOW Toronto",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiekFVX3lxTFBUSloxcXItR3UyOTUyWGZYVnlhS3gzcnl3aENyYlBHMXlFWnVCcmFLQ0MxS1Z0Q092eVJRVnpUNEdHcDVZb01MQlpRWk5CTkJRRUhzZ0xRcVhXODVmbzI2cTJMbzlvS3Q3TU9yV3dxSXRuZHU0Y0d4NzBB?oc=5",
-      "published": "2026-08-03T22:45:00+00:00"
+      "url": "https://news.google.com/rss/articles/CBMilgFBVV95cUxNQkNUTVZUYXJONHFRWlZKQWE2eFh3eUJZR3dhUVVaU1d4WUdvSHNqYmg4SUV3RTFoQV9TQmVBYVN0RlA0Q2dQVV9XYk9QN2pDTTNMLVdHcGRlMjhCcFB3MmE5YTBYR0JzOUdlbDV1VWctOTJsa2tSaW5OZVQzNk5TMXFndlB6MG5FX1BmU2dLeWk2S1Baa2c?oc=5",
+      "published": "2026-08-04T21:03:02+00:00"
     },
     {
-      "title": "Toronto Blue Jays trading Jeff Hoffman to Minnesota Twins - CityNews Toronto",
-      "summary": "Toronto Blue Jays trading Jeff Hoffman to Minnesota Twins&nbsp;&nbsp;CityNews Toronto",
+      "title": "Blue Jays' Cease named to July's MLB team of the month - Sportsnet.ca",
+      "summary": "Blue Jays' Cease named to July's MLB team of the month&nbsp;&nbsp;Sportsnet.ca",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxOOURDcGtRVFNGYU85dU9hUldrOGlyZFlGdjFlUVk5LWVTb2tuNk5hZ09nbXZZRzlDZWxfWHQ0bzVNU19JNzR5NDdyLUxBVkR4bXJGX3hkYmpPUHdpeHBjTTlxSlozSmZSZWxHV3ZPT2lycjJydUdjYXhtcjdEclNhcnZuMF8ycW9DWTYtZXpLdXBMOTVrdXhzdlBoRkZQQQ?oc=5",
-      "published": "2026-08-03T22:30:00+00:00"
-    },
-    {
-      "title": "Blue Jays deal former closer Jeff Hoffman to Twins as deadline day flurry continues - Toronto Sun",
-      "summary": "Blue Jays deal former closer Jeff Hoffman to Twins as deadline day flurry continues&nbsp;&nbsp;Toronto Sun",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMi1wFBVV95cUxPREdWWEhkUXVLTVBURWQwOW5uQWVObktpVjFZRTRNMFJqVWNxUzRySFZPWUVMcmNESzFrX0RUZ3BYSXVZRk1GNng2Q1BPUHJ4azdJeVFnaGdSSEQwYVBlV1VtQUpxM0xfNzNUQjUtRmhRQkxKd2xWTTdxRVUyNG1IcTNQSEg5X2lBUERGZDlubVpkRjc1cTJKYjEwN3RQa3M3d2lPN2Ryb1ItVUgyUkk4cVI0WkJfVEZzZjRqZGEtSHlUalE4RTJEdkJVX01ZY3MxY2JCTGM0SQ?oc=5",
-      "published": "2026-08-03T22:12:59+00:00"
-    },
-    {
-      "title": "Jeff Hoffman Traded To The Twins",
-      "summary": "Jeff Hoffman is off to the Twins. No word yet on on the return. Going the other way are lefty Dasan Hill, righty John Klein and infielder Dameury Pena. Hill is a 20-year-old, LHP, he is #7 on MLB Pipeline\u2019s top Twins prospect list. They say: The Twins were thrilled with how Hill acclimated to [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/news/63077/jeff-hoffman-traded-to-the-twins",
-      "published": "2026-08-03T21:44:44+00:00"
-    },
-    {
-      "title": "Report: Toronto Blue Jays trade Jeff Hoffman to Minnesota Twins - TSN",
-      "summary": "Report: Toronto Blue Jays trade Jeff Hoffman to Minnesota Twins&nbsp;&nbsp;TSN",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMie0FVX3lxTE5rWXFobnI3SGdUTDZObk9lNUxnTzNic05iTUYtU1N4X0ptV2Vkd2N5WDdVMVQyVUt6UjNVNFRCUVRaTFZTbGJkNi1NTDRzMjJ4dHdTbGptc1d4NFZCRGRqeng5YngwcEIzcURKc3MzR2NmUS1HdWJVZm0zVQ?oc=5",
-      "published": "2026-08-03T21:41:13+00:00"
+      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxQMkphdkZsdTZfaDFJb3o3TXJKdkFsdnd2TVRqYzlnaGs3enJxZm4zbXB5ZmtvWmtkT0Y1ZEs0WDltb2tKbXhEY2dIWXVWd0lPQnpQX2hkVDVXU29ob0MzTVp4MjJCQ0RFeURPOG1WZ1VNcHRyaUJMbUh5RDdzYl9vcjdfazhFVE9uZW9ESWF1T050VkEtTTlR?oc=5",
+      "published": "2026-08-04T20:27:00+00:00"
     }
   ],
   "run_diff_last_10": [
-    {
-      "date": "2026-07-24",
-      "diff": -2,
-      "result": "L"
-    },
     {
       "date": "2026-07-25",
       "diff": 6,
@@ -1931,6 +1915,11 @@
       "date": "2026-08-04",
       "diff": 2,
       "result": "W"
+    },
+    {
+      "date": "2026-08-05",
+      "diff": -5,
+      "result": "L"
     }
   ]
 }
