@@ -40,12 +40,12 @@ a machine guards it and it's confirmed on the live deploy.
 | Heat-bar coverage (every player ranked) | #138 | pytest (rank tests assert coverage) + contract (`check_data_completeness` coverage audit) + visual (fixture now 26/26) | ⏳ pending merge |
 | Brand mark — segmented diamond | #138 | visual baselines | ⏳ pending merge |
 | Reliever IP-row suppression | #138 | **manual** — *gap: no probe asserts RP modals omit IP* | ⏳ pending merge |
-| CI guards run on daily-refresh commits | tracker-malfunction | the refresh workflow now *calls* `tests.yml` + `probes.yml` (a GITHUB_TOKEN push can't trigger them) | ⏳ pending merge |
-| Probes propagate failures to exit code | tracker-malfunction | pytest (`test_probe_contract.py`) — fails if any probe can't exit nonzero | ⏳ pending merge |
-| Every probe is wired into CI | tracker-malfunction | pytest (`test_probe_contract.py`) — fails if a probe file is unreferenced by `probes.yml` | ⏳ pending merge |
-| Wild Card panel always shows our team | tracker-malfunction | probe (`wildcard-visibility.js`, our team at every "Out" slot) + round-1 me-row assertion | ⏳ pending merge |
-| Notes-staleness stamp is honest under shallow clone | tracker-malfunction | pytest (`test_notes_meta.py` — real shallow clone, asserts unknown ≠ HEAD date) | ⏳ pending merge |
-| Small-sample rank floor | tracker-malfunction | pytest (`test_rank_gate.py` boundary cases) + contract (`SUB-SAMPLE RANK` warn) | ⏳ pending merge |
+| CI guards run on daily-refresh commits | #142 | the refresh workflow now *calls* `tests.yml` + `probes.yml` (a GITHUB_TOKEN push can't trigger them) | ⏳ pending merge — **chain proven on-branch**: dispatched refresh ran refresh → tests ✅ → probes ✅ |
+| Probes propagate failures to exit code | #142 | pytest (`test_probe_contract.py`) — fails if any probe can't exit nonzero | ⏳ pending merge |
+| Every probe is wired into CI | #142 | pytest (`test_probe_contract.py`) — fails if a probe file is unreferenced by `probes.yml` | ⏳ pending merge |
+| Wild Card panel always shows our team | #142 | probe (`wildcard-visibility.js`, our team at every "Out" slot) + round-1 me-row assertion | ⏳ pending merge |
+| Notes-staleness stamp is honest under shallow clone | #142 | pytest (`test_notes_meta.py` — real shallow clone, asserts unknown ≠ HEAD date) | ⏳ pending merge |
+| Small-sample rank floor | #142 | pytest (`test_rank_gate.py` boundary cases) + contract (`SUB-SAMPLE RANK` warn) | ⏳ pending merge |
 
 ## Known guard gaps (backlog)
 
@@ -83,6 +83,24 @@ family:
 
 When adding a guard, ask the second question too: *what makes its failure
 reach a human?*
+
+Two follow-ons surfaced while verifying the fix, both still open:
+
+- **The staleness chip measures the file, not the voice.** It reads the
+  last commit touching `notes.json`, so a three-line factual correction
+  resets the clock to "refreshed today" over prose that is otherwise
+  months old. Honest about the file; misleading about the analysis. If the
+  badge is meant to promise freshness of *judgement*, it needs a signal the
+  author sets deliberately (e.g. a hand-maintained `notes.overview.as_of`)
+  rather than one derived from git.
+
+- **PR head commits made by the bot carry no checks.** The same
+  GITHUB_TOKEN suppression applies to `pull_request` runs: when the refresh
+  pushes to a PR branch, the PR's own checks do not re-run, so the head
+  commit shows zero check runs even though the called tests/probes did
+  guard that exact tip inside the refresh run. Judge such a PR by the
+  refresh run, not the (empty) PR check list — or push any human-authored
+  commit to repopulate it.
 
 ## Open process question
 
