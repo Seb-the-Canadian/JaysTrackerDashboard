@@ -94,13 +94,20 @@ Two follow-ons surfaced while verifying the fix, both still open:
   author sets deliberately (e.g. a hand-maintained `notes.overview.as_of`)
   rather than one derived from git.
 
-- **PR head commits made by the bot carry no checks.** The same
-  GITHUB_TOKEN suppression applies to `pull_request` runs: when the refresh
-  pushes to a PR branch, the PR's own checks do not re-run, so the head
-  commit shows zero check runs even though the called tests/probes did
-  guard that exact tip inside the refresh run. Judge such a PR by the
-  refresh run, not the (empty) PR check list — or push any human-authored
-  commit to repopulate it.
+- **A bot push to a PR branch parks that PR's checks as `action_required`.**
+  Not the same mechanism as the `push`-event suppression above, and worth
+  stating precisely because the first read of it here was wrong. The runs
+  *are* created — GitHub then immediately parks them awaiting manual
+  approval, because the triggering actor is `github-actions[bot]`
+  (`created_at == updated_at`, no job ever starts). So the head commit
+  reports zero *check runs* while the Actions list shows two amber runs
+  that read as failures. Seen live on 2026-08-09: the refresh pushed
+  `0963b14` to this branch and both `Tests` and `UI probes` parked.
+
+  This does not touch the daily refresh on `main` — there is no PR there,
+  and the refresh calls its guards inside its own run. It only appears when
+  the bot pushes to a branch with an open PR. Judge such a PR by the
+  refresh run; pushing any human-authored commit repopulates the checks.
 
 ## Open process question
 
