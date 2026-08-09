@@ -67,6 +67,29 @@ won't be caught automatically. Prioritized for follow-up guards:
    would stay green. A post-deploy smoke check that fetches the live URL is
    the missing piece.
 
+## The blackout, measured on main (2026-08-09)
+
+Side-by-side proof, captured the morning this fix was in review — same
+workflow, same day, one on `main` and one on the branch:
+
+| | `main` (old workflow) | branch (this PR) |
+|---|---|---|
+| Run | [`31306371233`](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/actions/runs/31306371233) (schedule, 09:37 UTC) | `31292193748` (dispatch, 03:19 UTC) |
+| Jobs | **1** — `refresh` | **4** — `refresh`, `pytest`, `probes`, `regenerate-baselines` |
+| Guards run | none | pytest ✅, 22 probes ✅ |
+| Result | pushed `39f1157`, Pages deployed it | verified before and after the push |
+
+`total_count: 1`. That single number is the whole bug: the refresh fetched,
+committed and shipped commit **51** to the live site with nothing checking
+it. Note the run's own steps look reassuring — completeness, notes-drift,
+orphan-key and freshness scans all "succeeded" — because every one of them
+is warn-only. The blocking guards are the two jobs that aren't there.
+
+Corollary worth keeping: the data `main` produced that morning still ranks
+Brett Bateman off 8 AB, so `check_data_completeness` warns `SUB-SAMPLE RANK`
+against it. The floor cannot apply to data generated before it lands. The
+bug is live on `main` until this merges — not a prediction, a measurement.
+
 ## Lesson from the 2026-08 guard blackout
 
 Worth keeping because it cost 50 unguarded refreshes: **a guard's value is
