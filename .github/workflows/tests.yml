@@ -5,6 +5,16 @@ on:
     branches: [main]
   push:
     branches: [main]
+  # Callable from daily-refresh.yml. Pushes made with GITHUB_TOKEN do NOT
+  # trigger `push` workflows, so the daily refresh committed 50 straight
+  # times without ever running these tests. Calling this workflow from
+  # inside the refresh run is what closes that hole.
+  workflow_call:
+    inputs:
+      ref:
+        description: 'Git ref to check out (defaults to the triggering SHA)'
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -21,6 +31,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          # When called from daily-refresh, the run's SHA is the commit that
+          # *triggered* it — i.e. yesterday's data. Check out the branch tip
+          # so we test the data that was just pushed.
+          ref: ${{ inputs.ref || '' }}
+          # Full history: test_notes_meta.py's end-to-end case needs real
+          # notes.json history, and a depth-1 clone is what made the
+          # freshness stamp wrong in the first place.
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v6

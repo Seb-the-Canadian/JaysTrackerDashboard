@@ -26,6 +26,16 @@ the thing the user sees.
 - `index.html` → loads `data.json` + `notes.json` + `config.json`, renders dashboard
 - Daily refresh: GitHub Actions cron — `.github/workflows/daily-refresh.yml` at 09:00 UTC
 
+**The refresh bot's pushes cannot trigger workflows.** It pushes with
+`GITHUB_TOKEN`, and GitHub does not start workflow runs from `GITHUB_TOKEN`
+events — so `on: push` guards never fire on a daily refresh. From 2026-06-20
+to 2026-08-08 that meant 50 commits shipped to the live site with zero tests
+or probes, while Pages deployed each one (Pages builds *are* exempt). The fix
+is that `daily-refresh.yml` now **calls** `tests.yml` and `probes.yml` as
+reusable workflows, so they run inside the refresh run. If you add a guard
+workflow, wire it in the same way — `on: push` alone is a guard that never
+runs here.
+
 The Claude Code Routine was the original scheduler; we swapped to GitHub Actions because the Routine environment's outbound network policy blocked `statsapi.mlb.com`. See [`.github/workflows/daily-refresh.yml`](.github/workflows/daily-refresh.yml) for current state. The README still describes the Routine as primary — issue #32 tracks the doc update.
 
 ## Environment constraint that affects most work

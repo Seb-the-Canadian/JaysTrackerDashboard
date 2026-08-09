@@ -146,6 +146,25 @@ async function openModal(page) {
     `expected=${lastExpected.tag}.${lastExpected.cls} got=${afterShiftTab.tag}.${afterShiftTab.cls} insideScrim=${afterShiftTab.insideScrim}`);
 
   // ----- A5: Esc still closes (regression check) -----
+  // A4 leaves focus on a SPAN.term, and tooltip.js opens a tooltip on focus.
+  // Esc is deliberately layered (assets/tooltip.js): with a tooltip open the
+  // first Esc closes the *inner* overlay and stops propagation, so it never
+  // reaches modal.js. That's correct behaviour — this probe was asserting
+  // against it and failing for the wrong reason. Move focus off the term (and
+  // let any open tooltip settle) so we're testing modal Esc, not tooltip Esc.
+  await page.evaluate(() => {
+    const x = document.querySelector('#player-modal-scrim .modal-x');
+    if (x) x.focus();
+  });
+  await page.waitForTimeout(120);
+  const tipOpen = await page.evaluate(() => {
+    const t = document.querySelector('.tip, #tooltip, [role="tooltip"]');
+    return !!(t && !t.hidden);
+  });
+  if (tipOpen) {
+    await page.keyboard.press('Escape');
+    await page.waitForTimeout(120);
+  }
   await page.keyboard.press('Escape');
   await page.waitForTimeout(300);
   const afterEsc = await page.evaluate(() => ({

@@ -36,6 +36,15 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          # Full history. fetch_data.notes_last_updated_iso() reads
+          # `git log -1 -- notes.json` to stamp notes_meta.last_updated_iso,
+          # and in the default depth-1 clone the grafted boundary commit
+          # looks like it introduced every file — so the stamp came back as
+          # "edited yesterday" every day while notes.json sat untouched for
+          # weeks. That kept the dashboard's staleness chip permanently
+          # green and made check_notes_freshness.py unable to ever fire.
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v6
@@ -129,3 +138,40 @@ jobs:
           done
           echo "ERROR: push still failing after 3 rebase-and-retry attempts"
           exit 1
+
+  # ============================================================
+  # Post-push guards.
+  #
+  # THE HOLE THIS CLOSES: the refresh job pushes with GITHUB_TOKEN, and
+  # GitHub deliberately does not start workflow runs from GITHUB_TOKEN
+  # events. tests.yml and probes.yml are both `on: push: [main]`, so from
+  # the first bot commit (2026-06-20) to 2026-08-08 they ran ZERO times
+  # across 50 pushes — while Pages deployed every one of them, because
+  # Pages builds are exempt from that suppression. Data shipped to
+  # production daily with no gate at all, and two regressions rode along:
+  # the AL Wild Card panel dropped our own team for 27 days, and the
+  # notes-staleness chip sat green over 8-week-old prose.
+  #
+  # Calling the workflows from inside this run makes them part of the run,
+  # so the suppression doesn't apply.
+  #
+  # Deliberately AFTER the push, not before: a probe failure should make
+  # the refresh loudly red, not freeze the dashboard on stale data. The
+  # repo's posture is resilience for render/probe concerns and hard-fail
+  # only for the data contract (which still gates the commit above, in the
+  # refresh job). What was missing was never the blocking — it was the
+  # signal.
+  # ============================================================
+  tests:
+    needs: refresh
+    uses: ./.github/workflows/tests.yml
+    with:
+      # The run's SHA is the commit that triggered the schedule — i.e. the
+      # PREVIOUS day's data. Guard the tip we just pushed instead.
+      ref: ${{ github.ref_name }}
+
+  probes:
+    needs: refresh
+    uses: ./.github/workflows/probes.yml
+    with:
+      ref: ${{ github.ref_name }}

@@ -40,6 +40,12 @@ a machine guards it and it's confirmed on the live deploy.
 | Heat-bar coverage (every player ranked) | #138 | pytest (rank tests assert coverage) + contract (`check_data_completeness` coverage audit) + visual (fixture now 26/26) | ⏳ pending merge |
 | Brand mark — segmented diamond | #138 | visual baselines | ⏳ pending merge |
 | Reliever IP-row suppression | #138 | **manual** — *gap: no probe asserts RP modals omit IP* | ⏳ pending merge |
+| CI guards run on daily-refresh commits | tracker-malfunction | the refresh workflow now *calls* `tests.yml` + `probes.yml` (a GITHUB_TOKEN push can't trigger them) | ⏳ pending merge |
+| Probes propagate failures to exit code | tracker-malfunction | pytest (`test_probe_contract.py`) — fails if any probe can't exit nonzero | ⏳ pending merge |
+| Every probe is wired into CI | tracker-malfunction | pytest (`test_probe_contract.py`) — fails if a probe file is unreferenced by `probes.yml` | ⏳ pending merge |
+| Wild Card panel always shows our team | tracker-malfunction | probe (`wildcard-visibility.js`, our team at every "Out" slot) + round-1 me-row assertion | ⏳ pending merge |
+| Notes-staleness stamp is honest under shallow clone | tracker-malfunction | pytest (`test_notes_meta.py` — real shallow clone, asserts unknown ≠ HEAD date) | ⏳ pending merge |
+| Small-sample rank floor | tracker-malfunction | pytest (`test_rank_gate.py` boundary cases) + contract (`SUB-SAMPLE RANK` warn) | ⏳ pending merge |
 
 ## Known guard gaps (backlog)
 
@@ -54,6 +60,29 @@ won't be caught automatically. Prioritized for follow-up guards:
    resolve (codify the Padres fork test).
 3. **Reliever IP-row** — extend `player-ranks.js` / a modal probe to assert
    an RP modal has no IP row and an SP modal does.
+4. **Live-deploy confirmation is still manual.** Every row above says
+   "confirmed live" on someone's word. Nothing machine-checks that
+   `https://…github.io/…/data.json` is actually fresh and well-formed after
+   a deploy — Pages could silently serve a stale build and every guard here
+   would stay green. A post-deploy smoke check that fetches the live URL is
+   the missing piece.
+
+## Lesson from the 2026-08 guard blackout
+
+Worth keeping because it cost 50 unguarded refreshes: **a guard's value is
+capped by whether anyone finds out it fired.** All three failures in that
+incident were of the "detected but unheard" family, not the "undetected"
+family:
+
+- `probes.yml` was correctly written and correctly failing — it just never
+  ran, because GITHUB_TOKEN pushes don't trigger `push` workflows.
+- `round-1.js` correctly detected the Wild Card regression on every run for
+  27 days, and exited 0 while doing it.
+- `check_notes_freshness.py` was structurally unable to fire, because the
+  timestamp it reads was silently wrong under a shallow clone.
+
+When adding a guard, ask the second question too: *what makes its failure
+reach a human?*
 
 ## Open process question
 
