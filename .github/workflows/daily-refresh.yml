@@ -21,8 +21,14 @@ on:
     - cron: '0 9 * * *'
   workflow_dispatch:
 
-permissions:
-  contents: write
+# Declared per-job rather than workflow-wide. A calling job's grant is the
+# CEILING for the workflow it calls, and GitHub validates that ceiling at
+# startup for every job in the called workflow — including ones their `if:`
+# will skip. probes.yml carries a maintainer-only `regenerate-baselines`
+# job that asks for `actions: write`, so a blanket `contents: write` here
+# made the whole run fail to start (startup_failure, no jobs). Scoping per
+# job lets `refresh` keep exactly what it needs while the calls declare
+# theirs.
 
 concurrency:
   group: daily-refresh
@@ -32,6 +38,8 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     timeout-minutes: 10
+    permissions:
+      contents: write   # commits + pushes the refreshed data.json
 
     steps:
       - name: Checkout
@@ -164,6 +172,8 @@ jobs:
   # ============================================================
   tests:
     needs: refresh
+    permissions:
+      contents: read
     uses: ./.github/workflows/tests.yml
     with:
       # The run's SHA is the commit that triggered the schedule — i.e. the
@@ -172,6 +182,21 @@ jobs:
 
   probes:
     needs: refresh
+    permissions:
+      # The ceiling must cover every job probes.yml declares, including the
+      # maintainer-only `regenerate-baselines` (contents+actions write) that
+      # this path never reaches: its `if:` requires a workflow_dispatch
+      # carrying update_visual_baselines=true, and a schedule — or a
+      # dispatch of THIS workflow, which has no such input — can't satisfy
+      # that. The grant is unreachable in practice, but GitHub still checks
+      # it before starting the run.
+      #
+      # Follow-up worth taking: move `regenerate-baselines` into its own
+      # workflow file so probes.yml is purely read-only and callable with
+      # `contents: read` alone. Left out here to keep this change to the
+      # guard-layer fix rather than reshaping the baseline-regen flow.
+      contents: write
+      actions: write
     uses: ./.github/workflows/probes.yml
     with:
       ref: ${{ github.ref_name }}
