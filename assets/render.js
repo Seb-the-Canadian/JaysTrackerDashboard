@@ -111,7 +111,9 @@
     // Notes-staleness badge — ported from v1's applyNotesStaleness
     // (survivorship T18). Separate cadence from data freshness because
     // analyst voice ages on a weekly+, not daily, schedule.
-    applyNotesStaleness(data.notes_meta);
+    // Analyst voice is pulled when config.analyst_notes_enabled === false
+    // (unverifiable / staleness-prone hand-authored layer) — skip its badge.
+    if (cfg.analyst_notes_enabled !== false) applyNotesStaleness(data.notes_meta);
   }
 
   function renderFreshness(asOfIso) {
@@ -431,7 +433,12 @@
       return {
         config: parts[0] || {},
         data: parts[1] || {},
-        notes: parts[2] || {},
+        // Pull the analyst voice (notes.json) when config.analyst_notes_enabled
+        // is false: it has no verifiable source and has repeatedly gone stale.
+        // Emptying state.notes makes every analyst render site degrade to its
+        // existing absent-key path (panels omit; facts always render). Reversible
+        // — flip the flag back the day there's a fresh, source-traceable voice.
+        notes: ((parts[0] || {}).analyst_notes_enabled === false) ? {} : (parts[2] || {}),
         errors: {
           config: parts[0] == null,
           data: parts[1] == null,
