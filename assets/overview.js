@@ -557,8 +557,30 @@
     body.push(el('div', { class: 'wc-grp out' }, [
       el('span', { class: 'dot' }), document.createTextNode('Out'),
     ]));
-    // Show only first 4 of out to keep panel compact
-    out.slice(0, 4).forEach(function (t) {
+    // Show only the first 4 of `out` to keep the panel compact — but never
+    // at the cost of our own row. This panel is the whole point of the
+    // dashboard, and a flat slice(0, 4) silently dropped us the moment we
+    // fell to 5th-worst in the "Out" group: the Blue Jays were absent from
+    // the Wild Card panel for 27 straight days before anyone noticed. If
+    // we're outside the compact window, append our row and mark the gap so
+    // the jump in standings order is legible rather than looking like a
+    // rendering glitch.
+    const OUT_WINDOW = 4;
+    const usOutIdx = out.findIndex(function (t) { return t.is_us; });
+    const shown = out.slice(0, OUT_WINDOW);
+    const usIsBelowWindow = usOutIdx >= OUT_WINDOW;
+    if (usIsBelowWindow) shown.push(out[usOutIdx]);
+
+    shown.forEach(function (t, i) {
+      // Elided-rows marker, only between the compact window and our row —
+      // and only when rows were actually skipped (sitting immediately
+      // below the window elides nothing, so a marker would be noise).
+      if (usIsBelowWindow && i === OUT_WINDOW && usOutIdx > OUT_WINDOW) {
+        const skipped = usOutIdx - OUT_WINDOW;
+        body.push(el('div', { class: 'wc-elide',
+          'aria-label': skipped + (skipped === 1 ? ' team' : ' teams') + ' not shown' },
+          '⋯ ' + skipped + ' more'));
+      }
       const abbr = abbreviate(t.team);
       body.push(el('div', { class: 'wc-row' + (t.is_us ? ' me' : '') }, [
         el('span', { class: 'seed' }, ' '),

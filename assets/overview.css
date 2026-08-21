@@ -401,6 +401,16 @@
   color: var(--ink-3);
   text-align: right;
 }
+/* Elided-rows marker: shown only when our team sits below the compact
+   "Out" window, so the standings jump reads as intentional rather than
+   as a dropped row. Aligned to the abbr column, deliberately quiet. */
+.wc-elide {
+  font-family: var(--mono);
+  font-size: var(--t-micro);
+  color: var(--ink-3);
+  padding: 3px 0 3px 61px;
+  letter-spacing: 0.02em;
+}
 .wc-row.me {
   background: var(--team-primary-soft);
   margin: 0 -8px;

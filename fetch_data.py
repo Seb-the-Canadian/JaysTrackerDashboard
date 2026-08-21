@@ -63,12 +63,36 @@ HOT_ERA_DELTA = 1.50
 COLD_ERA_DELTA = 1.50
 NEW_DAYS_THRESHOLD = 14
 
+# Minimum playing time before a player's stat line is ranked against the
+# league distribution. The old gate was simply "> 0", which let a call-up
+# with 2 at-bats and a 1.750 OPS render as the 100th-percentile hitter in
+# baseball — the heat bar's loudest possible statement, made on two swings.
+# These floors are deliberately low: enough to stop the heat bar shouting
+# about noise, not so high that it goes dark for genuine part-time players.
+# Below the floor the rank is None, which the renderer already shows as an
+# honest "—".
+MIN_AB_FOR_RANK = 25
+MIN_IP_FOR_RANK = 10.0
+
 
 def log(msg):
     print(msg, file=sys.stderr)
 
 
 # --- notes.json freshness (per the "main dashboard text gets stale" thread) ---
+
+def _git_stdout(root, args):
+    """Run a git command under `root`; return stripped stdout, or None on error."""
+    try:
+        result = subprocess.run(
+            ["git"] + args,
+            cwd=str(root),
+            capture_output=True, text=True, check=True, timeout=10,
+        )
+        return result.stdout.strip()
+    except (subprocess.SubprocessError, FileNotFoundError, OSError):
+        return None
+
 
 def notes_last_updated_iso(repo_root=None):
     """Return ISO timestamp of the last git commit touching notes.json, or None.
@@ -77,18 +101,35 @@ def notes_last_updated_iso(repo_root=None):
     history. Used by the renderer to show a "analyst voice refreshed Nd ago"
     badge with the same green/amber/red staleness posture as the data-freshness
     header. Returns None when git is unavailable or notes.json isn't tracked.
+
+    SHALLOW-CLONE GUARD (the badge-lies bug): in a `--depth N` clone the
+    grafted boundary commit looks like it *introduced every file in the
+    tree*, so `git log -1 -- notes.json` happily returns the boundary
+    commit's date instead of the real edit. `actions/checkout` defaults to
+    fetch-depth 1, so the daily refresh stamped "notes edited yesterday"
+    every single day while notes.json had actually been untouched for
+    weeks — turning the staleness chip permanently green and making
+    check_notes_freshness.py structurally unable to fire.
+
+    So: if the commit we found IS the shallow boundary, we have no way to
+    know whether it truly touched notes.json. Return None (the renderer
+    hides the badge and the freshness check reports "unknown") rather than
+    a confident wrong answer. The workflow also checks out full history so
+    this fallback stays a belt-and-braces net, not the normal path.
     """
     root = Path(repo_root) if repo_root else Path(__file__).resolve().parent
-    try:
-        result = subprocess.run(
-            ["git", "log", "-1", "--format=%aI", "--", "notes.json"],
-            cwd=str(root),
-            capture_output=True, text=True, check=True, timeout=10,
-        )
-        ts = result.stdout.strip()
-        return ts or None
-    except (subprocess.SubprocessError, FileNotFoundError, OSError):
+    sha = _git_stdout(root, ["log", "-1", "--format=%H", "--", "notes.json"])
+    if not sha:
         return None
+    # `git rev-parse --is-shallow-repository` prints true/false (git >= 2.15).
+    if (_git_stdout(root, ["rev-parse", "--is-shallow-repository"]) or "").lower() == "true":
+        shallow_roots = (_git_stdout(root, ["rev-list", "--max-parents=0", "HEAD"]) or "").split()
+        if sha in shallow_roots:
+            log("warning: notes.json history is truncated by a shallow clone — "
+                "reporting unknown age instead of the boundary commit's date "
+                "(check out with fetch-depth: 0 to get the real value)")
+            return None
+    return _git_stdout(root, ["log", "-1", "--format=%aI", "--", "notes.json"]) or None
 
 
 # --- gameLog cache (issue #52) ------------------------------------------
@@ -1680,7 +1721,12 @@ def fetch_league_player_rankings(cfg, roster):
         # that default to 0 in the roster dict (hr/rbi/sb) — ranking those
         # would show a fresh call-up as "0th percentile" instead of the
         # honest "not yet ranked" dash. No playing time → no ranks.
-        played = parse_float(hitter.get("ab"), default=0.0) > 0
+        #
+        # The floor is MIN_AB_FOR_RANK rather than 1: a 2-AB sample ranked
+        # against the qualified pool produced a literal 100th-percentile
+        # heat bar off two swings. Small samples get the dash, not a
+        # superlative.
+        played = parse_float(hitter.get("ab"), default=0.0) >= MIN_AB_FOR_RANK
         ranks[str(pid)] = {}
         for slug, api_field in PLAYER_HITTING_STATS:
             ranks[str(pid)][slug] = _value_rank(
@@ -1692,7 +1738,9 @@ def fetch_league_player_rankings(cfg, roster):
             continue
         # Same gate for pitchers: ip "0.0" parses to a rankable 0 even when
         # era/whip are "-.--" placeholders — gate the whole row instead.
-        played = parse_float(pitcher.get("ip"), default=0.0) > 0
+        # MIN_IP_FOR_RANK keeps a two-inning ERA out of the percentile
+        # conversation for the same reason as the hitters' floor above.
+        played = parse_float(pitcher.get("ip"), default=0.0) >= MIN_IP_FOR_RANK
         ranks[str(pid)] = {}
         for slug, api_field in PLAYER_PITCHING_STATS:
             higher_better = slug in PLAYER_PITCHING_HIGHER_IS_BETTER

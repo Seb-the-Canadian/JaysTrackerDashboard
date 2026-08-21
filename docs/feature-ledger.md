@@ -40,6 +40,12 @@ a machine guards it and it's confirmed on the live deploy.
 | Heat-bar coverage (every player ranked) | #138 | pytest (rank tests assert coverage) + contract (`check_data_completeness` coverage audit) + visual (fixture now 26/26) | ⏳ pending merge |
 | Brand mark — segmented diamond | #138 | visual baselines | ⏳ pending merge |
 | Reliever IP-row suppression | #138 | **manual** — *gap: no probe asserts RP modals omit IP* | ⏳ pending merge |
+| CI guards run on daily-refresh commits | #142 | the refresh workflow now *calls* `tests.yml` + `probes.yml` (a GITHUB_TOKEN push can't trigger them) | ⏳ pending merge — **chain proven on-branch**: dispatched refresh ran refresh → tests ✅ → probes ✅ |
+| Probes propagate failures to exit code | #142 | pytest (`test_probe_contract.py`) — fails if any probe can't exit nonzero | ⏳ pending merge |
+| Every probe is wired into CI | #142 | pytest (`test_probe_contract.py`) — fails if a probe file is unreferenced by `probes.yml` | ⏳ pending merge |
+| Wild Card panel always shows our team | #142 | probe (`wildcard-visibility.js`, our team at every "Out" slot) + round-1 me-row assertion | ⏳ pending merge |
+| Notes-staleness stamp is honest under shallow clone | #142 | pytest (`test_notes_meta.py` — real shallow clone, asserts unknown ≠ HEAD date) | ⏳ pending merge |
+| Small-sample rank floor | #142 | pytest (`test_rank_gate.py` boundary cases) + contract (`SUB-SAMPLE RANK` warn) | ⏳ pending merge |
 
 ## Known guard gaps (backlog)
 
@@ -54,6 +60,77 @@ won't be caught automatically. Prioritized for follow-up guards:
    resolve (codify the Padres fork test).
 3. **Reliever IP-row** — extend `player-ranks.js` / a modal probe to assert
    an RP modal has no IP row and an SP modal does.
+4. **Live-deploy confirmation is still manual.** Every row above says
+   "confirmed live" on someone's word. Nothing machine-checks that
+   `https://…github.io/…/data.json` is actually fresh and well-formed after
+   a deploy — Pages could silently serve a stale build and every guard here
+   would stay green. A post-deploy smoke check that fetches the live URL is
+   the missing piece.
+
+## The blackout, measured on main (2026-08-09)
+
+Side-by-side proof, captured the morning this fix was in review — same
+workflow, same day, one on `main` and one on the branch:
+
+| | `main` (old workflow) | branch (this PR) |
+|---|---|---|
+| Run | [`31306371233`](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/actions/runs/31306371233) (schedule, 09:37 UTC) | `31292193748` (dispatch, 03:19 UTC) |
+| Jobs | **1** — `refresh` | **4** — `refresh`, `pytest`, `probes`, `regenerate-baselines` |
+| Guards run | none | pytest ✅, 22 probes ✅ |
+| Result | pushed `39f1157`, Pages deployed it | verified before and after the push |
+
+`total_count: 1`. That single number is the whole bug: the refresh fetched,
+committed and shipped commit **51** to the live site with nothing checking
+it. Note the run's own steps look reassuring — completeness, notes-drift,
+orphan-key and freshness scans all "succeeded" — because every one of them
+is warn-only. The blocking guards are the two jobs that aren't there.
+
+Corollary worth keeping: the data `main` produced that morning still ranks
+Brett Bateman off 8 AB, so `check_data_completeness` warns `SUB-SAMPLE RANK`
+against it. The floor cannot apply to data generated before it lands. The
+bug is live on `main` until this merges — not a prediction, a measurement.
+
+## Lesson from the 2026-08 guard blackout
+
+Worth keeping because it cost 50 unguarded refreshes: **a guard's value is
+capped by whether anyone finds out it fired.** All three failures in that
+incident were of the "detected but unheard" family, not the "undetected"
+family:
+
+- `probes.yml` was correctly written and correctly failing — it just never
+  ran, because GITHUB_TOKEN pushes don't trigger `push` workflows.
+- `round-1.js` correctly detected the Wild Card regression on every run for
+  27 days, and exited 0 while doing it.
+- `check_notes_freshness.py` was structurally unable to fire, because the
+  timestamp it reads was silently wrong under a shallow clone.
+
+When adding a guard, ask the second question too: *what makes its failure
+reach a human?*
+
+Two follow-ons surfaced while verifying the fix, both still open:
+
+- **The staleness chip measures the file, not the voice.** It reads the
+  last commit touching `notes.json`, so a three-line factual correction
+  resets the clock to "refreshed today" over prose that is otherwise
+  months old. Honest about the file; misleading about the analysis. If the
+  badge is meant to promise freshness of *judgement*, it needs a signal the
+  author sets deliberately (e.g. a hand-maintained `notes.overview.as_of`)
+  rather than one derived from git.
+
+- **A bot push to a PR branch parks that PR's checks as `action_required`.**
+  Not the same mechanism as the `push`-event suppression above, and worth
+  stating precisely because the first read of it here was wrong. The runs
+  *are* created — GitHub then immediately parks them awaiting manual
+  approval, because the triggering actor is `github-actions[bot]`
+  (`created_at == updated_at`, no job ever starts). So the head commit
+  reports zero *check runs* while the Actions list shows two amber runs
+  that read as failures. Seen live on 2026-08-09: the refresh pushed
+  `0963b14` to this branch and both `Tests` and `UI probes` parked.
+
+  This does not touch the daily refresh on `main` — there is no PR there,
+  and the refresh calls its guards inside its own run. It only appears when
+  the bot pushes to a branch with an open PR. Judge such a PR by the
+  refresh run; pushing any human-authored commit repopulates the checks.
 
 ## Open process question
 

@@ -29,6 +29,13 @@ ROOT = Path(__file__).resolve().parent.parent
 CONTRACT = json.loads((ROOT / "schema" / "data_contract.json").read_text())
 DATA_PATH = ROOT / "data.json"
 
+# Playing-time floors for ranking, mirrored from fetch_data.py. Imported
+# rather than re-declared so the two can't drift apart silently — a gate
+# mismatch here would either hide a real coverage gap or cry wolf on every
+# legitimately-unranked bench player.
+sys.path.insert(0, str(ROOT))
+from fetch_data import MIN_AB_FOR_RANK, MIN_IP_FOR_RANK  # noqa: E402
+
 # The project's placeholder vocabulary — a value that means "no data" while
 # still rendering as a benign string.
 PLACEHOLDERS = {"", "-", "—", ".---", "---", "-.--", None}
@@ -72,13 +79,18 @@ def warn_scan(data):
     #     (troubleshootable: it names the players). Warn-only: a rank gap must
     #     never blank the live dashboard (resilience over completeness here).
     roster = data.get("roster") or {}
-    for grp, primary, pt_key in (("hitters", "ops", "ab"), ("pitchers", "era", "ip")):
+    for grp, primary, pt_key, pt_min in (("hitters", "ops", "ab", MIN_AB_FOR_RANK),
+                                         ("pitchers", "era", "ip", MIN_IP_FOR_RANK)):
         players = roster.get(grp) or []
-        # Mirror the fetcher's playing-time gate: only players with playing
-        # time owe us a rank (a 0-AB call-up legitimately shows "—").
-        def _played(p):
+        # Mirror the fetcher's playing-time gate: only players with ENOUGH
+        # playing time owe us a rank. A 0-AB call-up legitimately shows "—",
+        # and so does a 2-AB one — ranking that sample against the qualified
+        # pool is what printed a 100th-percentile heat bar off two swings.
+        # These floors must track fetch_data.MIN_AB_FOR_RANK / MIN_IP_FOR_RANK;
+        # test_rank_gate.py asserts the two stay equal.
+        def _played(p, _key=pt_key, _min=pt_min):
             try:
-                return float(p.get(pt_key) or 0) > 0
+                return float(p.get(_key) or 0) >= _min
             except (TypeError, ValueError):
                 return False
         have_stat = [p for p in players
@@ -91,6 +103,20 @@ def warn_scan(data):
         if gap:
             warns.append(f"GUARANTEE GAP — {len(gap)} {grp} have a {primary} but no rank "
                          f"(heat bar shows '—'): {', '.join(str(n) for n in gap[:8])}")
+
+        # The inverse failure, and the one that actually shipped: a rank
+        # that exists but means nothing. A 2-AB hitter slotted into the
+        # qualified distribution rendered "100th %ile" — the heat bar's
+        # loudest claim, off two swings. Coverage checks are blind to this
+        # by construction, so assert plausibility too.
+        below = [p.get("name") for p in players
+                 if not _played(p)
+                 and (pr.get(str(p.get("id"))) or {}).get(primary) is not None]
+        if below:
+            warns.append(
+                f"SUB-SAMPLE RANK — {len(below)} {grp} are ranked despite under "
+                f"{pt_min} {pt_key.upper()} (percentile is noise): "
+                f"{', '.join(str(n) for n in below[:8])}")
 
     # 2. Statcast saturation: every hitter's metric a placeholder → the
     #    Savant/xstats join is down (the value-only line renders nothing).

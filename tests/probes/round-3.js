@@ -660,8 +660,14 @@ function report(level, name, detail) {
   if (warns.length) { console.log('\nWARNS:'); warns.forEach(w => console.log('  ' + w)); }
 
   await browser.close();
+
+  // Propagate assertion failures to the exit code. Without this the probe
+  // printed "FAIL: n" and still exited 0, so `set -e` in probes.yml treated
+  // a red round as green — the AL Wild Card "me"-row regression sat caught-
+  // but-unreported for 27 days. Matches every other probe's convention.
+  process.exit(fails.length ? 1 : 0);
 })().catch(err => {
   console.error('PROBE ERROR:', err.message);
   console.error(err.stack);
-  process.exit(1);
+  process.exit(2);
 });

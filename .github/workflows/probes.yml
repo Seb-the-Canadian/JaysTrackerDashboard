@@ -5,6 +5,16 @@ on:
     branches: [main]
   push:
     branches: [main]
+  # Callable from daily-refresh.yml — see the note in tests.yml. A
+  # GITHUB_TOKEN push doesn't fire `push` workflows, so these probes went
+  # 50 refreshes without running while the AL Wild Card panel had silently
+  # dropped our own team for 27 days.
+  workflow_call:
+    inputs:
+      ref:
+        description: 'Git ref to check out (defaults to the triggering SHA)'
+        required: false
+        type: string
   workflow_dispatch:
     inputs:
       update_visual_baselines:
@@ -36,6 +46,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v6
+        with:
+          # See tests.yml: when called from daily-refresh the run SHA is the
+          # commit that triggered it, not the data we just pushed.
+          ref: ${{ inputs.ref || '' }}
 
       - name: Set up Node
         uses: actions/setup-node@v4
@@ -83,6 +97,27 @@ jobs:
           node tests/probes/opponent-pitcher.js
           node tests/probes/real-data.js
           node tests/probes/tooltips.js
+          node tests/probes/wildcard-visibility.js
+
+      # These nine probes existed but were referenced by NOTHING — they had
+      # never run in CI, xss-payloads.js included. They default to :8001;
+      # JT_BASE points them at the server this job already started.
+      # tests/test_probe_contract.py now fails if any probe file is left
+      # unwired, so this list can't silently fall behind again.
+      - name: Run binding + a11y + security probes
+        env:
+          JT_BASE: http://localhost:8000/index-v2.html
+        run: |
+          set -e
+          node tests/probes/regression-guards.js
+          node tests/probes/xss-payloads.js
+          node tests/probes/notes-binding.js
+          node tests/probes/heading-binding.js
+          node tests/probes/stat-school-binding.js
+          node tests/probes/bio-and-gb.js
+          node tests/probes/broad-contrast.js
+          node tests/probes/listener-accumulation.js
+          node tests/probes/modal-a11y.js
 
       - name: Run regression probes (rounds 1-3)
         run: |
