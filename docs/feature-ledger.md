@@ -37,15 +37,15 @@ a machine guards it and it's confirmed on the live deploy.
 | a11y ARIA/landmarks/skip-link | #134 | **manual** — *gap: axe not wired into CI* | ✅ |
 | Forkability F1–F3 (config-driven headers/title) | #135 | **manual** (Padres fork test) — *gap: no automated fork assertion* | ✅ |
 | CI auto-revalidate after baseline regen | #136 | exercised on every visual PR | ✅ |
-| Heat-bar coverage (every player ranked) | #138 | pytest (rank tests assert coverage) + contract (`check_data_completeness` coverage audit) + visual (fixture now 26/26) | ⏳ pending merge |
-| Brand mark — segmented diamond | #138 | visual baselines | ⏳ pending merge |
-| Reliever IP-row suppression | #138 | **manual** — *gap: no probe asserts RP modals omit IP* | ⏳ pending merge |
-| CI guards run on daily-refresh commits | #142 | the refresh workflow now *calls* `tests.yml` + `probes.yml` (a GITHUB_TOKEN push can't trigger them) | ⏳ pending merge — **chain proven on-branch**: dispatched refresh ran refresh → tests ✅ → probes ✅ |
-| Probes propagate failures to exit code | #142 | pytest (`test_probe_contract.py`) — fails if any probe can't exit nonzero | ⏳ pending merge |
-| Every probe is wired into CI | #142 | pytest (`test_probe_contract.py`) — fails if a probe file is unreferenced by `probes.yml` | ⏳ pending merge |
-| Wild Card panel always shows our team | #142 | probe (`wildcard-visibility.js`, our team at every "Out" slot) + round-1 me-row assertion | ⏳ pending merge |
-| Notes-staleness stamp is honest under shallow clone | #142 | pytest (`test_notes_meta.py` — real shallow clone, asserts unknown ≠ HEAD date) | ⏳ pending merge |
-| Small-sample rank floor | #142 | pytest (`test_rank_gate.py` boundary cases) + contract (`SUB-SAMPLE RANK` warn) | ⏳ pending merge |
+| Heat-bar coverage (every player ranked) | #138 | pytest (rank tests assert coverage) + contract (`check_data_completeness` coverage audit) + visual | ✅ merged `846ad53`; live 2026-09-02: 14/14 hitters, 13/13 pitchers ranked |
+| Brand mark — segmented diamond | #138 | visual baselines | ✅ merged `846ad53`; visual probe green in every daily refresh |
+| Reliever IP-row suppression | #138 | **manual** — *gap: no probe asserts RP modals omit IP* | ✅ merged `846ad53`; **still unguarded** |
+| CI guards run on daily-refresh commits | #142 | the refresh workflow now *calls* `tests.yml` + `probes.yml` (a GITHUB_TOKEN push can't trigger them) | ✅ run [`33634702173`](https://github.com/Seb-the-Canadian/JaysTrackerDashboard/actions/runs/33634702173) shows `total_count: 4`; runs 125–136 (12 consecutive) all carry `referenced_workflows` |
+| Probes propagate failures to exit code | #142 | pytest (`test_probe_contract.py`) — fails if any probe can't exit nonzero | ✅ audit 2026-09-02: planted an exit-0 probe, test failed as designed |
+| Every probe is wired into CI | #142 | pytest (`test_probe_contract.py`) — fails if a probe file is unreferenced by `probes.yml` | ✅ audit 2026-09-02: planted an unwired probe, test failed as designed |
+| Wild Card panel always shows our team | #142 | probe (`wildcard-visibility.js`, our team at every "Out" slot) — **round-1 does not cover this today**, see below | ✅ mutation-tested live 2026-09-02: bug reintroduced → `wildcard-visibility` exit 1 (8 fail) |
+| Notes-staleness stamp is honest under shallow clone | #142 | pytest (`test_notes_meta.py` — real shallow clone, asserts unknown ≠ HEAD date) | ✅ live stamp reads `2026-08-09`, not today; `check_notes_freshness` now fires (4 findings, 28d) |
+| Small-sample rank floor | #142 | pytest (`test_rank_gate.py` boundary cases) + contract (`SUB-SAMPLE RANK` warn) | ✅ live contract clean, no sub-sample warn — **but see gap 5: the floor does not fix rank *clamping*** |
 
 ## Known guard gaps (backlog)
 
@@ -66,6 +66,39 @@ won't be caught automatically. Prioritized for follow-up guards:
    a deploy — Pages could silently serve a stale build and every guard here
    would stay green. A post-deploy smoke check that fetches the live URL is
    the missing piece.
+5. **Pitcher ranks are clamped at both ends — live defect, not yet fixed.**
+   `player_rank_pool.pitching` is **49**: MLB's qualified pitchers are
+   essentially starters, so every reliever is slotted into a starters-only
+   distribution. Measured on 2026-09-02 data:
+
+   | | |
+   |---|---|
+   | Clamped to rank 49 = **0th %ile** | Little (8.27 ERA), Lorenzen (7.13), Scherzer (6.16), Sewald (5.44) |
+   | Ranked ≥98th %ile | Varland 1.18 (100th), Rogers 1.90 (98th) |
+
+   Four pitchers whose ERAs span 5.44–8.27 render as an *identical* empty
+   heat bar, because `_value_rank` clamps `better + 1` to `pool`. And a
+   reliever tops the league because relievers out-perform starters on ERA by
+   construction. Hitters are fine (pool 141, one clamped, good spread) — this
+   is pitcher-specific. The `MIN_IP_FOR_RANK` floor added in #142 fixes the
+   *tiny-sample* end and does nothing here.
+6. **The contract's plausibility check is one-sided.** `warn_scan` says in
+   its own comment "coverage checks are blind to this by construction, so
+   assert plausibility too" — but it only asserts the sub-sample end
+   (`SUB-SAMPLE RANK`). Nothing warns when N players pile up at rank == pool,
+   which is the failure actually live today. A `CLAMPED RANK` warn when more
+   than one player shares the extreme rank would have caught gap 5 on the
+   first refresh.
+7. **`gamelog_cache.json` has no shrink assertion.** Nothing fails when a
+   retained player's `splits` list gets shorter. A silent cache truncation is
+   currently indistinguishable in CI from routine roster churn; the only
+   reason the 2026-08-11 ~2400-line drop was known benign is that it was
+   checked by hand.
+8. **`fetch_league_player_rankings`'s docstring contradicts its code.** It
+   states "Players outside their group's qualified pool … return None for
+   every slug. Per decision D1", while the body ranks every rostered player
+   with enough playing time. The stale sentence describes the pre-#138
+   behaviour and should go, or D1 should be restated.
 
 ## The blackout, measured on main (2026-08-09)
 
@@ -101,6 +134,15 @@ family:
   ran, because GITHUB_TOKEN pushes don't trigger `push` workflows.
 - `round-1.js` correctly detected the Wild Card regression on every run for
   27 days, and exited 0 while doing it.
+
+  Re-tested 2026-09-02 by reintroducing `out.slice(0, 4)` on live data:
+  **`round-1` now passes it — 38 PASS, 0 FAIL, exit 0.** The Jays currently
+  sit 3rd of 9 in the "Out" group, inside the window, so the assertion it
+  makes against committed data cannot see the bug. `wildcard-visibility.js`
+  caught it (exit 1, 8 fail) because it places our row at every slot with
+  synthetic fixtures. The lesson generalises: a guard that asserts against
+  today's live data inherits today's luck. Assert against constructed
+  worst cases, not the standings.
 - `check_notes_freshness.py` was structurally unable to fire, because the
   timestamp it reads was silently wrong under a shallow clone.
 
