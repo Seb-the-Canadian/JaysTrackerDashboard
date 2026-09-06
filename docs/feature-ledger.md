@@ -67,21 +67,22 @@ won't be caught automatically. Prioritized for follow-up guards:
    would stay green. A post-deploy smoke check that fetches the live URL is
    the missing piece.
 5. **Pitcher ranks are clamped at both ends — live defect, not yet fixed.**
-   `player_rank_pool.pitching` is **49**: MLB's qualified pitchers are
+   `player_rank_pool.pitching` is ~50: MLB's qualified pitchers are
    essentially starters, so every reliever is slotted into a starters-only
-   distribution. Measured on 2026-09-02 data:
+   distribution. Measured twice, four days apart — the *same four pitchers*
+   both times, so this is structural, not a bad day:
 
-   | | |
-   |---|---|
-   | Clamped to rank 49 = **0th %ile** | Little (8.27 ERA), Lorenzen (7.13), Scherzer (6.16), Sewald (5.44) |
-   | Ranked ≥98th %ile | Varland 1.18 (100th), Rogers 1.90 (98th) |
+   | | 2026-09-02 (pool 49) | 2026-09-06 (pool 50) |
+   |---|---|---|
+   | Clamped to **0th %ile** | Little 8.27, Lorenzen 7.13, Scherzer 6.16, Sewald 5.44 | Little 7.54, Lorenzen 7.03, Scherzer 6.03, Sewald 5.28 |
+   | Ranked ≥98th %ile | Varland 1.18 (100th), Rogers 1.90 (98th) | Varland 1.15 (100th), Rogers 1.84 (100th) |
 
-   Four pitchers whose ERAs span 5.44–8.27 render as an *identical* empty
-   heat bar, because `_value_rank` clamps `better + 1` to `pool`. And a
-   reliever tops the league because relievers out-perform starters on ERA by
-   construction. Hitters are fine (pool 141, one clamped, good spread) — this
-   is pitcher-specific. The `MIN_IP_FOR_RANK` floor added in #142 fixes the
-   *tiny-sample* end and does nothing here.
+   Four pitchers whose ERAs span more than two full runs render as an
+   *identical* empty heat bar, because `_value_rank` clamps `better + 1` to
+   `pool`. And a reliever tops the league because relievers out-perform
+   starters on ERA by construction. Hitters are fine (pool ~140, 0–1 clamped,
+   good spread) — this is pitcher-specific. The `MIN_IP_FOR_RANK` floor added
+   in #142 fixes the *tiny-sample* end and does nothing here.
 6. **The contract's plausibility check is one-sided.** `warn_scan` says in
    its own comment "coverage checks are blind to this by construction, so
    assert plausibility too" — but it only asserts the sub-sample end
