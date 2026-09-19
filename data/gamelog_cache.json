@@ -1703,8 +1703,8 @@
       ]
     },
     "543807_hitting_2026": {
-      "fetched_at": "2026-09-17T14:07:41.995200+00:00",
-      "signature": "atBats=438|hits=111|baseOnBalls=47|homeRuns=15|totalBases=182",
+      "fetched_at": "2026-09-19T12:53:42.715316+00:00",
+      "signature": "atBats=442|hits=111|baseOnBalls=47|homeRuns=15|totalBases=182",
       "splits": [
         {
           "date": "2026-03-27",
@@ -12226,148 +12226,44 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
-        }
-      ]
-    },
-    "547179_pitching_2026": {
-      "fetched_at": "2026-09-16T14:03:05.160349+00:00",
-      "signature": "inningsPitched=127.1|earnedRuns=102|strikeOuts=90|baseOnBalls=54",
-      "splits": [
+        },
         {
-          "date": "2026-03-28",
+          "date": "2026-09-18",
           "game": {
             "content": {
-              "link": "/api/v1/game/823892/content"
+              "link": "/api/v1/game/822847/content"
             },
             "dayNight": "day",
             "gameNumber": 1,
-            "gamePk": 823892,
-            "link": "/api/v1.1/game/823892/feed/live"
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
           },
           "gameType": "R",
           "isHome": false,
           "isWin": false,
           "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
           },
           "opponent": {
-            "id": 146,
-            "link": "/api/v1/teams/146",
-            "name": "Miami Marlins"
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
           },
           "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
+            "fullName": "George Springer",
+            "id": 543807,
+            "link": "/api/v1/people/543807"
           },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 3,
-            "atBats": 19,
-            "avg": ".368",
-            "balks": 0,
-            "baseOnBalls": 0,
-            "battersFaced": 22,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".000",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 3,
-            "era": "6.23",
-            "flyOuts": 2,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 6,
-            "groundOutsToAirouts": "2.00",
-            "hitBatsmen": 2,
-            "hitByPitch": 2,
-            "hits": 7,
-            "hitsPer9Inn": "14.54",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "2.08",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "4.1",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 93,
-            "obp": ".409",
-            "ops": ".988",
-            "outs": 13,
-            "pickoffs": 0,
-            "pitchesPerInning": "21.46",
-            "runs": 3,
-            "runsScoredPer9": "6.23",
-            "sacBunts": 0,
-            "sacFlies": 1,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".579",
-            "stolenBasePercentage": "1.000",
-            "stolenBases": 1,
-            "strikeOuts": 4,
-            "strikePercentage": ".620",
-            "strikeoutWalkRatio": "-.--",
-            "strikeoutsPer9Inn": "8.31",
-            "strikes": 58,
-            "summary": "4.1 IP, 3 ER, 4 K, 0 BB",
-            "totalBases": 11,
-            "triples": 0,
-            "walksPer9Inn": "0.00",
-            "whip": "1.62",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-04-03",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824377/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824377,
-            "link": "/api/v1.1/game/824377/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 143,
-            "link": "/api/v1/teams/143",
-            "name": "Philadelphia Phillies"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "DH",
+              "code": "10",
+              "name": "Designated Hitter",
+              "type": "Hitter"
+            }
+          ],
           "season": "2026",
           "sport": {
             "abbreviation": "MLB",
@@ -12376,3248 +12272,41 @@
           },
           "stat": {
             "airOuts": 1,
-            "atBats": 21,
-            "avg": ".475",
-            "balks": 0,
-            "baseOnBalls": 2,
-            "battersFaced": 23,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 4,
-            "earnedRuns": 9,
-            "era": "14.73",
-            "flyOuts": 1,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 6,
-            "groundOutsToAirouts": "3.00",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 12,
-            "hitsPer9Inn": "36.00",
-            "holds": 0,
-            "homeRuns": 2,
-            "homeRunsPer9": "6.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "3.0",
-            "intentionalWalks": 0,
-            "losses": 1,
-            "numberOfPitches": 77,
-            "obp": ".609",
-            "ops": "1.657",
-            "outs": 9,
-            "pickoffs": 0,
-            "pitchesPerInning": "25.67",
-            "runs": 9,
-            "runsScoredPer9": "27.00",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": "1.048",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 2,
-            "strikePercentage": ".650",
-            "strikeoutWalkRatio": "1.00",
-            "strikeoutsPer9Inn": "6.00",
-            "strikes": 50,
-            "summary": "3.0 IP, 9 ER, 2 K, 2 BB",
-            "totalBases": 22,
-            "triples": 0,
-            "walksPer9Inn": "6.00",
-            "whip": "2.86",
-            "wildPitches": 0,
-            "winPercentage": ".000",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-04-08",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824374/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824374,
-            "link": "/api/v1.1/game/824374/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": true,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 117,
-            "link": "/api/v1/teams/117",
-            "name": "Houston Astros"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 5,
-            "atBats": 24,
-            "avg": ".406",
-            "balks": 0,
-            "baseOnBalls": 2,
-            "battersFaced": 26,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 0,
-            "earnedRuns": 1,
-            "era": "9.00",
-            "flyOuts": 3,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 8,
-            "groundOutsToAirouts": "2.22",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 7,
-            "hitsPer9Inn": "11.12",
-            "holds": 0,
-            "homeRuns": 0,
-            "homeRunsPer9": "0.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "5.2",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 100,
-            "obp": ".346",
-            "ops": ".638",
-            "outs": 17,
-            "pickoffs": 0,
-            "pitchesPerInning": "17.65",
-            "runs": 1,
-            "runsScoredPer9": "1.59",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".292",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 4,
-            "strikePercentage": ".620",
-            "strikeoutWalkRatio": "2.00",
-            "strikeoutsPer9Inn": "6.35",
-            "strikes": 62,
-            "summary": "5.2 IP, ER, 4 K, 2 BB",
-            "totalBases": 7,
-            "triples": 0,
-            "walksPer9Inn": "3.18",
-            "whip": "2.31",
-            "wildPitches": 0,
-            "winPercentage": "1.000",
-            "wins": 1
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-04-11",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/823316/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 823316,
-            "link": "/api/v1.1/game/823316/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 135,
-            "link": "/api/v1/teams/135",
-            "name": "San Diego Padres"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 1,
-            "atBats": 3,
-            "avg": ".388",
-            "balks": 0,
-            "baseOnBalls": 0,
-            "battersFaced": 4,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 0,
-            "earnedRuns": 0,
-            "era": "8.36",
-            "flyOuts": 0,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 0,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 2,
-            "groundOutsToAirouts": "2.20",
-            "hitBatsmen": 1,
-            "hitByPitch": 1,
-            "hits": 0,
-            "hitsPer9Inn": "0.00",
-            "holds": 0,
-            "homeRuns": 0,
-            "homeRunsPer9": "0.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "1.0",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 11,
-            "obp": ".250",
-            "ops": ".250",
-            "outs": 3,
-            "pickoffs": 0,
-            "pitchesPerInning": "11.00",
-            "runs": 0,
-            "runsScoredPer9": "0.00",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".000",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 0,
-            "strikePercentage": ".640",
-            "strikeoutWalkRatio": "-.--",
-            "strikeoutsPer9Inn": "0.00",
-            "strikes": 7,
-            "summary": "1.0 IP, 0 ER, 0 K, 0 BB",
-            "totalBases": 0,
-            "triples": 0,
-            "walksPer9Inn": "0.00",
-            "whip": "2.14",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-04-14",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824210/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824210,
-            "link": "/api/v1.1/game/824210/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 117,
-            "link": "/api/v1/teams/117",
-            "name": "Houston Astros"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 4,
-            "atBats": 17,
-            "avg": ".393",
-            "balks": 1,
-            "baseOnBalls": 1,
-            "battersFaced": 18,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 3,
-            "earnedRuns": 2,
-            "era": "8.10",
-            "flyOuts": 2,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 3,
-            "groundOutsToAirouts": "1.79",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 7,
-            "hitsPer9Inn": "23.63",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "3.38",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "2.2",
-            "intentionalWalks": 0,
-            "losses": 1,
-            "numberOfPitches": 71,
-            "obp": ".444",
-            "ops": "1.209",
-            "outs": 8,
-            "pickoffs": 0,
-            "pitchesPerInning": "26.63",
-            "runs": 7,
-            "runsScoredPer9": "23.63",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".765",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 3,
-            "strikePercentage": ".700",
-            "strikeoutWalkRatio": "3.00",
-            "strikeoutsPer9Inn": "10.13",
-            "strikes": 50,
-            "summary": "2.2 IP, 2 ER, 3 K, BB",
-            "totalBases": 13,
-            "triples": 0,
-            "walksPer9Inn": "3.38",
-            "whip": "2.28",
-            "wildPitches": 0,
-            "winPercentage": ".000",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-04-19",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824371/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824371,
-            "link": "/api/v1.1/game/824371/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": true,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 119,
-            "link": "/api/v1/teams/119",
-            "name": "Los Angeles Dodgers"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 8,
-            "atBats": 21,
-            "avg": ".381",
-            "balks": 0,
-            "baseOnBalls": 1,
-            "battersFaced": 22,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 2,
-            "earnedRuns": 3,
-            "era": "7.48",
-            "flyOuts": 7,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 3,
-            "groundOutsToAirouts": "1.27",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 7,
-            "hitsPer9Inn": "12.60",
-            "holds": 0,
-            "homeRuns": 0,
-            "homeRunsPer9": "0.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "5.0",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 88,
-            "obp": ".364",
-            "ops": ".793",
-            "outs": 15,
-            "pickoffs": 0,
-            "pitchesPerInning": "17.60",
-            "runs": 3,
-            "runsScoredPer9": "5.40",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".429",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 3,
-            "strikePercentage": ".600",
-            "strikeoutWalkRatio": "3.00",
-            "strikeoutsPer9Inn": "5.40",
-            "strikes": 53,
-            "summary": "5.0 IP, 3 ER, 3 K, BB",
-            "totalBases": 9,
-            "triples": 0,
-            "walksPer9Inn": "1.80",
-            "whip": "2.12",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-04-24",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/823638/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 823638,
-            "link": "/api/v1.1/game/823638/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": true,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 121,
-            "link": "/api/v1/teams/121",
-            "name": "New York Mets"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 6,
-            "atBats": 26,
-            "avg": ".359",
-            "balks": 0,
-            "baseOnBalls": 0,
-            "battersFaced": 26,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 1,
-            "era": "5.97",
-            "flyOuts": 5,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 3,
-            "groundOuts": 10,
-            "groundOutsToAirouts": "1.36",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 7,
-            "hitsPer9Inn": "9.00",
-            "holds": 0,
-            "homeRuns": 0,
-            "homeRunsPer9": "0.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "7.0",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 90,
-            "obp": ".269",
-            "ops": ".577",
-            "outs": 21,
-            "pickoffs": 0,
-            "pitchesPerInning": "12.86",
-            "runs": 1,
-            "runsScoredPer9": "1.29",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".308",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 3,
-            "strikePercentage": ".610",
-            "strikeoutWalkRatio": "-.--",
-            "strikeoutsPer9Inn": "3.86",
-            "strikes": 55,
-            "summary": "7.0 IP, ER, 3 K, 0 BB",
-            "totalBases": 8,
-            "triples": 0,
-            "walksPer9Inn": "0.00",
-            "whip": "1.85",
-            "wildPitches": 0,
-            "winPercentage": "1.000",
-            "wins": 1
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-04-30",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824524/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824524,
-            "link": "/api/v1.1/game/824524/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 113,
-            "link": "/api/v1/teams/113",
-            "name": "Cincinnati Reds"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 6,
-            "atBats": 20,
-            "avg": ".338",
-            "balks": 0,
-            "baseOnBalls": 3,
-            "battersFaced": 23,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 4,
-            "era": "6.09",
-            "flyOuts": 2,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 5,
-            "groundOutsToAirouts": "1.26",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 4,
-            "hitsPer9Inn": "6.75",
-            "holds": 0,
-            "homeRuns": 2,
-            "homeRunsPer9": "3.38",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "5.1",
-            "intentionalWalks": 0,
-            "losses": 1,
-            "numberOfPitches": 85,
-            "obp": ".304",
-            "ops": ".854",
-            "outs": 16,
-            "pickoffs": 0,
-            "pitchesPerInning": "15.94",
-            "runs": 4,
-            "runsScoredPer9": "6.75",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".550",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 5,
-            "strikePercentage": ".580",
-            "strikeoutWalkRatio": "1.67",
-            "strikeoutsPer9Inn": "8.44",
-            "strikes": 49,
-            "summary": "5.1 IP, 4 ER, 5 K, 3 BB",
-            "totalBases": 11,
-            "triples": 0,
-            "walksPer9Inn": "5.06",
-            "whip": "1.76",
-            "wildPitches": 1,
-            "winPercentage": ".000",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-05-06",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824361/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824361,
-            "link": "/api/v1.1/game/824361/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 121,
-            "link": "/api/v1/teams/121",
-            "name": "New York Mets"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 4,
-            "atBats": 23,
-            "avg": ".356",
-            "balks": 0,
-            "baseOnBalls": 3,
-            "battersFaced": 26,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 1,
-            "caughtStealingPercentage": "1.000",
-            "completeGames": 0,
-            "doubles": 2,
-            "earnedRuns": 7,
-            "era": "6.92",
-            "flyOuts": 2,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 2,
-            "groundOuts": 6,
-            "groundOutsToAirouts": "1.29",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 11,
-            "hitsPer9Inn": "19.80",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "1.80",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "5.0",
-            "intentionalWalks": 0,
-            "losses": 1,
-            "numberOfPitches": 87,
-            "obp": ".538",
-            "ops": "1.321",
-            "outs": 15,
-            "pickoffs": 0,
-            "pitchesPerInning": "17.40",
-            "runs": 7,
-            "runsScoredPer9": "12.60",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".783",
-            "stolenBasePercentage": ".000",
-            "stolenBases": 0,
-            "strikeOuts": 2,
-            "strikePercentage": ".610",
-            "strikeoutWalkRatio": "0.67",
-            "strikeoutsPer9Inn": "3.60",
-            "strikes": 53,
-            "summary": "5.0 IP, 7 ER, 2 K, 3 BB",
-            "totalBases": 18,
-            "triples": 1,
-            "walksPer9Inn": "5.40",
-            "whip": "1.90",
-            "wildPitches": 0,
-            "winPercentage": ".000",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-05-12",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/823385/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 823385,
-            "link": "/api/v1.1/game/823385/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 134,
-            "link": "/api/v1/teams/134",
-            "name": "Pittsburgh Pirates"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 3,
-            "atBats": 19,
-            "avg": ".347",
-            "balks": 0,
-            "baseOnBalls": 2,
-            "battersFaced": 21,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 2,
-            "earnedRuns": 2,
-            "era": "6.55",
-            "flyOuts": 1,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 1,
-            "groundOuts": 6,
-            "groundOutsToAirouts": "1.34",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 5,
-            "hitsPer9Inn": "9.00",
-            "holds": 0,
-            "homeRuns": 0,
-            "homeRunsPer9": "0.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "5.0",
-            "intentionalWalks": 0,
-            "losses": 1,
-            "numberOfPitches": 85,
-            "obp": ".333",
-            "ops": ".701",
-            "outs": 15,
-            "pickoffs": 0,
-            "pitchesPerInning": "17.00",
-            "runs": 2,
-            "runsScoredPer9": "3.60",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".368",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 5,
-            "strikePercentage": ".610",
-            "strikeoutWalkRatio": "2.50",
-            "strikeoutsPer9Inn": "9.00",
-            "strikes": 52,
-            "summary": "5.0 IP, 2 ER, 5 K, 2 BB",
-            "totalBases": 7,
-            "triples": 0,
-            "walksPer9Inn": "3.60",
-            "whip": "1.84",
-            "wildPitches": 0,
-            "winPercentage": ".000",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-05-17",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824358/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824358,
-            "link": "/api/v1.1/game/824358/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 109,
-            "link": "/api/v1/teams/109",
-            "name": "Arizona Diamondbacks"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 5,
-            "atBats": 22,
-            "avg": ".353",
-            "balks": 0,
-            "baseOnBalls": 3,
-            "battersFaced": 26,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".000",
-            "completeGames": 0,
-            "doubles": 0,
-            "earnedRuns": 6,
-            "era": "7.03",
-            "flyOuts": 3,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 4,
-            "groundOutsToAirouts": "1.28",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 9,
-            "hitsPer9Inn": "17.36",
-            "holds": 0,
-            "homeRuns": 2,
-            "homeRunsPer9": "3.86",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "4.2",
-            "intentionalWalks": 0,
-            "losses": 1,
-            "numberOfPitches": 101,
-            "obp": ".480",
-            "ops": "1.162",
-            "outs": 14,
-            "pickoffs": 0,
-            "pitchesPerInning": "21.64",
-            "runs": 7,
-            "runsScoredPer9": "13.50",
-            "sacBunts": 1,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".682",
-            "stolenBasePercentage": "1.000",
-            "stolenBases": 1,
-            "strikeOuts": 5,
-            "strikePercentage": ".580",
-            "strikeoutWalkRatio": "1.67",
-            "strikeoutsPer9Inn": "9.64",
-            "strikes": 59,
-            "summary": "4.2 IP, 6 ER, 5 K, 3 BB",
-            "totalBases": 15,
-            "triples": 0,
-            "walksPer9Inn": "5.79",
-            "whip": "1.91",
-            "wildPitches": 0,
-            "winPercentage": ".000",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-05-23",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/825080/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 825080,
-            "link": "/api/v1.1/game/825080/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 109,
-            "link": "/api/v1/teams/109",
-            "name": "Arizona Diamondbacks"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 6,
-            "atBats": 23,
-            "avg": ".353",
-            "balks": 0,
-            "baseOnBalls": 1,
-            "battersFaced": 24,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 2,
-            "earnedRuns": 5,
-            "era": "7.21",
-            "flyOuts": 4,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 4,
-            "groundOutsToAirouts": "1.21",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 8,
-            "hitsPer9Inn": "14.40",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "1.80",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "5.0",
-            "intentionalWalks": 0,
-            "losses": 1,
-            "numberOfPitches": 94,
-            "obp": ".375",
-            "ops": ".940",
-            "outs": 15,
-            "pickoffs": 0,
-            "pitchesPerInning": "18.80",
-            "runs": 5,
-            "runsScoredPer9": "9.00",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".565",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 5,
-            "strikePercentage": ".730",
-            "strikeoutWalkRatio": "5.00",
-            "strikeoutsPer9Inn": "9.00",
-            "strikes": 69,
-            "summary": "5.0 IP, 5 ER, 5 K, BB",
-            "totalBases": 13,
-            "triples": 0,
-            "walksPer9Inn": "1.80",
-            "whip": "1.90",
-            "wildPitches": 0,
-            "winPercentage": ".000",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-05-29",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824353/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824353,
-            "link": "/api/v1.1/game/824353/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": true,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 137,
-            "link": "/api/v1/teams/137",
-            "name": "San Francisco Giants"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 4,
-            "atBats": 14,
-            "avg": ".353",
-            "balks": 0,
-            "baseOnBalls": 2,
-            "battersFaced": 18,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 3,
-            "era": "7.22",
-            "flyOuts": 4,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 5,
-            "groundOutsToAirouts": "1.21",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 5,
-            "hitsPer9Inn": "12.27",
-            "holds": 0,
-            "homeRuns": 0,
-            "homeRunsPer9": "0.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "3.2",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 70,
-            "obp": ".389",
-            "ops": ".818",
-            "outs": 11,
-            "pickoffs": 0,
-            "pitchesPerInning": "19.09",
-            "runs": 3,
-            "runsScoredPer9": "7.36",
-            "sacBunts": 0,
-            "sacFlies": 2,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".429",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 2,
-            "strikePercentage": ".590",
-            "strikeoutWalkRatio": "1.00",
-            "strikeoutsPer9Inn": "4.91",
-            "strikes": 41,
-            "summary": "3.2 IP, 3 ER, 2 K, 2 BB",
-            "totalBases": 6,
-            "triples": 0,
-            "walksPer9Inn": "4.91",
-            "whip": "1.90",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-06-03",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824024/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824024,
-            "link": "/api/v1.1/game/824024/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 108,
-            "link": "/api/v1/teams/108",
-            "name": "Los Angeles Angels"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 5,
-            "atBats": 20,
-            "avg": ".364",
-            "balks": 0,
-            "baseOnBalls": 2,
-            "battersFaced": 22,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 8,
-            "era": "8.01",
-            "flyOuts": 4,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 0,
-            "groundOutsToAirouts": "1.11",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 10,
-            "hitsPer9Inn": "27.00",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "2.70",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "3.1",
-            "intentionalWalks": 0,
-            "losses": 1,
-            "numberOfPitches": 85,
-            "obp": ".545",
-            "ops": "1.245",
-            "outs": 10,
-            "pickoffs": 0,
-            "pitchesPerInning": "25.50",
-            "runs": 8,
-            "runsScoredPer9": "21.60",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".700",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 5,
-            "strikePercentage": ".610",
-            "strikeoutWalkRatio": "2.50",
-            "strikeoutsPer9Inn": "13.50",
-            "strikes": 52,
-            "summary": "3.1 IP, 8 ER, 5 K, 2 BB",
-            "totalBases": 14,
-            "triples": 0,
-            "walksPer9Inn": "5.40",
-            "whip": "1.99",
-            "wildPitches": 2,
-            "winPercentage": ".000",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-06-10",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824348/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824348,
-            "link": "/api/v1.1/game/824348/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": true,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 112,
-            "link": "/api/v1/teams/112",
-            "name": "Chicago Cubs"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 3,
-            "atBats": 17,
-            "avg": ".349",
-            "balks": 0,
-            "baseOnBalls": 2,
-            "battersFaced": 19,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 1,
-            "era": "7.54",
-            "flyOuts": 2,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 5,
-            "groundOutsToAirouts": "1.14",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 2,
-            "hitsPer9Inn": "3.60",
-            "holds": 0,
-            "homeRuns": 0,
-            "homeRunsPer9": "0.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "5.0",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 84,
-            "obp": ".211",
-            "ops": ".505",
-            "outs": 15,
-            "pickoffs": 0,
-            "pitchesPerInning": "16.80",
-            "runs": 1,
-            "runsScoredPer9": "1.80",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".294",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 7,
-            "strikePercentage": ".630",
-            "strikeoutWalkRatio": "3.50",
-            "strikeoutsPer9Inn": "12.60",
-            "strikes": 53,
-            "summary": "5.0 IP, ER, 7 K, 2 BB",
-            "totalBases": 5,
-            "triples": 1,
-            "walksPer9Inn": "3.60",
-            "whip": "1.90",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-06-15",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824666/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824666,
-            "link": "/api/v1.1/game/824666/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 112,
-            "link": "/api/v1/teams/112",
-            "name": "Chicago Cubs"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 7,
-            "atBats": 20,
-            "avg": ".343",
-            "balks": 0,
-            "baseOnBalls": 1,
-            "battersFaced": 22,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 1,
-            "era": "7.13",
-            "flyOuts": 5,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 3,
-            "groundOutsToAirouts": "1.07",
-            "hitBatsmen": 1,
-            "hitByPitch": 1,
-            "hits": 5,
-            "hitsPer9Inn": "9.00",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "1.80",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "5.0",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 89,
-            "obp": ".318",
-            "ops": ".868",
-            "outs": 15,
-            "pickoffs": 0,
-            "pitchesPerInning": "17.80",
-            "runs": 1,
-            "runsScoredPer9": "1.80",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".550",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 5,
-            "strikePercentage": ".580",
-            "strikeoutWalkRatio": "5.00",
-            "strikeoutsPer9Inn": "9.00",
-            "strikes": 52,
-            "summary": "5.0 IP, ER, 5 K, BB",
-            "totalBases": 11,
-            "triples": 1,
-            "walksPer9Inn": "1.80",
-            "whip": "1.85",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-06-21",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824343/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824343,
-            "link": "/api/v1.1/game/824343/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 134,
-            "link": "/api/v1/teams/134",
-            "name": "Pittsburgh Pirates"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 4,
-            "atBats": 23,
-            "avg": ".340",
-            "balks": 0,
-            "baseOnBalls": 1,
-            "battersFaced": 24,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 2,
-            "earnedRuns": 4,
-            "era": "7.11",
-            "flyOuts": 3,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 7,
-            "groundOutsToAirouts": "1.11",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 7,
-            "hitsPer9Inn": "11.81",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "1.69",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "5.1",
-            "intentionalWalks": 0,
-            "losses": 1,
-            "numberOfPitches": 90,
-            "obp": ".333",
-            "ops": ".855",
-            "outs": 16,
-            "pickoffs": 0,
-            "pitchesPerInning": "16.88",
-            "runs": 4,
-            "runsScoredPer9": "6.75",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".522",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 5,
-            "strikePercentage": ".630",
-            "strikeoutWalkRatio": "5.00",
-            "strikeoutsPer9Inn": "8.44",
-            "strikes": 57,
-            "summary": "5.1 IP, 4 ER, 5 K, BB",
-            "totalBases": 12,
-            "triples": 0,
-            "walksPer9Inn": "1.69",
-            "whip": "1.83",
-            "wildPitches": 0,
-            "winPercentage": ".000",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-06-27",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/823689/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 823689,
-            "link": "/api/v1.1/game/823689/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": true,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 142,
-            "link": "/api/v1/teams/142",
-            "name": "Minnesota Twins"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 9,
-            "atBats": 23,
-            "avg": ".338",
-            "balks": 0,
-            "baseOnBalls": 0,
-            "battersFaced": 25,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 2,
-            "era": "6.83",
-            "flyOuts": 5,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 7,
-            "groundOutsToAirouts": "1.07",
-            "hitBatsmen": 1,
-            "hitByPitch": 1,
-            "hits": 7,
-            "hitsPer9Inn": "11.12",
-            "holds": 0,
-            "homeRuns": 0,
-            "homeRunsPer9": "0.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "5.2",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 92,
-            "obp": ".320",
-            "ops": ".755",
-            "outs": 17,
-            "pickoffs": 0,
-            "pitchesPerInning": "16.24",
-            "runs": 2,
-            "runsScoredPer9": "3.18",
-            "sacBunts": 0,
-            "sacFlies": 1,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".435",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 1,
-            "strikePercentage": ".680",
-            "strikeoutWalkRatio": "-.--",
-            "strikeoutsPer9Inn": "1.59",
-            "strikes": 63,
-            "summary": "5.2 IP, 2 ER, K, 0 BB",
-            "totalBases": 10,
-            "triples": 1,
-            "walksPer9Inn": "0.00",
-            "whip": "1.79",
-            "wildPitches": 0,
-            "winPercentage": "1.000",
-            "wins": 1
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-07-02",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824335/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824335,
-            "link": "/api/v1.1/game/824335/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": true,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 146,
-            "link": "/api/v1/teams/146",
-            "name": "Miami Marlins"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 5,
-            "atBats": 15,
-            "avg": ".332",
-            "balks": 0,
-            "baseOnBalls": 6,
-            "battersFaced": 23,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 2,
-            "era": "6.70",
-            "flyOuts": 4,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 8,
-            "groundOutsToAirouts": "1.10",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 3,
-            "hitsPer9Inn": "6.23",
-            "holds": 0,
-            "homeRuns": 0,
-            "homeRunsPer9": "0.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "4.1",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 95,
-            "obp": ".391",
-            "ops": ".791",
-            "outs": 13,
-            "pickoffs": 0,
-            "pitchesPerInning": "21.92",
-            "runs": 4,
-            "runsScoredPer9": "8.31",
-            "sacBunts": 0,
-            "sacFlies": 2,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".400",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 1,
-            "strikePercentage": ".480",
-            "strikeoutWalkRatio": "0.17",
-            "strikeoutsPer9Inn": "2.08",
-            "strikes": 46,
-            "summary": "4.1 IP, 2 ER, K, 6 BB",
-            "totalBases": 6,
-            "triples": 1,
-            "walksPer9Inn": "12.46",
-            "whip": "1.80",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-07-07",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/823929/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 823929,
-            "link": "/api/v1.1/game/823929/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": true,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 119,
-            "link": "/api/v1/teams/119",
-            "name": "Los Angeles Dodgers"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 6,
-            "atBats": 24,
-            "avg": ".327",
-            "balks": 0,
-            "baseOnBalls": 3,
-            "battersFaced": 27,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".000",
-            "completeGames": 0,
-            "doubles": 0,
-            "earnedRuns": 2,
-            "era": "6.46",
-            "flyOuts": 2,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 1,
-            "groundOuts": 7,
-            "groundOutsToAirouts": "1.11",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 6,
-            "hitsPer9Inn": "9.00",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "1.50",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "6.0",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 95,
-            "obp": ".333",
-            "ops": ".708",
-            "outs": 18,
-            "pickoffs": 0,
-            "pitchesPerInning": "15.83",
-            "runs": 3,
-            "runsScoredPer9": "4.50",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".375",
-            "stolenBasePercentage": "1.000",
-            "stolenBases": 1,
-            "strikeOuts": 5,
-            "strikePercentage": ".570",
-            "strikeoutWalkRatio": "1.67",
-            "strikeoutsPer9Inn": "7.50",
-            "strikes": 54,
-            "summary": "6.0 IP, 2 ER, 5 K, 3 BB",
-            "totalBases": 9,
-            "triples": 0,
-            "walksPer9Inn": "4.50",
-            "whip": "1.78",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-07-12",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/823199/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 823199,
-            "link": "/api/v1.1/game/823199/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 137,
-            "link": "/api/v1/teams/137",
-            "name": "San Francisco Giants"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 7,
-            "atBats": 19,
-            "avg": ".324",
-            "balks": 0,
-            "baseOnBalls": 3,
-            "battersFaced": 22,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 0,
-            "earnedRuns": 1,
-            "era": "6.22",
-            "flyOuts": 3,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 1,
-            "groundOuts": 6,
-            "groundOutsToAirouts": "1.09",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 5,
-            "hitsPer9Inn": "9.00",
-            "holds": 0,
-            "homeRuns": 0,
-            "homeRunsPer9": "0.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "5.0",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 79,
-            "obp": ".364",
-            "ops": ".627",
-            "outs": 15,
-            "pickoffs": 0,
-            "pitchesPerInning": "15.80",
-            "runs": 1,
-            "runsScoredPer9": "1.80",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".263",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 1,
-            "strikePercentage": ".580",
-            "strikeoutWalkRatio": "0.33",
-            "strikeoutsPer9Inn": "1.80",
-            "strikes": 46,
-            "summary": "5.0 IP, ER, K, 3 BB",
-            "totalBases": 5,
-            "triples": 0,
-            "walksPer9Inn": "5.40",
-            "whip": "1.77",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-07-21",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824329/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824329,
-            "link": "/api/v1.1/game/824329/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": true,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 120,
-            "link": "/api/v1/teams/120",
-            "name": "Washington Nationals"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 4,
-            "atBats": 18,
-            "avg": ".327",
-            "balks": 0,
-            "baseOnBalls": 1,
-            "battersFaced": 19,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 6,
-            "era": "6.53",
-            "flyOuts": 3,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 2,
-            "groundOutsToAirouts": "1.07",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 7,
-            "hitsPer9Inn": "17.18",
-            "holds": 0,
-            "homeRuns": 2,
-            "homeRunsPer9": "4.91",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "3.2",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 80,
-            "obp": ".421",
-            "ops": "1.310",
-            "outs": 11,
-            "pickoffs": 0,
-            "pitchesPerInning": "21.82",
-            "runs": 6,
-            "runsScoredPer9": "14.73",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".889",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 5,
-            "strikePercentage": ".660",
-            "strikeoutWalkRatio": "5.00",
-            "strikeoutsPer9Inn": "12.27",
-            "strikes": 53,
-            "summary": "3.2 IP, 6 ER, 5 K, BB",
-            "totalBases": 16,
-            "triples": 1,
-            "walksPer9Inn": "2.45",
-            "whip": "1.79",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-07-28",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/823275/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 823275,
-            "link": "/api/v1.1/game/823275/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 135,
-            "link": "/api/v1/teams/135",
-            "name": "San Diego Padres"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 5,
-            "atBats": 19,
-            "avg": ".331",
-            "balks": 0,
-            "baseOnBalls": 1,
-            "battersFaced": 20,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 3,
-            "era": "6.54",
-            "flyOuts": 4,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 1,
-            "groundOuts": 4,
-            "groundOutsToAirouts": "1.05",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 8,
-            "hitsPer9Inn": "18.00",
-            "holds": 0,
-            "homeRuns": 0,
-            "homeRunsPer9": "0.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "4.0",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 93,
-            "obp": ".450",
-            "ops": ".924",
-            "outs": 12,
-            "pickoffs": 0,
-            "pitchesPerInning": "23.25",
-            "runs": 3,
-            "runsScoredPer9": "6.75",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".474",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 2,
-            "strikePercentage": ".660",
-            "strikeoutWalkRatio": "2.00",
-            "strikeoutsPer9Inn": "4.50",
-            "strikes": 61,
-            "summary": "4.0 IP, 3 ER, 2 K, BB",
-            "totalBases": 9,
-            "triples": 0,
-            "walksPer9Inn": "2.25",
-            "whip": "1.81",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-08-03",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824324/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824324,
-            "link": "/api/v1.1/game/824324/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 139,
-            "link": "/api/v1/teams/139",
-            "name": "Tampa Bay Rays"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 6,
-            "atBats": 14,
-            "avg": ".336",
-            "balks": 0,
-            "baseOnBalls": 3,
-            "battersFaced": 18,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".000",
-            "completeGames": 0,
-            "doubles": 0,
-            "earnedRuns": 7,
-            "era": "6.94",
-            "flyOuts": 4,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 1,
-            "groundOuts": 2,
-            "groundOutsToAirouts": "1.02",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 7,
-            "hitsPer9Inn": "21.00",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "3.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "3.0",
-            "intentionalWalks": 0,
-            "losses": 1,
-            "numberOfPitches": 75,
-            "obp": ".556",
-            "ops": "1.270",
-            "outs": 9,
-            "pickoffs": 0,
-            "pitchesPerInning": "25.00",
-            "runs": 7,
-            "runsScoredPer9": "21.00",
-            "sacBunts": 0,
-            "sacFlies": 1,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".714",
-            "stolenBasePercentage": "1.000",
-            "stolenBases": 3,
-            "strikeOuts": 0,
-            "strikePercentage": ".600",
-            "strikeoutWalkRatio": "0.00",
-            "strikeoutsPer9Inn": "0.00",
-            "strikes": 45,
-            "summary": "3.0 IP, 7 ER, 0 K, 3 BB",
-            "totalBases": 10,
-            "triples": 0,
-            "walksPer9Inn": "9.00",
-            "whip": "1.85",
-            "wildPitches": 0,
-            "winPercentage": ".000",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-08-09",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/823020/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 823020,
-            "link": "/api/v1.1/game/823020/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 138,
-            "link": "/api/v1/teams/138",
-            "name": "St. Louis Cardinals"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 6,
-            "atBats": 19,
-            "avg": ".340",
-            "balks": 0,
-            "baseOnBalls": 3,
-            "battersFaced": 23,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 2,
-            "era": "6.83",
-            "flyOuts": 2,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 5,
-            "groundOutsToAirouts": "1.01",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 8,
-            "hitsPer9Inn": "16.62",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "2.08",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "4.1",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 97,
-            "obp": ".478",
-            "ops": "1.110",
-            "outs": 13,
-            "pickoffs": 0,
-            "pitchesPerInning": "22.38",
-            "runs": 4,
-            "runsScoredPer9": "8.31",
-            "sacBunts": 0,
-            "sacFlies": 1,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".632",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 1,
-            "strikePercentage": ".590",
-            "strikeoutWalkRatio": "0.33",
-            "strikeoutsPer9Inn": "2.08",
-            "strikes": 57,
-            "summary": "4.1 IP, 2 ER, K, 3 BB",
-            "totalBases": 12,
-            "triples": 0,
-            "walksPer9Inn": "6.23",
-            "whip": "1.88",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-08-15",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/823184/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 823184,
-            "link": "/api/v1.1/game/823184/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": false,
-          "league": {
-            "id": 104,
-            "link": "/api/v1/league/104",
-            "name": "National League"
-          },
-          "opponent": {
-            "id": 137,
-            "link": "/api/v1/teams/137",
-            "name": "San Francisco Giants"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 5,
-            "atBats": 14,
-            "avg": ".338",
-            "balks": 0,
-            "baseOnBalls": 3,
-            "battersFaced": 19,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 0,
-            "earnedRuns": 6,
-            "era": "7.08",
-            "flyOuts": 2,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 1,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 5,
-            "groundOutsToAirouts": "1.01",
-            "hitBatsmen": 1,
-            "hitByPitch": 1,
-            "hits": 4,
-            "hitsPer9Inn": "9.82",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "2.45",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "3.2",
-            "intentionalWalks": 0,
-            "losses": 1,
-            "numberOfPitches": 82,
-            "obp": ".421",
-            "ops": ".921",
-            "outs": 11,
-            "pickoffs": 0,
-            "pitchesPerInning": "22.36",
-            "runs": 6,
-            "runsScoredPer9": "14.73",
-            "sacBunts": 0,
-            "sacFlies": 1,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".500",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 1,
-            "strikePercentage": ".600",
-            "strikeoutWalkRatio": "0.33",
-            "strikeoutsPer9Inn": "2.45",
-            "strikes": 49,
-            "summary": "3.2 IP, 6 ER, K, 3 BB",
-            "totalBases": 7,
-            "triples": 0,
-            "walksPer9Inn": "7.36",
-            "whip": "1.88",
-            "wildPitches": 0,
-            "winPercentage": ".000",
-            "wins": 0
-          },
-          "team": {
-            "id": 115,
-            "link": "/api/v1/teams/115",
-            "name": "Colorado Rockies"
-          }
-        },
-        {
-          "date": "2026-08-27",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/822771/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 822771,
-            "link": "/api/v1.1/game/822771/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": false,
-          "league": {
-            "id": 103,
-            "link": "/api/v1/league/103",
-            "name": "American League"
-          },
-          "opponent": {
-            "id": 118,
-            "link": "/api/v1/teams/118",
-            "name": "Kansas City Royals"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 2,
-            "atBats": 9,
-            "avg": ".338",
-            "balks": 0,
-            "baseOnBalls": 1,
-            "battersFaced": 10,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 2,
-            "earnedRuns": 1,
-            "era": "7.04",
-            "flyOuts": 1,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 0,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 2,
-            "groundOutsToAirouts": "1.01",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 3,
-            "hitsPer9Inn": "13.50",
-            "holds": 0,
-            "homeRuns": 0,
-            "homeRunsPer9": "0.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "2.0",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 42,
-            "obp": ".400",
-            "ops": ".956",
-            "outs": 6,
-            "pickoffs": 0,
-            "pitchesPerInning": "21.00",
-            "runs": 1,
-            "runsScoredPer9": "4.50",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".556",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 2,
-            "strikePercentage": ".620",
-            "strikeoutWalkRatio": "2.00",
-            "strikeoutsPer9Inn": "9.00",
-            "strikes": 26,
-            "summary": "2.0 IP, ER, 2 K, BB",
-            "totalBases": 5,
-            "triples": 0,
-            "walksPer9Inn": "4.50",
-            "whip": "1.88",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 141,
-            "link": "/api/v1/teams/141",
-            "name": "Toronto Blue Jays"
-          }
-        },
-        {
-          "date": "2026-09-01",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824391/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824391,
-            "link": "/api/v1.1/game/824391/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": false,
-          "league": {
-            "id": 103,
-            "link": "/api/v1/league/103",
-            "name": "American League"
-          },
-          "opponent": {
-            "id": 114,
-            "link": "/api/v1/teams/114",
-            "name": "Cleveland Guardians"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 2,
-            "atBats": 5,
-            "avg": ".339",
-            "balks": 0,
-            "baseOnBalls": 0,
-            "battersFaced": 5,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 0,
-            "earnedRuns": 2,
-            "era": "7.13",
-            "flyOuts": 0,
-            "gamesFinished": 1,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 0,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 1,
-            "groundOutsToAirouts": "1.00",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 2,
-            "hitsPer9Inn": "18.00",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "9.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "1.0",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 20,
-            "obp": ".400",
-            "ops": "1.400",
-            "outs": 3,
-            "pickoffs": 0,
-            "pitchesPerInning": "20.00",
-            "runs": 2,
-            "runsScoredPer9": "18.00",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": "1.000",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 0,
-            "strikePercentage": ".550",
-            "strikeoutWalkRatio": "-.--",
-            "strikeoutsPer9Inn": "0.00",
-            "strikes": 11,
-            "summary": "1.0 IP, 2 ER, 0 K, 0 BB",
-            "totalBases": 5,
-            "triples": 0,
-            "walksPer9Inn": "0.00",
-            "whip": "1.88",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 141,
-            "link": "/api/v1/teams/141",
-            "name": "Toronto Blue Jays"
-          }
-        },
-        {
-          "date": "2026-09-04",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824067/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824067,
-            "link": "/api/v1.1/game/824067/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": true,
-          "league": {
-            "id": 103,
-            "link": "/api/v1/league/103",
-            "name": "American League"
-          },
-          "opponent": {
-            "id": 118,
-            "link": "/api/v1/teams/118",
-            "name": "Kansas City Royals"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 2,
-            "atBats": 12,
-            "avg": ".337",
-            "balks": 0,
-            "baseOnBalls": 0,
-            "battersFaced": 12,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 1,
-            "era": "7.03",
-            "flyOuts": 2,
-            "gamesFinished": 1,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 0,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 5,
-            "groundOutsToAirouts": "1.02",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 3,
-            "hitsPer9Inn": "9.00",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "3.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "3.0",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 33,
-            "obp": ".250",
-            "ops": ".833",
-            "outs": 9,
-            "pickoffs": 0,
-            "pitchesPerInning": "11.00",
-            "runs": 1,
-            "runsScoredPer9": "3.00",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 1,
-            "saves": 1,
-            "shutouts": 0,
-            "slg": ".583",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 2,
-            "strikePercentage": ".820",
-            "strikeoutWalkRatio": "-.--",
-            "strikeoutsPer9Inn": "6.00",
-            "strikes": 27,
-            "summary": "3.0 IP, ER, 2 K, 0 BB",
-            "totalBases": 7,
-            "triples": 0,
-            "walksPer9Inn": "0.00",
-            "whip": "1.86",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 141,
-            "link": "/api/v1/teams/141",
-            "name": "Toronto Blue Jays"
-          }
-        },
-        {
-          "date": "2026-09-09",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/824956/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 824956,
-            "link": "/api/v1.1/game/824956/feed/live"
-          },
-          "gameType": "R",
-          "isHome": false,
-          "isWin": false,
-          "league": {
-            "id": 103,
-            "link": "/api/v1/league/103",
-            "name": "American League"
-          },
-          "opponent": {
-            "id": 133,
-            "link": "/api/v1/teams/133",
-            "name": "Athletics"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 3,
-            "atBats": 12,
-            "avg": ".336",
-            "balks": 0,
-            "baseOnBalls": 1,
-            "battersFaced": 13,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 0,
-            "earnedRuns": 2,
-            "era": "7.02",
-            "flyOuts": 2,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 0,
-            "groundIntoDoublePlay": 0,
-            "groundOuts": 3,
-            "groundOutsToAirouts": "1.02",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 4,
-            "hitsPer9Inn": "13.50",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "3.38",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "2.2",
-            "intentionalWalks": 0,
-            "losses": 1,
-            "numberOfPitches": 49,
-            "obp": ".385",
-            "ops": ".968",
-            "outs": 8,
-            "pickoffs": 0,
-            "pitchesPerInning": "18.38",
-            "runs": 2,
-            "runsScoredPer9": "6.75",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".583",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 2,
-            "strikePercentage": ".570",
-            "strikeoutWalkRatio": "2.00",
-            "strikeoutsPer9Inn": "6.75",
-            "strikes": 28,
-            "summary": "2.2 IP, 2 ER, 2 K, BB",
-            "totalBases": 7,
-            "triples": 0,
-            "walksPer9Inn": "3.38",
-            "whip": "1.86",
-            "wildPitches": 1,
-            "winPercentage": ".000",
-            "wins": 0
-          },
-          "team": {
-            "id": 141,
-            "link": "/api/v1/teams/141",
-            "name": "Toronto Blue Jays"
-          }
-        },
-        {
-          "date": "2026-09-13",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/822764/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 822764,
-            "link": "/api/v1.1/game/822764/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": true,
-          "league": {
-            "id": 103,
-            "link": "/api/v1/league/103",
-            "name": "American League"
-          },
-          "opponent": {
-            "id": 110,
-            "link": "/api/v1/teams/110",
-            "name": "Baltimore Orioles"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 0,
             "atBats": 4,
-            "avg": ".338",
-            "balks": 0,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".251",
+            "babip": ".000",
             "baseOnBalls": 0,
-            "battersFaced": 4,
-            "blownSaves": 0,
             "catchersInterference": 0,
             "caughtStealing": 0,
             "caughtStealingPercentage": ".---",
-            "completeGames": 0,
             "doubles": 0,
-            "earnedRuns": 0,
-            "era": "6.97",
-            "flyOuts": 0,
-            "gamesFinished": 1,
-            "gamesPitched": 1,
-            "gamesPlayed": 1,
-            "gamesStarted": 0,
-            "groundIntoDoublePlay": 1,
-            "groundOuts": 1,
-            "groundOutsToAirouts": "1.03",
-            "hitBatsmen": 0,
-            "hitByPitch": 0,
-            "hits": 2,
-            "hitsPer9Inn": "18.00",
-            "holds": 0,
-            "homeRuns": 0,
-            "homeRunsPer9": "0.00",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "1.0",
-            "intentionalWalks": 0,
-            "losses": 0,
-            "numberOfPitches": 15,
-            "obp": ".500",
-            "ops": "1.000",
-            "outs": 3,
-            "pickoffs": 0,
-            "pitchesPerInning": "15.00",
-            "runs": 0,
-            "runsScoredPer9": "0.00",
-            "sacBunts": 0,
-            "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".500",
-            "stolenBasePercentage": ".---",
-            "stolenBases": 0,
-            "strikeOuts": 1,
-            "strikePercentage": ".600",
-            "strikeoutWalkRatio": "-.--",
-            "strikeoutsPer9Inn": "9.00",
-            "strikes": 9,
-            "summary": "1.0 IP, 0 ER, K, 0 BB",
-            "totalBases": 2,
-            "triples": 0,
-            "walksPer9Inn": "0.00",
-            "whip": "1.86",
-            "wildPitches": 0,
-            "winPercentage": ".---",
-            "wins": 0
-          },
-          "team": {
-            "id": 141,
-            "link": "/api/v1/teams/141",
-            "name": "Toronto Blue Jays"
-          }
-        },
-        {
-          "date": "2026-09-15",
-          "game": {
-            "content": {
-              "link": "/api/v1/game/822762/content"
-            },
-            "dayNight": "day",
-            "gameNumber": 1,
-            "gamePk": 822762,
-            "link": "/api/v1.1/game/822762/feed/live"
-          },
-          "gameType": "R",
-          "isHome": true,
-          "isWin": false,
-          "league": {
-            "id": 103,
-            "link": "/api/v1/league/103",
-            "name": "American League"
-          },
-          "opponent": {
-            "id": 116,
-            "link": "/api/v1/teams/116",
-            "name": "Detroit Tigers"
-          },
-          "player": {
-            "fullName": "Michael Lorenzen",
-            "id": 547179,
-            "link": "/api/v1/people/547179"
-          },
-          "season": "2026",
-          "sport": {
-            "abbreviation": "MLB",
-            "id": 1,
-            "link": "/api/v1/sports/1"
-          },
-          "stat": {
-            "airOuts": 3,
-            "atBats": 10,
-            "avg": ".339",
-            "balks": 0,
-            "baseOnBalls": 3,
-            "battersFaced": 13,
-            "blownSaves": 0,
-            "catchersInterference": 0,
-            "caughtStealing": 0,
-            "caughtStealingPercentage": ".---",
-            "completeGames": 0,
-            "doubles": 1,
-            "earnedRuns": 5,
-            "era": "7.21",
             "flyOuts": 1,
-            "gamesFinished": 0,
-            "gamesPitched": 1,
             "gamesPlayed": 1,
-            "gamesStarted": 0,
             "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
             "groundOuts": 2,
-            "groundOutsToAirouts": "1.02",
-            "hitBatsmen": 0,
+            "groundOutsToAirouts": "2.00",
             "hitByPitch": 0,
-            "hits": 4,
-            "hitsPer9Inn": "18.00",
-            "holds": 0,
-            "homeRuns": 1,
-            "homeRunsPer9": "4.50",
-            "inheritedRunners": 0,
-            "inheritedRunnersScored": 0,
-            "inningsPitched": "2.0",
+            "hits": 0,
+            "homeRuns": 0,
             "intentionalWalks": 0,
-            "losses": 1,
-            "numberOfPitches": 53,
-            "obp": ".538",
-            "ops": "1.338",
-            "outs": 6,
-            "pickoffs": 0,
-            "pitchesPerInning": "26.50",
-            "runs": 5,
-            "runsScoredPer9": "22.50",
+            "leftOnBase": 1,
+            "numberOfPitches": 13,
+            "obp": ".326",
+            "ops": ".738",
+            "plateAppearances": 4,
+            "rbi": 0,
+            "runs": 0,
             "sacBunts": 0,
             "sacFlies": 0,
-            "saveOpportunities": 0,
-            "saves": 0,
-            "shutouts": 0,
-            "slg": ".800",
+            "slg": ".412",
             "stolenBasePercentage": ".---",
             "stolenBases": 0,
             "strikeOuts": 1,
-            "strikePercentage": ".570",
-            "strikeoutWalkRatio": "0.33",
-            "strikeoutsPer9Inn": "4.50",
-            "strikes": 30,
-            "summary": "2.0 IP, 5 ER, K, 3 BB",
-            "totalBases": 8,
-            "triples": 0,
-            "walksPer9Inn": "13.50",
-            "whip": "1.88",
-            "wildPitches": 0,
-            "winPercentage": ".000",
-            "wins": 0
+            "summary": "0-4 | K",
+            "totalBases": 0,
+            "triples": 0
           },
           "team": {
             "id": 141,
@@ -15628,8 +12317,8 @@
       ]
     },
     "573009_pitching_2026": {
-      "fetched_at": "2026-09-16T14:03:02.099586+00:00",
-      "signature": "inningsPitched=26.0|earnedRuns=9|strikeOuts=21|baseOnBalls=5",
+      "fetched_at": "2026-09-19T12:53:43.032846+00:00",
+      "signature": "inningsPitched=27.0|earnedRuns=10|strikeOuts=22|baseOnBalls=5",
       "splits": [
         {
           "date": "2026-04-05",
@@ -18165,6 +14854,112 @@
             "triples": 0,
             "walksPer9Inn": "0.00",
             "whip": "1.19",
+            "wildPitches": 0,
+            "winPercentage": ".---",
+            "wins": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Joe Mantiply",
+            "id": 573009,
+            "link": "/api/v1/people/573009"
+          },
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 0,
+            "atBats": 5,
+            "avg": ".275",
+            "balks": 0,
+            "baseOnBalls": 0,
+            "battersFaced": 5,
+            "blownSaves": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "completeGames": 0,
+            "doubles": 1,
+            "earnedRuns": 1,
+            "era": "3.33",
+            "flyOuts": 0,
+            "gamesFinished": 1,
+            "gamesPitched": 1,
+            "gamesPlayed": 1,
+            "gamesStarted": 0,
+            "groundIntoDoublePlay": 0,
+            "groundOuts": 2,
+            "groundOutsToAirouts": "1.39",
+            "hitBatsmen": 0,
+            "hitByPitch": 0,
+            "hits": 2,
+            "hitsPer9Inn": "18.00",
+            "holds": 0,
+            "homeRuns": 0,
+            "homeRunsPer9": "0.00",
+            "inheritedRunners": 0,
+            "inheritedRunnersScored": 0,
+            "inningsPitched": "1.0",
+            "intentionalWalks": 0,
+            "losses": 0,
+            "numberOfPitches": 21,
+            "obp": ".400",
+            "ops": "1.000",
+            "outs": 3,
+            "pickoffs": 0,
+            "pitchesPerInning": "21.00",
+            "runs": 1,
+            "runsScoredPer9": "9.00",
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "saveOpportunities": 0,
+            "saves": 0,
+            "shutouts": 0,
+            "slg": ".600",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 1,
+            "strikePercentage": ".670",
+            "strikeoutWalkRatio": "-.--",
+            "strikeoutsPer9Inn": "9.00",
+            "strikes": 14,
+            "summary": "1.0 IP, ER, K, 0 BB",
+            "totalBases": 3,
+            "triples": 0,
+            "walksPer9Inn": "0.00",
+            "whip": "1.22",
             "wildPitches": 0,
             "winPercentage": ".---",
             "wins": 0
@@ -31758,8 +28553,8 @@
       ]
     },
     "656302_pitching_2026": {
-      "fetched_at": "2026-09-14T15:41:06.878343+00:00",
-      "signature": "inningsPitched=166.1|earnedRuns=44|strikeOuts=236|baseOnBalls=72",
+      "fetched_at": "2026-09-19T12:53:42.163211+00:00",
+      "signature": "inningsPitched=169.0|earnedRuns=45|strikeOuts=239|baseOnBalls=78",
       "splits": [
         {
           "date": "2026-03-28",
@@ -34728,12 +31523,118 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Dylan Cease",
+            "id": 656302,
+            "link": "/api/v1/people/656302"
+          },
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 3,
+            "atBats": 10,
+            "avg": ".180",
+            "balks": 0,
+            "baseOnBalls": 6,
+            "battersFaced": 17,
+            "blownSaves": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".000",
+            "completeGames": 0,
+            "doubles": 1,
+            "earnedRuns": 1,
+            "era": "2.40",
+            "flyOuts": 2,
+            "gamesFinished": 0,
+            "gamesPitched": 1,
+            "gamesPlayed": 1,
+            "gamesStarted": 1,
+            "groundIntoDoublePlay": 1,
+            "groundOuts": 2,
+            "groundOutsToAirouts": "0.95",
+            "hitBatsmen": 0,
+            "hitByPitch": 0,
+            "hits": 3,
+            "hitsPer9Inn": "10.13",
+            "holds": 0,
+            "homeRuns": 0,
+            "homeRunsPer9": "0.00",
+            "inheritedRunners": 0,
+            "inheritedRunnersScored": 0,
+            "inningsPitched": "2.2",
+            "intentionalWalks": 0,
+            "losses": 1,
+            "numberOfPitches": 74,
+            "obp": ".529",
+            "ops": ".929",
+            "outs": 8,
+            "pickoffs": 0,
+            "pitchesPerInning": "27.75",
+            "runs": 4,
+            "runsScoredPer9": "13.50",
+            "sacBunts": 0,
+            "sacFlies": 1,
+            "saveOpportunities": 0,
+            "saves": 0,
+            "shutouts": 0,
+            "slg": ".400",
+            "stolenBasePercentage": "1.000",
+            "stolenBases": 2,
+            "strikeOuts": 3,
+            "strikePercentage": ".490",
+            "strikeoutWalkRatio": "0.50",
+            "strikeoutsPer9Inn": "10.13",
+            "strikes": 36,
+            "summary": "2.2 IP, ER, 3 K, 6 BB",
+            "totalBases": 4,
+            "triples": 0,
+            "walksPer9Inn": "20.25",
+            "whip": "1.10",
+            "wildPitches": 0,
+            "winPercentage": ".000",
+            "wins": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "663893_pitching_2026": {
-      "fetched_at": "2026-09-16T14:02:57.951119+00:00",
-      "signature": "inningsPitched=25.2|earnedRuns=20|strikeOuts=40|baseOnBalls=22",
+      "fetched_at": "2026-09-19T12:53:41.146652+00:00",
+      "signature": "inningsPitched=26.1|earnedRuns=20|strikeOuts=42|baseOnBalls=24",
       "splits": [
         {
           "date": "2026-03-28",
@@ -37596,12 +34497,118 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Brendon Little",
+            "id": 663893,
+            "link": "/api/v1/people/663893"
+          },
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 0,
+            "atBats": 4,
+            "avg": ".283",
+            "balks": 0,
+            "baseOnBalls": 2,
+            "battersFaced": 6,
+            "blownSaves": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "completeGames": 0,
+            "doubles": 0,
+            "earnedRuns": 0,
+            "era": "6.84",
+            "flyOuts": 0,
+            "gamesFinished": 0,
+            "gamesPitched": 1,
+            "gamesPlayed": 1,
+            "gamesStarted": 0,
+            "groundIntoDoublePlay": 0,
+            "groundOuts": 1,
+            "groundOutsToAirouts": "2.00",
+            "hitBatsmen": 0,
+            "hitByPitch": 0,
+            "hits": 1,
+            "hitsPer9Inn": "13.50",
+            "holds": 0,
+            "homeRuns": 0,
+            "homeRunsPer9": "0.00",
+            "inheritedRunners": 2,
+            "inheritedRunnersScored": 0,
+            "inningsPitched": "0.2",
+            "intentionalWalks": 0,
+            "losses": 0,
+            "numberOfPitches": 25,
+            "obp": ".500",
+            "ops": ".750",
+            "outs": 2,
+            "pickoffs": 0,
+            "pitchesPerInning": "37.50",
+            "runs": 1,
+            "runsScoredPer9": "13.50",
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "saveOpportunities": 0,
+            "saves": 0,
+            "shutouts": 0,
+            "slg": ".250",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 2,
+            "strikePercentage": ".480",
+            "strikeoutWalkRatio": "1.00",
+            "strikeoutsPer9Inn": "27.00",
+            "strikes": 12,
+            "summary": "0.2 IP, 0 ER, 2 K, 2 BB",
+            "totalBases": 1,
+            "triples": 0,
+            "walksPer9Inn": "27.00",
+            "whip": "1.97",
+            "wildPitches": 0,
+            "winPercentage": ".---",
+            "wins": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "664702_hitting_2026": {
-      "fetched_at": "2026-09-17T14:07:45.395826+00:00",
-      "signature": "atBats=273|hits=64|baseOnBalls=26|homeRuns=3|totalBases=93",
+      "fetched_at": "2026-09-19T12:53:44.659019+00:00",
+      "signature": "atBats=276|hits=66|baseOnBalls=26|homeRuns=3|totalBases=96",
       "splits": [
         {
           "date": "2026-03-27",
@@ -50100,12 +47107,105 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Myles Straw",
+            "id": 664702,
+            "link": "/api/v1/people/664702"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "LF",
+              "code": "7",
+              "name": "Outfielder",
+              "type": "Outfielder"
+            },
+            {
+              "abbreviation": "CF",
+              "code": "8",
+              "name": "Outfielder",
+              "type": "Outfielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 1,
+            "atBats": 3,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".239",
+            "babip": ".667",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 1,
+            "flyOuts": 0,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 0,
+            "groundOutsToAirouts": "0.00",
+            "hitByPitch": 0,
+            "hits": 2,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 0,
+            "numberOfPitches": 8,
+            "obp": ".304",
+            "ops": ".652",
+            "plateAppearances": 3,
+            "rbi": 1,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".348",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 0,
+            "summary": "2-3 | 2B, RBI",
+            "totalBases": 3,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "664770_hitting_2026": {
-      "fetched_at": "2026-09-17T14:07:45.856339+00:00",
-      "signature": "atBats=383|hits=105|baseOnBalls=22|homeRuns=10|totalBases=149",
+      "fetched_at": "2026-09-19T12:53:44.949582+00:00",
+      "signature": "atBats=385|hits=105|baseOnBalls=22|homeRuns=10|totalBases=149",
       "splits": [
         {
           "date": "2026-03-27",
@@ -60513,12 +57613,99 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Nathan Lukes",
+            "id": 664770,
+            "link": "/api/v1/people/664770"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "RF",
+              "code": "9",
+              "name": "Outfielder",
+              "type": "Outfielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 1,
+            "atBats": 2,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".273",
+            "babip": ".000",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 1,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 1,
+            "groundOutsToAirouts": "1.00",
+            "hitByPitch": 0,
+            "hits": 0,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 0,
+            "numberOfPitches": 10,
+            "obp": ".320",
+            "ops": ".707",
+            "plateAppearances": 2,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".387",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 0,
+            "summary": "0-2",
+            "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "665489_hitting_2026": {
-      "fetched_at": "2026-09-17T14:07:47.871991+00:00",
-      "signature": "atBats=520|hits=136|baseOnBalls=55|homeRuns=9|totalBases=187",
+      "fetched_at": "2026-09-19T12:53:46.125285+00:00",
+      "signature": "atBats=524|hits=137|baseOnBalls=55|homeRuns=9|totalBases=188",
       "splits": [
         {
           "date": "2026-03-27",
@@ -72523,6 +69710,93 @@
             "stolenBases": 0,
             "strikeOuts": 0,
             "summary": "1-3 | BB",
+            "totalBases": 1,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Vladimir Guerrero Jr.",
+            "id": 665489,
+            "link": "/api/v1/people/665489"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "1B",
+              "code": "3",
+              "name": "First Base",
+              "type": "Infielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 0,
+            "atBats": 4,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".261",
+            "babip": ".333",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 0,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 2,
+            "groundOutsToAirouts": "2.00",
+            "hitByPitch": 0,
+            "hits": 1,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 0,
+            "numberOfPitches": 10,
+            "obp": ".334",
+            "ops": ".693",
+            "plateAppearances": 4,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".359",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 1,
+            "summary": "1-4 | K",
             "totalBases": 1,
             "triples": 0
           },
@@ -88054,8 +85328,8 @@
       ]
     },
     "669701_hitting_2026": {
-      "fetched_at": "2026-09-17T14:07:42.998532+00:00",
-      "signature": "atBats=189|hits=42|baseOnBalls=24|homeRuns=6|totalBases=66",
+      "fetched_at": "2026-09-19T12:53:43.612887+00:00",
+      "signature": "atBats=192|hits=42|baseOnBalls=25|homeRuns=6|totalBases=66",
       "splits": [
         {
           "date": "2026-03-26",
@@ -94371,12 +91645,99 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Josh Smith",
+            "id": 669701,
+            "link": "/api/v1/people/669701"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "2B",
+              "code": "4",
+              "name": "Second Base",
+              "type": "Infielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 2,
+            "atBats": 3,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".219",
+            "babip": ".000",
+            "baseOnBalls": 1,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 1,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 0,
+            "groundOutsToAirouts": "0.00",
+            "hitByPitch": 0,
+            "hits": 0,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 2,
+            "numberOfPitches": 21,
+            "obp": ".312",
+            "ops": ".656",
+            "plateAppearances": 4,
+            "rbi": 0,
+            "runs": 1,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".344",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 1,
+            "summary": "0-3 | BB, K, R",
+            "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "672386_hitting_2026": {
-      "fetched_at": "2026-09-16T14:02:54.889504+00:00",
-      "signature": "atBats=254|hits=71|baseOnBalls=30|homeRuns=10|totalBases=108",
+      "fetched_at": "2026-09-19T12:53:39.952688+00:00",
+      "signature": "atBats=258|hits=72|baseOnBalls=30|homeRuns=10|totalBases=109",
       "splits": [
         {
           "date": "2026-03-27",
@@ -100665,12 +98026,99 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Alejandro Kirk",
+            "id": 672386,
+            "link": "/api/v1/people/672386"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "C",
+              "code": "2",
+              "name": "Catcher",
+              "type": "Catcher"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 0,
+            "atBats": 4,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".279",
+            "babip": ".333",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 0,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 2,
+            "groundOutsToAirouts": "2.00",
+            "hitByPitch": 0,
+            "hits": 1,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 1,
+            "numberOfPitches": 24,
+            "obp": ".351",
+            "ops": ".773",
+            "plateAppearances": 4,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".422",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 1,
+            "summary": "1-4 | K",
+            "totalBases": 1,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "672960_hitting_2026": {
-      "fetched_at": "2026-09-17T14:07:43.486141+00:00",
-      "signature": "atBats=537|hits=126|baseOnBalls=54|homeRuns=33|totalBases=249",
+      "fetched_at": "2026-09-19T12:53:43.917489+00:00",
+      "signature": "atBats=540|hits=127|baseOnBalls=55|homeRuns=33|totalBases=250",
       "splits": [
         {
           "date": "2026-03-27",
@@ -113502,12 +110950,99 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Kazuma Okamoto",
+            "id": 672960,
+            "link": "/api/v1/people/672960"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "3B",
+              "code": "5",
+              "name": "Third Base",
+              "type": "Infielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 1,
+            "atBats": 3,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".235",
+            "babip": ".500",
+            "baseOnBalls": 1,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 1,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 0,
+            "groundOutsToAirouts": "0.00",
+            "hitByPitch": 0,
+            "hits": 1,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 1,
+            "numberOfPitches": 16,
+            "obp": ".311",
+            "ops": ".774",
+            "plateAppearances": 4,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".463",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 1,
+            "summary": "1-3 | BB, K",
+            "totalBases": 1,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "676391_hitting_2026": {
-      "fetched_at": "2026-09-17T14:07:41.495601+00:00",
-      "signature": "atBats=560|hits=150|baseOnBalls=22|homeRuns=9|totalBases=210",
+      "fetched_at": "2026-09-19T12:53:42.391272+00:00",
+      "signature": "atBats=563|hits=150|baseOnBalls=22|homeRuns=9|totalBases=210",
       "splits": [
         {
           "date": "2026-03-27",
@@ -126879,12 +124414,99 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Ernie Clement",
+            "id": 676391,
+            "link": "/api/v1/people/676391"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "SS",
+              "code": "6",
+              "name": "Shortstop",
+              "type": "Infielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 1,
+            "atBats": 3,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".266",
+            "babip": ".000",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 1,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 1,
+            "groundOutsToAirouts": "1.00",
+            "hitByPitch": 0,
+            "hits": 0,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 4,
+            "numberOfPitches": 11,
+            "obp": ".293",
+            "ops": ".666",
+            "plateAppearances": 3,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".373",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 1,
+            "summary": "0-3 | K",
+            "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "676454_pitching_2026": {
-      "fetched_at": "2026-09-16T14:02:57.457544+00:00",
-      "signature": "inningsPitched=1.2|earnedRuns=0|strikeOuts=3|baseOnBalls=0",
+      "fetched_at": "2026-09-19T12:53:40.904355+00:00",
+      "signature": "inningsPitched=3.0|earnedRuns=0|strikeOuts=4|baseOnBalls=0",
       "splits": [
         {
           "date": "2026-09-15",
@@ -126991,12 +124613,118 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Brendan Cellucci",
+            "id": 676454,
+            "link": "/api/v1/people/676454"
+          },
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 1,
+            "atBats": 4,
+            "avg": ".000",
+            "balks": 0,
+            "baseOnBalls": 0,
+            "battersFaced": 4,
+            "blownSaves": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "completeGames": 0,
+            "doubles": 0,
+            "earnedRuns": 0,
+            "era": "0.00",
+            "flyOuts": 0,
+            "gamesFinished": 0,
+            "gamesPitched": 1,
+            "gamesPlayed": 1,
+            "gamesStarted": 0,
+            "groundIntoDoublePlay": 0,
+            "groundOuts": 2,
+            "groundOutsToAirouts": "0.67",
+            "hitBatsmen": 0,
+            "hitByPitch": 0,
+            "hits": 0,
+            "hitsPer9Inn": "0.00",
+            "holds": 0,
+            "homeRuns": 0,
+            "homeRunsPer9": "0.00",
+            "inheritedRunners": 3,
+            "inheritedRunnersScored": 0,
+            "inningsPitched": "1.1",
+            "intentionalWalks": 0,
+            "losses": 0,
+            "numberOfPitches": 13,
+            "obp": ".000",
+            "ops": ".000",
+            "outs": 4,
+            "pickoffs": 0,
+            "pitchesPerInning": "9.75",
+            "runs": 0,
+            "runsScoredPer9": "0.00",
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "saveOpportunities": 0,
+            "saves": 0,
+            "shutouts": 0,
+            "slg": ".000",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 1,
+            "strikePercentage": ".770",
+            "strikeoutWalkRatio": "-.--",
+            "strikeoutsPer9Inn": "6.75",
+            "strikes": 10,
+            "summary": "1.1 IP, 0 ER, K, 0 BB",
+            "totalBases": 0,
+            "triples": 0,
+            "walksPer9Inn": "0.00",
+            "whip": "0.00",
+            "wildPitches": 0,
+            "winPercentage": ".---",
+            "wins": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
     "676914_hitting_2026": {
-      "fetched_at": "2026-09-16T14:02:59.670893+00:00",
-      "signature": "atBats=114|hits=16|baseOnBalls=25|homeRuns=3|totalBases=31",
+      "fetched_at": "2026-09-19T12:53:41.874546+00:00",
+      "signature": "atBats=115|hits=16|baseOnBalls=25|homeRuns=3|totalBases=31",
       "splits": [
         {
           "date": "2026-03-28",
@@ -132608,6 +130336,99 @@
             "stolenBases": 0,
             "strikeOuts": 1,
             "summary": "0-1 | K",
+            "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Davis Schneider",
+            "id": 676914,
+            "link": "/api/v1/people/676914"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "PH",
+              "code": "11",
+              "name": "Pinch Hitter",
+              "type": "Hitter"
+            },
+            {
+              "abbreviation": "LF",
+              "code": "7",
+              "name": "Outfielder",
+              "type": "Outfielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 1,
+            "atBats": 1,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".139",
+            "babip": ".000",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 1,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 0,
+            "groundOutsToAirouts": "0.00",
+            "hitByPitch": 0,
+            "hits": 0,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 2,
+            "numberOfPitches": 7,
+            "obp": ".291",
+            "ops": ".561",
+            "plateAppearances": 1,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".270",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 0,
+            "summary": "0-1",
             "totalBases": 0,
             "triples": 0
           },
@@ -140156,8 +137977,8 @@
       ]
     },
     "680755_pitching_2026": {
-      "fetched_at": "2026-09-16T14:02:57.058193+00:00",
-      "signature": "inningsPitched=74.0|earnedRuns=26|strikeOuts=73|baseOnBalls=40",
+      "fetched_at": "2026-09-19T12:53:40.674650+00:00",
+      "signature": "inningsPitched=74.2|earnedRuns=27|strikeOuts=73|baseOnBalls=42",
       "splits": [
         {
           "date": "2026-03-28",
@@ -147887,6 +145708,112 @@
             "triples": 0,
             "walksPer9Inn": "13.50",
             "whip": "1.23",
+            "wildPitches": 0,
+            "winPercentage": ".---",
+            "wins": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Braydon Fisher",
+            "id": 680755,
+            "link": "/api/v1/people/680755"
+          },
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 2,
+            "atBats": 2,
+            "avg": ".206",
+            "balks": 0,
+            "baseOnBalls": 2,
+            "battersFaced": 5,
+            "blownSaves": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "completeGames": 0,
+            "doubles": 0,
+            "earnedRuns": 1,
+            "era": "3.25",
+            "flyOuts": 0,
+            "gamesFinished": 0,
+            "gamesPitched": 1,
+            "gamesPlayed": 1,
+            "gamesStarted": 0,
+            "groundIntoDoublePlay": 0,
+            "groundOuts": 0,
+            "groundOutsToAirouts": "0.90",
+            "hitBatsmen": 0,
+            "hitByPitch": 0,
+            "hits": 1,
+            "hitsPer9Inn": "13.50",
+            "holds": 0,
+            "homeRuns": 0,
+            "homeRunsPer9": "0.00",
+            "inheritedRunners": 0,
+            "inheritedRunnersScored": 0,
+            "inningsPitched": "0.2",
+            "intentionalWalks": 0,
+            "losses": 0,
+            "numberOfPitches": 23,
+            "obp": ".600",
+            "ops": "1.100",
+            "outs": 2,
+            "pickoffs": 0,
+            "pitchesPerInning": "34.50",
+            "runs": 1,
+            "runsScoredPer9": "13.50",
+            "sacBunts": 0,
+            "sacFlies": 1,
+            "saveOpportunities": 0,
+            "saves": 0,
+            "shutouts": 0,
+            "slg": ".500",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 0,
+            "strikePercentage": ".480",
+            "strikeoutWalkRatio": "0.00",
+            "strikeoutsPer9Inn": "0.00",
+            "strikes": 11,
+            "summary": "0.2 IP, ER, 0 K, 2 BB",
+            "totalBases": 1,
+            "triples": 0,
+            "walksPer9Inn": "27.00",
+            "whip": "1.26",
             "wildPitches": 0,
             "winPercentage": ".---",
             "wins": 0
@@ -166043,6 +163970,118 @@
         }
       ]
     },
+    "692064_pitching_2026": {
+      "fetched_at": "2026-09-19T12:53:43.250827+00:00",
+      "signature": "inningsPitched=1.2|earnedRuns=0|strikeOuts=2|baseOnBalls=0",
+      "splits": [
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Jos\u00e9 Rodr\u00edguez",
+            "id": 692064,
+            "link": "/api/v1/people/692064"
+          },
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 2,
+            "atBats": 6,
+            "avg": ".167",
+            "balks": 0,
+            "baseOnBalls": 0,
+            "battersFaced": 6,
+            "blownSaves": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "completeGames": 0,
+            "doubles": 1,
+            "earnedRuns": 0,
+            "era": "0.00",
+            "flyOuts": 0,
+            "gamesFinished": 0,
+            "gamesPitched": 1,
+            "gamesPlayed": 1,
+            "gamesStarted": 0,
+            "groundIntoDoublePlay": 0,
+            "groundOuts": 1,
+            "groundOutsToAirouts": "0.50",
+            "hitBatsmen": 0,
+            "hitByPitch": 0,
+            "hits": 1,
+            "hitsPer9Inn": "5.40",
+            "holds": 0,
+            "homeRuns": 0,
+            "homeRunsPer9": "0.00",
+            "inheritedRunners": 3,
+            "inheritedRunnersScored": 0,
+            "inningsPitched": "1.2",
+            "intentionalWalks": 0,
+            "losses": 0,
+            "numberOfPitches": 24,
+            "obp": ".167",
+            "ops": ".500",
+            "outs": 5,
+            "pickoffs": 0,
+            "pitchesPerInning": "14.40",
+            "runs": 0,
+            "runsScoredPer9": "0.00",
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "saveOpportunities": 0,
+            "saves": 0,
+            "shutouts": 0,
+            "slg": ".333",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 2,
+            "strikePercentage": ".670",
+            "strikeoutWalkRatio": "-.--",
+            "strikeoutsPer9Inn": "10.80",
+            "strikes": 16,
+            "summary": "1.2 IP, 0 ER, 2 K, 0 BB",
+            "totalBases": 2,
+            "triples": 0,
+            "walksPer9Inn": "0.00",
+            "whip": "0.60",
+            "wildPitches": 0,
+            "winPercentage": ".---",
+            "wins": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
+        }
+      ]
+    },
     "693686_pitching_2026": {
       "fetched_at": "2026-09-17T14:07:47.277740+00:00",
       "signature": "inningsPitched=91.2|earnedRuns=27|strikeOuts=87|baseOnBalls=24",
@@ -171032,8 +169071,8 @@
       ]
     },
     "703520_hitting_2026": {
-      "fetched_at": "2026-09-17T14:07:40.132286+00:00",
-      "signature": "atBats=138|hits=46|baseOnBalls=14|homeRuns=2|totalBases=59",
+      "fetched_at": "2026-09-19T12:53:41.369380+00:00",
+      "signature": "atBats=142|hits=46|baseOnBalls=14|homeRuns=2|totalBases=59",
       "splits": [
         {
           "date": "2026-08-07",
@@ -174100,6 +172139,99 @@
             "link": "/api/v1/teams/141",
             "name": "Toronto Blue Jays"
           }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Brett Bateman",
+            "id": 703520,
+            "link": "/api/v1/people/703520"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "CF",
+              "code": "8",
+              "name": "Outfielder",
+              "type": "Outfielder"
+            },
+            {
+              "abbreviation": "RF",
+              "code": "9",
+              "name": "Outfielder",
+              "type": "Outfielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 0,
+            "atBats": 4,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".324",
+            "babip": ".000",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 0,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 3,
+            "groundOutsToAirouts": "3.00",
+            "hitByPitch": 0,
+            "hits": 0,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 3,
+            "numberOfPitches": 13,
+            "obp": ".390",
+            "ops": ".805",
+            "plateAppearances": 4,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".415",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 1,
+            "summary": "0-4 | K",
+            "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
         }
       ]
     },
@@ -176906,8 +175038,8 @@
       ]
     },
     "815873_hitting_2026": {
-      "fetched_at": "2026-09-12T12:38:34.005128+00:00",
-      "signature": "atBats=45|hits=9|baseOnBalls=2|homeRuns=2|totalBases=16",
+      "fetched_at": "2026-09-19T12:53:45.389720+00:00",
+      "signature": "atBats=46|hits=9|baseOnBalls=2|homeRuns=2|totalBases=16",
       "splits": [
         {
           "date": "2026-06-27",
@@ -178379,6 +176511,210 @@
             "stolenBases": 0,
             "strikeOuts": 1,
             "summary": "0-1 | K",
+            "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
+        },
+        {
+          "date": "2026-09-13",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822764/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822764,
+            "link": "/api/v1.1/game/822764/feed/live"
+          },
+          "gameType": "R",
+          "isHome": true,
+          "isWin": true,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 110,
+            "link": "/api/v1/teams/110",
+            "name": "Baltimore Orioles"
+          },
+          "player": {
+            "fullName": "Sean Keys",
+            "id": 815873,
+            "link": "/api/v1/people/815873"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "PR",
+              "code": "12",
+              "name": "Pinch Runner",
+              "type": "Runner"
+            },
+            {
+              "abbreviation": "DH",
+              "code": "10",
+              "name": "Designated Hitter",
+              "type": "Hitter"
+            },
+            {
+              "abbreviation": "PR",
+              "code": "12",
+              "name": "Pinch Runner",
+              "type": "Runner"
+            },
+            {
+              "abbreviation": "DH",
+              "code": "10",
+              "name": "Designated Hitter",
+              "type": "Hitter"
+            },
+            {
+              "abbreviation": "PR",
+              "code": "12",
+              "name": "Pinch Runner",
+              "type": "Runner"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 0,
+            "atBats": 0,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".200",
+            "babip": ".---",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 0,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 0,
+            "groundOutsToAirouts": "-.--",
+            "hitByPitch": 0,
+            "hits": 0,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 0,
+            "numberOfPitches": 0,
+            "obp": ".234",
+            "ops": ".590",
+            "plateAppearances": 0,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".356",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 0,
+            "summary": "0-0",
+            "totalBases": 0,
+            "triples": 0
+          },
+          "team": {
+            "id": 141,
+            "link": "/api/v1/teams/141",
+            "name": "Toronto Blue Jays"
+          }
+        },
+        {
+          "date": "2026-09-18",
+          "game": {
+            "content": {
+              "link": "/api/v1/game/822847/content"
+            },
+            "dayNight": "day",
+            "gameNumber": 1,
+            "gamePk": 822847,
+            "link": "/api/v1.1/game/822847/feed/live"
+          },
+          "gameType": "R",
+          "isHome": false,
+          "isWin": false,
+          "league": {
+            "id": 103,
+            "link": "/api/v1/league/103",
+            "name": "American League"
+          },
+          "opponent": {
+            "id": 140,
+            "link": "/api/v1/teams/140",
+            "name": "Texas Rangers"
+          },
+          "player": {
+            "fullName": "Sean Keys",
+            "id": 815873,
+            "link": "/api/v1/people/815873"
+          },
+          "positionsPlayed": [
+            {
+              "abbreviation": "PH",
+              "code": "11",
+              "name": "Pinch Hitter",
+              "type": "Hitter"
+            },
+            {
+              "abbreviation": "LF",
+              "code": "7",
+              "name": "Outfielder",
+              "type": "Outfielder"
+            }
+          ],
+          "season": "2026",
+          "sport": {
+            "abbreviation": "MLB",
+            "id": 1,
+            "link": "/api/v1/sports/1"
+          },
+          "stat": {
+            "airOuts": 0,
+            "atBats": 1,
+            "atBatsPerHomeRun": "-.--",
+            "avg": ".196",
+            "babip": ".000",
+            "baseOnBalls": 0,
+            "catchersInterference": 0,
+            "caughtStealing": 0,
+            "caughtStealingPercentage": ".---",
+            "doubles": 0,
+            "flyOuts": 0,
+            "gamesPlayed": 1,
+            "groundIntoDoublePlay": 0,
+            "groundIntoTriplePlay": 0,
+            "groundOuts": 1,
+            "groundOutsToAirouts": "1.00",
+            "hitByPitch": 0,
+            "hits": 0,
+            "homeRuns": 0,
+            "intentionalWalks": 0,
+            "leftOnBase": 0,
+            "numberOfPitches": 2,
+            "obp": ".229",
+            "ops": ".577",
+            "plateAppearances": 1,
+            "rbi": 0,
+            "runs": 0,
+            "sacBunts": 0,
+            "sacFlies": 0,
+            "slg": ".348",
+            "stolenBasePercentage": ".---",
+            "stolenBases": 0,
+            "strikeOuts": 0,
+            "summary": "0-1",
             "totalBases": 0,
             "triples": 0
           },
