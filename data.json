@@ -1,5 +1,5 @@
 {
-  "as_of": "2026-10-01T09:15:42.904592+00:00",
+  "as_of": "2026-10-02T09:13:59.426551+00:00",
   "notes_meta": {
     "last_updated_iso": "2026-08-09T03:05:49Z"
   },
@@ -411,7 +411,7 @@
         "name": "Brandon Valenzuela",
         "pos": "C",
         "bats": "S",
-        "age": 25,
+        "age": 26,
         "height": "6' 0\"",
         "weight": 225,
         "ab": 239,
@@ -973,7 +973,7 @@
         "l": 0,
         "sv": 0,
         "gs": 0,
-        "recent": "new"
+        "recent": null
       },
       {
         "id": 667755,
@@ -1123,6 +1123,27 @@
         "recent": "hot"
       },
       {
+        "id": 681293,
+        "name": "Spencer Arrighetti",
+        "role": "P",
+        "throws": "R",
+        "age": 26,
+        "height": "6' 2\"",
+        "weight": 186,
+        "ip": "110.2",
+        "era": "4.96",
+        "whip": "1.38",
+        "k_per_9": "8.62",
+        "bb_per_9": "5.20",
+        "k": 106,
+        "bb": 64,
+        "w": 9,
+        "l": 9,
+        "sv": 0,
+        "gs": 19,
+        "recent": null
+      },
+      {
         "id": 693686,
         "name": "Spencer Miles",
         "role": "P",
@@ -1189,18 +1210,6 @@
   },
   "team_stats": {
     "hitting": {
-      "avg": {
-        "val": ".247",
-        "rank": 9
-      },
-      "hr": {
-        "val": 152,
-        "rank": 30
-      },
-      "runs": {
-        "val": 648,
-        "rank": 30
-      },
       "obp": {
         "val": ".310",
         "rank": 27
@@ -1209,23 +1218,35 @@
         "val": ".691",
         "rank": 29
       },
+      "hr": {
+        "val": 152,
+        "rank": 30
+      },
       "slg": {
         "val": ".381",
         "rank": 26
+      },
+      "avg": {
+        "val": ".247",
+        "rank": 9
+      },
+      "runs": {
+        "val": 648,
+        "rank": 30
       }
     },
     "pitching": {
-      "whip": {
-        "val": "1.29",
-        "rank": 16
+      "bb9": {
+        "val": "3.72",
+        "rank": 24
       },
       "k9": {
         "val": "8.84",
         "rank": 10
       },
-      "bb9": {
-        "val": "3.72",
-        "rank": 24
+      "whip": {
+        "val": "1.29",
+        "rank": 16
       },
       "era": {
         "val": "3.90",
@@ -1468,6 +1489,13 @@
       "bb_per_9": 43,
       "ip": 46
     },
+    "681293": {
+      "era": 46,
+      "whip": 43,
+      "k_per_9": 26,
+      "bb_per_9": 46,
+      "ip": 46
+    },
     "693686": {
       "era": 9,
       "whip": 13,
@@ -1550,14 +1578,7 @@
       "eta_note": ""
     }
   ],
-  "other_unavailable": [
-    {
-      "person_id": 681293,
-      "name": "Spencer Arrighetti",
-      "status": "Reassigned to Minors",
-      "eta_note": ""
-    }
-  ],
+  "other_unavailable": [],
   "transactions": [
     {
       "date": "2026-09-25",
@@ -1574,14 +1595,14 @@
     {
       "date": "2026-09-28",
       "type": "Status Change",
-      "description": "Toronto Blue Jays activated RF Rudy Martin Jr. from the 10-day injured list.",
-      "person_name": "Rudy Martin Jr."
+      "description": "Toronto Blue Jays activated RHP Dylan Cease from the 15-day injured list.",
+      "person_name": "Dylan Cease"
     },
     {
       "date": "2026-09-28",
       "type": "Status Change",
-      "description": "Toronto Blue Jays activated RHP Dylan Cease from the 15-day injured list.",
-      "person_name": "Dylan Cease"
+      "description": "Toronto Blue Jays activated 2B Luis Ur\u00edas from the 10-day injured list.",
+      "person_name": "Luis Ur\u00edas"
     },
     {
       "date": "2026-09-28",
@@ -1598,32 +1619,20 @@
     {
       "date": "2026-09-28",
       "type": "Status Change",
+      "description": "Toronto Blue Jays activated RF Rudy Martin Jr. from the 10-day injured list.",
+      "person_name": "Rudy Martin Jr."
+    },
+    {
+      "date": "2026-09-28",
+      "type": "Status Change",
       "description": "Toronto Blue Jays activated RHP Shane Bieber from the 15-day injured list.",
       "person_name": "Shane Bieber"
     },
     {
       "date": "2026-09-28",
-      "type": "Status Change",
-      "description": "Toronto Blue Jays activated 2B Luis Ur\u00edas from the 10-day injured list.",
-      "person_name": "Luis Ur\u00edas"
-    },
-    {
-      "date": "2026-09-28",
       "type": "Recalled",
-      "description": "Toronto Blue Jays recalled RHP Jos\u00e9 Rodr\u00edguez from FCL Blue Jays.",
-      "person_name": "Jos\u00e9 Rodr\u00edguez"
-    },
-    {
-      "date": "2026-09-28",
-      "type": "Recalled",
-      "description": "Toronto Blue Jays recalled RHP Devereaux Harrison from Buffalo Bisons.",
-      "person_name": "Devereaux Harrison"
-    },
-    {
-      "date": "2026-09-28",
-      "type": "Recalled",
-      "description": "Toronto Blue Jays recalled LHP Ricky Tiedemann from Buffalo Bisons.",
-      "person_name": "Ricky Tiedemann"
+      "description": "Toronto Blue Jays recalled C Shawn Ross from Buffalo Bisons.",
+      "person_name": "Shawn Ross"
     },
     {
       "date": "2026-09-28",
@@ -1640,26 +1649,156 @@
     {
       "date": "2026-09-28",
       "type": "Recalled",
-      "description": "Toronto Blue Jays recalled C Shawn Ross from Buffalo Bisons.",
-      "person_name": "Shawn Ross"
+      "description": "Toronto Blue Jays recalled LHP Ricky Tiedemann from Buffalo Bisons.",
+      "person_name": "Ricky Tiedemann"
     },
     {
-      "date": "2026-09-29",
-      "type": "Signed as Free Agent",
-      "description": "Toronto Blue Jays signed free agent RHP Siwoo Kwon to a minor league contract.",
-      "person_name": "Siwoo Kwon"
+      "date": "2026-09-28",
+      "type": "Recalled",
+      "description": "Toronto Blue Jays recalled RHP Devereaux Harrison from Buffalo Bisons.",
+      "person_name": "Devereaux Harrison"
+    },
+    {
+      "date": "2026-09-28",
+      "type": "Recalled",
+      "description": "Toronto Blue Jays recalled RHP Jos\u00e9 Rodr\u00edguez from FCL Blue Jays.",
+      "person_name": "Jos\u00e9 Rodr\u00edguez"
+    },
+    {
+      "date": "2026-09-28",
+      "type": "Recalled",
+      "description": "Toronto Blue Jays recalled RHP Spencer Arrighetti from FCL Blue Jays.",
+      "person_name": "Spencer Arrighetti"
     },
     {
       "date": "2026-09-29",
       "type": "Status Change",
       "description": "Toronto Blue Jays activated 2B Luis Ur\u00edas from the 10-day injured list.",
       "person_name": "Luis Ur\u00edas"
+    },
+    {
+      "date": "2026-09-29",
+      "type": "Signed as Free Agent",
+      "description": "Toronto Blue Jays signed free agent RHP Siwoo Kwon to a minor league contract.",
+      "person_name": "Siwoo Kwon"
     }
   ],
   "news": [
     {
-      "title": "Blue Jays fans go to great lengths for game-day giveaways. It might get easier next season - Toronto Star",
-      "summary": "Blue Jays fans go to great lengths for game-day giveaways. It might get easier next season&nbsp;&nbsp;Toronto Star",
+      "title": "Ex-Toronto Blue Jays Star Still Owed $100 Million By Current MLB Team - heavy.com",
+      "summary": "Ex-Toronto Blue Jays Star Still Owed $100 Million By Current MLB Team&nbsp;&nbsp;heavy.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxPSjNMZWFBdmRaRXVCdHZlOF90YnNPa0RwSVhzNDNFWUJ4dFFYVTJvWmZXREpTY09WRS1KVFBxMzJ0azBydXpQbm81VlB5alFEdlF0UjJQaUFXUjBoZy03dEhkc0ZsLVRDWjJsa3ViVlVHdVB0SG44RnpIaTZpME9XT2RDOHFCSzZNUEpGdlRCcE5MOFN6WXRLVA?oc=5",
+      "published": "2026-10-02T05:11:10+00:00"
+    },
+    {
+      "title": "Open Thread Thursday Wild Card Game",
+      "summary": "Only one Wild Card series made it to three games. Phillies and Braves play at 8:00 Eastern. Aaron Nola (7-12, 4.67) vs. Ray Kerr (0-0, 1.47 in 9 games, 1 start 18.1 innings). Today&#8217;s Lineups PHILLIES BRAVES Trea Turner &#8211; SS Drake Baldwin &#8211; C Kyle Schwarber &#8211; DH Ronald Acuna &#8211; RF Bryce Harper [&#8230;]",
+      "source": "Bluebird Banter",
+      "author": "tom dakers",
+      "url": "https://www.bluebirdbanter.com/general/64028/open-thread-thursday-wild-card-game",
+      "published": "2026-10-01T23:53:00+00:00"
+    },
+    {
+      "title": "Blue Jays Facing Addison Barger Decision After Anthony Santander News - Athlon Sports",
+      "summary": "Blue Jays Facing Addison Barger Decision After Anthony Santander News&nbsp;&nbsp;Athlon Sports",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxObUZhdklpSUpmNDd1R0dlSFJkcVBVYTloZ3RKTHNrMzUybG5NMlNOZHRZRG5ocGF6bFpiSXFCTjJhX21lenYxVXNpajJ5Yk1LdHNyT2lPUDA0Mms2a0llYThGY0haNS1mcVNxMmk3bFdqUExyMXEtNktfTVZXdUgxWHRDcThzcnpaVnUyTDh5SVV0cWRyQzJvRE16SWg1dw?oc=5",
+      "published": "2026-10-01T23:34:41+00:00"
+    },
+    {
+      "title": "Jonah Sigel: Mark Shapiro won\u2019t get keys to the new Rogers sports empire. He could be eyeing something bigger - Toronto Star",
+      "summary": "Jonah Sigel: Mark Shapiro won\u2019t get keys to the new Rogers sports empire. He could be eyeing something bigger&nbsp;&nbsp;Toronto Star",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMilAJBVV95cUxQU2Y1QktyeTlScHkydHRYejliUHFTNWRXV0xVT1NiN2hPN3lXRkR0d1BMcVZJSUlFLXEyNDJCc2RUVHhIZTNob3BVNk1xcVl3MlhGU0dtVkNCeVd0SzllVVVUemlNQi1vaVVEb0ptRmFmN2R0cWdNanF1NXFQUk81LUV1UXZYTHhSc0NtcHo1RGdyYkNxaVdZaHZGa3NibndCOXNVNm80NlA5YV9OSUFOeG9lN19EcTlUeFBYMHhaS29mWlBxelZYOTJJcGJqWEwzdEhrOEJZRXRFeFBPTi1aU0dKU3lHbnV5dWZuLVRIekR4RkVieU5ibTlESXJvMHFLODFqVm9sSU4tTjBhMDc1YzE2Ui0?oc=5",
+      "published": "2026-10-01T21:45:00+00:00"
+    },
+    {
+      "title": "Kevin Gausman's postseason run in 2026 ends with a much louder thud than it did with Blue Jays - Jays Journal",
+      "summary": "Kevin Gausman's postseason run in 2026 ends with a much louder thud than it did with Blue Jays&nbsp;&nbsp;Jays Journal",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMiugFBVV95cUxNZ3lpeGFHcFFXb1BHVXNZUmwwOWpxbFVPbGNtWG1RYnhmT0FKak5WNEVyTWZwV3V2akhLeFRVdlJxWkw0RlFUZXhqRjVDYXVkNjBTQWphaFJ3SnhNNzA1d1AwcENod1RVRHJ0dkxnbkJ0ekNCTmpqTGV3S2N0M01mMVJKaHBUaEpGVEtlbkNEeE9rSzNIR1NjY0lzTXFRdTZLaU1ZN0xBV0ZoT0ktOFZrekZOUVlpMDV0Q3c?oc=5",
+      "published": "2026-10-01T21:30:00+00:00"
+    },
+    {
+      "title": "Blue Jays 'expected' to target Cubs' 26 HR outfielder in free agency - sportingnews.com",
+      "summary": "Blue Jays 'expected' to target Cubs' 26 HR outfielder in free agency&nbsp;&nbsp;sportingnews.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMi2wFBVV95cUxNODdQZEJTdGt3RmNJR2NMVFQ0ZVFiWjBGak5yOHVLUEpwbFptaDdPVkllT1B2UTMxYzlKblp4UkZ2Nk16MTVxRngyR255aGhuRE43Zzl6bEZxbzlBTGlWNzg1NHkwcmFlZnZic2s0STJjdkVkQUpnczhZTllNdklwbDlLSGVVM01vQWViLUh6dGVrN0VodzE5YUczWDFHOWZKTG1JbEFFaXRLbUp1VUpuTGprcjRjTnk1RDdMSjVDaEw4STluejlBUEFXcnhOM3BWYnpfd0szem5sakk?oc=5",
+      "published": "2026-10-01T20:49:47+00:00"
+    },
+    {
+      "title": "Kevin Gausman's playoff exit interview fuels Toronto Blue Jays reunion rumours - blogTO",
+      "summary": "Kevin Gausman's playoff exit interview fuels Toronto Blue Jays reunion rumours&nbsp;&nbsp;blogTO",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMimAFBVV95cUxOX2s0cmFFSld3WnlJUEZaUzhQcE9tYUJtZG0tSFB6Uk1pc2h4ajlyZVN4U2lvVG5ZWVZfLTEyeXB4WlV6MTdMeDJBRTJvZ2lGUG1laHZsRGY5SjkzbDhTbkQya2d4cnFKYkQ2Nk4zd2VGblpza3VGNTdLU2tWZ0JwbUJscnpGVVZfR01ENzZJYWYtVTFlVHdzeQ?oc=5",
+      "published": "2026-10-01T18:05:37+00:00"
+    },
+    {
+      "title": "Toronto Blue Jays Star George Springer\u2019s Future in Jeopardy After Retirement Speculation - heavy.com",
+      "summary": "Toronto Blue Jays Star George Springer\u2019s Future in Jeopardy After Retirement Speculation&nbsp;&nbsp;heavy.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMivAFBVV95cUxOaHlXWDd4Wi1XMUVocmhaaGlqeTlXNmFpVVR1d0N3Y01LYmJpNDV1MExyUl9hd3pDczVxV09hNUtab3ZmbW9iOU1VNURxcFVoaG1YMUtqZEFHUGpmeDA2SHJTNVVCckNRMkY1WmM1MTFIWExRRjZTeW5nV2FPT3QxbDYyNEV5bFdrT1VaSFV4MlVKellPMlRmQ21YdkI0b2wwdEx6TXRWeVpzZUlQT0dBdjVXZy1hN21DeVdjQQ?oc=5",
+      "published": "2026-10-01T16:22:24+00:00"
+    },
+    {
+      "title": "The Season That Was: Kazuma Okamoto",
+      "summary": "The Jays signed Kazuma Okamoto to a four-year, $60 million contract. He had played 11 seasons in the Nippon Professional Baseball League. He hit .322/.411/.581 with 15 home runs in 77 game there in 2025 and .280/.362/.505 with 27 home runs in 143 games in 2024. He had 248 career home runs. There were questions [&#8230;]",
+      "source": "Bluebird Banter",
+      "author": "tom dakers",
+      "url": "https://www.bluebirdbanter.com/toronto-blue-jays-analysis/63989/the-season-that-was-kazuma-okamoto",
+      "published": "2026-10-01T15:26:28+00:00"
+    },
+    {
+      "title": "Toronto Blue Jays Rumored to Reunite with All-Star Starter in Free Agency - heavy.com",
+      "summary": "Toronto Blue Jays Rumored to Reunite with All-Star Starter in Free Agency&nbsp;&nbsp;heavy.com",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxQVlR1NmhLeWFTcjdfcF9KVGVEX1lUZnVaN0k5QmdhU2l3OTBFVFVRVXJHa1Izb0M2TlV1TGVVY212bDBmUkJWTXhmV3RFQnEweTlVcDFuOUF0VjdHdlJCbTJOZG0wbjM2YTh5WmVnN1dBWFBnOTNNR212TnJwQVFzeUpVUzNyS1VqOHJraVhnTEhCYUpUcTFDcEpCaWJFWi15ODM3QQ?oc=5",
+      "published": "2026-10-01T15:01:49+00:00"
+    },
+    {
+      "title": "What message are Blue Jays sending to Ernie Clement after late-season struggles? - Toronto Sun",
+      "summary": "What message are Blue Jays sending to Ernie Clement after late-season struggles?&nbsp;&nbsp;Toronto Sun",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxQaElHQUZBNEU5aW5ZRzdzVG8zYjRMQmhwVWQ2cms5MGZOS0FkWlFaQ3BjQUt3WU1sUXlqaG8wZmNrQllrQ3VrVVZUZ1NqR2l6SElibUF1VU9ERUcyT1k0ZW4zbTRQNDRVOThaSjJTdFNGWXVvNnBkNGNRU3VOMlVCcjZsVVpMRDN3c1FncXlyYVNQRl9wWk1nXzNLZW01Z1RWbWtheVNhWlpDWnRG?oc=5",
+      "published": "2026-10-01T14:09:39+00:00"
+    },
+    {
+      "title": "Jays' president pledges lined up fans on giveaway nights won't go home empty handed - Toronto Sun",
+      "summary": "Jays' president pledges lined up fans on giveaway nights won't go home empty handed&nbsp;&nbsp;Toronto Sun",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMixAFBVV95cUxPSjhKNDF2RTB2WkhWTHNSYlpoQ1BKM1NWUUxfcHV4Q25kTDlHdFllRkZkQm50NXhxQ25ZQklhcE9Sc0dLOVpZT2xvYkJmdzdzNzNQMlRzTnNOWjV1RFAxOG9fTHlEVEt5ME9xaEVjU0FXUHVzRUxlN1hndkhudURRcXYxbEpDdHM1X2VlM2tBTlNwdmVTVG9nODNzQ1NIaXRYTHc4SUduUHBCbExxQUQ5a0xPUjVGMVd0VVFFemNoMWJBMmst?oc=5",
+      "published": "2026-10-01T13:07:43+00:00"
+    },
+    {
+      "title": "How Blue Jays execs are preparing for unusual off-season - sportsnet.ca",
+      "summary": "How Blue Jays execs are preparing for unusual off-season&nbsp;&nbsp;sportsnet.ca",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMimgFBVV95cUxQR0FnNWFoVUVQSmw0MkFwbXlhSEE5WDk1d0I2bEwxWWFJTzZWMlUyTTltZXRZLXo3VUd3M2tQWnBsdDhFdmZ2cFM2ZllxSDlZWllxU0RQUjRDT2RreFBrRUJsT1ViOWxUTk1SZUlsTFdqZXlBMGg0eERWYjlBcDNGRUxaX0FmblVRRG91UHpPUTR4V3IxbTVEMjJB?oc=5",
+      "published": "2026-10-01T12:25:00+00:00"
+    },
+    {
+      "title": "Mike Wilner: The Blue Jays have a plan to help fix Vladimir Guerrero Jr. \u2014 sort of - Toronto Star",
+      "summary": "Mike Wilner: The Blue Jays have a plan to help fix Vladimir Guerrero Jr. \u2014 sort of&nbsp;&nbsp;Toronto Star",
+      "source": "Google News",
+      "author": "",
+      "url": "https://news.google.com/rss/articles/CBMi7gFBVV95cUxNR1NaRHl5bThlSDVLeEpES2hqb2JMY0t2RTNBQkdISFpqNlFnS1lIYUs1M2pvNGZHZVc2b0ROTnl0U1ViY3V5UGF3MlNPaklZVzktb19kTzg2a3QtRnFyZWxfamFzRjFkNlpGQ2FoaldSLVJzanhaNERRbHBzbUx3RVdpanZRbEtmcURBX09UNFhVem5rZUtGbGZJUnZfQWVVSjkzYllXcjdtb0J2UVpEM3lZQV9MMUx4TkNtY1N1T2hWT29nU09MZ2tVZG9sLVpyWmY4S1NuRHFpSnY5Z3F6Q0dpYlYyeU85NEp1cFRn?oc=5",
+      "published": "2026-10-01T09:56:00+00:00"
+    },
+    {
+      "title": "Blue Jays move to end 15,000 limit on game-day giveaways after fan backlash - Toronto Star",
+      "summary": "Blue Jays move to end 15,000 limit on game-day giveaways after fan backlash&nbsp;&nbsp;Toronto Star",
       "source": "Google News",
       "author": "",
       "url": "https://news.google.com/rss/articles/CBMijAJBVV95cUxOZEVvY2tZUlR0RFlOZldkMTZvcXRyaWlQTERhSDB3dUxRck51enFHUWcwYmc3RTlLQk4yN1FiT0pFTWxpblI3WkZET2psc2tCNU11YnZEMGFsOFlTVkVzbzk0STNQeEIydFBNMmc4VjNhMzZfbWE3Vk9VY0JSeW9iVjBBcjltdkdtNkViLUhCVWRYRlF4blhNSzlQWjhrRU1EREVoTXB6M09iZHNsX0l0X0dJcl9peXlIZlhJZnZHSEIwWjRhTzZQeHh6bFZOUzI5RUdrZnRGSGJqWDF2eVpyeWZhZEFweWd4RkhsTjM1b3VPajZYYXVhalpDbUNFM1dxZlFoRVRrMHVMWE95?oc=5",
@@ -1682,14 +1821,6 @@
       "published": "2026-10-01T01:30:00+00:00"
     },
     {
-      "title": "Toronto Blue Jays Announce Anthony Santander News During MLB Playoffs - heavy.com",
-      "summary": "Toronto Blue Jays Announce Anthony Santander News During MLB Playoffs&nbsp;&nbsp;heavy.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMilwFBVV95cUxOZXNyd1Y1cV9OQjlJSTliZklSUHJCX0VZR0tmVzVpclZ5S3JORDgyZzhoWUVsOWFNdUpITUdBYU95U25ZdF9vWHNpU2ZZV0VrN2tWb3NzZW9YR2FLNFZfVjhtTE1PUENOcUI5Q3EzcjV4MDJnQ3ZaZ2JXQzhSMjB3Q0lURmxyMEY1ZXJ3VFhMS2J5M2VEcnZB?oc=5",
-      "published": "2026-09-30T23:19:04+00:00"
-    },
-    {
       "title": "Blue Jays have \u201cno doubt\u201d Vladimir Guerrero Jr. will rediscover his superstar form - Jays Journal",
       "summary": "Blue Jays have \u201cno doubt\u201d Vladimir Guerrero Jr. will rediscover his superstar form&nbsp;&nbsp;Jays Journal",
       "source": "Google News",
@@ -1698,124 +1829,20 @@
       "published": "2026-09-30T23:00:01+00:00"
     },
     {
-      "title": "Recently Cut Toronto Blue Jays Player Officially an MLB Free Agent - Yahoo Sports",
-      "summary": "Recently Cut Toronto Blue Jays Player Officially an MLB Free Agent&nbsp;&nbsp;Yahoo Sports",
+      "title": "Blue Jays Minor League end of season review: Injuries to big league players hampered Buffalo\u2019s success - Blue Jays Nation",
+      "summary": "Blue Jays Minor League end of season review: Injuries to big league players hampered Buffalo\u2019s success&nbsp;&nbsp;Blue Jays Nation",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMihgFBVV95cUxOZzYzZjZpQW1ZdVVEX0V6X1d2ZmNUcTZoNEYza3J5aHdFYlMyM3Y1MGhlSk5BZjYyVkdZalhscGd2Y29odHQwMVd4LUtKT1FJZVZ4SEdrc2tUQUFEck9GUmFCbjhVTGlteFBGbFBoWE5lRWpmOWh3MnZCZ25hd1h3UjZtWi1TZw?oc=5",
-      "published": "2026-09-30T21:25:41+00:00"
+      "url": "https://news.google.com/rss/articles/CBMitgFBVV95cUxNbzRyYUoweW5VMlZSR2h5TGUxOHJqV1lkdGRrbmV6dFEyeHd2MktPOVFudDdGSGllaEJRTmFrNlNYRkx2Z0I1aER2Z0RQTUpvdng5Qk1sRGY1LW1FLURIRm9QRl9xcW0ybE1qVkxkNU1fd2h1eWhHYTh1X2pOMTBFUVY4M25wMFA4eEdIckNWWm56VTZrU1dxOUMxdE9HdjBCRHY1LVh0MkF4YjRXUDltWXUyWFIyZw?oc=5",
+      "published": "2026-09-30T23:00:00+00:00"
     },
     {
-      "title": "With its latest baseball failure, the Jays\u2019 front office has figured out how to finesse its fan base - The Globe and Mail",
-      "summary": "With its latest baseball failure, the Jays\u2019 front office has figured out how to finesse its fan base&nbsp;&nbsp;The Globe and Mail",
+      "title": "Blue Jays GM Ross Atkins says Ernie Clement has \u2018got to earn\u2019 everyday role in 2027 - Toronto Star",
+      "summary": "Blue Jays GM Ross Atkins says Ernie Clement has \u2018got to earn\u2019 everyday role in 2027&nbsp;&nbsp;Toronto Star",
       "source": "Google News",
       "author": "",
-      "url": "https://news.google.com/rss/articles/CBMitwFBVV95cUxOZEZjcThmcHVmT2l5Q2NhZTdYX2dzMHgyMHRUSi1WMjV1SnRZTExKb0VFbE0zb2R5MGdGejFmbWF1TVFnWGgzRUhucmQ2dEVtdi1NMjJQaWJ5dndiaUFuWkRwWVFmek5ybEU0cDJRTloxSHU1ZFR4dU40TnVrNlVjTjlzb1NFeGJYTjBDb2xVcThIZ0o2UGViamtEX0VlZUVNM3ZETjN5dEh6OXQ5ajRuOS1GTEFLcWs?oc=5",
-      "published": "2026-09-30T20:03:21+00:00"
-    },
-    {
-      "title": "Blue Jays GM Sends Clear Message About Ernie Clement's Future at Second Base - Sports Illustrated",
-      "summary": "Blue Jays GM Sends Clear Message About Ernie Clement's Future at Second Base&nbsp;&nbsp;Sports Illustrated",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMipAFBVV95cUxONmhJZWg0cGFIb1dQYmNjczZ6MW1lWmpfdTVZbEd6OVdzaUw5N2RTak1YX2liNVNydC1xcUxrYjJLeWJ4R1NlWDA3ODNsQm02RHFWdXktZDFUSER6eHV6QkJPWmduT3l5VktZaGk0ZzQyNVRXSkNKbnNrOUVzc010YzVMNDVwaUNCbHB4aU5MbE9pWFllNVR2MS1wYXFGOFQ0M3RTdg?oc=5",
-      "published": "2026-09-30T20:00:00+00:00"
-    },
-    {
-      "title": "GM Ross Atkins discusses what went wrong for 2026 Blue Jays - Sportsnet.ca",
-      "summary": "GM Ross Atkins discusses what went wrong for 2026 Blue Jays&nbsp;&nbsp;Sportsnet.ca",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMingFBVV95cUxPV1l5TjROMlZiVE5KYmMwQWFTWDRjdWIzMXZaOEgyZ2FvQ1p3NFpKTzJaUHh0c0NNTV9PSGRjQXhxR2tuMGk0ODhyanhSTkJ6dm9pOS1yZFM1NC1JQUlwNkxJdUp0YmdBbGFhby1uMlNMa2R5aUFaTHUzNWdseU5WQXpXMUpSbkY2bDluc256b2s0YjZud2ZhLTB0WktCUQ?oc=5",
-      "published": "2026-09-30T18:53:00+00:00"
-    },
-    {
-      "title": "Recently Cut Toronto Blue Jays Player Officially an MLB Free Agent - heavy.com",
-      "summary": "Recently Cut Toronto Blue Jays Player Officially an MLB Free Agent&nbsp;&nbsp;heavy.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxPa04tYkVDZFM4ZEliQkxXcFI4cWxQV2NDWFJGMHp3bmExUVFrR0FqeEFnZFhXUjJTUGpKR3MxWkt4dElnUktiMkxzUlpacy0yckMtb2dIY2VFelZmX0h5QmVBcnI5REFZOFl6a3NQZFZHSjNHMVk0VHZzc2dsUXpjbkY5VmJKcXVoWWJld0Q1WWc3YTQ?oc=5",
-      "published": "2026-09-30T18:26:04+00:00"
-    },
-    {
-      "title": "Blue Jays on falling short in 2026, offseason goals - MLB.com",
-      "summary": "Blue Jays on falling short in 2026, offseason goals&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxNb21waHhtVEkyS21DdzdLbzNRcGgxLTdudTZvTm9WNnUzSTE1Q0VodVhYUVFfaTEyMmw5U0h4QVJqRXQ4TjZONFZyZkFYOUFXT0xkVEJlMV9VNGpfUW85TlpoV2tfTXBLYVhGb09KTGkxN0hfd3VUOTRzOVdQVXRNaGczVDEtVFlqR3dCZHJB?oc=5",
-      "published": "2026-09-30T18:19:18+00:00"
-    },
-    {
-      "title": "Blue Jays reliever Joe Mantiply elects free agency - Sportsnet.ca",
-      "summary": "Blue Jays reliever Joe Mantiply elects free agency&nbsp;&nbsp;Sportsnet.ca",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMikgFBVV95cUxQQUJObGo4TUltMFZTN2FaOXVBTTdwYjJSYVNKZmhRUER0LThqVlBMN21PdHpVYlhac3BEREYxTkpHUnVEOWN1bHltejhjempqbjdCOE1VTUNpMFhCWDZ3WFpmYWJVREpWejM2eUhfaFRyZ1E3QmhtUzFjTDBNMThaZVpnWGJpWlZxVzFOU3V2NGd1Zw?oc=5",
-      "published": "2026-09-30T18:19:00+00:00"
-    },
-    {
-      "title": "Open Thread For Wednesday\u2019s Wild Card Games",
-      "summary": "We have four game again. Same order as yesterday. The games were good yesterday. 2:00 Eastern: Phillies @ Braves. Braves won game one. Today it is Cristopher S\u00e1nchez (18-7, 2.91) vs. Tyler Mahle (7-10, 3.99) The lineups are posted already: Today&#8217;s Lineups PHILLIES BRAVES Trea Turner &#8211; SS Ronald Acuna &#8211; RF Kyle Schwarber &#8211; [&#8230;]",
-      "source": "Bluebird Banter",
-      "author": "tom dakers",
-      "url": "https://www.bluebirdbanter.com/general/64012/open-thread-for-tuesdays-wild-card-games",
-      "published": "2026-09-30T17:45:00+00:00"
-    },
-    {
-      "title": "Blue Jays GM Atkins says 'everything needs to be assessed' after last-place finish - CBC",
-      "summary": "Blue Jays GM Atkins says 'everything needs to be assessed' after last-place finish&nbsp;&nbsp;CBCBlue Jays offer concessions for lost season but few firm plans&nbsp;&nbsp;Sportsnet.caTORONTO BLUE JAYS: Disappointed in past season, grateful for the fans&nbsp;&nbsp;Yahoo News Canada",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMikwFBVV95cUxNUUZvbUlCUG5zRWxFd1plbl9KaEJWQUZ6Q1Z4SC1rTWx4RzlTNTgwc3dxN3g2V2h0bW1PSFdKRzAzVVFINDRnYUxteVVwWXE4QWRfRE1kVVRmdFZXd3N6Z1VfeWZRSGR1ZEJUdjBtZEdXTTJxNzdhSTJsOVZUc3FVSmV5am5wbHFRTEE2OHE0djFBZkE?oc=5",
-      "published": "2026-09-30T17:09:51+00:00"
-    },
-    {
-      "title": "Blue Jays officially sign Korean pitching prospect Kwon Si-Woo - Blue Jays Nation",
-      "summary": "Blue Jays officially sign Korean pitching prospect Kwon Si-Woo&nbsp;&nbsp;Blue Jays Nation",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMijgFBVV95cUxOanJJRzF4MWltWlpNVEZ2aDI4eXBRZHJQUFk5eUJLcC1kd3FfQ1gtRlR2Tkp5ZFZmXzRBU3lnd3VxaVZYcFJwQjZ4VXkxVm5DdkYzVENyVkkxZXRWanRaQ0NLQWZmUFZFalo3UDRGZjBNVkZZOV9RTEpsenRicHlLLUJFbjU4aHVQLWZpZWd3?oc=5",
-      "published": "2026-09-30T17:02:58+00:00"
-    },
-    {
-      "title": "Watch: Blue Jays execs Ross Atkins, Mark Shapiro wrap up the season - Sportsnet.ca",
-      "summary": "Watch: Blue Jays execs Ross Atkins, Mark Shapiro wrap up the season&nbsp;&nbsp;Sportsnet.ca",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMirAFBVV95cUxOSWRlRjdwbFgxazFyMndWZ1lMWDRwS2FYdU1LcWpBS2wtZ3Ntc1U3OGg2UmFfTlpJdlFwempDTmN4SG55blVNYmU2Nzk3aHhsTVFnbTJtUkxxTGZiRHlMa0E4SXh0UllId3NHbFdQU200dHo5dXI4QU1ZUTEwT0laM2gxbl9GQ2FJaklsYWNvVndVanVsNXlBdmp6RTFscEo1NVF4b3ZtMlpNOXRJ?oc=5",
-      "published": "2026-09-30T16:06:00+00:00"
-    },
-    {
-      "title": "Blue Jays GM Atkins says \u2018everything needs to be assessed\u2019 after last-place finish - Global News",
-      "summary": "Blue Jays GM Atkins says \u2018everything needs to be assessed\u2019 after last-place finish&nbsp;&nbsp;Global News",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiuAFBVV95cUxOckFYdjJ1SDF1Wms4NFRrdUU2VmxQVC1yajVHUlRCS2lJbU00dTM4YUJtX2xhR3BuQTJtZ1pldkw4dm02ZEFHMlNXVGNKc25Ed0hhTlRCdndaa2FNcW5VX0swcmQ3TlhkZ0trbUUtWEhkeERJNGhhS1haMXNUVzIxWDNLaEJ1cVI1T2EydXA3U3JqeDF1OFlrLWtKME9MR25Odmp1UVVFaTA0VnVaRUctbGFvSEdXSmdn?oc=5",
-      "published": "2026-09-30T15:42:27+00:00"
-    },
-    {
-      "title": "4-Year Toronto Blue Jays Player Quietly Joins Braves Before MLB Playoffs - heavy.com",
-      "summary": "4-Year Toronto Blue Jays Player Quietly Joins Braves Before MLB Playoffs&nbsp;&nbsp;heavy.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMigwFBVV95cUxNSU5TQ2Y1ZnQzXzVtbWtfdlhUSDNwWGRnZTV6Qm1HMjBTNTVSWDRWLTBUVjc0Z01yR2RyR0NNNUFMa3lQUkxQalJMa2gyV2xYMU5iQV9tak9LdktOdE9CQjdtOUVMcnRfdVVkMlhtYm9oaUd1SlJsRkFZeXpteWljQmdvNA?oc=5",
-      "published": "2026-09-30T15:13:31+00:00"
-    },
-    {
-      "title": "Blue Jays End of Season Press Conference - MLB.com",
-      "summary": "Blue Jays End of Season Press Conference&nbsp;&nbsp;MLB.com",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiigFBVV95cUxOY1FjVGctTWFPTXo0VjN4QTd4NFoyeEhtc2hQYUVkcHBpUlQxTGUzN2ZUalhDbkJ3RmRENWFmWi1XWFMyUTRpTW5mbk8yMHMzRXpjTm9UVWMweWdlcUdXUEdfTE1iOHFocC1wZUp3MUlEQUFFa3ZUZC1kdVY1MWRsRDIyTG1tbjBZR0E?oc=5",
-      "published": "2026-09-30T14:47:29+00:00"
-    },
-    {
-      "title": "Shane Bieber\u2019s family sends clear message about a potential Blue Jays return - Jays Journal",
-      "summary": "Shane Bieber\u2019s family sends clear message about a potential Blue Jays return&nbsp;&nbsp;Jays Journal",
-      "source": "Google News",
-      "author": "",
-      "url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQV2ZoaXpXY1BFVnRnY0p5bDRpMWZYNGFnRTl1QzFwZ1NiRThmRXFrRGtWUjdfTHQwMWJUcUJrTTVYeVpySUFrblg5R09Gb3BhQnk4R2lwWjE5Y0ltSjhPRkNKenNfRkJuUkJWQWVnZEVOWVJ3cXRORk4zSmJrOWtzc2V0SFhic2RXYkJjdW0zSjhRM1RsT1JiOWJhYkp6TWJlbkE?oc=5",
-      "published": "2026-09-30T13:00:04+00:00"
+      "url": "https://news.google.com/rss/articles/CBMiggJBVV95cUxNZGJLVTB2bks0dTFEQlBhS3dDbTFZVEdXdXJNaDBsMG96LVlOMHdKUEU3WGR2Q2ZDclRmR3RRWld1MFFOUjhwZVBjVnU4cDJ6dVNxZlBzMjc4NjFWV05UZ2YxbnVGWmxHRERyTXQ0NjRXaDd2TjdWektPcXZhYlFFZVdrc0JEN2s5Sm5ZRjc5UFZiQktnUFd6WHBfeG5fUGdfc29ENGk4TzBtOHpmbjdONkJMMFRVR05TLXEySHIzWlIzbkF3U3lYVEc0ekdRUVVRMnZNazZIaFFyOVluRlFqOVlkN19WbVh6QmJvcmFRdmRwOEZ5N2c1UnFFYlJDaFg5b1E?oc=5",
+      "published": "2026-09-30T20:24:00+00:00"
     }
   ],
   "run_diff_last_10": [
