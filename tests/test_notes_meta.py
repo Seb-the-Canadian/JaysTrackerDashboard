@@ -93,25 +93,33 @@ def test_notes_last_updated_iso_passes_repo_root_to_subprocess(monkeypatch, tmp_
 def test_notes_last_updated_iso_default_repo_root_is_module_dir():
     """End-to-end: real repo, real git, real notes.json.
 
-    Contract: a valid ISO timestamp, OR None when the checkout is shallow
-    and the answer would be a guess. Asserting "not None" unconditionally
-    would fail wherever CI checks out at depth 1 — and pinning it to a
-    timestamp there is precisely the bug this module guards against. CI
-    checks out full history (see tests.yml), so the meaningful branch is
-    the one normally exercised.
+    Contract: a valid ISO timestamp, OR None when the last commit touching
+    notes.json is itself a shallow graft boundary — the one case where the
+    date would be a guess. Being shallow is not on its own enough to force
+    None: a truncated clone whose retained window still contains a real
+    notes.json edit has a real answer, and suppressing it would throw away
+    a fact we actually hold. CI checks out full history (see tests.yml), so
+    the timestamp branch is the one normally exercised.
     """
-    shallow = subprocess.run(
-        ["git", "rev-parse", "--is-shallow-repository"],
-        cwd=str(Path(fetch_data.__file__).resolve().parent),
-        capture_output=True, text=True,
-    ).stdout.strip() == "true"
+    root = Path(fetch_data.__file__).resolve().parent
+
+    def _git_out(*args):
+        return subprocess.run(
+            ["git", *args], cwd=str(root), capture_output=True, text=True,
+        ).stdout.strip()
 
     result = fetch_data.notes_last_updated_iso()
-    if shallow:
+
+    sha = _git_out("log", "-1", "--format=%H", "--", "notes.json")
+    is_shallow = _git_out("rev-parse", "--is-shallow-repository") == "true"
+    boundaries = set(_git_out("rev-list", "--max-parents=0", "HEAD").split())
+
+    if is_shallow and sha in boundaries:
         assert result is None, (
-            "shallow checkout must report unknown, not the boundary date"
+            "a boundary commit is a guess — must report unknown, not its date"
         )
         return
+
     assert result is not None
     from datetime import datetime
     parsed = datetime.fromisoformat(result)
