@@ -33,6 +33,17 @@ async function load(browser) {
     const body = await res.json();
     const ug = body.upcoming_games || [];
     body.opponent_pitchers = body.opponent_pitchers || {};
+    // The season ends, and with it upcoming_games goes permanently empty.
+    // This probe used to only DECORATE games that already existed, so from
+    // 2026-10-01 it injected nothing, found no .opp-sp, and failed the daily
+    // refresh every single day — a guard taken out by the calendar rather
+    // than by a regression. Seed a synthetic game when the schedule is bare
+    // so the probe tests the renderer year-round. The real empty-schedule
+    // path is a separate assertion (O6) below.
+    if (ug.length === 0) {
+      ug.push({ game_pk: 999001, date: '2026-04-01', home: true, opp: 'Baltimore Orioles' });
+      body.upcoming_games = ug;
+    }
     ug.forEach((g, i) => {
       const pid = 900000 + i;
       g.opp_team_id = 110;
@@ -137,6 +148,41 @@ async function load(browser) {
       `shown=${after.shown} hash=${after.hash}`);
     report(after.focusIsChip ? 'PASS' : 'FAIL',
       'O5: focus returns to the triggering chip', `focusIsChip=${after.focusIsChip}`);
+    await ctx.close();
+  }
+
+  // ----- O6: a genuinely empty schedule renders the empty state, not "null" --
+  // This is the case the end of the regular season actually produces, and
+  // until now nothing asserted it: the probe always had games to decorate,
+  // so the bare-schedule path shipped unguarded. Load with upcoming_games
+  // forced empty and no seeding, and require the panel's own empty copy.
+  {
+    const ctx = await browser.newContext({ viewport: { width: 1280, height: 1100 } });
+    await ctx.route('**/data.json', async (route) => {
+      const res = await route.fetch();
+      const body = await res.json();
+      body.upcoming_games = [];
+      body.opponent_pitchers = {};
+      await route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(body) });
+    });
+    const page = await ctx.newPage();
+    await page.goto(BASE);
+    await page.evaluate(() => { window.location.hash = 'overview'; });
+    await page.waitForFunction(() => {
+      const ov = document.getElementById('tab-overview');
+      return ov && !ov.querySelector('.panel-skeleton');
+    }, null, { timeout: 5000 }).catch(() => {});
+    await page.waitForTimeout(300);
+    const empty = await page.evaluate(() => {
+      const nodes = Array.from(document.querySelectorAll('#tab-overview .panel-empty'));
+      const hit = nodes.map((n) => n.textContent.trim())
+        .find((t) => /no upcoming games/i.test(t));
+      const body = document.getElementById('tab-overview').textContent;
+      return { hit: hit || null, leaksNull: /\bnull\b/.test(body), chip: !!document.querySelector('.opp-sp') };
+    });
+    report(empty.hit && !empty.leaksNull && !empty.chip ? 'PASS' : 'FAIL',
+      'O6: empty upcoming_games renders the empty state, no "null" leak',
+      `empty="${empty.hit}" leaksNull=${empty.leaksNull} chip=${empty.chip}`);
     await ctx.close();
   }
 
